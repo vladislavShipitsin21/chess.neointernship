@@ -1,4 +1,4 @@
-package src.main.neointernship.chess;
+package neointernship.chess;
 
 /**
  * Гла
