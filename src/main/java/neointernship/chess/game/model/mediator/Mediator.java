@@ -15,21 +15,6 @@ public class Mediator {
     private HashMap<IField, Figure> boardLocationMap;
 
     /**
-     * Static class for creating a Mediator instance.
-     */
-    private static class MediatorHolder {
-        public static final Mediator HOLDER_INSTANCE = new Mediator();
-    }
-
-    /**
-     * Method for getting singleton Mediator instance.
-     * @return {@link Mediator} instance.
-     */
-    public static Mediator getInstance() {
-        return MediatorHolder.HOLDER_INSTANCE;
-    }
-
-    /**
      * Получение фигуры, стоящей на данном поле.
      * @param field - входящее поле.
      * @return фигура или null.
