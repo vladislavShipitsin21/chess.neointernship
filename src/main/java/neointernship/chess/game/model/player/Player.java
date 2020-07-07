@@ -1,19 +1,26 @@
 package neointernship.chess.game.model.player;
 
+import neointernship.chess.game.model.Answer.IAnswer;
 import neointernship.chess.game.model.playmap.board.Board;
 
 public class Player implements IPlayer {
     private final String color;
+    private final String name;
 
-    public Player(final String color) {
+    public Player(final String name, final String color) {
         this.color = color;
+        this.name = name;
     }
 
-    public void makeTurn(final Board board) {
-
+    public IAnswer makeTurn(final Board board) {
+        return null; //todo
     }
 
     public String getColor() {
         return color;
+    }
+
+    public String getName() {
+        return name;
     }
 }
