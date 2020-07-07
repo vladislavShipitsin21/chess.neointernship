@@ -9,6 +9,5 @@ import java.util.ArrayList;
 public interface IBoard {
     void initializeBoard();
     IField getField(final int x, final int y);
-    Field[][] getFieldMatrix();
     ArrayList<Figure> getFigures();
 }
