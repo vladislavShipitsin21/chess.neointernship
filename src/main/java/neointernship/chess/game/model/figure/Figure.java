@@ -15,10 +15,6 @@ public abstract class Figure {
     private char gameSymbol;
     private Color color;
 
-    public IField getField() {
-        return Mediator.getInstance().getField(this);
-    }
-
     public ArrayList<IField> getPossibleAttackList() {
         return null;
     }
