@@ -1,8 +1,6 @@
 package neointernship.chess.game.model.figure;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.actions.attack.IPossibleAttackFieldsRepository;
-import neointernship.chess.game.model.figure.actions.move.IPossibleMoveFieldsRepository;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.ArrayList;
@@ -11,25 +9,25 @@ import java.util.ArrayList;
  * Интерфейс (абстрактный класс) для описания шахматных фигур.
  */
 public abstract class Figure {
-    private String name;
-    private char gameSymbol;
-    private Color color;
+    private final String name;
+    private final char gameSymbol;
+    private final Color color;
 
-    private final IPossibleAttackFieldsRepository possibleAttackListRepository;
-    private final IPossibleMoveFieldsRepository possibleMoveListRepository;
+    private final short price;
 
-    public Figure(final IPossibleAttackFieldsRepository possibleAttackListRepository,
-                  IPossibleMoveFieldsRepository possibleMoveListRepository) {
-        this.possibleAttackListRepository = possibleAttackListRepository;
-        this.possibleMoveListRepository = possibleMoveListRepository;
-    }
-
-    public ArrayList<IField> getPossibleMoveFields() {
-        return possibleMoveListRepository.getList();
-    }
-
-    public ArrayList<IField> getPossibleAttackFields() {
-        return possibleAttackListRepository.getList();
+    /**
+     * Конструктор фигуры
+     *
+     * @param name название фигуры
+     * @param gameSymbol символ фигуры в игре
+     * @param color цвет
+     * @param price ценность
+     */
+    public Figure(final String name, final Character gameSymbol, final Color color, final short price) {
+        this.name = name;
+        this.gameSymbol = gameSymbol;
+        this.color = color;
+        this.price = price;
     }
 
     public String getName() {
@@ -42,5 +40,9 @@ public abstract class Figure {
 
     public Color getColor() {
         return color;
+    }
+
+    public short getPrice() {
+        return price;
     }
 }
