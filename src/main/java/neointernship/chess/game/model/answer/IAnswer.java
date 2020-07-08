@@ -1,4 +1,4 @@
-package neointernship.chess.game.model.Answer;
+package neointernship.chess.game.model.answer;
 
 public interface IAnswer {
 
