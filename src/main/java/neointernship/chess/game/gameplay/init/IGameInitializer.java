@@ -1,4 +1,4 @@
-package neointernship.chess.game.start;
+package neointernship.chess.game.gameplay;
 
 public interface IGameInitializer {
     void start();
