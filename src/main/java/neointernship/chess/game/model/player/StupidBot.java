@@ -17,12 +17,6 @@ public class StupidBot extends Player {
 
     @Override
     public IAnswer makeTurn(final IBoard board) {
-        for(Figure figure : board.getFigures()){
-            for(IField field : figure.getPossibleMoveList()){
-                // todo нет ли сейчас шаха и не приведет ли меня этот ход к шаху???
-                return (IAnswer) new Answer(board.getField(figure),field);
-            }
-        }
         return null;
     }
 

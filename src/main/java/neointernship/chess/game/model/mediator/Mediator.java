@@ -3,10 +3,7 @@ package neointernship.chess.game.model.mediator;
 import neointernship.chess.game.model.figure.Figure;
 import neointernship.chess.game.model.playmap.field.IField;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Связка клетка-фигура.
@@ -36,6 +33,14 @@ public class Mediator {
      */
     public Figure getFigure(final IField field) {
         return boardLocationMap.get(field);
+    }
+
+    /**
+     * Возвращает все фигуры.
+     * @return колекция фигур или null
+     */
+    public Collection<Figure> getFigures(){
+        return boardLocationMap.values();
     }
 
     /**

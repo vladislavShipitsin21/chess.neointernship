@@ -7,7 +7,4 @@ public interface IField {
     int getYCoord();
     Figure getFigure();
     Color getColor();
-
-    boolean isEmpty();
-    boolean isAttacked();
 }
