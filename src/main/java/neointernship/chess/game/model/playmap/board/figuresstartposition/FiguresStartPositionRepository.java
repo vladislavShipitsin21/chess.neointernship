@@ -29,7 +29,7 @@ public class FiguresStartPositionRepository {
         };
     }
 
-    public String getStartPosition(final ChessTypes chessType) {
+    public Character[][] getStartPosition(final ChessTypes chessType) {
         return figuresPositionMap.get(chessType);
     }
 }

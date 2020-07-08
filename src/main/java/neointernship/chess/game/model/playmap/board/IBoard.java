@@ -7,9 +7,6 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 public interface IBoard {
-    void initializeBoard();
     IField getField(final int x, final int y);
-    IField getField(final Figure figure);
-    Figure getFigure(final IField field);
-    ArrayList<Figure> getFigures();
+    short getSize();
 }
