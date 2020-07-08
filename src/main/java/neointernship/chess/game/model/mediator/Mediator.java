@@ -11,8 +11,19 @@ import java.util.Set;
 /**
  * Связка клетка-фигура.
  */
-public class Mediator {
+public class Mediator implements IMediator {
     private HashMap<IField, Figure> boardLocationMap;
+
+    /**
+     * Добавление новой связи
+     *
+     * @param field поле
+     * @param figure фигура
+     */
+    @Override
+    public void addNewConnection(final IField field, final Figure figure) {
+        boardLocationMap.put(field, figure);
+    }
 
     /**
      * Получение фигуры, стоящей на данном поле.
