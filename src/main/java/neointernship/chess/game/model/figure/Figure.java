@@ -1,10 +1,10 @@
 package neointernship.chess.game.model.figure;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.mediator.Mediator;
+import neointernship.chess.game.model.figure.actions.attack.IPossibleAttackFieldsRepository;
+import neointernship.chess.game.model.figure.actions.move.IPossibleMoveFieldsRepository;
 import neointernship.chess.game.model.playmap.field.IField;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**
@@ -15,16 +15,21 @@ public abstract class Figure {
     private char gameSymbol;
     private Color color;
 
-    public ArrayList<IField> getPossibleAttackList() {
-        return null;
+    private final IPossibleAttackFieldsRepository possibleAttackListRepository;
+    private final IPossibleMoveFieldsRepository possibleMoveListRepository;
+
+    public Figure(final IPossibleAttackFieldsRepository possibleAttackListRepository,
+                  IPossibleMoveFieldsRepository possibleMoveListRepository) {
+        this.possibleAttackListRepository = possibleAttackListRepository;
+        this.possibleMoveListRepository = possibleMoveListRepository;
     }
 
-    public ArrayList<IField> getPossibleMoveList() {
-        return null;
+    public ArrayList<IField> getPossibleMoveFields() {
+        return possibleMoveListRepository.getList();
     }
 
-    boolean isAlive() {
-        return Mediator.getInstance().getField(this) != null;
+    public ArrayList<IField> getPossibleAttackFields() {
+        return possibleAttackListRepository.getList();
     }
 
     public String getName() {
