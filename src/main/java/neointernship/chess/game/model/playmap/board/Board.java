@@ -3,6 +3,7 @@ package neointernship.chess.game.model.playmap.board;
 import neointernship.chess.game.model.playmap.field.*;
 
 public class Board implements IBoard {
+
     private static final short BOARD_SIZE = 8;
     private IField[][] fieldMatrix;
 

@@ -1,6 +1,5 @@
 package neointernship.chess.game.model.figure.factory;
 
-import neointernship.chess.game.model.figure.Figure;
 import neointernship.chess.game.model.figure.piece.*;
 
 import java.util.HashMap;
