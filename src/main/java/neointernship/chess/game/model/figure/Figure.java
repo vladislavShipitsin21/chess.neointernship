@@ -1,8 +1,10 @@
 package neointernship.chess.game.model.figure;
 
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.field.IField;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 /**

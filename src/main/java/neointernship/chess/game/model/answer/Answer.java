@@ -2,7 +2,7 @@ package neointernship.chess.game.model.answer;
 
 import neointernship.chess.game.model.playmap.field.IField;
 
-public class Answer implements IAnswer {
+public class Answer implements IAnswer{
 
     IField in;
     IField out;
