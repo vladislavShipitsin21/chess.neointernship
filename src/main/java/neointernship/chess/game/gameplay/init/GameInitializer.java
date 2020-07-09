@@ -10,13 +10,13 @@ public class GameInitializer implements IGameInitializer {
 
 
     public GameInitializer() {
-        IPlayer firstPlayer = new Player(message.readLine());
+        /*IPlayer firstPlayer = new Player(message.readLine());
         IPlayer secondPlayer = new Player(message.readLine());
         ChessTypes chessType = ChessTypes.CLASSIC; // TODO
 
         ILobby gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType);
 
-        start(gameLobby);
+        start(gameLobby);*/
     }
 
     @Override

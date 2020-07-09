@@ -1,6 +1,5 @@
 package neointernship.chess.game.model.playmap.board;
 
-import neointernship.chess.game.model.figure.Figure;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.lang.reflect.Field;

@@ -12,7 +12,6 @@ public abstract class Figure {
     private final String name;
     private final char gameSymbol;
     private final Color color;
-
     private final short price;
 
     /**

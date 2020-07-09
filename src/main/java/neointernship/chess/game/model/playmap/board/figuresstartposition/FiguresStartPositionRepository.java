@@ -24,12 +24,13 @@ public class FiguresStartPositionRepository {
         figuresPositionMap = new HashMap<ChessTypes, String>() {
             {
                 put(ChessTypes.CLASSIC, CLASSIC_CHESS_FIGURES_POSITION);
-                put(ChessTypes.FISCHER, null);
+                put(ChessTypes.FISCHER, FISCHER_CHESS_FIGURES_POSITION);
             }
         };
     }
 
     public Character[][] getStartPosition(final ChessTypes chessType) {
-        return figuresPositionMap.get(chessType);
+        return null; // todo
+//        return figuresPositionMap.get(chessType);
     }
 }
