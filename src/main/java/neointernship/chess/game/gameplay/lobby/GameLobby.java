@@ -2,7 +2,7 @@ package neointernship.chess.game.gameplay.lobby;
 
 import neointernship.chess.game.gameplay.loop.GameLoop;
 import neointernship.chess.game.gameplay.loop.IGameLoop;
-import neointernship.chess.game.model.enums.ChessTypes;
+import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.Figure;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
@@ -26,13 +26,13 @@ public class GameLobby implements ILobby {
     private final IPlayer firstPlayer;
     private final IPlayer secondPlayer;
 
-    private final ChessTypes chessTypes;
+    private final ChessType chessTypes;
     private final FiguresStartPositionRepository figuresStartPositionRepository;
 
     private final IGameLoop gameLoop;
 
 
-    public GameLobby(final IPlayer firstPlayer, final IPlayer secondPlayer, final ChessTypes chessType) {
+    public GameLobby(final IPlayer firstPlayer, final IPlayer secondPlayer, final ChessType chessType) {
         board = new Board();
         figureFactory = new Factory();
         mediator = new Mediator();
@@ -44,7 +44,7 @@ public class GameLobby implements ILobby {
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();
 
-        gameLoop = new GameLoop();
+        gameLoop = new GameLoop(mediator, possibleActionList, board, firstPlayer, secondPlayer);
 
         initializeLobby();
     }
