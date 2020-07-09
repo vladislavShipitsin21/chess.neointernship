@@ -1,14 +1,12 @@
-package neointernship.chess.game.model.figure;
+package neointernship.chess.game.model.figure.piece;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.playmap.field.IField;
-
-import java.util.ArrayList;
 
 /**
  * Интерфейс (абстрактный класс) для описания шахматных фигур.
  */
 public abstract class Figure {
+
     private final String name;
     private final char gameSymbol;
     private final Color color;

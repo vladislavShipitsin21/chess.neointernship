@@ -4,13 +4,11 @@ import neointernship.chess.game.gameplay.loop.GameLoop;
 import neointernship.chess.game.gameplay.loop.IGameLoop;
 import neointernship.chess.game.model.enums.ChessTypes;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.Figure;
+import neointernship.chess.game.model.figure.factory.*;
+import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.actions.PossibleActionList;
-import neointernship.chess.game.model.figure.factory.Factory;
-import neointernship.chess.game.model.figure.factory.IFactory;
-import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.mediator.Mediator;
+import neointernship.chess.game.model.mediator.*;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -58,7 +56,7 @@ public class GameLobby implements ILobby {
 
                 final Character currentChar = figuresRepository[i][j];
                 Color color = i > 4 ? Color.WHITE : Color.BLACK;
-                Figure figure = figureFactory.createNewFigure(currentChar, color);
+                Figure figure = figureFactory.createFigure(currentChar, color);
 
                 mediator.addNewConnection(field, figure);
             }
@@ -69,7 +67,7 @@ public class GameLobby implements ILobby {
                 IField field = board.getField(i, j);
                 Figure figure = mediator.getFigure(field);
 
-                possibleActionList.updateLists(figure, board);
+                possibleActionList.updateLists(figure, board,mediator);
             }
         }
 

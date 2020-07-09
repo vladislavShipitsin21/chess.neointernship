@@ -1,14 +1,17 @@
 package neointernship.chess.game.model.mediator;
 
-import neointernship.chess.game.model.figure.Figure;
+import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Связка клетка-фигура.
  */
 public class Mediator implements IMediator {
+
     private HashMap<IField, Figure> boardLocationMap;
 
     /**
@@ -29,6 +32,15 @@ public class Mediator implements IMediator {
      */
     public Figure getFigure(final IField field) {
         return boardLocationMap.get(field);
+    }
+
+    @Override
+    public Collection<Figure> getFigures(Color color) {
+        return boardLocationMap.
+                values().
+                stream().
+                filter(f -> f.getColor() == color).
+                collect(Collectors.toList());
     }
 
     /**
