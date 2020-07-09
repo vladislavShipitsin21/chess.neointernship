@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class StartInfoGetter implements IStartInfoGetter {
     private final IMessage message;
-
+    private final Scanner scanner = new Scanner(System.in);
     private String firstPlayerName;
     private String secondPlayerName;
     private String chessType;
