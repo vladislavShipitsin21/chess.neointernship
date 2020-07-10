@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface IPossibleActionList {
 
-    void addNewFigura(final  Figure figure);
+    void addNewFigure(final  Figure figure);
     void removeFigura(final  Figure figure);
     void clearList(final Figure figure);
 

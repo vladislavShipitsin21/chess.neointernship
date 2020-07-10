@@ -1,6 +1,11 @@
 package neointernship.chess.game.gameplay.gameresultcontroller;
 
 public class GameResultController implements IGameResultController {
+
+    private class GameResult {
+
+    }
+
     @Override
     public boolean isAlive() {
         return false;
@@ -10,6 +15,5 @@ public class GameResultController implements IGameResultController {
     public void showGameResult() {
 
     }
-
-
 }
+

@@ -1,6 +1,7 @@
 package neointernship.chess.game.gameplay.kingstate.controller;
 
 import neointernship.chess.game.gameplay.kingstate.states.IKingState;
+import neointernship.chess.game.gameplay.kingstate.stateupdater.staterepository.KingStateRepository;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
@@ -10,13 +11,13 @@ import neointernship.chess.game.model.mediator.IMediator;
 import java.util.HashMap;
 
 public class KingsStateController implements IKingStateController {
-    private final Figure whiteKing;
-    private final Figure blackKing;
+    private final Figure whiteKingState;
+    private final Figure blackKingState;
 
     private final IPossibleActionList possibleActionList;
     private final IMediator mediator;
 
-    private final HashMap<Color, IKingState> kingStateMap;
+    private final KingStateRepository kingStateMap;
 
     public KingsStateController(final IPossibleActionList possibleActionList,
                                 final IMediator mediator) {
@@ -26,15 +27,15 @@ public class KingsStateController implements IKingStateController {
         this.possibleActionList = possibleActionList;
         this.mediator = mediator;
 
-        kingStateMap = new HashMap<>();
+        kingStateMap = new KingStateRepository();
     }
 
-    public void updateState(final Color color) {
+    public void updateState() {
         IKingState currentState = kingStateMap.get(color);
         currentState.update(possibleActionList, mediator);
     }
 
-    public KingState getState(final Color color) {
-        return kingStateMap.get(color).getState();
+    public KingState getState() {
+        return kingStateMap.getState(color).getState();
     }
 }

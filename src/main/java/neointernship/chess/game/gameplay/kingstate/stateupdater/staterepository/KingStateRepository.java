@@ -5,15 +5,13 @@ import neointernship.chess.game.model.util.Pair;
 
 import java.util.HashMap;
 
-public class StateRepository {
+public class KingStateRepository {
     private final HashMap<Pair<Boolean, Boolean>, KingState> stateRepository;
 
-    public StateRepository() {
+    public KingStateRepository() {
         stateRepository = new HashMap<Pair<Boolean, Boolean>, KingState>() {
             {
                 put(new Pair<>(true, true), KingState.CHECK);
-                put(new Pair<>(true, false), KingState.MATE);
-                put(new Pair<>(false, true), KingState.STALEMATE);
             }
         };
     }

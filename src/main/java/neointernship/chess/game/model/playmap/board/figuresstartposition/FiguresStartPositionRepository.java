@@ -1,11 +1,13 @@
 package neointernship.chess.game.model.playmap.board.figuresstartposition;
 
-import neointernship.chess.game.model.enums.ChessTypes;
+import neointernship.chess.game.model.enums.ChessType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 
 public class FiguresStartPositionRepository {
-    private final HashMap<ChessTypes, String> figuresPositionMap;
+    private final HashMap<ChessType, String> figuresPositionMap;
     private final int size = 8;
 
     private static final String CLASSIC_CHESS_FIGURES_POSITION = "" +
@@ -22,24 +24,24 @@ public class FiguresStartPositionRepository {
 
 
     public FiguresStartPositionRepository() {
-        figuresPositionMap = new HashMap<ChessTypes, String>() {
+        figuresPositionMap = new HashMap<ChessType, String>() {
             {
-                put(ChessTypes.CLASSIC, CLASSIC_CHESS_FIGURES_POSITION);
-                put(ChessTypes.FISCHER, FISCHER_CHESS_FIGURES_POSITION);
+                put(ChessType.CLASSIC, CLASSIC_CHESS_FIGURES_POSITION);
+                put(ChessType.FISCHER, FISCHER_CHESS_FIGURES_POSITION);
             }
         };
     }
 
-    public Character[][] getStartPosition(final ChessTypes chessType) {
+    public Character[][] getStartPosition(final ChessType chessType) {
         final Character[][] startPosition = new Character[size][size];
 
         String board = "";
         final String firstLine;
 
-        if (chessType == ChessTypes.CLASSIC){
+        if (chessType == ChessType.CLASSIC){
             firstLine = figuresForClassicChess();
             board = firstLine + pawns() + voids() + pawns() + new StringBuffer(firstLine).reverse() ;
-        } else if (chessType == ChessTypes.FISCHER){
+        } else if (chessType == ChessType.FISCHER){
             firstLine = figuresForFischerChess();
             board = firstLine + pawns() + voids() + pawns() + firstLine;
         }

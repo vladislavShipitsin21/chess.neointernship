@@ -14,42 +14,42 @@ import java.util.Map;
 
 public class PossibleActionList implements IPossibleActionList {
 
-    private final Map<Figure,Collection<IField>> mapFigira;
+    private final Map<Figure,Collection<IField>> mapFigire;
 
     public PossibleActionList() {
-        this.mapFigira = new HashMap<>();
+        this.mapFigire = new HashMap<>();
     }
 
     @Override
     public void updateLists(final Figure figure,final IBoard board,final IMediator mediator) {
         IBasicPatterns basicPatterns = new BasicPatterns(mediator, board);
-        mapFigira.get(figure).clear();
-        mapFigira.get(figure).addAll(Intermediary.getList(figure,basicPatterns));
+        mapFigire.get(figure).clear();
+        mapFigire.get(figure).addAll(Intermediary.getList(figure,basicPatterns));
     }
 
     @Override
     public Map<Figure, Collection<IField>> getMap() {
-        return mapFigira; // todo нарушение инкапсуляции данных ( сделать копию) !!!
+        return mapFigire; // todo нарушение инкапсуляции данных ( сделать копию) !!!
     }
 
     @Override
-    public void addNewFigura(final Figure figure) {
-        mapFigira.put(figure,new ArrayList<IField>());
+    public void addNewFigure(final Figure figure) {
+        mapFigire.put(figure,new ArrayList<IField>());
     }
 
     @Override
     public void removeFigura(final Figure figure) {
-        mapFigira.remove(figure);
+        mapFigire.remove(figure);
     }
 
     @Override
     public void clearList(final Figure figure) {
-        mapFigira.get(figure).clear();
+        mapFigire.get(figure).clear();
     }
 
     @Override
     public Collection<IField> getList(Figure figure) {
-        return mapFigira.get(figure);
+        return mapFigire.get(figure);
     }
 
 

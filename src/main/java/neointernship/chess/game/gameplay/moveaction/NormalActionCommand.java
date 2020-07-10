@@ -8,6 +8,7 @@ import neointernship.chess.game.model.playmap.board.IBoard;
  * Реализация хода в нормальной ситуации
  */
 public class NormalActionCommand implements IMoveActionCommand {
+
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
     private final IBoard board;

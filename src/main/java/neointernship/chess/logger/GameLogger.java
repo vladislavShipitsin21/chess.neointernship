@@ -1,7 +1,5 @@
 package neointernship.chess.logger;
 
-
-import com.sun.org.slf4j.internal.LoggerFactory;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.field.IField;

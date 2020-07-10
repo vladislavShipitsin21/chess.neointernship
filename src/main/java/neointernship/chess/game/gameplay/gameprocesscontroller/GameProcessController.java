@@ -1,7 +1,9 @@
 package neointernship.chess.game.gameplay.gameprocesscontroller;
 
+import neointernship.chess.game.gameplay.moveaction.IMoveActionCommand;
 import neointernship.chess.game.gameplay.moveaction.movesrepository.MovesActionRepository;
 import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
@@ -27,8 +29,9 @@ public class GameProcessController implements IGameProcessController {
     }
 
     @Override
-    public void makeTurn(final KingState kingState, final IAnswer answer) {
-        playerDidMove = movesActionRepository.getCommand(kingState).execute();
+    public void makeTurn(final KingState kingState, final Color color, final IAnswer answer) {
+        IMoveActionCommand command = movesActionRepository.getCommand(kingState);
+        playerDidMove = command.execute(color, answer);
     }
 
     @Override

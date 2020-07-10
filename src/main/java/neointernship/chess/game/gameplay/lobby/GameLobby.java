@@ -29,7 +29,6 @@ public class GameLobby implements ILobby {
 
     private final IGameLoop gameLoop;
 
-
     public GameLobby(final IPlayer firstPlayer, final IPlayer secondPlayer, final ChessType chessType) {
         board = new Board();
         figureFactory = new Factory();
@@ -67,6 +66,7 @@ public class GameLobby implements ILobby {
                 IField field = board.getField(i, j);
                 Figure figure = mediator.getFigure(field);
 
+                possibleActionList.addNewFigure(figure);
                 possibleActionList.updateLists(figure, board,mediator);
             }
         }
@@ -76,10 +76,6 @@ public class GameLobby implements ILobby {
 
     @Override
     public void start() {
-        gameLoop.activate(mediator,
-                possibleActionList,
-                board,
-                firstPlayer,
-                secondPlayer);
+        gameLoop.activate();
     }
 }
