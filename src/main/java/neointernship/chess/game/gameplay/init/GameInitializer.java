@@ -2,25 +2,23 @@ package neointernship.chess.game.gameplay.init;
 
 import neointernship.chess.game.gameplay.lobby.GameLobby;
 import neointernship.chess.game.gameplay.lobby.ILobby;
-import neointernship.chess.game.model.enums.ChessTypes;
+import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.player.IPlayer;
-import neointernship.chess.game.model.player.Player;
+import neointernship.chess.game.model.player.RandomBot;
 
 public class GameInitializer implements IGameInitializer {
-
+    private final ILobby gameLobby;
 
     public GameInitializer() {
-        /*IPlayer firstPlayer = new Player(message.readLine());
-        IPlayer secondPlayer = new Player(message.readLine());
-        ChessTypes chessType = ChessTypes.CLASSIC; // TODO
+        IPlayer firstPlayer = new RandomBot();
+        IPlayer secondPlayer = new RandomBot();
+        ChessType chessType = ChessType.CLASSIC;
 
-        ILobby gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType);
-
-        start(gameLobby);*/
+        gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType);
     }
 
     @Override
-    public void start(final ILobby lobby) {
-        lobby.start();
+    public void start() {
+        gameLobby.start();
     }
 }

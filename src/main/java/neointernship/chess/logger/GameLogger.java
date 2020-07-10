@@ -1,20 +1,25 @@
 package neointernship.chess.logger;
 
-import neointernship.chess.game.model.figure.Figure;
+import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.field.IField;
 import org.apache.log4j.Logger;
 
 
-public class GameLogger implements IGameLogger{
+public class GameLogger implements IGameLogger {
     final Logger logger;
+    private final IPlayer playerOne;
+    private final IPlayer playerTwo;
 
-    public GameLogger() {
-        this.logger = Logger.getLogger(GameLogger.class);
+
+    public GameLogger(final IPlayer playerOne, final IPlayer playerTwo) {
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+        this.logger = LoggerFactory.getLogger(GameLogger.class);
     }
 
     @Override
-    public void logStartGame(final IPlayer playerOne, final IPlayer playerTwo) {
+    public void logStartGame() {
         logger.info("Игра между игроком " + playerOne + " и игроком " + playerTwo + " началась!");
     }
 

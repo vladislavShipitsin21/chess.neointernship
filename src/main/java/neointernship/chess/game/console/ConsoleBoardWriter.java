@@ -1,10 +1,14 @@
 package neointernship.chess.game.console;
 
+import neointernship.chess.game.gameplay.gamestate.state.GameState;
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.Field;
 
 public class ConsoleBoardWriter implements IConsoleBoardWriter {
     final int boardSize = 8;
+
+
 
     @Override
     public void printBoard(final IMediator mediator) {
@@ -21,6 +25,13 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
                 }
             }
             System.out.print("\n\n");
+        }
+    }
+
+    @Override
+    public void printMatchResult(GameState gameState) {
+        if (gameState.getValue() == EnumGameState.MATE) {
+            System.out.print("Match results\n. The winner is " + gameState.getColor());
         }
     }
 }
