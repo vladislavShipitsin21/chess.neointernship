@@ -6,8 +6,8 @@ import neointernship.chess.game.gameplay.activeplayercontroller.ActivePlayerCont
 import neointernship.chess.game.gameplay.activeplayercontroller.IActivePlayerController;
 import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessController;
 import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessController;
-import neointernship.chess.game.gameplay.gameresultcontroller.GameResultController;
-import neointernship.chess.game.gameplay.gameresultcontroller.IGameResultController;
+/*import neointernship.chess.game.gameplay.gameresultcontroller.GameResultController;
+import neointernship.chess.game.gameplay.gameresultcontroller.IGameResultController;*/
 import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.IGameStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
@@ -49,7 +49,7 @@ public class GameLoop implements IGameLoop {
         this.board = board;
 
         activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
-        gameResultController = new GameStateController();
+        gameResultController = new GameStateController(possibleActionList, mediator);
         gameProcessController = new GameProcessController(mediator, possibleActionList, board);
         kingStateController = new KingsStateController(possibleActionList, mediator);
 
@@ -79,10 +79,10 @@ public class GameLoop implements IGameLoop {
 
             } while (!gameProcessController.playerDidMove());
 
-            kingStateController.updateState(ОБРАТНЫЙ);
+            kingStateController.updateState(Color.BLACK); // todo сделать обратный цвет
             consoleBoardWriter.printBoard(mediator);
         }
 
-        gameResultController.showGameResult();
+        //gameResultController.showGameResult();
     }
 }

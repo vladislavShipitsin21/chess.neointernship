@@ -29,8 +29,7 @@ public class Factory implements IFactory {
         Class<? extends Figure> pieceClass = pieceClassesRepository.getPieceClass(pieceName);
         try {
             Constructor<? extends Figure> constructor = pieceClass.getConstructor(Color.class);
-           // Method method = pieceClass.
-            return constructor.newInstance(color); // todo ????
+            return constructor.newInstance(color);
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
