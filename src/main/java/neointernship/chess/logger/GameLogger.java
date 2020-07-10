@@ -3,14 +3,14 @@ package neointernship.chess.logger;
 import neointernship.chess.game.model.figure.Figure;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.field.IField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
+
 
 public class GameLogger implements IGameLogger{
     final Logger logger;
 
     public GameLogger() {
-        this.logger = LoggerFactory.getLogger(GameLogger.class);
+        this.logger = Logger.getLogger(GameLogger.class);
     }
 
     @Override

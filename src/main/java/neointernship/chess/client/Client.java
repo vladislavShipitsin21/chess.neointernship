@@ -1,13 +1,16 @@
 package neointernship.chess.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import neointernship.chess.client.controller.Controller;
+import neointernship.chess.client.message.Message;
 import neointernship.chess.client.view.View;
 
 import java.util.concurrent.Exchanger;
 
 
 public class Client{
-    public static Exchanger<Integer[]> exchanger = new Exchanger<>();
+    public static final Exchanger<Message> exchanger = new Exchanger<>();
+    public static final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Главная функция, начало работы клиента
@@ -20,12 +23,12 @@ public class Client{
     }
 
     private static void startView() {
-        final View view = new View();
+        final Runnable view = new View();
         new Thread(view).start();
     }
 
     private static void startController() {
-        final Controller controller = new Controller();
+        final Runnable controller = new Controller();
         new Thread(controller).start();
     }
 }

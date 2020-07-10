@@ -2,9 +2,11 @@ package neointernship.chess.client.message.reaction;
 
 import neointernship.chess.client.message.Message;
 
-public class MessageCodeDraw implements MessageReaction {
+import java.io.BufferedWriter;
+
+public class MessageCodeDraw implements IMessageCode {
     @Override
-    public void Reaction(final Message message) {
+    public void execute(final Message message, final BufferedWriter out) {
 
     }
 }

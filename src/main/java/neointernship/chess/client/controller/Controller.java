@@ -1,14 +1,11 @@
 package neointernship.chess.client.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import neointernship.chess.client.message.Message;
-import neointernship.chess.client.message.MessageCode;
 import neointernship.chess.client.message.MessageDto;
-import neointernship.chess.client.message.reaction.*;
-
+import neointernship.chess.client.message.MessageReaction;
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
+import static neointernship.chess.client.Client.mapper;
 
 public class Controller implements Runnable{
     private static final String IP = "127.0.0.1";//"localhost";
@@ -19,32 +16,33 @@ public class Controller implements Runnable{
     private Socket socket = null;
     private BufferedReader in = null;
     private BufferedWriter out = null;
-    private ObjectMapper mapper;
-    private HashMap<MessageCode, MessageReaction> messageReaction;
+    private MessageReaction messageReaction;
 
-    private void initController(final String ip, final int port) {
+    @Override
+    public void run() {
+        String jsonMessage;
+        MessageDto messageDto;
+        Message message;
+
+        startController(IP, PORT);
+
+        while (true) {
+            try {
+                jsonMessage = in.readLine();
+                messageDto = mapper.readValue(jsonMessage, MessageDto.class);
+                messageDto.validateMessageCode();
+                message = new Message(messageDto.getMessageCode(), messageDto.getMes(), messageDto.getFigureMap());
+                messageReaction.get(message.getMessageCode()).execute(message, out);
+            } catch (final Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void startController(final String ip, final int port) {
         this.ip = ip;
         this.port = port;
-        mapper = new ObjectMapper();
-        messageReaction = new HashMap<>();
-        initMessageReaction(messageReaction);
-    }
-
-    private void initMessageReaction(final HashMap<MessageCode, MessageReaction> messageReaction) {
-        messageReaction.put(MessageCode.CONNECT, new MessageCodeConnect());
-        messageReaction.put(MessageCode.DRAW, new MessageCodeDraw());
-        messageReaction.put(MessageCode.ERROR, new MessageCodeError());
-        messageReaction.put(MessageCode.FIGURES_LIST, new MessageCodeFiguresList());
-        messageReaction.put(MessageCode.LOSE, new MessageCodeLose());
-        messageReaction.put(MessageCode.MOVE_FIGURE, new MessageCodeMoveFigure());
-        messageReaction.put(MessageCode.OK, new MessageCodeOk());
-        messageReaction.put(MessageCode.PAINT, new MessageCodePaint());
-        messageReaction.put(MessageCode.PICK_FIGURE, new MessageCodePickFigure());
-        messageReaction.put(MessageCode.WIN, new MessageCodeWin());
-    }
-
-    private void startController() {
-        initController(IP, PORT);
+        messageReaction = new MessageReaction();
 
         try {
             socket = new Socket(ip, port);
@@ -53,27 +51,6 @@ public class Controller implements Runnable{
             System.out.println(String.format("Client started, ip: %s, port: %d", ip, port));
         } catch (final IOException e) {
             System.err.println("Socket failed");
-        }
-    }
-
-    @Override
-    public void run() {
-        String jsonMessage;
-        MessageDto messageDto;
-        Message message;
-
-        startController();
-
-        while (true) {
-            try {
-                jsonMessage = in.readLine();
-                messageDto = mapper.readValue(jsonMessage, MessageDto.class);
-                messageDto.validateMessageCode();
-                message = new Message(messageDto.getMessageCode(), messageDto.getMes(), messageDto.getFigureMap());
-                messageReaction.get(message.getMessageCode()).Reaction(message);
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 }

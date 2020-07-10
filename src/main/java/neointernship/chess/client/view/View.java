@@ -28,7 +28,7 @@ public class View extends Application implements Runnable{
         final float fieldSize = 178 * sizeKoef;
         final float paddingSize = 80 * sizeKoef;
 
-        final ImageView imageView = new ImageView("testBoard.jpg");
+        final ImageView imageView = new ImageView("gui/testBoard.jpg");
         imageView.setFitHeight(boardSize);
         imageView.setFitWidth(boardSize);
 
@@ -45,7 +45,7 @@ public class View extends Application implements Runnable{
                         final double Y = 8 - (event.getY() - paddingSize) / fieldSize;
                         if (X >= 0 && X < 8 && Y >= 0 && Y < 8) {
                             try {
-                                exchanger.exchange(new Integer[]{(int)X, (int)Y});
+                                exchanger.exchange(null);
                             } catch (final InterruptedException e) {
                                 e.printStackTrace();
                             }
