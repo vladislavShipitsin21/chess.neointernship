@@ -17,7 +17,7 @@ public class StupidBot extends Player {
     }
 
     @Override
-    public IAnswer makeTurn(IBoard board, IMediator mediator, IPossibleActionList list) {
+    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
 
         for(Figure figure : mediator.getFigures(getColor())){
             for(IField field : list.getList(figure)){

@@ -7,13 +7,18 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
 
-public abstract class Player implements IPlayer {
+public class Player implements IPlayer {
     private final Color color;
     private final String name;
 
     public Player(final String name, final Color color) {
         this.color = color;
         this.name = name;
+    }
+
+    @Override
+    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
+        return null;
     }
 
     public Color getColor() {

@@ -7,7 +7,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 
 public interface IPlayer {
-    IAnswer makeTurn(final IBoard board, final IMediator mediator, final IPossibleActionList list);
+    IAnswer getAnswer(final IBoard board, final IMediator mediator, final IPossibleActionList list);
     Color getColor();
     String getName();
 }

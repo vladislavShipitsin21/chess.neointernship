@@ -1,4 +1,4 @@
-package neointernship.chess.game.gameplay.kingstatecontroller.stateupdater;
+package neointernship.chess.game.gameplay.kingstate.stateupdater;
 
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.figure.Figure;

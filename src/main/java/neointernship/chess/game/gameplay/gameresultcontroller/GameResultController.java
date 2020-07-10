@@ -5,4 +5,11 @@ public class GameResultController implements IGameResultController {
     public boolean isAlive() {
         return false;
     }
+
+    @Override
+    public void showGameResult() {
+
+    }
+
+
 }

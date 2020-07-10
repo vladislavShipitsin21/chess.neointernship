@@ -12,17 +12,20 @@ import neointernship.chess.game.model.playmap.field.IField;
 import java.util.List;
 import java.util.Random;
 
-public class RandomBot extends Player {
+public class RandomBot implements IPlayer {
+    private final Color color;
+    private final String name;
 
     Random random;
 
-    public RandomBot(Color color) {
-        super("Random bot", color);
+    public RandomBot() {
+        color = Color.BLACK;
+        name = "Random bot";
         random = new Random();
     }
 
     @Override
-    public IAnswer makeTurn(IBoard board, IMediator mediator, IPossibleActionList list) {
+    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
 
         List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields;
@@ -39,5 +42,15 @@ public class RandomBot extends Player {
         IField field = fields.get(index);
 
         return new Answer(mediator.getField(figure),field);
+    }
+
+    @Override
+    public Color getColor() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

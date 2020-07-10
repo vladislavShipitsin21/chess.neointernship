@@ -14,4 +14,7 @@ public interface IMediator {
     Collection<Figure> getFigures();
 
     void addNewConnection(final IField field, final Figure figure);
+
+    Figure getWhiteKing();
+    Figure getBlackKing();
 }

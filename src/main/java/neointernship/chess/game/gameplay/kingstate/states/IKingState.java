@@ -1,4 +1,4 @@
-package neointernship.chess.game.gameplay.kingstatecontroller.states;
+package neointernship.chess.game.gameplay.kingstate.states;
 
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
