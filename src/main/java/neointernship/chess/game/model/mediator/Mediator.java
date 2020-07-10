@@ -1,33 +1,70 @@
 package neointernship.chess.game.model.mediator;
 
-import neointernship.chess.game.model.figure.Figure;
+import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.playmap.field.IField;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Связка клетка-фигура.
  */
-public class Mediator {
+public class Mediator implements IMediator {
+
     private HashMap<IField, Figure> boardLocationMap;
 
-    /**
-     * Static class for creating a Mediator instance.
-     */
-    private static class MediatorHolder {
-        public static final Mediator HOLDER_INSTANCE = new Mediator();
+    public Mediator() {
+        boardLocationMap = new HashMap<>();
     }
 
     /**
-     * Method for getting singleton Mediator instance.
-     * @return {@link Mediator} instance.
+     * Добавление новой связи
+     *
+     * @param field поле
+     * @param figure фигура
      */
-    public static Mediator getInstance() {
-        return MediatorHolder.HOLDER_INSTANCE;
+    @Override
+    public void addNewConnection(final IField field, final Figure figure) {
+        boardLocationMap.put(field, figure);
     }
+
+    @Override
+    public void deleteConnection(final IField field) {
+        boardLocationMap.remove(field);
+    }
+
+    @Override
+    public void updateConnection(IField field, Figure figure) {
+        boardLocationMap.put(field,figure);
+    }
+
+    @Override
+    public void clear() {
+        boardLocationMap.clear();
+    }
+
+    @Override
+    public King getWhiteKing() {
+        return getKing(Color.WHITE);
+    }
+
+    @Override
+    public King getBlackKing() {
+        return getKing(Color.BLACK);
+    }
+
+    @Override
+    public King getKing(Color color) {
+        for(Figure figure : boardLocationMap.values()){
+            if(figure.getClass().equals(King.class) && figure.getColor() == color){
+                return (King) figure;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Получение фигуры, стоящей на данном поле.
@@ -37,6 +74,24 @@ public class Mediator {
     public Figure getFigure(final IField field) {
         return boardLocationMap.get(field);
     }
+
+    @Override
+    public Collection<Figure> getFigures(Color color) {
+        return getFigures().
+                stream().
+                filter(f -> f.getColor() == color).
+                collect(Collectors.toList());
+    }
+
+    /**
+     * Возвращает все фигуры.
+     * @return колекция фигур или null
+     */
+    public Collection<Figure> getFigures(){
+        return boardLocationMap.values();
+    }
+
+
 
     /**
      * Поиск поля, на котором стоит данная фигура.
