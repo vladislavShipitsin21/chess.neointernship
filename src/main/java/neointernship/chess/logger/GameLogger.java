@@ -1,6 +1,7 @@
 package neointernship.chess.logger;
 
 import neointernship.chess.game.model.figure.piece.Figure;
+
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.field.IField;
 import org.apache.log4j.Logger;
@@ -15,7 +16,7 @@ public class GameLogger implements IGameLogger {
     public GameLogger(final IPlayer playerOne, final IPlayer playerTwo) {
         this.playerOne = playerOne;
         this.playerTwo = playerTwo;
-        this.logger = LoggerFactory.getLogger(GameLogger.class);
+        this.logger = Logger.getLogger(GameLogger.class);
     }
 
     @Override
