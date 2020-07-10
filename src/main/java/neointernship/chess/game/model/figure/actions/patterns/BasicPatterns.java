@@ -89,8 +89,14 @@ public final class BasicPatterns implements IBasicPatterns {
 
         for (int one : onesList) {
             for (int two : twosList) {
-                actionToAdd(figure.getColor(),currentField.getXCoord() + one, currentField.getYCoord() + two, possibleAttackFields);
-                actionToAdd(figure.getColor(),currentField.getXCoord() + two, currentField.getYCoord() + one, possibleAttackFields);
+                actionToAdd(figure.getColor(),
+                        currentField.getXCoord() + one,
+                        currentField.getYCoord() + two,
+                        possibleAttackFields);
+                actionToAdd(figure.getColor(),
+                        currentField.getXCoord() + two,
+                        currentField.getYCoord() + one,
+                        possibleAttackFields);
             }
         }
 

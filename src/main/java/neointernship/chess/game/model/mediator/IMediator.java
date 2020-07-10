@@ -14,7 +14,14 @@ public interface IMediator {
     Collection<Figure> getFigures(final Color color);
     Collection<Figure> getFigures();
 
-    void addNewConnection(final IField field, final Figure figure);
-
+    King getWhiteKing();
+    King getBlackKing();
     King getKing(final Color color);
+
+
+    void addNewConnection(final IField field, final Figure figure);
+    void deleteConnection(final IField field);
+    void updateConnection(final IField field,final Figure figure);
+
+    void clear();
 }
