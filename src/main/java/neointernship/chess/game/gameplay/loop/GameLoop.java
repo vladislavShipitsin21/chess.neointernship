@@ -8,9 +8,12 @@ import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessContro
 import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessController;
 import neointernship.chess.game.gameplay.gameresultcontroller.GameResultController;
 import neointernship.chess.game.gameplay.gameresultcontroller.IGameResultController;
+import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
+import neointernship.chess.game.gameplay.gamestate.controller.IGameStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
@@ -28,7 +31,7 @@ public class GameLoop implements IGameLoop {
     private IPlayer activePlayer;
 
     private final IActivePlayerController activePlayerController;
-    private final IGameResultController gameResultController;
+    private final IGameStateController gameResultController;
     private final IGameProcessController gameProcessController;
     private final IKingStateController kingStateController;
 
@@ -46,9 +49,9 @@ public class GameLoop implements IGameLoop {
         this.board = board;
 
         activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
-        gameResultController = new GameResultController();
+        gameResultController = new GameStateController();
         gameProcessController = new GameProcessController(mediator, possibleActionList, board);
-        kingStateController = new KingsStateController(activePlayer, possibleActionList, mediator);
+        kingStateController = new KingsStateController(possibleActionList, mediator);
 
         consoleBoardWriter = new ConsoleBoardWriter();
         gameLogger = new GameLogger(firstPlayer, secondPlayer);
@@ -61,12 +64,14 @@ public class GameLoop implements IGameLoop {
     public void activate() {
         gameLogger.logStartGame();
 
-        while (gameResultController.isAlive()) {
+        while (gameResultController.isMatchAlive()) {
             activePlayer = activePlayerController.getNextPlayer();
+            Color activeColor = activePlayer.getColor();
 
             do {
                 IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                KingState kingState = kingStateController.getState();
+                KingState kingState = kingStateController.getState(activeColor);
+
 
                 gameProcessController.makeTurn(kingState,
                                                 activePlayer.getColor(),
@@ -74,7 +79,7 @@ public class GameLoop implements IGameLoop {
 
             } while (!gameProcessController.playerDidMove());
 
-            kingStateController.updateState(activePlayer.getColor());
+            kingStateController.updateState(ОБРАТНЫЙ);
             consoleBoardWriter.printBoard(mediator);
         }
 

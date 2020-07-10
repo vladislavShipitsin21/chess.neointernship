@@ -2,6 +2,7 @@ package neointernship.chess.game.model.mediator;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.Collection;
@@ -15,6 +16,5 @@ public interface IMediator {
 
     void addNewConnection(final IField field, final Figure figure);
 
-    Figure getWhiteKing();
-    Figure getBlackKing();
+    King getKing(final Color color);
 }
