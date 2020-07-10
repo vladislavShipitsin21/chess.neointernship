@@ -1,5 +1,7 @@
 package neointernship.chess.game.gameplay.moveaction;
 
+import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -21,8 +23,9 @@ public class NormalActionCommand implements IMoveActionCommand {
         this.board = board;
     }
 
+
     @Override
-    public boolean execute() {
-        return false; // если ход ненормальный, запрещаем
+    public boolean execute(Color color, IAnswer answer) {
+        return false;
     }
 }

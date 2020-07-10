@@ -11,7 +11,7 @@ import java.util.Map;
 public interface IPossibleActionList {
 
     void addNewFigure(final  Figure figure);
-    void removeFigura(final  Figure figure);
+    void removeFigure(final  Figure figure);
     void clearList(final Figure figure);
 
     Collection<IField> getList(final Figure figure);
