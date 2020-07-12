@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Intermediary {
 
-    public static ArrayList<IField> getList(final Figure figure,final IBasicPatterns basicAttackPatterns){
+    public static ArrayList<IField> getList(final Figure figure, final IBasicPatterns basicAttackPatterns) {
         ArrayList<IField> list = new ArrayList<>();
 
         if (Bishop.class.equals(figure.getClass())) {

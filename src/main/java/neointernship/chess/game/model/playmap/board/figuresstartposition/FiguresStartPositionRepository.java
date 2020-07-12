@@ -38,23 +38,21 @@ public class FiguresStartPositionRepository {
         String board = "";
         final String firstLine;
 
-        if (chessType == ChessType.CLASSIC){
+        if (chessType == ChessType.CLASSIC) {
             firstLine = figuresForClassicChess();
-            board = firstLine + pawns() + voids() + pawns() + new StringBuffer(firstLine).reverse() ;
+            board = firstLine + pawns() + voids() + pawns() + firstLine;
         } else if (chessType == ChessType.FISCHER){
             firstLine = figuresForFischerChess();
             board = firstLine + pawns() + voids() + pawns() + firstLine;
         }
 
-        for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 startPosition[i][j] = board.charAt(i * size + j);
             }
         }
 
-        System.out.println(board);
         return startPosition; // todo
-//        return figuresPositionMap.get(chessType);
     }
 
     private String pawns(){
@@ -71,7 +69,7 @@ public class FiguresStartPositionRepository {
 
     /**
      * Метод генерирует строку с расстановкой фигур для игры шахмат Фишера
-     * @return
+     * @return строка расстановки последнего ряда
      */
     private String figuresForFischerChess(){
         final Random random = new Random();

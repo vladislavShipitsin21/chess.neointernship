@@ -41,6 +41,7 @@ public class KingsStateController implements IKingStateController {
         boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activePlayer.getColor());
 
         KingState newState = kingStateDefineLogic.getState(kingIsAttacked);
+        System.out.println(newState.toString());
 
         if (newState != kingStateMap.get(activePlayer.getColor())) {
             for (ISubscriber currentSubscriber : subscribersList) {
@@ -51,10 +52,12 @@ public class KingsStateController implements IKingStateController {
         }
     }
 
+    @Override
     public KingState getState() {
         return kingStateMap.get(activePlayer.getColor());
     }
 
+    @Override
     public void addToSubscriber(ISubscriber subscriber) {
         subscribersList.add(subscriber);
     }

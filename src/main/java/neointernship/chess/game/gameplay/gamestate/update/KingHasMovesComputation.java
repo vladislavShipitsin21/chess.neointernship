@@ -3,7 +3,6 @@ package neointernship.chess.game.gameplay.gamestate.update;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.IField;
 
@@ -25,13 +24,13 @@ public class KingHasMovesComputation {
 
     public boolean kingHasMoves(Color color) {
         boolean isKingHasMoves = false;
-        King king = mediator.getKing(color);
+        Figure king = mediator.getKing(color);
 
-        Map<Figure, Collection<IField>> figuresMovesMap = possibleActionList.getMap();
-        Set<Map.Entry<Figure, Collection<IField>>> entrySet = figuresMovesMap.entrySet();
+        Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
         for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
-            for (IField field : pair.getValue()) {
-                if (Objects.equals(pair.getKey(), king)) {
+            if (Objects.equals(pair.getKey(), king)) {
+                if (pair.getValue().size() !=0 ) {
+                    System.out.println("WTF: " + pair.getValue().size());
                     isKingHasMoves = true;
                     break;
                 }

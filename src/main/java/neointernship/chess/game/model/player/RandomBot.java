@@ -26,7 +26,6 @@ public class RandomBot implements IPlayer {
 
     @Override
     public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
-
         List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields;
         Figure figure;
@@ -36,12 +35,15 @@ public class RandomBot implements IPlayer {
             index = random.nextInt(figures.size());
             figure = figures.get(index);
             fields = (List<IField>) list.getList(figure);
-        }while (fields.isEmpty());
+        } while (fields.isEmpty());
 
         index = random.nextInt(fields.size());
-        IField field = fields.get(index);
+        IField finalField = fields.get(index);
 
-        return new Answer(mediator.getField(figure),field);
+        IField startField = mediator.getField(figure);
+
+        return new Answer(startField.getXCoord(), startField.getYCoord(),
+                finalField.getXCoord(), finalField.getYCoord());
     }
 
     @Override

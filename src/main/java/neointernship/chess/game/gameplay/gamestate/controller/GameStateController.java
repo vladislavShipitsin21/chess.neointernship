@@ -8,8 +8,9 @@ import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.subscriber.ISubscriber;
 
-public class GameStateController implements IGameStateController {
+public class GameStateController implements ISubscriber, IGameStateController {
     private GameState currentState;
 
     private final KingHasMovesComputation kingHasMovesComputation;
@@ -23,11 +24,6 @@ public class GameStateController implements IGameStateController {
         gameStateDefineLogic = new GameStateDefineLogic();
     }
 
-    public void update(final Color color, final KingState kingState) {
-        boolean kingHasMoves = kingHasMovesComputation.kingHasMoves(color);
-
-        currentState = new GameState(gameStateDefineLogic.getState(kingState, kingHasMoves), color);
-    }
 
     public GameState getState() {
         return currentState;
@@ -36,6 +32,16 @@ public class GameStateController implements IGameStateController {
     @Override
     public boolean isMatchAlive() {
         return currentState.getValue() == EnumGameState.ALIVE;
+    }
+
+    @Override
+    public void update(Color color, KingState kingState) {
+        boolean kingHasMoves = kingHasMovesComputation.kingHasMoves(color);
+        System.out.format("%s King has moves: %b\n", color, kingHasMoves);
+
+        currentState = new GameState(gameStateDefineLogic.getState(kingState, kingHasMoves), color);
+
+        System.out.format("Game status updated: %s\n", currentState.getValue());
     }
 }
 

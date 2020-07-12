@@ -12,19 +12,28 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PossibleActionList implements IPossibleActionList {
+public class PossibleActionList implements IPossibleActionList, Cloneable {
+    private final IMediator mediator;
+    private final IBoard board;
+    private final IBasicPatterns basicPatterns;
 
-    private final Map<Figure,Collection<IField>> mapFigure;
+    private final Map<Figure, Collection<IField>> mapFigure;
 
-    public PossibleActionList() {
+    public PossibleActionList(final IBoard board,
+                              final IMediator mediator) {
+        this.board = board;
+        this.mediator = mediator;
+        this.basicPatterns = new BasicPatterns(mediator, board, this);
+
         this.mapFigure = new HashMap<>();
     }
 
     @Override
-    public void updateLists(final Figure figure,final IBoard board,final IMediator mediator) {
-        IBasicPatterns basicPatterns = new BasicPatterns(mediator, board);
-        mapFigure.get(figure).clear();
-        mapFigure.get(figure).addAll(Intermediary.getList(figure,basicPatterns));
+    public void updateLists() {
+        for (Figure figure : mediator.getFigures()) {
+            mapFigure.get(figure).clear();
+            mapFigure.get(figure).addAll(Intermediary.getList(figure, basicPatterns));
+        }
     }
 
     @Override
@@ -34,7 +43,7 @@ public class PossibleActionList implements IPossibleActionList {
 
     @Override
     public void addNewFigure(final Figure figure) {
-        mapFigure.put(figure,new ArrayList<IField>());
+        mapFigure.put(figure, new ArrayList<>());
     }
 
     @Override
@@ -52,5 +61,8 @@ public class PossibleActionList implements IPossibleActionList {
         return mapFigure.get(figure);
     }
 
-
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

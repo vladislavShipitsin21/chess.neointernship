@@ -21,11 +21,9 @@ public class GameLobby implements ILobby {
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
 
-    private final IPlayer firstPlayer;
-    private final IPlayer secondPlayer;
-
     private final ChessType chessTypes;
     private final FiguresStartPositionRepository figuresStartPositionRepository;
+    private final Character emptyFieldChar = '.';
 
     private final IGameLoop gameLoop;
 
@@ -33,10 +31,7 @@ public class GameLobby implements ILobby {
         board = new Board();
         figureFactory = new Factory();
         mediator = new Mediator();
-        possibleActionList = new PossibleActionList();
-
-        this.firstPlayer = firstPlayer;
-        this.secondPlayer = secondPlayer;
+        possibleActionList = new PossibleActionList(board, mediator);
 
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();
@@ -50,26 +45,30 @@ public class GameLobby implements ILobby {
         Character[][] figuresRepository = figuresStartPositionRepository.getStartPosition(chessTypes);
 
         for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
                 IField field = board.getField(i, j);
 
                 final Character currentChar = figuresRepository[i][j];
-                Color color = i > 4 ? Color.WHITE : Color.BLACK;
-                Figure figure = figureFactory.createFigure(currentChar, color);
+                if (currentChar != emptyFieldChar) {
+                        Color color = i > 4 ? Color.WHITE : Color.BLACK;
+                    Figure figure = figureFactory.createFigure(currentChar, color);
 
-                mediator.addNewConnection(field, figure);
+                    possibleActionList.addNewFigure(figure);
+                    mediator.addNewConnection(field, figure);
+                }
             }
         }
-
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
                 IField field = board.getField(i, j);
                 Figure figure = mediator.getFigure(field);
-
-                possibleActionList.addNewFigure(figure);
-                possibleActionList.updateLists(figure, board,mediator);
+                if (figure != null) {
+                    possibleActionList.updateLists();
+                }
             }
         }
+
+
 
         start();
     }

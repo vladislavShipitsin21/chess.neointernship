@@ -11,12 +11,13 @@ import neointernship.chess.game.gameplay.gamestate.controller.IGameStateControll
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.chess.logger.GameLogger;
+import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.game.model.subscriber.ISubscriber;
 
 /**
  * Класс, реализующий основное ядро игры (игровой цикл)
@@ -33,7 +34,6 @@ public class GameLoop implements IGameLoop {
     private final IKingStateController kingStateController;
 
     private final IConsoleBoardWriter consoleBoardWriter;
-    private final GameLogger gameLogger;
 
 
     public GameLoop(final IMediator mediator,
@@ -41,7 +41,7 @@ public class GameLoop implements IGameLoop {
                     final IBoard board,
                     final IPlayer firstPlayer,
                     final IPlayer secondPlayer) {
-        this.activePlayer = null;
+        this.activePlayer = firstPlayer;
 
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
@@ -52,8 +52,7 @@ public class GameLoop implements IGameLoop {
         gameProcessController = new GameProcessController(mediator, possibleActionList, board);
         kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer);
 
-        consoleBoardWriter = new ConsoleBoardWriter();
-        gameLogger = new GameLogger(firstPlayer, secondPlayer);
+        consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
     }
 
     /**
@@ -61,25 +60,36 @@ public class GameLoop implements IGameLoop {
      */
     @Override
     public void activate() {
-        gameLogger.logStartGame();
+        kingStateController.addToSubscriber((ISubscriber) gameStateController);
 
         while (gameStateController.isMatchAlive()) {
-            activePlayer = activePlayerController.getNextPlayer();
-
             do {
+                consoleBoardWriter.printBoard();
                 IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                KingState kingState = kingStateController.getState();
-
-                gameProcessController.makeTurn(kingState,
-                                                activePlayer.getColor(),
-                                                answer);
+                gameProcessController.makeTurn(activePlayer.getColor(), answer);
 
             } while (!gameProcessController.playerDidMove());
 
+            activePlayer = activePlayerController.getNextPlayer();
+            showAvailableMoves();
             kingStateController.updateState();
-            consoleBoardWriter.printBoard(mediator);
+            consoleBoardWriter.printMatchResult(gameStateController.getState());
         }
+    }
 
-        consoleBoardWriter.printMatchResult(gameStateController.getState());
+    private void showAvailableMoves() {
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
+                IField field = board.getField(i, j);
+                Figure figure = mediator.getFigure(field);
+                if (figure != null) {
+                    System.out.println(figure.getName() + " " + figure.getColor());
+                    for (IField field1 : possibleActionList.getList(figure)) {
+                        System.out.println(field1.getXCoord() + " " + field1.getYCoord());
+                    }
+                    System.out.print("\n");
+                }
+            }
+        }
     }
 }

@@ -3,7 +3,6 @@ package neointernship.chess.game.gameplay.kingstate.update;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.IField;
 
@@ -24,7 +23,7 @@ public final class KingIsAttackedComputation {
 
     public boolean kingIsAttacked(Color color) {
         boolean isKingAttacked = false;
-        King king = mediator.getKing(color);
+        Figure king = mediator.getKing(color);
 
         Map<Figure, Collection<IField>> figuresMovesMap = possibleActionList.getMap();
         Set<Map.Entry<Figure, Collection<IField>>> entrySet = figuresMovesMap.entrySet();

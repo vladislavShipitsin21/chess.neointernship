@@ -1,10 +1,11 @@
 package neointernship.chess.game.gameplay.gameprocesscontroller;
 
-import neointernship.chess.game.gameplay.moveaction.IMoveActionCommand;
-import neointernship.chess.game.gameplay.moveaction.movesrepository.MovesActionRepository;
+import neointernship.chess.game.gameplay.moveaction.MoveCorrectnessValidator;
+import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
+import neointernship.chess.game.gameplay.moveaction.movesrepository.MovesRepository;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.enums.KingState;
+import neointernship.chess.game.model.enums.MoveState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -14,7 +15,9 @@ public class GameProcessController implements IGameProcessController {
     private final IPossibleActionList possibleActionList;
     private final IBoard board;
 
-    private final MovesActionRepository movesActionRepository;
+    private final MovesRepository movesRepository;
+    private final MoveCorrectnessValidator moveCorrectnessValidator;
+
 
     private boolean playerDidMove;
 
@@ -25,13 +28,15 @@ public class GameProcessController implements IGameProcessController {
         this.possibleActionList = possibleActionList;
         this.board = board;
 
-        movesActionRepository = new MovesActionRepository(mediator, possibleActionList, board);
+        movesRepository = new MovesRepository(mediator, possibleActionList, board);
+        moveCorrectnessValidator = new MoveCorrectnessValidator(mediator, possibleActionList, board);
     }
 
     @Override
-    public void makeTurn(final KingState kingState, final Color color, final IAnswer answer) {
-        IMoveActionCommand command = movesActionRepository.getCommand(kingState);
-        playerDidMove = command.execute(color, answer);
+    public void makeTurn(final Color color, final IAnswer answer) {
+        MoveState moveState = moveCorrectnessValidator.check(color, answer);
+        IMoveCommand moveCommand = movesRepository.getCommand(moveState);
+        playerDidMove = moveCommand.execute(color, answer);
     }
 
     @Override

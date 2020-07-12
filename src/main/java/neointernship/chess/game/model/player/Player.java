@@ -1,11 +1,13 @@
 package neointernship.chess.game.model.player;
 
+import neointernship.chess.game.model.answer.Answer;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
+
+import java.util.Scanner;
 
 public class Player implements IPlayer {
     private final Color color;
@@ -18,7 +20,14 @@ public class Player implements IPlayer {
 
     @Override
     public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
-        return null;
+        Scanner scanner = new Scanner(System.in);
+        System.out.format("%s player turn to move: ", getName());
+        String input = scanner.nextLine();
+        String[] strArr = input.split(" ");
+        return new Answer(Integer.parseInt(strArr[0]),
+                Integer.parseInt(strArr[1]),
+                Integer.parseInt(strArr[2]),
+                Integer.parseInt(strArr[3]));
     }
 
     public Color getColor() {

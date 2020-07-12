@@ -26,6 +26,7 @@ public class PieceClassesRepository {
 
     /**
      * Get IPiece class by symbol key.
+     *
      * @param pieceName IPiece implementation.
      * @return Extended IPiece class
      */

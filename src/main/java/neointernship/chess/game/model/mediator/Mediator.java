@@ -11,12 +11,12 @@ import java.util.stream.Collectors;
 /**
  * Связка клетка-фигура.
  */
-public class Mediator implements IMediator {
+public class Mediator implements IMediator, Cloneable {
 
-    private HashMap<IField, Figure> boardLocationMap;
+    private HashMap<IField, Figure> mediator;
 
     public Mediator() {
-        boardLocationMap = new HashMap<>();
+        mediator = new HashMap<>();
     }
 
     /**
@@ -27,39 +27,29 @@ public class Mediator implements IMediator {
      */
     @Override
     public void addNewConnection(final IField field, final Figure figure) {
-        boardLocationMap.put(field, figure);
+        mediator.put(field, figure);
     }
 
     @Override
     public void deleteConnection(final IField field) {
-        boardLocationMap.remove(field);
+        mediator.remove(field);
     }
 
     @Override
     public void updateConnection(IField field, Figure figure) {
-        boardLocationMap.put(field,figure);
+        mediator.replace(field, figure);
     }
 
     @Override
     public void clear() {
-        boardLocationMap.clear();
+        mediator.clear();
     }
 
     @Override
-    public King getWhiteKing() {
-        return getKing(Color.WHITE);
-    }
-
-    @Override
-    public King getBlackKing() {
-        return getKing(Color.BLACK);
-    }
-
-    @Override
-    public King getKing(Color color) {
-        for(Figure figure : boardLocationMap.values()){
-            if(figure.getClass().equals(King.class) && figure.getColor() == color){
-                return (King) figure;
+    public Figure getKing(Color color) {
+        for (Figure figure : mediator.values()) {
+            if (figure.getClass().equals(King.class) && figure.getColor() == color) {
+                return figure;
             }
         }
         return null;
@@ -72,26 +62,24 @@ public class Mediator implements IMediator {
      * @return фигура или null.
      */
     public Figure getFigure(final IField field) {
-        return boardLocationMap.get(field);
+        return mediator.get(field);
     }
 
     @Override
     public Collection<Figure> getFigures(Color color) {
-        return getFigures().
-                stream().
-                filter(f -> f.getColor() == color).
-                collect(Collectors.toList());
+        return getFigures()
+                .stream()
+                .filter(f -> f.getColor() == color)
+                .collect(Collectors.toList());
     }
 
     /**
      * Возвращает все фигуры.
      * @return колекция фигур или null
      */
-    public Collection<Figure> getFigures(){
-        return boardLocationMap.values();
+    public Collection<Figure> getFigures() {
+        return mediator.values();
     }
-
-
 
     /**
      * Поиск поля, на котором стоит данная фигура.
@@ -99,7 +87,7 @@ public class Mediator implements IMediator {
      * @return поле.
      */
     public IField getField(final Figure figure) {
-        Set<Map.Entry<IField, Figure>> entrySet = boardLocationMap.entrySet();
+        Set<Map.Entry<IField, Figure>> entrySet = mediator.entrySet();
 
         for (Map.Entry<IField, Figure> pair : entrySet) {
             if (Objects.equals(figure, pair.getValue())) {
@@ -107,5 +95,10 @@ public class Mediator implements IMediator {
             }
         }
         return null;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

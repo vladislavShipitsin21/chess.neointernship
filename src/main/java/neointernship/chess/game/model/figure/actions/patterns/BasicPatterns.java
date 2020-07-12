@@ -1,22 +1,25 @@
 package neointernship.chess.game.model.figure.actions.patterns;
 
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public final class BasicPatterns implements IBasicPatterns {
 
     private final int boardSize;
     private final IMediator mediator;
     private final IBoard board;
+    private final IPossibleActionList possibleActionList;
 
-    public BasicPatterns(IMediator mediator, IBoard board) {
+    public BasicPatterns(IMediator mediator, IBoard board, IPossibleActionList possibleActionList) {
         this.mediator = mediator;
         this.board = board;
+        this.possibleActionList = possibleActionList;
         boardSize = board.getSize();
     }
 
@@ -105,19 +108,26 @@ public final class BasicPatterns implements IBasicPatterns {
 
     public ArrayList<IField> getPawnFields(final Figure figure) {
         ArrayList<IField> possibleAttackFields = new ArrayList<>();
-
         IField currentField = mediator.getField(figure);
 
-        int colorMove = -1;
-        if(figure.getColor() == Color.BLACK) colorMove = 1;
+        int offset = (figure.getColor() == Color.BLACK) ? 1 : -1;
 
         int[] onesList = new int[] {1, -1};
         for (int one : onesList) {
-            actionToAdd(figure.getColor(),
-                    currentField.getXCoord() + colorMove,
-                    currentField.getYCoord() + one, possibleAttackFields);
+            addAttackField(figure.getColor(), currentField.getXCoord() + offset, currentField.getYCoord() + one, possibleAttackFields);
         }
-        // todo пешка будет рубить прямо )
+        addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+
+
+        if (currentField.getXCoord() == 6 && figure.getColor() == Color.WHITE) {
+            offset = -  2;
+            addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+        }
+        if (currentField.getXCoord() == 1 && figure.getColor() == Color.BLACK) {
+            offset = 2;
+            addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+        }
+
         return possibleAttackFields;
     }
 
@@ -128,13 +138,45 @@ public final class BasicPatterns implements IBasicPatterns {
         IField currentField = mediator.getField(figure);
 
         int[] onesList = new int[] {1, -1};
-        int[] twosList = new int[] {-1, 1};
+        int[] twosList = new int[] {1, -1};
 
         for (int one : onesList) {
             for (int two : twosList) {
-                actionToAdd(figure.getColor(),currentField.getXCoord() + one, currentField.getYCoord() + two, possibleAttackFields);
-                actionToAdd(figure.getColor(),currentField.getXCoord() + two, currentField.getYCoord() + one, possibleAttackFields);
+                boolean nextFieldIsNotAttacked = true;
+
+                if (validCoordinates(currentField.getXCoord() + one, currentField.getYCoord())) {
+                    IField nextField = board.getField(currentField.getXCoord() + one, currentField.getYCoord() + two);
+
+                    Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
+                    for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
+                        for (IField field : pair.getValue()) {
+                            if (Objects.equals(field, nextField)) {
+                                nextFieldIsNotAttacked = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (nextFieldIsNotAttacked) {
+                actionToAdd(figure.getColor(),
+                        currentField.getXCoord() + one,
+                        currentField.getYCoord() + two,
+                        possibleAttackFields);
+                }
             }
+        }
+
+        for (int one : onesList) {
+            actionToAdd(figure.getColor(),
+                    currentField.getXCoord() + one,
+                    currentField.getYCoord(),
+                    possibleAttackFields);
+
+            actionToAdd(figure.getColor(),
+                    currentField.getXCoord(),
+                    currentField.getYCoord() + one,
+                    possibleAttackFields);
         }
 
         return possibleAttackFields;
@@ -145,22 +187,53 @@ public final class BasicPatterns implements IBasicPatterns {
      * It checks if the field coordinates are within the dimensions of the Board.
      * If the fields contains some piece that has opposite color, the field added to the list.
      *
-     * @param newFieldXCoord {@link Integer} row coordinate of the field being checked
      * @param newFieldYCoord {@link Integer} column coordinate of the field being checked
      * @param possibleMoveList a list where we add the field if it needed.
      * @return boolean value if moving through direction is possible (not covered with another piece).
      */
-    private boolean actionToAdd(final Color colorFigura,final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
-        if (!(newFieldXCoord >= 0 && newFieldXCoord < boardSize && newFieldYCoord >= 0 && newFieldYCoord < boardSize)) {
+    private boolean actionToAdd(final Color color, final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+        if (!validCoordinates(newFieldXCoord, newFieldYCoord)) {
             return false;
         }
-        IField newField = board.getField(newFieldXCoord, newFieldYCoord);
-        if (mediator.getFigure(newField) != null) {
-            if (mediator.getFigure(newField).getColor().equals(colorFigura)) {   // would be changed during model development.
-                possibleMoveList.add(newField);
-            }
-            return false;
+        IField field = board.getField(newFieldXCoord, newFieldYCoord);
+        Figure figure = mediator.getFigure(field);
+
+        addMoveField(newFieldXCoord, newFieldYCoord, possibleMoveList);
+        addAttackField(color, newFieldXCoord, newFieldYCoord, possibleMoveList);
+
+        return figure == null;
+    }
+
+    private void addMoveField(final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+        if (!validCoordinates(newFieldXCoord, newFieldYCoord)) {
+            return;
         }
-        return true;
+
+        IField field = board.getField(newFieldXCoord, newFieldYCoord);
+        Figure figure = mediator.getFigure(field);
+
+        if (figure == null) {
+            possibleMoveList.add(field);
+        }
+    }
+
+    private void addAttackField(final Color color, final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+        if (!validCoordinates(newFieldXCoord, newFieldYCoord)) {
+            return;
+        }
+
+        IField field = board.getField(newFieldXCoord, newFieldYCoord);
+        Figure figure = mediator.getFigure(field);
+
+        if (figure != null && !mediator.getFigure(field).getColor().equals(color)) {
+            possibleMoveList.add(field);
+        }
+    }
+
+    private boolean validCoordinates(final int newFieldXCoord, final int newFieldYCoord) {
+        return newFieldXCoord >= 0
+                && newFieldXCoord < boardSize
+                && newFieldYCoord >= 0
+                && newFieldYCoord < boardSize;
     }
 }
