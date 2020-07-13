@@ -1,9 +1,8 @@
 package neointernship.chess.game.gameplay.moveaction.movesrepository;
 
-import neointernship.chess.game.gameplay.moveaction.commands.AllowedMoveCommand;
-import neointernship.chess.game.gameplay.moveaction.commands.CheckMoveCommand;
+import neointernship.chess.game.gameplay.moveaction.commands.AllowMoveCommand;
 import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
-import neointernship.chess.game.gameplay.moveaction.commands.MoveNotValidMoveCommand;
+import neointernship.chess.game.gameplay.moveaction.commands.RestrictMoveCommand;
 import neointernship.chess.game.model.enums.MoveState;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
@@ -28,9 +27,9 @@ public class MovesRepository {
         this.possibleActionList = possibleActionList;
         this.board = board;
 
-        allowedMoveCommand = new AllowedMoveCommand(mediator, possibleActionList, board);
+        allowedMoveCommand = new AllowMoveCommand(mediator, possibleActionList, board);
         checkMoveCommand = new CheckMoveCommand(mediator, possibleActionList, board);
-        moveNotValidCommand = new MoveNotValidMoveCommand(mediator, possibleActionList, board);
+        moveNotValidCommand = new RestrictMoveCommand(mediator, possibleActionList, board);
 
         actionCommandMap = new HashMap<MoveState, IMoveCommand>() {
             {

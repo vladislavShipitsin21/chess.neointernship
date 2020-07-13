@@ -41,23 +41,6 @@ public class MoveCorrectnessValidator {
             return moveState;
         }
 
-
-        Figure finalFigure = mediator.getFigure(finalField);
-
-        mediator.deleteConnection(startField);
-        mediator.deleteConnection(finalField);
-        mediator.addNewConnection(finalField, figure);
-        possibleActionList.updateLists();
-        boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(color);
-        mediator.deleteConnection(finalField);
-        mediator.addNewConnection(finalField, finalFigure);
-        mediator.addNewConnection(startField, figure);
-        possibleActionList.updateLists();
-        if (kingIsAttacked) {
-            return MoveState.NOT_ALLOWED_CHECK;
-        }
-
-
         Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
         for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
             if (pair.getKey() == figure) {

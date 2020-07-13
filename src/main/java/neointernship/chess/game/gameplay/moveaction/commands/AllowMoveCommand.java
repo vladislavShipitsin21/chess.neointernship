@@ -11,15 +11,15 @@ import neointernship.chess.game.model.playmap.field.IField;
 /**
  * Реализация хода в нормальной ситуации
  */
-public class AllowedMoveCommand implements IMoveCommand {
+public class AllowMoveCommand implements IMoveCommand {
 
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
     private final IBoard board;
-
-    public AllowedMoveCommand(final IMediator mediator,
-                              final IPossibleActionList possibleActionList,
-                              final IBoard board) {
+NOT_ALLOWED_CHECK
+    public AllowMoveCommand(final IMediator mediator,
+                            final IPossibleActionList possibleActionList,
+                            final IBoard board) {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;

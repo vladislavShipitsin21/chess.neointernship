@@ -7,12 +7,11 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PossibleActionList implements IPossibleActionList, Cloneable {
+public class PossibleActionList implements IPossibleActionList {
     private final IMediator mediator;
     private final IBoard board;
     private final IBasicPatterns basicPatterns;
@@ -36,33 +35,9 @@ public class PossibleActionList implements IPossibleActionList, Cloneable {
         }
     }
 
-    @Override
-    public Map<Figure, Collection<IField>> getMap() {
-        return mapFigure; // todo нарушение инкапсуляции данных ( сделать копию) !!!
-    }
-
-    @Override
-    public void addNewFigure(final Figure figure) {
-        mapFigure.put(figure, new ArrayList<>());
-    }
-
-    @Override
-    public void removeFigure(final Figure figure) {
-        mapFigure.remove(figure);
-    }
-
-    @Override
-    public void clearList(final Figure figure) {
-        mapFigure.get(figure).clear();
-    }
 
     @Override
     public Collection<IField> getList(Figure figure) {
         return mapFigure.get(figure);
-    }
-
-    @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
 }
