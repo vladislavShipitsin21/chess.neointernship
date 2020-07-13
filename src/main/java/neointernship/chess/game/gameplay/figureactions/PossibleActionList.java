@@ -1,7 +1,7 @@
-package neointernship.chess.game.model.figure.actions;
+package neointernship.chess.game.gameplay.figureactions;
 
-import neointernship.chess.game.model.figure.actions.patterns.BasicPatterns;
-import neointernship.chess.game.model.figure.actions.patterns.IBasicPatterns;
+import neointernship.chess.game.gameplay.figureactions.patterns.BasicPatterns;
+import neointernship.chess.game.gameplay.figureactions.patterns.IBasicPatterns;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;

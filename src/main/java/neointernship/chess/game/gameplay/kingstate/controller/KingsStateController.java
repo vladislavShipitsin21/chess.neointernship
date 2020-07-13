@@ -4,7 +4,7 @@ import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputat
 import neointernship.chess.game.gameplay.kingstate.update.KingStateDefineLogic;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.subscriber.ISubscriber;

@@ -11,7 +11,7 @@ import neointernship.chess.game.gameplay.gamestate.controller.IGameStateControll
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
@@ -63,8 +63,8 @@ public class GameLoop implements IGameLoop {
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
 
         while (gameStateController.isMatchAlive()) {
+            consoleBoardWriter.printBoard();
             do {
-                consoleBoardWriter.printBoard();
                 IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
                 gameProcessController.makeTurn(activePlayer.getColor(), answer);
 

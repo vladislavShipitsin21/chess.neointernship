@@ -1,6 +1,6 @@
-package neointernship.chess.game.model.figure.actions;
+package neointernship.chess.game.gameplay.figureactions;
 
-import neointernship.chess.game.model.figure.actions.patterns.IBasicPatterns;
+import neointernship.chess.game.gameplay.figureactions.patterns.IBasicPatterns;
 import neointernship.chess.game.model.figure.piece.*;
 import neointernship.chess.game.model.playmap.field.IField;
 

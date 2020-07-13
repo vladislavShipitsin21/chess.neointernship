@@ -4,7 +4,7 @@ import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputat
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -41,11 +41,16 @@ public class MoveCorrectnessValidator {
             return moveState;
         }
 
+
+        Figure finalFigure = mediator.getFigure(finalField);
+
         mediator.deleteConnection(startField);
+        mediator.deleteConnection(finalField);
         mediator.addNewConnection(finalField, figure);
         possibleActionList.updateLists();
         boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(color);
         mediator.deleteConnection(finalField);
+        mediator.addNewConnection(finalField, finalFigure);
         mediator.addNewConnection(startField, figure);
         possibleActionList.updateLists();
         if (kingIsAttacked) {

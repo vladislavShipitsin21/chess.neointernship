@@ -1,7 +1,7 @@
 package neointernship.chess.game.gameplay.gamestate.update;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.IField;

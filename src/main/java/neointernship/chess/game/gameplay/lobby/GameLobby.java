@@ -6,8 +6,8 @@ import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.factory.*;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
-import neointernship.chess.game.model.figure.actions.PossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.model.mediator.*;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.Board;
@@ -58,6 +58,8 @@ public class GameLobby implements ILobby {
                 }
             }
         }
+
+
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
                 IField field = board.getField(i, j);

@@ -5,7 +5,7 @@ import neointernship.chess.game.gameplay.moveaction.commands.CheckMoveCommand;
 import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
 import neointernship.chess.game.gameplay.moveaction.commands.MoveNotValidMoveCommand;
 import neointernship.chess.game.model.enums.MoveState;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 
