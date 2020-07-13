@@ -35,7 +35,6 @@ public class GameLoop implements IGameLoop {
 
     private final IConsoleBoardWriter consoleBoardWriter;
 
-
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
                     final IBoard board,
@@ -62,7 +61,9 @@ public class GameLoop implements IGameLoop {
     public void activate() {
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
 
-        while (gameStateController.isMatchAlive()) {
+        int countAnswer = 0;
+
+        while (gameStateController.isMatchAlive() && countAnswer < 50) {
             do {
                 consoleBoardWriter.printBoard();
                 IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
@@ -74,6 +75,8 @@ public class GameLoop implements IGameLoop {
             showAvailableMoves();
             kingStateController.updateState();
             consoleBoardWriter.printMatchResult(gameStateController.getState());
+
+            countAnswer++;
         }
     }
 

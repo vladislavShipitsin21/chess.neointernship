@@ -2,6 +2,8 @@ package neointernship.chess.game.model.playmap.field;
 
 import neointernship.chess.game.model.enums.Color;
 
+import java.util.Objects;
+
 public class Field implements IField {
 
     private final int x;
@@ -35,4 +37,18 @@ public class Field implements IField {
         return Color.BLACK;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Field field = (Field) o;
+        return x == field.x &&
+                y == field.y &&
+                color == field.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, color);
+    }
 }

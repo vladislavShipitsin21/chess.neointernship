@@ -18,8 +18,8 @@ public class RandomBot implements IPlayer {
 
     Random random;
 
-    public RandomBot() {
-        color = Color.BLACK;
+    public RandomBot(Color color) {
+        this.color = color;
         name = "Random bot";
         random = new Random();
     }
@@ -48,11 +48,11 @@ public class RandomBot implements IPlayer {
 
     @Override
     public Color getColor() {
-        return null;
+        return color;
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 }

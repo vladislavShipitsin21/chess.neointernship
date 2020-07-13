@@ -29,7 +29,7 @@ public class KingHasMovesComputation {
         Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
         for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
             if (Objects.equals(pair.getKey(), king)) {
-                if (pair.getValue().size() !=0 ) {
+                if (pair.getValue().size() != 0 ) {
                     System.out.println("WTF: " + pair.getValue().size());
                     isKingHasMoves = true;
                     break;
