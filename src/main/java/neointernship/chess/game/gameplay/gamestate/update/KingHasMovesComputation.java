@@ -1,7 +1,7 @@
 package neointernship.chess.game.gameplay.gamestate.update;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.IField;
@@ -26,7 +26,7 @@ public class KingHasMovesComputation {
         boolean isKingHasMoves = false;
         Figure king = mediator.getKing(color);
 
-        Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
+       /* Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
         for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
             if (Objects.equals(pair.getKey(), king)) {
                 if (pair.getValue().size() != 0 ) {
@@ -35,7 +35,7 @@ public class KingHasMovesComputation {
                     break;
                 }
             }
-        }
+        }*/
 
         return isKingHasMoves;
     }

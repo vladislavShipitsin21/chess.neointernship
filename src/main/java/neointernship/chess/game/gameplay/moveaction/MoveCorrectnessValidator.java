@@ -4,7 +4,7 @@ import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputat
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -53,7 +53,7 @@ public class MoveCorrectnessValidator {
         }
 
 
-        Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
+       /* Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
         for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
             if (pair.getKey() == figure) {
                 for (IField field : pair.getValue()) {
@@ -63,7 +63,7 @@ public class MoveCorrectnessValidator {
                     }
                 }
             }
-        }
+        }*/
 
         return moveState;
     }

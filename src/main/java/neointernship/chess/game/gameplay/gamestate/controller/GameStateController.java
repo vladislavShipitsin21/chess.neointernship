@@ -6,7 +6,7 @@ import neointernship.chess.game.gameplay.gamestate.update.KingHasMovesComputatio
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.enums.KingState;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 

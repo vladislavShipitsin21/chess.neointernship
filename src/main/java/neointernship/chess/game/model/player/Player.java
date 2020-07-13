@@ -3,7 +3,7 @@ package neointernship.chess.game.model.player;
 import neointernship.chess.game.model.answer.Answer;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 

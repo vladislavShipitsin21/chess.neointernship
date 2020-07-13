@@ -9,7 +9,7 @@ public class Selfplay implements ISelfplay{
     public void start() {
         for (int i = 0; i < 50; i++) {
             System.out.println("Game " + i);
-            GameInitializerForBots gameInitializerForBots = new GameInitializerForBots();
+            GameInitializerForBots gameInitializerForBots = new GameInitializerForBots(i);
             gameInitializerForBots.start();
         }
     }

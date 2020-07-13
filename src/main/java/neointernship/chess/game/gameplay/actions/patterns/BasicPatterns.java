@@ -1,8 +1,9 @@
-package neointernship.chess.game.model.figure.actions.patterns;
+package neointernship.chess.game.gameplay.actions.patterns;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
@@ -147,7 +148,7 @@ public final class BasicPatterns implements IBasicPatterns {
                 if (validCoordinates(currentField.getXCoord() + one, currentField.getYCoord())) {
                     IField nextField = board.getField(currentField.getXCoord() + one, currentField.getYCoord() + two);
 
-                    Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
+                    /*Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
                     for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
                         for (IField field : pair.getValue()) {
                             if (Objects.equals(field, nextField)) {
@@ -155,7 +156,7 @@ public final class BasicPatterns implements IBasicPatterns {
                                 break;
                             }
                         }
-                    }
+                    }*/
                 }
 
                 if (nextFieldIsNotAttacked) {
@@ -236,4 +237,15 @@ public final class BasicPatterns implements IBasicPatterns {
                 && newFieldYCoord >= 0
                 && newFieldYCoord < boardSize;
     }
+
+    private boolean isKingAttack(Color color){
+        King king = (King) mediator.getKing(color);
+        IField fieldKing = mediator.getField(king);
+        Color vragColor = Color.swapColor(color);
+        for(Figure figure : mediator.getFigures(vragColor)){
+            if(possibleActionList.getList(figure).contains(fieldKing)) return true;
+        }
+        return false;
+    }
+
 }

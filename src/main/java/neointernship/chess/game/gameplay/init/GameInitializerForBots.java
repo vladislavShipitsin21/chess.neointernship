@@ -7,16 +7,20 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.player.Player;
 import neointernship.chess.game.model.player.RandomBot;
+import neointernship.chess.logger.GameLogger;
+import neointernship.chess.logger.IGameLogger;
 
 public class GameInitializerForBots implements IGameInitializer {
     private final ILobby gameLobby;
 
-    public GameInitializerForBots() {
+    public GameInitializerForBots(int i) {
         IPlayer firstPlayer = new RandomBot(Color.WHITE);
         IPlayer secondPlayer = new RandomBot(Color.BLACK);
         ChessType chessType = ChessType.CLASSIC;
 
-        gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType);
+        final IGameLogger gameLogger = new GameLogger(i);
+
+        gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType, gameLogger);
     }
 
 

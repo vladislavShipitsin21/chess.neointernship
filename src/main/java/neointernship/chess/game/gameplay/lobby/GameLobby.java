@@ -6,8 +6,8 @@ import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.factory.*;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.actions.IPossibleActionList;
-import neointernship.chess.game.model.figure.actions.PossibleActionList;
+import neointernship.chess.game.gameplay.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.actions.PossibleActionList;
 import neointernship.chess.game.model.mediator.*;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.Board;
@@ -33,7 +33,7 @@ public class GameLobby implements ILobby {
         board = new Board();
         figureFactory = new Factory();
         mediator = new Mediator();
-        possibleActionList = new PossibleActionList(board, mediator);
+        possibleActionList = new PossibleActionList(board, mediator); // todo создание с пустым mediator
 
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();
@@ -57,7 +57,6 @@ public class GameLobby implements ILobby {
                         final Color color = i > 4 ? Color.WHITE : Color.BLACK;
                     final Figure figure = figureFactory.createFigure(currentChar, color);
 
-                    possibleActionList.addNewFigure(figure);
                     mediator.addNewConnection(field, figure);
                 }
             }
@@ -71,8 +70,6 @@ public class GameLobby implements ILobby {
                 }
             }
         }
-
-
 
         start();
     }
