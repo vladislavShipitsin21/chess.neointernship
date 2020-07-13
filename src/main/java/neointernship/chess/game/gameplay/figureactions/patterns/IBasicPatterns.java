@@ -1,4 +1,4 @@
-package neointernship.chess.game.gameplay.actions.patterns;
+package neointernship.chess.game.gameplay.figureactions.patterns;
 
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.playmap.field.IField;

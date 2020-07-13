@@ -11,7 +11,7 @@ import neointernship.chess.game.gameplay.gamestate.controller.IGameStateControll
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
@@ -34,9 +34,10 @@ public class GameLoop implements IGameLoop {
     private final IGameProcessController gameProcessController;
     private final IKingStateController kingStateController;
 
+    private final IConsoleBoardWriter consoleBoardWriter;
+
     private final IGameLogger gameLogger;
 
-    private final IConsoleBoardWriter consoleBoardWriter;
 
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
@@ -50,14 +51,14 @@ public class GameLoop implements IGameLoop {
         this.possibleActionList = possibleActionList;
         this.board = board;
 
-        this.gameLogger = gameLogger;
-
         activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
         gameStateController = new GameStateController(possibleActionList, mediator);
         gameProcessController = new GameProcessController(mediator, possibleActionList, board);
         kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
+
+        this.gameLogger = gameLogger;
     }
 
     /**
@@ -68,10 +69,10 @@ public class GameLoop implements IGameLoop {
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
 
         while (gameStateController.isMatchAlive()) {
+            consoleBoardWriter.printBoard();
             do {
-                consoleBoardWriter.printBoard();
-                final IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                gameProcessController.makeTurn(activePlayer, answer, gameLogger);
+                IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
+                gameProcessController.makeTurn(activePlayer, answer,gameLogger);
 
             } while (!gameProcessController.playerDidMove());
 
@@ -79,18 +80,17 @@ public class GameLoop implements IGameLoop {
             showAvailableMoves();
             kingStateController.updateState();
             consoleBoardWriter.printMatchResult(gameStateController.getState());
-
         }
     }
 
     private void showAvailableMoves() {
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
-                final IField field = board.getField(i, j);
-                final Figure figure = mediator.getFigure(field);
+                IField field = board.getField(i, j);
+                Figure figure = mediator.getFigure(field);
                 if (figure != null) {
                     System.out.println(figure.getName() + " " + figure.getColor());
-                    for (final IField field1 : possibleActionList.getList(figure)) {
+                    for (IField field1 : possibleActionList.getList(figure)) {
                         System.out.println(field1.getXCoord() + " " + field1.getYCoord());
                     }
                     System.out.print("\n");

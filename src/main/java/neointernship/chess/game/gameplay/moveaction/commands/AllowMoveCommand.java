@@ -1,7 +1,8 @@
 package neointernship.chess.game.gameplay.moveaction.commands;
 
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
+import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
@@ -10,15 +11,15 @@ import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.logger.IGameLogger;
 
 /**
- * Проверка хода в ситуации шаха
+ * Реализация хода в нормальной ситуации
  */
-public class CheckMoveCommand implements IMoveCommand {
+public class AllowMoveCommand implements IMoveCommand {
 
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
     private final IBoard board;
 
-    public CheckMoveCommand(final IMediator mediator,
+    public AllowMoveCommand(final IMediator mediator,
                             final IPossibleActionList possibleActionList,
                             final IBoard board) {
         this.mediator = mediator;
@@ -26,13 +27,19 @@ public class CheckMoveCommand implements IMoveCommand {
         this.board = board;
     }
 
+
     @Override
-    public boolean execute(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
-        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
-        final Figure figure = mediator.getFigure(startField);
+    public boolean execute(IPlayer player, IAnswer answer, IGameLogger gameLogger) {
+        IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
+        Figure figure = mediator.getFigure(startField);
 
-        gameLogger.logPlayerWrongAction(player, figure, startField);
+        mediator.deleteConnection(startField);
+        mediator.deleteConnection(finalField);
+        mediator.addNewConnection(finalField, figure);
+        possibleActionList.updateLists();
 
-        return false;
+        return true;
     }
+
 }

@@ -4,7 +4,7 @@ import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputat
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -31,7 +31,7 @@ public class MoveCorrectnessValidator {
     }
 
     public MoveState check(final Color color, final IAnswer answer) {
-        MoveState moveState = MoveState.NOT_ALLOWED_MOVE_VALID;
+        MoveState moveState = MoveState.RESTRICT;
         IField startField = board.getField(answer.getStartX(), answer.getStartY());
         IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 
@@ -40,18 +40,6 @@ public class MoveCorrectnessValidator {
         if (figure == null || figure.getColor() != color) {
             return moveState;
         }
-
-        mediator.deleteConnection(startField);
-        mediator.addNewConnection(finalField, figure);
-        possibleActionList.updateLists();
-        boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(color);
-        mediator.deleteConnection(finalField);
-        mediator.addNewConnection(startField, figure);
-        possibleActionList.updateLists();
-        if (kingIsAttacked) {
-            return MoveState.NOT_ALLOWED_CHECK;
-        }
-
 
        /* Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
         for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {

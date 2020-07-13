@@ -1,8 +1,8 @@
 package neointernship.chess.model.figure.actions;
 
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
-import neointernship.chess.game.gameplay.actions.PossibleActionList;
 import neointernship.chess.game.model.figure.piece.*;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.Board;

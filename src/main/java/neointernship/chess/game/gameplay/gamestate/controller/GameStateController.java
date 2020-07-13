@@ -2,25 +2,25 @@ package neointernship.chess.game.gameplay.gamestate.controller;
 
 import neointernship.chess.game.gameplay.gamestate.state.GameState;
 import neointernship.chess.game.gameplay.gamestate.update.GameStateDefineLogic;
-import neointernship.chess.game.gameplay.gamestate.update.KingHasMovesComputation;
+import neointernship.chess.game.gameplay.gamestate.update.FiguresHaveMovesComputation;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.enums.KingState;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 
 public class GameStateController implements ISubscriber, IGameStateController {
     private GameState currentState;
 
-    private final KingHasMovesComputation kingHasMovesComputation;
+    private final FiguresHaveMovesComputation figuresHaveMovesComputation;
     private final GameStateDefineLogic gameStateDefineLogic;
 
     public GameStateController(final IPossibleActionList possibleActionList,
                                 final IMediator mediator) {
 
         currentState = new GameState(EnumGameState.ALIVE, Color.BOTH);
-        kingHasMovesComputation = new KingHasMovesComputation(possibleActionList, mediator);
+        figuresHaveMovesComputation = new FiguresHaveMovesComputation(possibleActionList, mediator);
         gameStateDefineLogic = new GameStateDefineLogic();
     }
 
@@ -36,10 +36,8 @@ public class GameStateController implements ISubscriber, IGameStateController {
 
     @Override
     public void update(Color color, KingState kingState) {
-        boolean kingHasMoves = kingHasMovesComputation.kingHasMoves(color);
-        System.out.format("%s King has moves: %b\n", color, kingHasMoves);
-
-        currentState = new GameState(gameStateDefineLogic.getState(kingState, kingHasMoves), color);
+        boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
+        currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);
 
         System.out.format("Game status updated: %s\n", currentState.getValue());
     }

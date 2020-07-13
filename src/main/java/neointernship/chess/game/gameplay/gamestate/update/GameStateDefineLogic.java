@@ -18,7 +18,7 @@ public class GameStateDefineLogic {
         };
     }
 
-    public EnumGameState getState(final KingState kingState, final Boolean kingHasMoves) {
-        return stateRepository.getOrDefault(new Pair<>(kingState, kingHasMoves), EnumGameState.ALIVE);
+    public EnumGameState getState(final KingState kingState, final Boolean figuresHaveMoves) {
+        return stateRepository.getOrDefault(new Pair<>(kingState, figuresHaveMoves), EnumGameState.ALIVE);
     }
 }

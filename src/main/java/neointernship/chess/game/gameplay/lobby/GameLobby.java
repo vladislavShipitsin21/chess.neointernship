@@ -1,13 +1,13 @@
 package neointernship.chess.game.gameplay.lobby;
 
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.loop.GameLoop;
 import neointernship.chess.game.gameplay.loop.IGameLoop;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.factory.*;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
-import neointernship.chess.game.gameplay.actions.PossibleActionList;
 import neointernship.chess.game.model.mediator.*;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.Board;

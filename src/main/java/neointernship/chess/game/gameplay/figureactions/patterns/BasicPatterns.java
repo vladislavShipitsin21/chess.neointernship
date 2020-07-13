@@ -1,9 +1,8 @@
-package neointernship.chess.game.gameplay.actions.patterns;
+package neointernship.chess.game.gameplay.figureactions.patterns;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
@@ -139,27 +138,25 @@ public final class BasicPatterns implements IBasicPatterns {
         IField currentField = mediator.getField(figure);
 
         int[] onesList = new int[] {1, -1};
-        int[] twosList = new int[] {1, -1};
 
         for (int one : onesList) {
-            for (int two : twosList) {
-                boolean nextFieldIsNotAttacked = true;
+            for (int two : onesList) {
+                boolean nextFieldIsAttacked = false;
 
-                if (validCoordinates(currentField.getXCoord() + one, currentField.getYCoord())) {
+                if (validCoordinates(currentField.getXCoord() + one, currentField.getYCoord() + two)) {
                     IField nextField = board.getField(currentField.getXCoord() + one, currentField.getYCoord() + two);
 
                     /*Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
                     for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
                         for (IField field : pair.getValue()) {
                             if (Objects.equals(field, nextField)) {
-                                nextFieldIsNotAttacked = false;
+                                nextFieldIsAttacked = true;
                                 break;
                             }
                         }
                     }*/
                 }
-
-                if (nextFieldIsNotAttacked) {
+                if (!nextFieldIsAttacked) {
                 actionToAdd(figure.getColor(),
                         currentField.getXCoord() + one,
                         currentField.getYCoord() + two,
@@ -237,15 +234,4 @@ public final class BasicPatterns implements IBasicPatterns {
                 && newFieldYCoord >= 0
                 && newFieldYCoord < boardSize;
     }
-
-    private boolean isKingAttack(Color color){
-        King king = (King) mediator.getKing(color);
-        IField fieldKing = mediator.getField(king);
-        Color vragColor = Color.swapColor(color);
-        for(Figure figure : mediator.getFigures(vragColor)){
-            if(possibleActionList.getList(figure).contains(fieldKing)) return true;
-        }
-        return false;
-    }
-
 }

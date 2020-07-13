@@ -1,11 +1,10 @@
 package neointernship.chess.game.gameplay.moveaction.movesrepository;
 
-import neointernship.chess.game.gameplay.moveaction.commands.AllowedMoveCommand;
-import neointernship.chess.game.gameplay.moveaction.commands.CheckMoveCommand;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
+import neointernship.chess.game.gameplay.moveaction.commands.AllowMoveCommand;
 import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
-import neointernship.chess.game.gameplay.moveaction.commands.MoveNotValidMoveCommand;
+import neointernship.chess.game.gameplay.moveaction.commands.RestrictMoveCommand;
 import neointernship.chess.game.model.enums.MoveState;
-import neointernship.chess.game.gameplay.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 
@@ -13,9 +12,8 @@ import java.util.HashMap;
 
 public class MovesRepository {
     private final HashMap<MoveState, IMoveCommand> actionCommandMap;
-    private final IMoveCommand allowedMoveCommand;
-    private final IMoveCommand checkMoveCommand;
-    private final IMoveCommand moveNotValidCommand;
+    private final IMoveCommand allowMoveCommand;
+    private final IMoveCommand restrictCommand;
 
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
@@ -28,15 +26,13 @@ public class MovesRepository {
         this.possibleActionList = possibleActionList;
         this.board = board;
 
-        allowedMoveCommand = new AllowedMoveCommand(mediator, possibleActionList, board);
-        checkMoveCommand = new CheckMoveCommand(mediator, possibleActionList, board);
-        moveNotValidCommand = new MoveNotValidMoveCommand(mediator, possibleActionList, board);
+        allowMoveCommand = new AllowMoveCommand(mediator, possibleActionList, board);
+        restrictCommand = new RestrictMoveCommand(mediator, possibleActionList, board);
 
         actionCommandMap = new HashMap<MoveState, IMoveCommand>() {
             {
-                put(MoveState.ALLOWED, allowedMoveCommand);
-                put(MoveState.NOT_ALLOWED_CHECK, checkMoveCommand);
-                put(MoveState.NOT_ALLOWED_MOVE_VALID, moveNotValidCommand);
+                put(MoveState.ALLOWED, allowMoveCommand);
+                put(MoveState.RESTRICT, restrictCommand);
             }
         };
     }
