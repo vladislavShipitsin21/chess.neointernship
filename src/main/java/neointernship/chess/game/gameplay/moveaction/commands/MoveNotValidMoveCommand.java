@@ -3,8 +3,12 @@ package neointernship.chess.game.gameplay.moveaction.commands;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
+import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.logger.IGameLogger;
 
 public class MoveNotValidMoveCommand implements IMoveCommand {
     private final IMediator mediator;
@@ -20,8 +24,10 @@ public class MoveNotValidMoveCommand implements IMoveCommand {
     }
 
     @Override
-    public boolean execute(final Color color, final IAnswer answer) {
-        System.out.println("Move not valid move command");
+    public boolean execute(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
+        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+
+        gameLogger.logPlayerWrongField(player, startField);
 
         return false;
     }

@@ -18,6 +18,7 @@ import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.model.subscriber.ISubscriber;
+import neointernship.chess.logger.IGameLogger;
 
 /**
  * Класс, реализующий основное ядро игры (игровой цикл)
@@ -33,18 +34,23 @@ public class GameLoop implements IGameLoop {
     private final IGameProcessController gameProcessController;
     private final IKingStateController kingStateController;
 
+    private final IGameLogger gameLogger;
+
     private final IConsoleBoardWriter consoleBoardWriter;
 
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
                     final IBoard board,
                     final IPlayer firstPlayer,
-                    final IPlayer secondPlayer) {
+                    final IPlayer secondPlayer,
+                    final IGameLogger gameLogger) {
         this.activePlayer = firstPlayer;
 
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;
+
+        this.gameLogger = gameLogger;
 
         activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
         gameStateController = new GameStateController(possibleActionList, mediator);
@@ -66,8 +72,8 @@ public class GameLoop implements IGameLoop {
         while (gameStateController.isMatchAlive() && countAnswer < 50) {
             do {
                 consoleBoardWriter.printBoard();
-                IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                gameProcessController.makeTurn(activePlayer.getColor(), answer);
+                final IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
+                gameProcessController.makeTurn(activePlayer, answer, gameLogger);
 
             } while (!gameProcessController.playerDidMove());
 
@@ -83,11 +89,11 @@ public class GameLoop implements IGameLoop {
     private void showAvailableMoves() {
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
-                IField field = board.getField(i, j);
-                Figure figure = mediator.getFigure(field);
+                final IField field = board.getField(i, j);
+                final Figure figure = mediator.getFigure(field);
                 if (figure != null) {
                     System.out.println(figure.getName() + " " + figure.getColor());
-                    for (IField field1 : possibleActionList.getList(figure)) {
+                    for (final IField field1 : possibleActionList.getList(figure)) {
                         System.out.println(field1.getXCoord() + " " + field1.getYCoord());
                     }
                     System.out.print("\n");

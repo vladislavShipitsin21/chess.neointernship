@@ -8,7 +8,9 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
+import neointernship.chess.logger.IGameLogger;
 
 public class GameProcessController implements IGameProcessController {
     private final IMediator mediator;
@@ -33,10 +35,10 @@ public class GameProcessController implements IGameProcessController {
     }
 
     @Override
-    public void makeTurn(final Color color, final IAnswer answer) {
-        MoveState moveState = moveCorrectnessValidator.check(color, answer);
-        IMoveCommand moveCommand = movesRepository.getCommand(moveState);
-        playerDidMove = moveCommand.execute(color, answer);
+    public void makeTurn(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
+        final MoveState moveState = moveCorrectnessValidator.check(player.getColor(), answer);
+        final IMoveCommand moveCommand = movesRepository.getCommand(moveState);
+        playerDidMove = moveCommand.execute(player, answer, gameLogger);
     }
 
     @Override
