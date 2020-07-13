@@ -5,8 +5,10 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.logger.IGameLogger;
 
 /**
  * Реализация хода в нормальной ситуации
@@ -27,10 +29,12 @@ public class AllowedMoveCommand implements IMoveCommand {
 
 
     @Override
-    public boolean execute(Color color, IAnswer answer) {
-        IField startField = board.getField(answer.getStartX(), answer.getStartY());
-        IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
-        Figure figure = mediator.getFigure(startField);
+    public boolean execute(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
+        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
+        final Figure figure = mediator.getFigure(startField);
+
+        gameLogger.logPlayerMoveAction(player, figure, startField, finalField);
 
         mediator.deleteConnection(startField);
         mediator.addNewConnection(finalField, figure);

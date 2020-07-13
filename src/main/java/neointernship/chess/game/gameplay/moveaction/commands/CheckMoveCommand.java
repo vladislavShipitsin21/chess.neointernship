@@ -3,8 +3,12 @@ package neointernship.chess.game.gameplay.moveaction.commands;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.actions.IPossibleActionList;
+import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
+import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.logger.IGameLogger;
 
 /**
  * Проверка хода в ситуации шаха
@@ -24,8 +28,11 @@ public class CheckMoveCommand implements IMoveCommand {
     }
 
     @Override
-    public boolean execute(final Color color, final IAnswer answer) {
-        System.out.println("CheckMoveCommand");
+    public boolean execute(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
+        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        final Figure figure = mediator.getFigure(startField);
+
+        gameLogger.logPlayerWrongAction(player, figure, startField);
 
         return false;
     }
