@@ -80,5 +80,16 @@ public class TestMediator {
         assertEquals(resultField,fieldK);
 
     }
+    @Test
+    public void testConnections(){
+        // срубаю ферзем слона
+        mediator.deleteConnection(fieldB);
+        mediator.addNewConnection(fieldB,figureQ);
+        mediator.deleteConnection(fieldQ);
+
+        assertEquals(1,mediator.getFigures().size());
+        assertEquals(1,mediator.getFigures(Color.WHITE).size());
+        assertEquals(0,mediator.getFigures(Color.BLACK).size());
+    }
 }
 
