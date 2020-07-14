@@ -1,26 +1,30 @@
 package neointernship.chess.game.gameplay.init;
 
+
 import neointernship.chess.game.gameplay.lobby.GameLobby;
 import neointernship.chess.game.gameplay.lobby.ILobby;
-import neointernship.chess.game.model.enums.ChessTypes;
+import neointernship.chess.game.model.enums.ChessType;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.player.Player;
+import neointernship.chess.logger.GameLogger;
+import neointernship.chess.logger.IGameLogger;
 
 public class GameInitializer implements IGameInitializer {
-
+    private final ILobby gameLobby;
 
     public GameInitializer() {
-        /*IPlayer firstPlayer = new Player(message.readLine());
-        IPlayer secondPlayer = new Player(message.readLine());
-        ChessTypes chessType = ChessTypes.CLASSIC; // TODO
+        final IPlayer firstPlayer = new Player("Player 1", Color.WHITE);
+        final IPlayer secondPlayer = new Player("Player 2", Color.BLACK);
+        final ChessType chessType = ChessType.CLASSIC;
 
-        ILobby gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType);
+        final IGameLogger gameLogger = new GameLogger(0);
 
-        start(gameLobby);*/
+        gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType, gameLogger);
     }
 
     @Override
-    public void start(final ILobby lobby) {
-        lobby.start();
+    public void start() {
+        gameLobby.start();
     }
 }

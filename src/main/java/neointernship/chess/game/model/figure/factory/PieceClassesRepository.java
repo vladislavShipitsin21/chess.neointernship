@@ -1,6 +1,5 @@
 package neointernship.chess.game.model.figure.factory;
 
-import neointernship.chess.game.model.figure.Figure;
 import neointernship.chess.game.model.figure.piece.*;
 
 import java.util.HashMap;
@@ -27,6 +26,7 @@ public class PieceClassesRepository {
 
     /**
      * Get IPiece class by symbol key.
+     *
      * @param pieceName IPiece implementation.
      * @return Extended IPiece class
      */

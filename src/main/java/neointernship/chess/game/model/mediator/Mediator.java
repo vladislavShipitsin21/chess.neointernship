@@ -1,15 +1,32 @@
 package neointernship.chess.game.model.mediator;
 
-import neointernship.chess.game.model.figure.Figure;
+import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Связка клетка-фигура.
  */
-public class Mediator implements IMediator {
-    private HashMap<IField, Figure> boardLocationMap;
+public class Mediator implements IMediator, Cloneable {
+
+    private HashMap<IField, Figure> mediator;
+
+    public Mediator() {
+        mediator = new HashMap<>();
+    }
+
+    public Mediator(IMediator mediator) {
+        this();
+        for (Figure figure : mediator.getFigures()){
+            IField field = mediator.getField(figure);
+            addNewConnection(field,figure);
+        }
+    }
+
 
     /**
      * Добавление новой связи
@@ -19,8 +36,34 @@ public class Mediator implements IMediator {
      */
     @Override
     public void addNewConnection(final IField field, final Figure figure) {
-        boardLocationMap.put(field, figure);
+        mediator.put(field, figure);
     }
+
+    @Override
+    public void deleteConnection(final IField field) {
+        mediator.remove(field);
+    }
+
+    @Override
+    public void updateConnection(IField field, Figure figure) {
+        mediator.replace(field, figure);
+    }
+
+    @Override
+    public void clear() {
+        mediator.clear();
+    }
+
+    @Override
+    public Figure getKing(Color color) {
+        for (Figure figure : mediator.values()) {
+            if (figure.getClass().equals(King.class) && figure.getColor() == color) {
+                return figure;
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Получение фигуры, стоящей на данном поле.
@@ -28,15 +71,23 @@ public class Mediator implements IMediator {
      * @return фигура или null.
      */
     public Figure getFigure(final IField field) {
-        return boardLocationMap.get(field);
+        return mediator.get(field);
+    }
+
+    @Override
+    public Collection<Figure> getFigures(Color color) {
+        return getFigures()
+                .stream()
+                .filter(f -> f.getColor() == color)
+                .collect(Collectors.toList());
     }
 
     /**
      * Возвращает все фигуры.
      * @return колекция фигур или null
      */
-    public Collection<Figure> getFigures(){
-        return boardLocationMap.values();
+    public Collection<Figure> getFigures() {
+        return mediator.values();
     }
 
     /**
@@ -45,7 +96,7 @@ public class Mediator implements IMediator {
      * @return поле.
      */
     public IField getField(final Figure figure) {
-        Set<Map.Entry<IField, Figure>> entrySet = boardLocationMap.entrySet();
+        Set<Map.Entry<IField, Figure>> entrySet = mediator.entrySet();
 
         for (Map.Entry<IField, Figure> pair : entrySet) {
             if (Objects.equals(figure, pair.getValue())) {
@@ -53,5 +104,10 @@ public class Mediator implements IMediator {
             }
         }
         return null;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

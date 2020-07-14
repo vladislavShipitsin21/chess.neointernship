@@ -1,31 +1,35 @@
 package neointernship.chess.game.model.answer;
 
-import neointernship.chess.game.model.playmap.field.IField;
+public class Answer implements IAnswer {
+    final int startX;
+    final int startY;
+    final int finalX;
+    final int finalY;
 
-public class Answer implements IAnswer{
-
-    IField in;
-    IField out;
-
-
-    public Answer(IField in, IField out) {
-        this.in = in;
-        this.out = out;
+    public Answer(final int startX, final int startY, final int finalX,final int finalY) {
+        this.startX = startX;
+        this.startY = startY;
+        this.finalX = finalX;
+        this.finalY = finalY;
     }
 
-    public IField getIn() {
-        return in;
+    @Override
+    public int getStartX() {
+        return startX;
     }
 
-    public void setIn(IField in) {
-        this.in = in;
+    @Override
+    public int getStartY() {
+        return startY;
     }
 
-    public IField getOut() {
-        return out;
+    @Override
+    public int getFinalX() {
+        return finalX;
     }
 
-    public void setOut(IField out) {
-        this.out = out;
+    @Override
+    public int getFinalY() {
+        return finalY;
     }
 }

@@ -1,6 +1,7 @@
 package neointernship.chess;
 
 import neointernship.chess.game.gameplay.init.GameInitializer;
+import neointernship.chess.game.selfplay.Selfplay;
 
 /**
  * Главный класс приложения.
@@ -14,6 +15,8 @@ public class Main {
     public static void main(final String[] args) {
 
         final GameInitializer game = new GameInitializer();
-        //game.start();
+        game.start();
+       /* Selfplay selfplay = new Selfplay();
+        selfplay.start();*/
     }
 }

@@ -17,16 +17,16 @@ public class StartInfoGetter implements IStartInfoGetter {
 
     @Override
     public void setStartInfo() {
-        System.out.print("Type of chess (1 - classical; 2 - Fischer): ");
+        System.out.print("Type of neointernship.chess (1 - classical; 2 - Fischer): ");
         chessType = message.getMessage();
 
 
-        System.out.print("White side. Player 1 name: ");
+        /*System.out.print("White side. Player 1 name: ");
         firstPlayerName = scanner.nextLine();
         System.out.print("White side. Player 1 name: ");
         secondPlayerName = scanner.nextLine();
         System.out.print("White side. Player 1 name: ");
-        firstPlayerName = scanner.nextLine();
+        firstPlayerName = scanner.nextLine();*/
     }
 
     @Override

@@ -1,7 +1,8 @@
 package neointernship.chess.game.console;
 
-import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.gameplay.gamestate.state.GameState;
 
 public interface IConsoleBoardWriter {
-    void printBoard(final IMediator mediator);
+    void printBoard();
+    void printMatchResult(GameState gameState);
 }

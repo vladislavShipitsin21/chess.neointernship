@@ -1,11 +1,13 @@
 package neointernship.chess.game.model.playmap.board.figuresstartposition;
 
-import neointernship.chess.game.model.enums.ChessTypes;
+import neointernship.chess.game.model.enums.ChessType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Random;
 
 public class FiguresStartPositionRepository {
-    private final HashMap<ChessTypes, String> figuresPositionMap;
+    private final HashMap<ChessType, String> figuresPositionMap;
     private final int size = 8;
 
     private static final String CLASSIC_CHESS_FIGURES_POSITION = "" +
@@ -22,37 +24,35 @@ public class FiguresStartPositionRepository {
 
 
     public FiguresStartPositionRepository() {
-        figuresPositionMap = new HashMap<ChessTypes, String>() {
+        figuresPositionMap = new HashMap<ChessType, String>() {
             {
-                put(ChessTypes.CLASSIC, CLASSIC_CHESS_FIGURES_POSITION);
-                put(ChessTypes.FISCHER, FISCHER_CHESS_FIGURES_POSITION);
+                put(ChessType.CLASSIC, CLASSIC_CHESS_FIGURES_POSITION);
+                put(ChessType.FISCHER, FISCHER_CHESS_FIGURES_POSITION);
             }
         };
     }
 
-    public Character[][] getStartPosition(final ChessTypes chessType) {
+    public Character[][] getStartPosition(final ChessType chessType) {
         final Character[][] startPosition = new Character[size][size];
 
         String board = "";
         final String firstLine;
 
-        if (chessType == ChessTypes.CLASSIC){
+        if (chessType == ChessType.CLASSIC) {
             firstLine = figuresForClassicChess();
-            board = firstLine + pawns() + voids() + pawns() + new StringBuffer(firstLine).reverse() ;
-        } else if (chessType == ChessTypes.FISCHER){
+            board = firstLine + pawns() + voids() + pawns() + firstLine;
+        } else if (chessType == ChessType.FISCHER){
             firstLine = figuresForFischerChess();
             board = firstLine + pawns() + voids() + pawns() + firstLine;
         }
 
-        for (int i = 0; i < size; i++){
-            for (int j = 0; j < size; j++){
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
                 startPosition[i][j] = board.charAt(i * size + j);
             }
         }
 
-        System.out.println(board);
         return startPosition; // todo
-//        return figuresPositionMap.get(chessType);
     }
 
     private String pawns(){
@@ -69,7 +69,7 @@ public class FiguresStartPositionRepository {
 
     /**
      * Метод генерирует строку с расстановкой фигур для игры шахмат Фишера
-     * @return
+     * @return строка расстановки последнего ряда
      */
     private String figuresForFischerChess(){
         final Random random = new Random();
