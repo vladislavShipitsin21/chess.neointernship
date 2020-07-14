@@ -4,6 +4,7 @@ import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.console.IConsoleBoardWriter;
 import neointernship.chess.game.gameplay.activeplayercontroller.ActivePlayerController;
 import neointernship.chess.game.gameplay.activeplayercontroller.IActivePlayerController;
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessController;
 import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessController;
 import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
@@ -11,7 +12,6 @@ import neointernship.chess.game.gameplay.gamestate.controller.IGameStateControll
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
@@ -69,15 +69,17 @@ public class GameLoop implements IGameLoop {
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
 
         while (gameStateController.isMatchAlive()) {
+            showAvailableMoves();
             consoleBoardWriter.printBoard();
+
             do {
                 IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                gameProcessController.makeTurn(activePlayer, answer,gameLogger);
+                gameProcessController.makeTurn(activePlayer, answer, gameLogger);
 
             } while (!gameProcessController.playerDidMove());
 
             activePlayer = activePlayerController.getNextPlayer();
-            showAvailableMoves();
+            kingStateController.setActivePlayer(activePlayer);
             kingStateController.updateState();
             consoleBoardWriter.printMatchResult(gameStateController.getState());
         }
@@ -90,7 +92,7 @@ public class GameLoop implements IGameLoop {
                 Figure figure = mediator.getFigure(field);
                 if (figure != null) {
                     System.out.println(figure.getName() + " " + figure.getColor());
-                    for (IField field1 : possibleActionList.getList(figure)) {
+                    for (IField field1 : possibleActionList.getRealList(figure)) {
                         System.out.println(field1.getXCoord() + " " + field1.getYCoord());
                     }
                     System.out.print("\n");

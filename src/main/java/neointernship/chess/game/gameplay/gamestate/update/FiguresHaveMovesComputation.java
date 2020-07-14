@@ -18,19 +18,16 @@ public class FiguresHaveMovesComputation {
         this.mediator = mediator;
     }
 
-
     public boolean check(Color color) {
-        boolean figuresHaveMoves = false;
+        possibleActionList.updateRealLists();
 
         for (Figure figure : mediator.getFigures(color)) {
-            Collection<IField> collection = possibleActionList.getList(figure);
-
-                if (collection.size() != 0) {
-                    figuresHaveMoves = true;
-                    break;
+            Collection<IField> collection = possibleActionList.getRealList(figure);
+                if (!collection.isEmpty()) {
+                    return true;
                 }
             }
 
-        return figuresHaveMoves;
+        return false;
     }
 }

@@ -1,19 +1,16 @@
 package neointernship.chess.game.gameplay.moveaction;
 
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputation;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
-import java.util.Collection;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public class MoveCorrectnessValidator {
     private final IMediator mediator;
@@ -32,26 +29,26 @@ public class MoveCorrectnessValidator {
 
     public MoveState check(final Color color, final IAnswer answer) {
         MoveState moveState = MoveState.RESTRICT;
+
         IField startField = board.getField(answer.getStartX(), answer.getStartY());
         IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
+        Figure startFigure = mediator.getFigure(startField);
+        Figure finalFigure = mediator.getFigure(finalField);
 
-        Figure figure = mediator.getFigure(startField);
-
-        if (figure == null || figure.getColor() != color) {
+        if (startFigure == null || startFigure.getColor() != color) {
             return moveState;
         }
 
-       /* Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
-        for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
-            if (pair.getKey() == figure) {
-                for (IField field : pair.getValue()) {
+        for (Figure currentFigure : mediator.getFigures()) {
+            if (currentFigure == startFigure) {
+                for (IField field : possibleActionList.getRealList(currentFigure)) {
                     if (Objects.equals(field, finalField)) {
                         moveState = MoveState.ALLOWED;
                         break;
                     }
                 }
             }
-        }*/
+        }
 
         return moveState;
     }

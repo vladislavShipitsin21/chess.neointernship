@@ -1,6 +1,6 @@
 package neointernship.chess.game.gameplay.figureactions;
 
-import neointernship.chess.game.gameplay.figureactions.patterns.IBasicPatterns;
+import neointernship.chess.game.gameplay.figureactions.patterns.potential.IPotentialBasicPatterns;
 import neointernship.chess.game.model.figure.piece.*;
 import neointernship.chess.game.model.playmap.field.IField;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Intermediary {
 
-    public static ArrayList<IField> getList(final Figure figure, final IBasicPatterns basicAttackPatterns) {
+    public static ArrayList<IField> getList(final Figure figure, final IPotentialBasicPatterns basicAttackPatterns) {
         ArrayList<IField> list = new ArrayList<>();
 
         if (Bishop.class.equals(figure.getClass())) {
@@ -33,5 +33,4 @@ public class Intermediary {
         }
         return list;
     }
-
 }

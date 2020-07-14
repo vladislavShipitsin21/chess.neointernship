@@ -1,25 +1,21 @@
-package neointernship.chess.game.gameplay.figureactions.patterns;
+package neointernship.chess.game.gameplay.figureactions.patterns.potential;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
-import java.util.*;
+import java.util.ArrayList;
 
-public final class BasicPatterns implements IBasicPatterns {
-
+public final class PotentialPotentialBasicPatterns implements IPotentialBasicPatterns {
     private final int boardSize;
     private final IMediator mediator;
     private final IBoard board;
-    private final IPossibleActionList possibleActionList;
 
-    public BasicPatterns(IMediator mediator, IBoard board, IPossibleActionList possibleActionList) {
+    public PotentialPotentialBasicPatterns(IMediator mediator, IBoard board) {
         this.mediator = mediator;
         this.board = board;
-        this.possibleActionList = possibleActionList;
         boardSize = board.getSize();
     }
 

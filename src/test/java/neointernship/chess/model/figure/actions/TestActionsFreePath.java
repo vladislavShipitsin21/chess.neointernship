@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestActionsFreePath {
-
+/*
     private void checkPosition(Figure figure,IField field,IField[] expected){
 
         Board board = new Board();
@@ -138,5 +138,5 @@ public class TestActionsFreePath {
 
         checkPosition(figure,field,expected);
     }
-
+*/
 }

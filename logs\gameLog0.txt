@@ -1,0 +1,1 @@
+Игра между игроком neointernship.chess.game.model.player.Player@1b701da1 и игроком neointernship.chess.game.model.player.Player@726f3b58 началась!

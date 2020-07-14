@@ -1,8 +1,7 @@
 package neointernship.chess.game.gameplay.moveaction.commands;
 
-import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
+import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
@@ -32,12 +31,17 @@ public class AllowMoveCommand implements IMoveCommand {
     public boolean execute(IPlayer player, IAnswer answer, IGameLogger gameLogger) {
         IField startField = board.getField(answer.getStartX(), answer.getStartY());
         IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
-        Figure figure = mediator.getFigure(startField);
+
+        Figure startFigure = mediator.getFigure(startField);
+        Figure finalFigure = mediator.getFigure(finalField);
 
         mediator.deleteConnection(startField);
-        mediator.deleteConnection(finalField);
-        mediator.addNewConnection(finalField, figure);
-        possibleActionList.updateLists();
+        if (finalFigure != null) {
+            mediator.deleteConnection(finalField);
+        }
+        mediator.addNewConnection(finalField, startFigure);
+
+        possibleActionList.updateRealLists();
 
         return true;
     }

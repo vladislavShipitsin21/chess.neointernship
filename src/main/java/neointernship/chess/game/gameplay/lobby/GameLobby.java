@@ -61,16 +61,8 @@ public class GameLobby implements ILobby {
                 }
             }
         }
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                final IField field = board.getField(i, j);
-                final Figure figure = mediator.getFigure(field);
-                if (figure != null) {
-                    possibleActionList.updateLists();
-                }
-            }
-        }
 
+        possibleActionList.updateRealLists();
         start();
     }
 

@@ -19,6 +19,15 @@ public class Mediator implements IMediator, Cloneable {
         mediator = new HashMap<>();
     }
 
+    public Mediator(IMediator mediator) {
+        this();
+        for (Figure figure : mediator.getFigures()){
+            IField field = mediator.getField(figure);
+            addNewConnection(field,figure);
+        }
+    }
+
+
     /**
      * Добавление новой связи
      *

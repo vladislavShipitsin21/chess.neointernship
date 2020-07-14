@@ -5,7 +5,6 @@ import neointernship.chess.game.gameplay.lobby.ILobby;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.player.IPlayer;
-import neointernship.chess.game.model.player.Player;
 import neointernship.chess.game.model.player.RandomBot;
 import neointernship.chess.logger.GameLogger;
 import neointernship.chess.logger.IGameLogger;

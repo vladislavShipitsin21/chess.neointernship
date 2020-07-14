@@ -1,7 +1,6 @@
 package neointernship.chess.game.model.figure.factory;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.piece.Bishop;
 import neointernship.chess.game.model.figure.piece.Figure;
 
 import java.lang.reflect.Constructor;

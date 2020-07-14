@@ -6,7 +6,6 @@ import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
 import neointernship.chess.game.gameplay.moveaction.movesrepository.MovesRepository;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.MoveState;
-
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;

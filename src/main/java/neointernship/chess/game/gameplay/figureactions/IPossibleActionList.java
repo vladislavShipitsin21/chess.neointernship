@@ -6,7 +6,10 @@ import neointernship.chess.game.model.playmap.field.IField;
 import java.util.Collection;
 
 public interface IPossibleActionList {
-    Collection<IField> getList(final Figure figure);
-    void updateLists();
+    Collection<IField> getPotentialList(final Figure figure);
+    void updatePotentialLists();
+
+    Collection<IField> getRealList(final Figure figure);
+    void updateRealLists();
 }
 

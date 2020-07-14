@@ -34,7 +34,7 @@ public class RandomBot implements IPlayer {
         do {
             index = random.nextInt(figures.size());
             figure = figures.get(index);
-            fields = (List<IField>) list.getList(figure);
+            fields = (List<IField>) list.getRealList(figure);
         } while (fields.isEmpty());
 
         index = random.nextInt(fields.size());

@@ -20,19 +20,17 @@ public final class KingIsAttackedComputation {
     }
 
     public boolean kingIsAttacked(Color color) {
-        boolean isKingAttacked = false;
         Figure king = mediator.getKing(color);
+        IField kingField = mediator.getField(king);
 
-        for (Figure figure : mediator.getFigures()) {
-            Collection<IField> collection = possibleActionList.getList(figure);
-            for (IField field : collection) {
-                if (Objects.equals(king, mediator.getFigure(field))) {
-                    isKingAttacked = true;
-                    break;
-                }
+        Color opponentColor = Color.swapColor(color);
+        for (Figure figure : mediator.getFigures(opponentColor)) {
+            Collection<IField> collection = possibleActionList.getPotentialList(figure);
+            if (collection.contains(kingField)) {
+                return true;
             }
         }
 
-        return isKingAttacked;
+        return false;
     }
 }

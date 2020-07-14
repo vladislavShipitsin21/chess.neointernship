@@ -1,12 +1,12 @@
 package neointernship.chess.game.gameplay.gamestate.controller;
 
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.state.GameState;
-import neointernship.chess.game.gameplay.gamestate.update.GameStateDefineLogic;
 import neointernship.chess.game.gameplay.gamestate.update.FiguresHaveMovesComputation;
+import neointernship.chess.game.gameplay.gamestate.update.GameStateDefineLogic;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.enums.KingState;
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 

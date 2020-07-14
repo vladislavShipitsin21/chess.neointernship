@@ -17,7 +17,7 @@ public class StartInfoGetter implements IStartInfoGetter {
 
     @Override
     public void setStartInfo() {
-        System.out.print("Type of chess (1 - classical; 2 - Fischer): ");
+        System.out.print("Type of neointernship.chess (1 - classical; 2 - Fischer): ");
         chessType = message.getMessage();
 
 

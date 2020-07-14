@@ -1,10 +1,10 @@
 package neointernship.chess.game.gameplay.kingstate.controller;
 
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputation;
 import neointernship.chess.game.gameplay.kingstate.update.KingStateDefineLogic;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.subscriber.ISubscriber;
@@ -29,7 +29,6 @@ public class KingsStateController implements IKingStateController {
             put(Color.BLACK, KingState.FREE);
         }};
 
-        this.activePlayer = activePlayer;
 
         subscribersList = new ArrayList<>();
 
@@ -41,7 +40,7 @@ public class KingsStateController implements IKingStateController {
         boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activePlayer.getColor());
 
         KingState newState = kingStateDefineLogic.getState(kingIsAttacked);
-        System.out.println(newState.toString());
+        System.out.println(activePlayer.getColor() + " KING STATUS UPDATED: " + newState.toString());
 
         if (newState != kingStateMap.get(activePlayer.getColor())) {
             for (ISubscriber currentSubscriber : subscribersList) {
@@ -55,6 +54,11 @@ public class KingsStateController implements IKingStateController {
     @Override
     public KingState getState() {
         return kingStateMap.get(activePlayer.getColor());
+    }
+
+    @Override
+    public void setActivePlayer(final IPlayer activePlayer) {
+        this.activePlayer = activePlayer;
     }
 
     @Override
