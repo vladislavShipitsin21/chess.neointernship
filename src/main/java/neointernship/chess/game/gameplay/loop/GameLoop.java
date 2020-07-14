@@ -81,8 +81,10 @@ public class GameLoop implements IGameLoop {
             activePlayer = activePlayerController.getNextPlayer();
             kingStateController.setActivePlayer(activePlayer);
             kingStateController.updateState();
-            consoleBoardWriter.printMatchResult(gameStateController.getState());
         }
+
+        consoleBoardWriter.printBoard();
+        consoleBoardWriter.printMatchResult(gameStateController.getState());
     }
 
     private void showAvailableMoves() {
@@ -93,7 +95,7 @@ public class GameLoop implements IGameLoop {
                 if (figure != null) {
                     System.out.println(figure.getName() + " " + figure.getColor());
                     for (IField field1 : possibleActionList.getRealList(figure)) {
-                        System.out.println(field1.getXCoord() + " " + field1.getYCoord());
+                        System.out.print("(" + field1.getXCoord() + ";" + field1.getYCoord() + ")" + " ");
                     }
                     System.out.print("\n");
                 }

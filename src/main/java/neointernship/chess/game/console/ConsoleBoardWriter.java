@@ -51,8 +51,5 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
 
     @Override
     public void printMatchResult(final GameState gameState) {
-        if (gameState.getValue() == EnumGameState.MATE) {
-            System.out.print("Match results\n. The winner is " + gameState.getColor());
-        }
     }
 }
