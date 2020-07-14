@@ -16,21 +16,19 @@ import java.util.Map;
 
 public class PossibleActionList implements IPossibleActionList {
     private final IMediator mediator;
-    private final IBoard board;
 
     private final IPotentialBasicPatterns potentialPatterns;
     private final IRealBasicPatterns realPatterns;
 
-    private final Map<Figure, Collection<IField>> realFigureActions;
-    private final Map<Figure, Collection<IField>> potentialFigureAction;
+    private Map<Figure, Collection<IField>> realFigureActions;
+    private Map<Figure, Collection<IField>> potentialFigureAction;
 
     public PossibleActionList(final IBoard board,
                               final IMediator mediator) {
-        this.board = board;
         this.mediator = mediator;
 
         this.potentialPatterns = new PotentialPotentialBasicPatterns(mediator, board);
-        this.realPatterns = new RealBasicPatterns(mediator, this);
+        this.realPatterns = new RealBasicPatterns(mediator, this, board);
 
         this.realFigureActions = new HashMap<>();
         this.potentialFigureAction = new HashMap<>();
@@ -38,6 +36,8 @@ public class PossibleActionList implements IPossibleActionList {
 
     @Override
     public void updatePotentialLists() {
+        potentialFigureAction = new HashMap<>();
+
         for (Figure figure : mediator.getFigures()) {
             potentialFigureAction.put(figure, new ArrayList<>());
 
@@ -53,6 +53,7 @@ public class PossibleActionList implements IPossibleActionList {
     @Override
     public void updateRealLists() {
         updatePotentialLists();
+        realFigureActions = new HashMap<>();
 
         for (Figure figure : mediator.getFigures()) {
             realFigureActions.put(figure, new ArrayList<>());

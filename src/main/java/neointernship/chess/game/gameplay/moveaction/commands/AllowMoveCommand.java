@@ -45,5 +45,4 @@ public class AllowMoveCommand implements IMoveCommand {
 
         return true;
     }
-
 }
