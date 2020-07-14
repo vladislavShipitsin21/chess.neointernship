@@ -1,16 +1,22 @@
 package neointernship.chess.client.message;
 
+import neointernship.chess.client.message.data.Data;
+
 import java.util.HashMap;
 
 public class MessageDto {
     private MessageCode messageCode;
-    private String mes;
-    private HashMap<Integer[], String> figureMap;
+    private Data data;
 
     public boolean validateMessageCode() throws Exception {
         if (messageCode == null) {
             throw new Exception("Код сообщения отсутствует");
         }
+
+        if (data == null){
+            throw new Exception("Данные отсутствуют");
+        }
+
         return true;
     }
 
@@ -18,11 +24,7 @@ public class MessageDto {
         return messageCode;
     }
 
-    public String getMes() {
-        return mes;
-    }
-
-    public HashMap<Integer[], String> getFigureMap() {
-        return figureMap;
+    public Data getData() {
+        return data;
     }
 }

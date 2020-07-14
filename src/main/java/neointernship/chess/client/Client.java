@@ -10,7 +10,6 @@ import java.util.concurrent.Exchanger;
 
 public class Client{
     public static final Exchanger<Message> exchanger = new Exchanger<>();
-    public static final ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Главная функция, начало работы клиента

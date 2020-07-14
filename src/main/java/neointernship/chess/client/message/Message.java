@@ -1,27 +1,21 @@
 package neointernship.chess.client.message;
 
-import java.util.HashMap;
+import neointernship.chess.client.message.data.Data;
 
-public class Message {
+public class Message<T> {
     private final MessageCode messageCode;
-    private final String mes;
-    private final HashMap<Integer[], String> figureMap;
+    private final Data<T> data;
 
-    public Message(final MessageCode messageCode, final String mes, final HashMap<Integer[], String> figureMap) {
+    public Message(final MessageCode messageCode, final Data<T> data) {
         this.messageCode = messageCode;
-        this.mes = mes;
-        this.figureMap = figureMap;
+        this.data = data;
     }
 
     public MessageCode getMessageCode() {
         return messageCode;
     }
 
-    public String getMes() {
-        return mes;
-    }
-
-    public HashMap<Integer[], String> getFigureMap() {
-        return figureMap;
+    public Data<T> getData() {
+        return data;
     }
 }

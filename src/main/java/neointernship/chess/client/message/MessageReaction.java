@@ -23,6 +23,7 @@ public class MessageReaction {
         messageReaction.put(MessageCode.PAINT, new MessageCodePaint());
         messageReaction.put(MessageCode.PICK_FIGURE, new MessageCodePickFigure());
         messageReaction.put(MessageCode.WIN, new MessageCodeWin());
+        messageReaction.put(MessageCode.TERN, new MessageCodeTern());
     }
 
     public HashMap<MessageCode, IMessageCode> getMessageReaction() {
