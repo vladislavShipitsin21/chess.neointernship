@@ -13,7 +13,8 @@ public class MessageReaction {
     }
 
     private void initMessageReaction(final HashMap<MessageCode, IMessageCode> messageReaction) {
-        messageReaction.put(MessageCode.CONNECT, new MessageCodeConnect());
+        //НУЖНО ОПРЕДЕЛИТЬСЯ С КЛАССАМИ И/ИЛИ ВОССТАНОВИТЬ ЭТИ КЛАССЫ
+        /*messageReaction.put(MessageCode.CONNECT, new MessageCodeConnect());
         messageReaction.put(MessageCode.DRAW, new MessageCodeDraw());
         messageReaction.put(MessageCode.ERROR, new MessageCodeError());
         messageReaction.put(MessageCode.FIGURES_LIST, new MessageCodeFiguresList());
@@ -22,7 +23,7 @@ public class MessageReaction {
         messageReaction.put(MessageCode.OK, new MessageCodeOk());
         messageReaction.put(MessageCode.PAINT, new MessageCodePaint());
         messageReaction.put(MessageCode.PICK_FIGURE, new MessageCodePickFigure());
-        messageReaction.put(MessageCode.WIN, new MessageCodeWin());
+        messageReaction.put(MessageCode.WIN, new MessageCodeWin());*/
         messageReaction.put(MessageCode.TERN, new MessageCodeTern());
     }
 

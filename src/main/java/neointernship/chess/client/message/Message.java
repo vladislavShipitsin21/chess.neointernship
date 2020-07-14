@@ -1,12 +1,14 @@
 package neointernship.chess.client.message;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import neointernship.chess.client.message.data.Data;
 
-public class Message<T> {
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+public class Message {
     private final MessageCode messageCode;
-    private final Data<T> data;
+    private final Data data;
 
-    public Message(final MessageCode messageCode, final Data<T> data) {
+    public Message(final MessageCode messageCode, final Data data) {
         this.messageCode = messageCode;
         this.data = data;
     }
@@ -15,7 +17,7 @@ public class Message<T> {
         return messageCode;
     }
 
-    public Data<T> getData() {
+    public Data getData() {
         return data;
     }
 }

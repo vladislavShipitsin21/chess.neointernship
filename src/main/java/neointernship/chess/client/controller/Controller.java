@@ -16,7 +16,8 @@ public class Controller implements Runnable{
 
     @Override
     public void run() {
-        startConnection();
+        //----------------------------------НУЖЕН КОННЕКТ СО СТОРОНЫ СЕРВЕРА-------------------------------------------
+        /*startConnection();
 
         while (true) {
             try {
@@ -28,7 +29,7 @@ public class Controller implements Runnable{
             } catch (final Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     private void startConnection() {
