@@ -50,15 +50,14 @@ public class GameLoop implements IGameLoop {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;
+        this.gameLogger = gameLogger;
 
         activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
-        gameStateController = new GameStateController(possibleActionList, mediator);
+        gameStateController = new GameStateController(possibleActionList, mediator, gameLogger);
         gameProcessController = new GameProcessController(mediator, possibleActionList, board);
         kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
-
-        this.gameLogger = gameLogger;
     }
 
     /**
@@ -84,7 +83,7 @@ public class GameLoop implements IGameLoop {
         }
 
         consoleBoardWriter.printBoard();
-        consoleBoardWriter.printMatchResult(gameStateController.getState());
+        gameStateController.showResults();
     }
 
     private void showAvailableMoves() {

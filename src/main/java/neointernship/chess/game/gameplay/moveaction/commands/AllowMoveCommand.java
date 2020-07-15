@@ -28,12 +28,12 @@ public class AllowMoveCommand implements IMoveCommand {
 
 
     @Override
-    public boolean execute(IPlayer player, IAnswer answer, IGameLogger gameLogger) {
-        IField startField = board.getField(answer.getStartX(), answer.getStartY());
-        IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
+    public boolean execute(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
+        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 
-        Figure startFigure = mediator.getFigure(startField);
-        Figure finalFigure = mediator.getFigure(finalField);
+        final Figure startFigure = mediator.getFigure(startField);
+        final Figure finalFigure = mediator.getFigure(finalField);
 
         mediator.deleteConnection(startField);
         if (finalFigure != null) {
@@ -42,6 +42,8 @@ public class AllowMoveCommand implements IMoveCommand {
         mediator.addNewConnection(finalField, startFigure);
 
         possibleActionList.updateRealLists();
+
+        gameLogger.logPlayerMoveAction(player, startFigure, startField, finalField);
 
         return true;
     }

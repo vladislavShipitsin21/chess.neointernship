@@ -13,7 +13,7 @@ public enum MessageCode {
     //Коды для игрового процесса
     PICK_FIGURE,
     MOVE_FIGURE,
-    TERN,
+    TURN,
 
     //Коды окончания игры
     WIN,
