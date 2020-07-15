@@ -5,5 +5,5 @@ import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.logger.IGameLogger;
 
 public interface IMoveCommand {
-    boolean execute(IPlayer player, IAnswer answer, IGameLogger gameLogger);
+    boolean execute(IPlayer player, IAnswer answer);
 }

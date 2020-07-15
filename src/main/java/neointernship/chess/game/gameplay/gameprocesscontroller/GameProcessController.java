@@ -24,7 +24,8 @@ public class GameProcessController implements IGameProcessController {
 
     public GameProcessController(final IMediator mediator,
                                  final IPossibleActionList possibleActionList,
-                                 final IBoard board) {
+                                 final IBoard board,
+                                 final IGameLogger gameLogger) {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;
@@ -34,10 +35,10 @@ public class GameProcessController implements IGameProcessController {
     }
 
     @Override
-    public void makeTurn(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
+    public void makeTurn(final IPlayer player, final IAnswer answer) {
         final MoveState moveState = moveCorrectnessValidator.check(player.getColor(), answer);
         final IMoveCommand moveCommand = movesRepository.getCommand(moveState);
-        playerDidMove = moveCommand.execute(player, answer, gameLogger);
+        playerDidMove = moveCommand.execute(player, answer);
     }
 
     @Override

@@ -52,7 +52,7 @@ public class FiguresStartPositionRepository {
             }
         }
 
-        return startPosition; // todo
+        return startPosition;
     }
 
     private String pawns(){

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestActionsFreePath {
-/*
+
     private void checkPosition(Figure figure,IField field,IField[] expected){
 
         Board board = new Board();
@@ -28,9 +28,9 @@ public class TestActionsFreePath {
 
         IPossibleActionList possibleActionList = new PossibleActionList(board,mediator);
 
-        possibleActionList.updateLists();
+        possibleActionList.updateRealLists();
 
-        List<IField> resultList = (List<IField>) possibleActionList.getList(figure);
+        List<IField> resultList = (List<IField>) possibleActionList.getRealList(figure);
 
         List<IField> expectedList = Arrays.stream(expected).collect(Collectors.toList());
 
@@ -138,5 +138,5 @@ public class TestActionsFreePath {
 
         checkPosition(figure,field,expected);
     }
-*/
+
 }

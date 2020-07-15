@@ -53,7 +53,7 @@ public class GameLoop implements IGameLoop {
 
         activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
         gameStateController = new GameStateController(possibleActionList, mediator);
-        gameProcessController = new GameProcessController(mediator, possibleActionList, board);
+        gameProcessController = new GameProcessController(mediator, possibleActionList, board,gameLogger);
         kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
@@ -74,7 +74,7 @@ public class GameLoop implements IGameLoop {
 
             do {
                 IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                gameProcessController.makeTurn(activePlayer, answer, gameLogger);
+                gameProcessController.makeTurn(activePlayer, answer);
 
             } while (!gameProcessController.playerDidMove());
 

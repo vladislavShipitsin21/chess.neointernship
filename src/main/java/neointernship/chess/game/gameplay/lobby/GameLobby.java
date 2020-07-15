@@ -33,7 +33,7 @@ public class GameLobby implements ILobby {
         board = new Board();
         figureFactory = new Factory();
         mediator = new Mediator();
-        possibleActionList = new PossibleActionList(board, mediator); // todo создание с пустым mediator
+        possibleActionList = new PossibleActionList(board, mediator);
 
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();

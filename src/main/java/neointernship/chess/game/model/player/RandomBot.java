@@ -42,6 +42,13 @@ public class RandomBot implements IPlayer {
 
         IField startField = mediator.getField(figure);
 
+
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         return new Answer(startField.getXCoord(), startField.getYCoord(),
                 finalField.getXCoord(), finalField.getYCoord());
     }

@@ -28,7 +28,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
 
     @Override
-    public boolean execute(IPlayer player, IAnswer answer, IGameLogger gameLogger) {
+    public boolean execute(IPlayer player, IAnswer answer) {
         IField startField = board.getField(answer.getStartX(), answer.getStartY());
         IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 

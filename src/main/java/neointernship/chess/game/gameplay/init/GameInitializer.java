@@ -13,14 +13,15 @@ import neointernship.chess.logger.IGameLogger;
 public class GameInitializer implements IGameInitializer {
     private final ILobby gameLobby;
 
-    public GameInitializer() {
+    public GameInitializer(int numberGame) {
+
         final IPlayer firstPlayer = new Player("Player 1", Color.WHITE);
         final IPlayer secondPlayer = new Player("Player 2", Color.BLACK);
         final ChessType chessType = ChessType.CLASSIC;
 
-        final IGameLogger gameLogger = new GameLogger(0);
+        final IGameLogger gameLogger = new GameLogger(numberGame);
 
-        gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType, gameLogger);
+        gameLobby = new GameLobby(firstPlayer, secondPlayer, chessType,gameLogger);
     }
 
     @Override
