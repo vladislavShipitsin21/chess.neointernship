@@ -1,6 +1,6 @@
 package neointernship.chess.game.gameplay.figureactions;
 
-import neointernship.chess.game.gameplay.figureactions.patterns.potential.PotentialPotentialBasicPatterns;
+import neointernship.chess.game.gameplay.figureactions.patterns.potential.PotentialBasicPatterns;
 import neointernship.chess.game.gameplay.figureactions.patterns.potential.IPotentialBasicPatterns;
 import neointernship.chess.game.gameplay.figureactions.patterns.real.IRealBasicPatterns;
 import neointernship.chess.game.gameplay.figureactions.patterns.real.RealBasicPatterns;
@@ -8,11 +8,9 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.game.story.IStoryGame;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PossibleActionList implements IPossibleActionList {
     private final IMediator mediator;
@@ -23,12 +21,17 @@ public class PossibleActionList implements IPossibleActionList {
     private Map<Figure, Collection<IField>> realFigureActions;
     private Map<Figure, Collection<IField>> potentialFigureAction;
 
+    private IStoryGame storyGame;
+
     public PossibleActionList(final IBoard board,
-                              final IMediator mediator) {
+                              final IMediator mediator,
+                              final IStoryGame storyGame) {
         this.mediator = mediator;
 
-        this.potentialPatterns = new PotentialPotentialBasicPatterns(mediator, board);
-        this.realPatterns = new RealBasicPatterns(mediator, this, board);
+        this.storyGame = storyGame;
+
+        this.potentialPatterns = new PotentialBasicPatterns(mediator, board,storyGame);
+        this.realPatterns = new RealBasicPatterns(mediator, this, board,storyGame);
 
         this.realFigureActions = new HashMap<>();
         this.potentialFigureAction = new HashMap<>();
@@ -36,7 +39,7 @@ public class PossibleActionList implements IPossibleActionList {
 
     @Override
     public void updatePotentialLists() {
-        potentialFigureAction = new HashMap<>();
+        potentialFigureAction.clear();
 
         for (Figure figure : mediator.getFigures()) {
             potentialFigureAction.put(figure, new ArrayList<>());
@@ -53,7 +56,7 @@ public class PossibleActionList implements IPossibleActionList {
     @Override
     public void updateRealLists() {
         updatePotentialLists();
-        realFigureActions = new HashMap<>();
+        realFigureActions.clear();
 
         for (Figure figure : mediator.getFigures()) {
             realFigureActions.put(figure, new ArrayList<>());
@@ -69,4 +72,16 @@ public class PossibleActionList implements IPossibleActionList {
         return potentialFigureAction.get(figure);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PossibleActionList that = (PossibleActionList) o;
+        return  Objects.equals(realFigureActions, that.realFigureActions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mediator, realFigureActions);
+    }
 }

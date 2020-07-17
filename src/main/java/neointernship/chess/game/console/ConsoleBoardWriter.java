@@ -48,8 +48,4 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
             System.out.print("\n\n");
         }
     }
-
-    @Override
-    public void printMatchResult(final GameState gameState) {
-    }
 }

@@ -14,6 +14,8 @@ import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.board.figuresstartposition.FiguresStartPositionRepository;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.game.story.IStoryGame;
+import neointernship.chess.game.story.StoryGame;
 import neointernship.chess.logger.IGameLogger;
 
 public class GameLobby implements ILobby {
@@ -28,17 +30,22 @@ public class GameLobby implements ILobby {
 
     private final IGameLoop gameLoop;
 
+    private final IStoryGame storyGame;
+
+
     public GameLobby(final IPlayer firstPlayer, final IPlayer secondPlayer,
                      final ChessType chessType, final IGameLogger gameLogger) {
         board = new Board();
         figureFactory = new Factory();
         mediator = new Mediator();
-        possibleActionList = new PossibleActionList(board, mediator);
+        this.storyGame = new StoryGame(mediator);
+        possibleActionList = new PossibleActionList(board, mediator,storyGame);
 
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();
 
-        gameLoop = new GameLoop(mediator, possibleActionList, board, firstPlayer, secondPlayer, gameLogger);
+        gameLoop = new GameLoop(mediator, possibleActionList, board, firstPlayer,
+                                secondPlayer, gameLogger,storyGame);
 
         gameLogger.logStartGame(firstPlayer, secondPlayer);
 

@@ -14,9 +14,10 @@ public class Main {
      */
     public static void main(final String[] args) {
 
-        final GameInitializer game = new GameInitializer(0);
-        game.start();
-        /*Selfplay selfplay = new Selfplay();
-        selfplay.start();*/
+        /*final GameInitializer game = new GameInitializer(0);
+        game.start();*/
+
+        Selfplay selfplay = new Selfplay();
+        selfplay.start(1);
     }
 }

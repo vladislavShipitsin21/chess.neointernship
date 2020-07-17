@@ -3,6 +3,7 @@
 
 # Log file
 *.log
+gameLog*.txt
 
 # Package Files #
 *.jar

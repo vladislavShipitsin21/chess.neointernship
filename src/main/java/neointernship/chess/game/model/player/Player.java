@@ -35,6 +35,6 @@ public class Player implements IPlayer {
     }
 
     public String getName() {
-        return name;
+        return name + " " + color;
     }
 }

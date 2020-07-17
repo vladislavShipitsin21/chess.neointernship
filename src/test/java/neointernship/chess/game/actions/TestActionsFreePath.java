@@ -1,4 +1,4 @@
-package neointernship.chess.model.figure.actions;
+package neointernship.chess.game.actions;
 
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
@@ -8,6 +8,7 @@ import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.game.story.StoryGame;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class TestActionsFreePath {
 
         mediator.addNewConnection(field,figure);
 
-        IPossibleActionList possibleActionList = new PossibleActionList(board,mediator);
+        IPossibleActionList possibleActionList = new PossibleActionList(board,mediator,new StoryGame(mediator));
 
         possibleActionList.updateRealLists();
 

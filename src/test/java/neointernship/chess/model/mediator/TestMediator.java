@@ -1,5 +1,6 @@
 package neointernship.chess.model.mediator;
 
+import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Bishop;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -13,9 +14,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class TestMediator {
@@ -78,6 +80,56 @@ public class TestMediator {
 
         assertEquals(resultFigure,king);
         assertEquals(resultField,fieldK);
+
+    }
+    @Test
+    public void testConnections(){
+        // срубаю ферзем слона
+        mediator.deleteConnection(fieldB);
+        mediator.addNewConnection(fieldB,figureQ);
+        mediator.deleteConnection(fieldQ);
+
+        assertEquals(1,mediator.getFigures().size());
+        assertEquals(1,mediator.getFigures(Color.WHITE).size());
+        assertEquals(0,mediator.getFigures(Color.BLACK).size());
+    }
+
+    @Test
+    public void testEqualsMediator(){
+
+        HashMap<Position,Integer> map = new HashMap<>();
+
+
+        Mediator newMediator = new Mediator(mediator);
+        assertEquals(mediator, newMediator);
+
+        Position position = new Position(mediator);
+
+        assertNull(map.get(position));
+        map.put(position,1);
+
+        Position newPosition = new Position(newMediator);
+        assertNotNull(map.get(newPosition));
+        map.put(newPosition,2);
+
+        assertEquals(position,newPosition);
+
+        newMediator.deleteConnection(fieldQ);
+        newMediator.addNewConnection(fieldQ,figureQ);
+
+        Position copyPosition = new Position(newMediator);
+
+
+        assertEquals(mediator, newMediator);
+        assertEquals(position,copyPosition);
+
+        assertNotNull(map.get(copyPosition));
+
+        assertEquals(1,map.size());
+
+    }
+    @Test
+    public void testEqualsPosition(){
 
     }
 }

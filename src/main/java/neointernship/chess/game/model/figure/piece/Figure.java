@@ -44,4 +44,9 @@ public abstract class Figure {
     public short getPrice() {
         return price;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        return (this == o);
+    }
 }

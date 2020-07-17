@@ -10,6 +10,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
+import java.util.Collection;
 import java.util.Objects;
 
 public class MoveCorrectnessValidator {
@@ -28,28 +29,26 @@ public class MoveCorrectnessValidator {
     }
 
     public MoveState check(final Color color, final IAnswer answer) {
-        MoveState moveState = MoveState.RESTRICT;
 
         IField startField = board.getField(answer.getStartX(), answer.getStartY());
         IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
         Figure startFigure = mediator.getFigure(startField);
-        Figure finalFigure = mediator.getFigure(finalField);
 
         if (startFigure == null || startFigure.getColor() != color) {
-            return moveState;
+            return MoveState.RESTRICT;
         }
 
         for (Figure currentFigure : mediator.getFigures()) {
             if (currentFigure == startFigure) {
-                for (IField field : possibleActionList.getRealList(currentFigure)) {
-                    if (Objects.equals(field, finalField)) {
-                        moveState = MoveState.ALLOWED;
-                        break;
+
+                Collection<IField> fields = possibleActionList.getRealList(currentFigure);
+
+                    if(fields.contains(finalField)){
+                        return MoveState.ALLOWED;
                     }
                 }
-            }
         }
 
-        return moveState;
+        return MoveState.RESTRICT;
     }
 }
