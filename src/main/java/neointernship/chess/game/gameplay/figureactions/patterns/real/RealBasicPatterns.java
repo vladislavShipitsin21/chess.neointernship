@@ -4,6 +4,7 @@ import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputation;
 import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -33,6 +34,7 @@ public class RealBasicPatterns implements IRealBasicPatterns {
 
     @Override
     public Collection<IField> getRealMoveList(Figure figure, Collection<IField> potentialMoveList) {
+
         ArrayList<IField> realList = new ArrayList<>();
         IField startField = mediator.getField(figure);
 
@@ -40,25 +42,46 @@ public class RealBasicPatterns implements IRealBasicPatterns {
 
             IMediator newMediator = new Mediator(mediator);
             IStoryGame newStoryGame = new StoryGame((StoryGame) storyGame);
-            IPossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator,newStoryGame);
+            IPossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
 
-            Figure finalFigure = newMediator.getFigure(finalField);
+            // если это рокировка то необходимо проверить 3 клетки
+            if (figure.getClass() == King.class &&
+                    Math.abs(startField.getYCoord() - finalField.getYCoord()) == 2) {
 
-            newMediator.deleteConnection(startField);
-            if (finalFigure != null) {
-                newMediator.deleteConnection(finalField);
-            }
-            newMediator.addNewConnection(finalField, figure);
-            newStoryGame.update(mediator.getFigure(startField));
-            newPossibleActionList.updatePotentialLists();
+                Collection<IField> forCastling = new ArrayList<>();
 
-            kingIsAttackedComputation = new KingIsAttackedComputation(newPossibleActionList, newMediator);
+                int dif = startField.getYCoord() < finalField.getYCoord() ? 1 : -1;
 
-            if (!kingIsAttackedComputation.kingIsAttacked(figure.getColor())) {
-                realList.add(finalField);
+                forCastling.add(startField);
+                forCastling.add(board.getField(startField.getXCoord(), startField.getYCoord() + dif));
+                forCastling.add(finalField);
+
+                boolean isAttack = false;
+                kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
+                for(IField tempField : forCastling){
+                    isAttack |= kingIsAttackedComputation.fieldIsAttacked(tempField,figure.getColor());
+                }
+                if(!isAttack) realList.add(finalField);
+            } else {
+
+
+                Figure finalFigure = newMediator.getFigure(finalField);
+
+                newMediator.deleteConnection(startField);
+                if (finalFigure != null) {
+                    newMediator.deleteConnection(finalField);
+                }
+                newMediator.addNewConnection(finalField, figure);
+                newStoryGame.update(mediator.getFigure(startField));
+                newPossibleActionList.updatePotentialLists();
+
+                kingIsAttackedComputation = new KingIsAttackedComputation(newPossibleActionList, newMediator);
+
+                if (!kingIsAttackedComputation.kingIsAttacked(figure.getColor())) {
+                    realList.add(finalField);
+                }
             }
         }
-
         return realList;
     }
 }

@@ -30,6 +30,7 @@ public class DrawController {
         drawControllers.add(new DrawOnlyKing());
         drawControllers.add(new DrawFewFigure());
         drawControllers.add(new DrawRepetitionPosition());
+        drawControllers.add(new DrawFiftyStep(storyGame));
     }
 
     public boolean isDraw() {

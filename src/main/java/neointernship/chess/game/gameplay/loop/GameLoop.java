@@ -73,7 +73,7 @@ public class GameLoop implements IGameLoop {
     public void activate() {
         kingStateController.addToSubscriber((ISubscriberKing) gameStateController);
 
-        while (gameStateController.isMatchAlive() && !drawController.isDraw()) {
+        /*while (gameStateController.isMatchAlive() && !drawController.isDraw()) {
             showAvailableMoves();
             consoleBoardWriter.printBoard();
 
@@ -86,7 +86,22 @@ public class GameLoop implements IGameLoop {
             activePlayer = activePlayerController.getNextPlayer();
             kingStateController.setActivePlayer(activePlayer);
             kingStateController.updateState();
-        }
+        }*/
+        do {
+            showAvailableMoves();
+            consoleBoardWriter.printBoard();
+
+            do {
+                IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
+                gameProcessController.makeTurn(activePlayer, answer);
+
+            } while (!gameProcessController.playerDidMove());
+
+            activePlayer = activePlayerController.getNextPlayer();
+            kingStateController.setActivePlayer(activePlayer);
+            kingStateController.updateState();
+        }while (gameStateController.isMatchAlive() && !drawController.isDraw());
+
         if(drawController.isDraw()){
             drawController.showResults();
         }

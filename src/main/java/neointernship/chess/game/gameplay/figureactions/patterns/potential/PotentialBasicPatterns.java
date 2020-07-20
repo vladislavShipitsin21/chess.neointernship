@@ -219,8 +219,6 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
                 }
             }
         }
-
-
         return possibleAttackFields;
     }
 
