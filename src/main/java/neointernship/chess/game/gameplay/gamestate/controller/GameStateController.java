@@ -55,6 +55,11 @@ public class GameStateController implements ISubscriber, IGameStateController {
     }
 
     @Override
+    public GameState getState() {
+        return currentState;
+    }
+
+    @Override
     public void update(Color color, KingState kingState) {
         boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
         currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);

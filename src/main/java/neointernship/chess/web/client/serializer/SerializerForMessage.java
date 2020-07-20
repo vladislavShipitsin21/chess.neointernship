@@ -1,9 +1,9 @@
-package neointernship.chess.client.serializer;
+package neointernship.chess.web.client.serializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import neointernship.chess.client.message.Message;
-import neointernship.chess.client.message.MessageDto;
+import neointernship.chess.web.client.message.Message;
+import neointernship.chess.web.client.message.MessageDto;
 
 public final class SerializerForMessage {
     private static final ObjectMapper objectMapper = new ObjectMapper();

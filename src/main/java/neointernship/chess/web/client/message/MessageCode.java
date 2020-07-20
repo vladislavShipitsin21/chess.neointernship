@@ -1,4 +1,4 @@
-package neointernship.chess.client.message;
+package neointernship.chess.web.client.message;
 
 public enum MessageCode {
     //Системные коды

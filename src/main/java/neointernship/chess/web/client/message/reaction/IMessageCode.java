@@ -1,6 +1,6 @@
-package neointernship.chess.client.message.reaction;
+package neointernship.chess.web.client.message.reaction;
 
-import neointernship.chess.client.message.Message;
+import neointernship.chess.web.client.message.Message;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

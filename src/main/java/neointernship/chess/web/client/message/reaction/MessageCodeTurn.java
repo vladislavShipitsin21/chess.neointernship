@@ -1,15 +1,15 @@
-package neointernship.chess.client.message.reaction;
+package neointernship.chess.web.client.message.reaction;
 
-import neointernship.chess.client.message.Message;
-import neointernship.chess.client.message.MessageCode;
-import neointernship.chess.client.message.data.Data;
-import neointernship.chess.client.message.data.Turn;
-import neointernship.chess.client.serializer.SerializerForMessage;
+import neointernship.chess.web.client.message.Message;
+import neointernship.chess.web.client.message.MessageCode;
+import neointernship.chess.web.client.message.data.Data;
+import neointernship.chess.web.client.message.data.Turn;
+import neointernship.chess.web.client.serializer.SerializerForMessage;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 
-import static neointernship.chess.client.Client.exchanger;
+import static neointernship.chess.web.client.Client.exchanger;
 
 public class MessageCodeTurn implements IMessageCode {
     @Override

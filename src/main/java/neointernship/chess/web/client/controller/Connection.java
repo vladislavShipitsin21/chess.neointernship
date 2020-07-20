@@ -1,6 +1,4 @@
-package neointernship.chess.client.controller;
-
-import neointernship.chess.client.message.MessageReaction;
+package neointernship.chess.web.client.controller;
 
 import java.io.*;
 import java.net.Socket;

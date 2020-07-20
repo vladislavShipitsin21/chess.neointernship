@@ -1,8 +1,6 @@
-package neointernship.chess.client.message;
+package neointernship.chess.web.client.message;
 
-import neointernship.chess.client.message.data.Data;
-
-import java.util.HashMap;
+import neointernship.chess.web.client.message.data.Data;
 
 public class MessageDto {
     private MessageCode messageCode;

@@ -1,7 +1,7 @@
-package neointernship.chess.client.message;
+package neointernship.chess.web.client.message;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import neointernship.chess.client.message.data.Data;
+import neointernship.chess.web.client.message.data.Data;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Message {

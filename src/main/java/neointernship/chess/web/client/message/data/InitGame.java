@@ -1,9 +1,9 @@
-package neointernship.chess.client.message.data;
+package neointernship.chess.web.client.message.data;
 
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 
-public class InitGame implements Data{
+public class InitGame implements Data {
     private Object[] objects;
     private IBoard board;
     private IMediator mediator;

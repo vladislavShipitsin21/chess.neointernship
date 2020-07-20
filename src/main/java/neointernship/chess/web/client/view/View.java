@@ -1,4 +1,4 @@
-package neointernship.chess.client.view;
+package neointernship.chess.web.client.view;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -8,9 +8,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import static neointernship.chess.client.Client.exchanger;
+import static neointernship.chess.web.client.Client.exchanger;
 
-public class View extends Application implements Runnable{
+public class View extends Application implements Runnable {
     @Override
     public void run() {
         Application.launch();

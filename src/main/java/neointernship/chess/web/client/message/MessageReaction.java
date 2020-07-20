@@ -1,6 +1,6 @@
-package neointernship.chess.client.message;
+package neointernship.chess.web.client.message;
 
-import neointernship.chess.client.message.reaction.*;
+import neointernship.chess.web.client.message.reaction.*;
 
 import java.util.HashMap;
 

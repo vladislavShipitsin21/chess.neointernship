@@ -9,14 +9,13 @@ import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessContro
 import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessController;
 import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.IGameStateController;
+import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 import neointernship.chess.logger.IGameLogger;
 
@@ -58,47 +57,33 @@ public class GameLoop implements IGameLoop {
         kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
+        kingStateController.addToSubscriber((ISubscriber) gameStateController);
     }
 
     /**
      * Активация главного игрового цикла.
      */
     @Override
-    public void activate() {
-        kingStateController.addToSubscriber((ISubscriber) gameStateController);
+    public void doIteration(final IAnswer answer) {
+        do {
+            gameProcessController.makeTurn(activePlayer, answer, gameLogger);
+        } while (!gameProcessController.playerDidMove());
 
-        while (gameStateController.isMatchAlive()) {
-            showAvailableMoves();
-            consoleBoardWriter.printBoard();
-
-            do {
-                IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                gameProcessController.makeTurn(activePlayer, answer, gameLogger);
-
-            } while (!gameProcessController.playerDidMove());
-
-            activePlayer = activePlayerController.getNextPlayer();
-            kingStateController.setActivePlayer(activePlayer);
-            kingStateController.updateState();
-        }
+        activePlayer = activePlayerController.getCurrentPlayer();
+        kingStateController.setActivePlayer(activePlayer);
+        kingStateController.updateState();
 
         consoleBoardWriter.printBoard();
         gameStateController.showResults();
     }
 
-    private void showAvailableMoves() {
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                IField field = board.getField(i, j);
-                Figure figure = mediator.getFigure(field);
-                if (figure != null) {
-                    System.out.println(figure.getName() + " " + figure.getColor());
-                    for (IField field1 : possibleActionList.getRealList(figure)) {
-                        System.out.print("(" + field1.getXCoord() + ";" + field1.getYCoord() + ")" + " ");
-                    }
-                    System.out.print("\n");
-                }
-            }
-        }
+    @Override
+    public boolean isAlive() {
+        return gameStateController.isMatchAlive();
+    }
+
+    @Override
+    public IGameState getMatchResult() {
+        return gameStateController.getState();
     }
 }

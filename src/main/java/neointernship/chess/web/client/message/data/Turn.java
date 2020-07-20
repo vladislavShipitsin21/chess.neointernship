@@ -1,4 +1,4 @@
-package neointernship.chess.client.message.data;
+package neointernship.chess.web.client.message.data;
 
 import neointernship.chess.game.model.answer.Answer;
 import neointernship.chess.game.model.answer.IAnswer;

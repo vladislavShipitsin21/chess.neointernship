@@ -1,4 +1,4 @@
-package neointernship.chess.client.message.data;
+package neointernship.chess.web.client.message.data;
 
 public class TernFromView implements Data<Integer[]> {
     private final Integer[] integers;

@@ -12,12 +12,17 @@ public class ActivePlayerController implements IActivePlayerController {
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
 
-        currentPlayer = firstPlayer;
+        currentPlayer = null;
+    }
+
+
+    @Override
+    public void update() {
+        currentPlayer = (currentPlayer != firstPlayer) ? firstPlayer : secondPlayer;
     }
 
     @Override
-    public IPlayer getNextPlayer() {
-        currentPlayer = (currentPlayer == firstPlayer) ? secondPlayer : firstPlayer;
+    public IPlayer getCurrentPlayer() {
         return currentPlayer;
     }
 }
