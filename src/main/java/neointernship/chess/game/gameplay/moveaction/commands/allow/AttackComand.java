@@ -23,4 +23,9 @@ public class AttackComand extends AbstractCommand implements IAllowCommand{
         mediator.deleteConnection(finalField);
         mediator.addNewConnection(finalField, startFigure);
     }
+
+    @Override
+    public String getNameCommand() {
+        return "атака";
+    }
 }

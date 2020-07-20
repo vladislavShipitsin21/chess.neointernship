@@ -47,4 +47,9 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
         mediator.addNewConnection(finalFieldRook,rook);
 
     }
+
+    @Override
+    public String getNameCommand() {
+        return "рокировка";
+    }
 }

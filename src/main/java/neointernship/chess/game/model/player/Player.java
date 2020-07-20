@@ -27,7 +27,7 @@ public class Player implements IPlayer {
         return new Answer(Integer.parseInt(strArr[0]),
                 Integer.parseInt(strArr[1]),
                 Integer.parseInt(strArr[2]),
-                Integer.parseInt(strArr[3]));
+                Integer.parseInt(strArr[3]),'Q');
     }
 
     public Color getColor() {

@@ -56,6 +56,9 @@ public class GameStateController implements ISubscriberKing, IGameStateControlle
     @Override
     public void update(Color color, KingState kingState) {
         boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
+        if(!figuresHaveMoves){
+            System.out.println();
+        }
         currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);
 
         System.out.format("Game status updated: %s\n", currentState.getValue());

@@ -6,6 +6,8 @@ import neointernship.chess.game.story.IStoryGame;
 
 public class DrawFiftyStep implements IDrawController {
 
+    private static final String MESSAGE = "50 ходов без взятия и хода пешки";
+
     private final static Integer MAX_COUNT_STEP = 50;
     private final IStoryGame storyGame;
     private int countStep;
@@ -33,5 +35,10 @@ public class DrawFiftyStep implements IDrawController {
             lastSizeMediator = newSizeMediator;
         }
         return countStep >= MAX_COUNT_STEP;
+    }
+
+    @Override
+    public String getMessage() {
+        return MESSAGE;
     }
 }

@@ -18,7 +18,7 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
     private final IBoard board;
     private final IStoryGame storyGame;
 
-    public PotentialBasicPatterns(IMediator mediator, IBoard board, IStoryGame storyGame) {
+    public PotentialBasicPatterns(final IMediator mediator,final IBoard board,final IStoryGame storyGame) {
         this.mediator = mediator;
         this.board = board;
         boardSize = board.getSize();

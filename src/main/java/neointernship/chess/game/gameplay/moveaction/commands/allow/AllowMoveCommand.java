@@ -67,6 +67,8 @@ public class AllowMoveCommand implements IMoveCommand {
 
         storyGame.update(startFigure);
 
+        IAllowCommand currentComand = null;
+
         boolean flag = false;
 
         if(     startFigure.getClass() == Pawn.class &&
@@ -75,37 +77,36 @@ public class AllowMoveCommand implements IMoveCommand {
                 finalField.getXCoord() == 0
                 )
         ){
-            transformationCommand.execute(answer);
-            System.out.println("Transforme");
+            currentComand = transformationCommand;
             flag = true;
         }
 
         if(finalFigure != null && !flag) {
-            attackComand.execute(answer);
+            currentComand = attackComand;
             flag = true;
-            System.out.println("Attack");
         }
         if(!flag && startFigure.getClass() == King.class &&
                     Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1){
-                castlingCommand.execute(answer);
-                flag = true;
-                System.out.println("Castling");
+            currentComand = castlingCommand;
+            flag = true;
+
         }
         if(!flag && startFigure.getClass() == Pawn.class &&
                     Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1){
-                aisleTakeCommand.execute(answer);
-                flag = true;
-                System.out.println("Aisle take");
+            currentComand = aisleTakeCommand;
+            flag = true;
         }
         if(!flag){
-                moveCommand.execute(answer);
-                System.out.println("Move");
-        }
+            currentComand = moveCommand;
 
+        }
+        currentComand.execute(answer); // делаю ход
+
+        gameLogger.logPlayerMoveAction(player, startFigure, startField, finalField,currentComand);
 
         possibleActionList.updateRealLists();
 
-        gameLogger.logPlayerMoveAction(player, startFigure, startField, finalField);
+
 
         return true;
     }

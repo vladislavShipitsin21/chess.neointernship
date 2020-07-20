@@ -47,8 +47,8 @@ public class RandomBot extends Player{
 //        }
 
         IAnswer answer = new Answer(startField.getXCoord(), startField.getYCoord(),
-                finalField.getXCoord(), finalField.getYCoord());
-        //printAnswer(answer);
+                finalField.getXCoord(), finalField.getYCoord(),'Q');
+        printAnswer(answer);
         return answer;
     }
 

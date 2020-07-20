@@ -5,5 +5,6 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.story.IStoryGame;
 
 public interface IDrawController {
-    boolean isDraw(IMediator mediator);
+    boolean isDraw(final IMediator mediator);
+    String getMessage();
 }

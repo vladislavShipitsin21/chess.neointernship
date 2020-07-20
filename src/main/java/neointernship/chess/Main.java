@@ -18,6 +18,6 @@ public class Main {
         game.start();
 
         /*Selfplay selfplay = new Selfplay();
-        selfplay.start(1);*/
+        selfplay.start(10);*/
     }
 }

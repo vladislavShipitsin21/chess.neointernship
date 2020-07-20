@@ -33,8 +33,7 @@ public class Field implements IField {
      * @return
      */
     private Color initColor(){
-        if( (x + y) % 2 == 0) return Color.WHITE;
-        return Color.BLACK;
+        return (x + y) % 2 == 0 ? Color.WHITE : Color.BLACK;
     }
 
     @Override

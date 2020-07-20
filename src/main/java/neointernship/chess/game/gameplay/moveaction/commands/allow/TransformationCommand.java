@@ -26,13 +26,17 @@ public class TransformationCommand extends AbstractCommand implements IAllowComm
 
         final Figure finalFigure = mediator.getFigure(finalField);
 
-        // todo по умолчанию превращение в ферзя
-        Figure newFigure = new Factory().createFigure('Q',color);
+        Figure newFigure = new Factory().createFigure(answer.getSimbol(),color);
 
         mediator.deleteConnection(startField);
         if(finalFigure != null){
             mediator.deleteConnection(finalField);
         }
         mediator.addNewConnection(finalField,newFigure);
+    }
+
+    @Override
+    public String getNameCommand() {
+        return "превращение пешки";
     }
 }

@@ -1,6 +1,8 @@
 package neointernship.chess.logger;
 
 
+import neointernship.chess.game.gameplay.gamestate.controller.draw.IDrawController;
+import neointernship.chess.game.gameplay.moveaction.commands.allow.IAllowCommand;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.player.IPlayer;
@@ -17,7 +19,8 @@ public class GameLogger implements IGameLogger{
     final Logger logger;
 
     public GameLogger(final int lobbyId) {
-        this.logger = Logger.getLogger(GameLogger.class);
+//        this.logger = Logger.getLogger(GameLogger.class);
+        this.logger = Logger.getLogger(lobbyId + "");
 
         try {
             final PatternLayout patternLayout = new PatternLayout();
@@ -36,8 +39,8 @@ public class GameLogger implements IGameLogger{
 
     @Override
     public void logPlayerMoveAction(final IPlayer player, final Figure figure,
-                                    final IField startField, final IField finalField) {
-        logger.info("Игрок " + player.getName() + " сделал ход фигурой " + figure.getName() + " из клетки (" +
+                                    final IField startField, final IField finalField, final IAllowCommand command) {
+        logger.info(command.getNameCommand() + "- Игрок " + player.getName() + " сделал ход фигурой " + figure.getName() + " из клетки (" +
                 startField.getXCoord() + ";" + startField.getYCoord() + ") в клетку (" + finalField.getXCoord() + ";"
                 + finalField.getYCoord() + ")");
     }
@@ -59,7 +62,8 @@ public class GameLogger implements IGameLogger{
     }
 
     @Override
-    public void logDraw() {
+    public void logDraw(final IDrawController drawController ) {
         logger.info("Ничья!");
+        logger.info(drawController.getMessage());
     }
 }

@@ -27,5 +27,11 @@ public class AisleTakeCommand extends AbstractCommand implements IAllowCommand {
         mediator.deleteConnection(startField);
         mediator.addNewConnection(finalField,startFigure);
         mediator.deleteConnection(fieldAttackPawn);
+
+    }
+
+    @Override
+    public String getNameCommand() {
+        return "взятие на проходе";
     }
 }

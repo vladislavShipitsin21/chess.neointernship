@@ -14,21 +14,28 @@ import java.util.Set;
 
 public class DrawFewFigure implements IDrawController {
 
+    private static final String MESSAGE = "мало фигу для мата!";
     // Невозможно поставить мат, если на доске остались только короли, либо,
     // кроме двух королей, один конь или произвольное количество однопольных слонов
     @Override
     public boolean isDraw(final IMediator mediator) {
         final Collection<Figure> figures = mediator.getFigures();
         if(figures.size() == 3) {
-            for (Figure figure : figures) {
+            for (final Figure figure : figures) {
                 if (figure.getClass() == Knight.class) return true;
             }
         }
         return isBishops(figures, mediator);
     }
+
+    @Override
+    public String getMessage() {
+        return MESSAGE;
+    }
+
     private boolean isBishops(final Collection<Figure> figures,final IMediator mediator){
-        Set<Color> colors = new HashSet<>();
-        for(Figure figure : figures) {
+        final Set<Color> colors = new HashSet<>();
+        for(final Figure figure : figures) {
             if (figure.getClass() != King.class) {
                 final IField field = mediator.getField(figure);
                 colors.add(field.getColor());

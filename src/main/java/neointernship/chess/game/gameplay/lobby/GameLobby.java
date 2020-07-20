@@ -70,7 +70,7 @@ public class GameLobby implements ILobby {
         }
 
         possibleActionList.updateRealLists();
-        start();
+//        start();
     }
 
     @Override

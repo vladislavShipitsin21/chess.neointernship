@@ -100,11 +100,8 @@ public class GameLoop implements IGameLoop {
             activePlayer = activePlayerController.getNextPlayer();
             kingStateController.setActivePlayer(activePlayer);
             kingStateController.updateState();
-        }while (gameStateController.isMatchAlive() && !drawController.isDraw());
 
-        if(drawController.isDraw()){
-            drawController.showResults();
-        }
+        }while (gameStateController.isMatchAlive() && !drawController.isDraw());
 
         consoleBoardWriter.printBoard();
         gameStateController.showResults();

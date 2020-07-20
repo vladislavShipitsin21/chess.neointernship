@@ -34,14 +34,12 @@ public class DrawController {
     }
 
     public boolean isDraw() {
-        for(IDrawController drawController : drawControllers){
+        for(final IDrawController drawController : drawControllers){
             if(drawController.isDraw(mediator)){
+                gameLogger.logDraw(drawController);
                 return true;
             }
         }
         return false;
-    }
-    public void showResults() {
-        gameLogger.logDraw();
     }
 }

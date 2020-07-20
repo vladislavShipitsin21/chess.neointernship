@@ -1,5 +1,6 @@
 package neointernship.chess.game.story;
 
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.IField;
@@ -11,7 +12,6 @@ public class StoryGame implements IStoryGame {
 
     private final Set<Figure> hoIsMove;
 
-
     private final IMediator mediator;
 
     private Figure lastFigure;
@@ -20,6 +20,7 @@ public class StoryGame implements IStoryGame {
     public StoryGame(final IMediator mediator) {
         this.mediator = mediator;
         this.hoIsMove = new HashSet<>();
+
     }
     public StoryGame(StoryGame storyGame) {
         this.mediator = storyGame.mediator;

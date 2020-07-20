@@ -1,6 +1,6 @@
 package neointernship.chess.game.selfplay;
 
-import neointernship.chess.game.gameplay.init.GameInitializerForBots;
+import neointernship.chess.game.gameplay.init.GameInitializer;
 
 public class  Selfplay implements ISelfplay{
 
@@ -9,8 +9,8 @@ public class  Selfplay implements ISelfplay{
     public void start(int countGame) {
         for (int i = 0; i < countGame; i++) {
             System.out.println("Game " + i);
-            final GameInitializerForBots gameInitializerForBots = new GameInitializerForBots(i);
-            gameInitializerForBots.start();
+            GameInitializer gameInitializer = new GameInitializer(i);
+            gameInitializer.start();
         }
     }
 }

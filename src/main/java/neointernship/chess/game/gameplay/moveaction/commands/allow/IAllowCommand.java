@@ -4,4 +4,5 @@ import neointernship.chess.game.model.answer.IAnswer;
 
 public interface IAllowCommand {
     void execute(final IAnswer answer);
+    String getNameCommand();
 }

@@ -26,4 +26,9 @@ public class MoveCommand extends AbstractCommand implements IAllowCommand{
         mediator.deleteConnection(startField);
         mediator.addNewConnection(finalField, startFigure);
     }
+
+    @Override
+    public String getNameCommand() {
+        return "движение";
+    }
 }

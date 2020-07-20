@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class DrawRepetitionPosition implements IDrawController {
 
+    private static final String MESSAGE = "трехкратное повторение позиции";
+
     private static final Integer MAX_REPETITION = 3;
     private static final Integer START_REPETITION = 1;
     private Map<Position,Integer> mapPosition;
@@ -41,5 +43,10 @@ public class DrawRepetitionPosition implements IDrawController {
             if(i >= MAX_REPETITION) return true;
         }
         return false;
+    }
+
+    @Override
+    public String getMessage() {
+        return MESSAGE;
     }
 }
