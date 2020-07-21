@@ -11,6 +11,7 @@ import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
     private final int boardSize;
@@ -120,34 +121,7 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
         }
         addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
 
-        if(
-                currentField.getXCoord() == 3
-                &&
-                figure.getColor() == Color.WHITE
-                &&
-                storyGame.getLastFigureMove().getColor() == Color.BLACK
-        ){
-            Figure lastFigure = storyGame.getLastFigureMove();
-            if(lastFigure.getClass() == Pawn.class){
-                IField lastField = storyGame.getLastFieldFigure(lastFigure);
-                if(lastField.getXCoord() == 1 && mediator.getField(lastFigure).getXCoord() == 3) {
-                    if (Math.abs(lastField.getYCoord() - currentField.getYCoord()) == 1) {
-                        possibleAttackFields.add(new Field(2,lastField.getYCoord()));
-                    }
-                }
-            }
-        }
-        if(currentField.getXCoord() == 4 && figure.getColor() == Color.BLACK && storyGame.getLastFigureMove().getColor() == Color.WHITE){
-            Figure lastFigure = storyGame.getLastFigureMove();
-            if(lastFigure.getClass() == Pawn.class){
-                IField lastField = storyGame.getLastFieldFigure(lastFigure);
-                if(lastField.getXCoord() == 6 && mediator.getField(lastFigure).getXCoord() == 4) {
-                    if (Math.abs(lastField.getYCoord() - currentField.getYCoord()) == 1) {
-                        possibleAttackFields.add(new Field(5,lastField.getYCoord()));
-                    }
-                }
-            }
-        }
+        addIfAisleTake(figure,possibleAttackFields);
 
         if (currentField.getXCoord() == 6 && figure.getColor() == Color.WHITE) {
             offset = -  2;
@@ -159,6 +133,32 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
         }
 
         return possibleAttackFields;
+    }
+
+    private void addIfAisleTake(final Figure pawn, final Collection<IField> possibleAttackFields){
+        final IField currentField = mediator.getField(pawn);
+        final Color color = pawn.getColor();
+        final Figure lastFigure = storyGame.getLastFigureMove();
+
+        int startXCoord = 3;
+        int move = -1;
+        if(color == Color.BLACK){
+            startXCoord = 4;
+            move = 1;
+        }
+
+        final IField lastFieldLastFigure = storyGame.getLastFieldFigure(lastFigure);
+        final IField realFieldLastFigure = mediator.getField(lastFigure);
+
+        if(currentField.getXCoord() == startXCoord && lastFigure.getColor() == Color.swapColor(color)){
+            if(lastFigure.getClass() == Pawn.class){
+                if(Math.abs(realFieldLastFigure.getXCoord() - lastFieldLastFigure.getXCoord()) == 2) {
+                    if (Math.abs(lastFieldLastFigure.getYCoord() - currentField.getYCoord()) == 1) {
+                        possibleAttackFields.add(new Field(startXCoord + move,lastFieldLastFigure.getYCoord()));
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -192,6 +192,12 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
                     possibleAttackFields);
         }
 
+        addIfCastling(king,fieldKing,possibleAttackFields);
+
+        return possibleAttackFields;
+    }
+
+    private void addIfCastling(final Figure king,final IField fieldKing,final Collection<IField> possibleAttackFields){
         // если король не ходил
         if(!storyGame.isMove(king)){
 
@@ -219,7 +225,6 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
                 }
             }
         }
-        return possibleAttackFields;
     }
 
     /**

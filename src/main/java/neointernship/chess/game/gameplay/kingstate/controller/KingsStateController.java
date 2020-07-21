@@ -7,13 +7,13 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
-import neointernship.chess.game.model.subscriber.ISubscriberKing;
+import neointernship.chess.game.model.subscriber.ISubscriber;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class KingsStateController implements IKingStateController {
-    private final ArrayList<ISubscriberKing> subscribersList;
+    private final ArrayList<ISubscriber> subscribersList;
 
     private final HashMap<Color, KingState> kingStateMap;
     private final KingIsAttackedComputation kingIsAttackedComputation;
@@ -43,7 +43,7 @@ public class KingsStateController implements IKingStateController {
         System.out.println(activePlayer.getColor() + " KING STATUS UPDATED: " + newState.toString());
 
         if (newState != kingStateMap.get(activePlayer.getColor())) {
-            for (ISubscriberKing currentSubscriber : subscribersList) {
+            for (ISubscriber currentSubscriber : subscribersList) {
                 currentSubscriber.update(activePlayer.getColor(), newState);
             }
 
@@ -62,7 +62,7 @@ public class KingsStateController implements IKingStateController {
     }
 
     @Override
-    public void addToSubscriber(ISubscriberKing subscriber) {
+    public void addToSubscriber(ISubscriber subscriber) {
         subscribersList.add(subscriber);
     }
 }

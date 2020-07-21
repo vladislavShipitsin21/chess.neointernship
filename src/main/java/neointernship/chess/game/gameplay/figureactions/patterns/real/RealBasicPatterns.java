@@ -64,7 +64,6 @@ public class RealBasicPatterns implements IRealBasicPatterns {
                 if(!isAttack) realList.add(finalField);
             } else {
 
-
                 Figure finalFigure = newMediator.getFigure(finalField);
 
                 newMediator.deleteConnection(startField);

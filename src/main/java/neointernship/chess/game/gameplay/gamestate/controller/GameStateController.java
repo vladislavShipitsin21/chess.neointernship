@@ -8,10 +8,10 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.subscriber.ISubscriberKing;
+import neointernship.chess.game.model.subscriber.ISubscriber;
 import neointernship.chess.logger.IGameLogger;
 
-public class GameStateController implements ISubscriberKing, IGameStateController {
+public class GameStateController implements ISubscriber, IGameStateController {
     private GameState currentState;
 
     private final FiguresHaveMovesComputation figuresHaveMovesComputation;

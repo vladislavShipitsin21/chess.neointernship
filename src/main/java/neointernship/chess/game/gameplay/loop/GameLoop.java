@@ -10,7 +10,6 @@ import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessContr
 import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.IGameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.DrawController;
-import neointernship.chess.game.gameplay.gamestate.controller.draw.IDrawController;
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
@@ -19,7 +18,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.chess.game.model.subscriber.ISubscriberKing;
+import neointernship.chess.game.model.subscriber.ISubscriber;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.logger.IGameLogger;
 
@@ -71,22 +70,8 @@ public class GameLoop implements IGameLoop {
      */
     @Override
     public void activate() {
-        kingStateController.addToSubscriber((ISubscriberKing) gameStateController);
+        kingStateController.addToSubscriber((ISubscriber) gameStateController);
 
-        /*while (gameStateController.isMatchAlive() && !drawController.isDraw()) {
-            showAvailableMoves();
-            consoleBoardWriter.printBoard();
-
-            do {
-                IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
-                gameProcessController.makeTurn(activePlayer, answer);
-
-            } while (!gameProcessController.playerDidMove());
-
-            activePlayer = activePlayerController.getNextPlayer();
-            kingStateController.setActivePlayer(activePlayer);
-            kingStateController.updateState();
-        }*/
         do {
             showAvailableMoves();
             consoleBoardWriter.printBoard();
