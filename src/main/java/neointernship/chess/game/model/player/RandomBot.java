@@ -48,14 +48,13 @@ public class RandomBot extends Player{
 
         IAnswer answer = new Answer(startField.getXCoord(), startField.getYCoord(),
                 finalField.getXCoord(), finalField.getYCoord(),'Q');
-        printAnswer(answer);
+        printAnswer(startField,finalField);
         return answer;
     }
 
 
-    private void printAnswer(IAnswer answer){
+    private void printAnswer(final IField start,final IField finish){
         System.out.println("Color = " + super.getColor());
-        System.out.println(answer.getStartX() + " " + answer.getStartY() + " - " +
-                answer.getFinalX() + " " + answer.getFinalY());
+        System.out.println(start.toString() + " - " + finish.toString());
     }
 }

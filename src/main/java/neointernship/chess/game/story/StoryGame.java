@@ -2,6 +2,7 @@ package neointernship.chess.game.story;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.IField;
 
@@ -46,6 +47,9 @@ public class StoryGame implements IStoryGame {
 
     @Override
     public void update(final Figure figure) {
+        if(figure.getClass() == Pawn.class){
+
+        }
         hoIsMove.add(figure);
         this.lastFigure = figure;
         lastField = mediator.getField(figure);

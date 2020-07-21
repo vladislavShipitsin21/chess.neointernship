@@ -150,11 +150,13 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
         final IField lastFieldLastFigure = storyGame.getLastFieldFigure(lastFigure);
         final IField realFieldLastFigure = mediator.getField(lastFigure);
 
-        if(currentField.getXCoord() == startXCoord && lastFigure.getColor() == Color.swapColor(color)){
-            if(lastFigure.getClass() == Pawn.class){
-                if(Math.abs(realFieldLastFigure.getXCoord() - lastFieldLastFigure.getXCoord()) == 2) {
-                    if (Math.abs(lastFieldLastFigure.getYCoord() - currentField.getYCoord()) == 1) {
-                        possibleAttackFields.add(new Field(startXCoord + move,lastFieldLastFigure.getYCoord()));
+        if(realFieldLastFigure != null) { // может быть null если было взятие на проходе
+            if (currentField.getXCoord() == startXCoord && lastFigure.getColor() == Color.swapColor(color)) {
+                if (lastFigure.getClass() == Pawn.class) {
+                    if (Math.abs(realFieldLastFigure.getXCoord() - lastFieldLastFigure.getXCoord()) == 2) {
+                        if (Math.abs(lastFieldLastFigure.getYCoord() - currentField.getYCoord()) == 1) {
+                            possibleAttackFields.add(new Field(startXCoord + move, lastFieldLastFigure.getYCoord()));
+                        }
                     }
                 }
             }

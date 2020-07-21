@@ -13,9 +13,6 @@ import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.logger.IGameLogger;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 /**
  * Реализация хода в нормальной ситуации
  */
@@ -65,6 +62,7 @@ public class AllowMoveCommand implements IMoveCommand {
         final Figure startFigure = mediator.getFigure(startField);
         final Figure finalFigure = mediator.getFigure(finalField);
 
+         // todo обновление не тут!
         storyGame.update(startFigure);
 
         IAllowCommand currentComand = null;
@@ -89,7 +87,6 @@ public class AllowMoveCommand implements IMoveCommand {
                     Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1){
             currentComand = castlingCommand;
             flag = true;
-
         }
         if(!flag && startFigure.getClass() == Pawn.class &&
                     Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1){
@@ -98,15 +95,14 @@ public class AllowMoveCommand implements IMoveCommand {
         }
         if(!flag){
             currentComand = moveCommand;
-
         }
         currentComand.execute(answer); // делаю ход
 
         gameLogger.logPlayerMoveAction(player, startFigure, startField, finalField,currentComand);
 
+
+
         possibleActionList.updateRealLists();
-
-
 
         return true;
     }

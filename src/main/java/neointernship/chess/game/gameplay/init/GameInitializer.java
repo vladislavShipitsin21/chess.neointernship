@@ -16,10 +16,10 @@ public class GameInitializer implements IGameInitializer {
 
     public GameInitializer(int numberGame) {
 
-        final IPlayer firstPlayer = new Player("Player 1", Color.WHITE);
-        final IPlayer secondPlayer = new Player("Player 2", Color.BLACK);
-//        final IPlayer firstPlayer = new RandomBot(Color.WHITE);
-//        final IPlayer secondPlayer = new RandomBot(Color.BLACK);
+//        final IPlayer firstPlayer = new Player("Player 1", Color.WHITE);
+//        final IPlayer secondPlayer = new Player("Player 2", Color.BLACK);
+        final IPlayer firstPlayer = new RandomBot(Color.WHITE);
+        final IPlayer secondPlayer = new RandomBot(Color.BLACK);
         final ChessType chessType = ChessType.CLASSIC;
 
         final IGameLogger gameLogger = new GameLogger(numberGame);
