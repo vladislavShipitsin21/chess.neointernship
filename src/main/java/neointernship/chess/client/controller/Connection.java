@@ -1,13 +1,11 @@
 package neointernship.chess.client.controller;
 
-import neointernship.chess.client.message.MessageReaction;
-
 import java.io.*;
 import java.net.Socket;
 
 public class Connection {
     private static final String IP = "127.0.0.1";//"localhost";
-    private static final int PORT = 8081;
+    private static final int PORT = 8089;
 
     private String ip;
     private int port;

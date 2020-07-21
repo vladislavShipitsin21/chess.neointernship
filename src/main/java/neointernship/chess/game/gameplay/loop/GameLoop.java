@@ -72,7 +72,7 @@ public class GameLoop implements IGameLoop {
             consoleBoardWriter.printBoard();
 
             do {
-                IAnswer answer = activePlayer.getAnswer(board, mediator, possibleActionList);
+                IAnswer answer = activePlayer.getAnswer(mediator, possibleActionList);
                 gameProcessController.makeTurn(activePlayer, answer, gameLogger);
 
             } while (!gameProcessController.playerDidMove());

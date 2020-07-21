@@ -1,14 +1,14 @@
-package neointernship.chess.client.message;
+package neointernship.chess.client.communication.message;
 
 public enum MessageCode {
     //Системные коды
     OK,
-    ERROR,
+    ERROR_TURN,
     CONNECT,
 
     //Коды для view
-    FIGURES_LIST,
-    PAINT,
+    INIT_GAME,
+    UPDATE,
 
     //Коды для игрового процесса
     PICK_FIGURE,

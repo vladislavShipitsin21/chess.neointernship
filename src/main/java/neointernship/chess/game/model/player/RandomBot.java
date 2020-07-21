@@ -6,7 +6,6 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.List;
@@ -25,7 +24,7 @@ public class RandomBot implements IPlayer {
     }
 
     @Override
-    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
+    public IAnswer getAnswer(IMediator mediator, IPossibleActionList list) {
         List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields;
         Figure figure;

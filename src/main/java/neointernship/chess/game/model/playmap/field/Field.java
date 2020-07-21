@@ -1,19 +1,37 @@
 package neointernship.chess.game.model.playmap.field;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import neointernship.chess.game.model.enums.Color;
 
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Field implements IField {
 
+    @JsonProperty
     private final int x;
+    @JsonProperty
     private final int y;
+    @JsonProperty("color")
     private final Color color;
 
-    public Field(int x, int y) {
+    @JsonCreator
+    public Field(@JsonProperty("x") final int x,
+                 @JsonProperty("y") final int y) {
         this.x = x;
         this.y = y;
         color = initColor();
+    }
+
+    @JsonCreator
+    public Field(final String field){
+        final String[] params = field.split(":");
+        this.x = Integer.parseInt(params[0].trim());
+        this.y = Integer.parseInt(params[1].trim());
+        this.color = Color.parseColor(params[2].trim());
     }
 
     public int getXCoord() {
@@ -50,5 +68,11 @@ public class Field implements IField {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, color);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return x + ":" + y + ":" + color;
     }
 }

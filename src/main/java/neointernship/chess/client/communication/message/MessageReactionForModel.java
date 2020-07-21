@@ -1,13 +1,14 @@
-package neointernship.chess.client.message;
+package neointernship.chess.client.communication.message;
 
-import neointernship.chess.client.message.reaction.*;
+
+import neointernship.chess.client.communication.message.reaction.model.*;
 
 import java.util.HashMap;
 
-public class MessageReaction {
+public class MessageReactionForModel {
     private HashMap<MessageCode, IMessageCode> messageReaction;
 
-    public MessageReaction() {
+    public MessageReactionForModel() {
         this.messageReaction = new HashMap<>();
         initMessageReaction(messageReaction);
     }
@@ -17,18 +18,15 @@ public class MessageReaction {
         /*messageReaction.put(MessageCode.CONNECT, new MessageCodeConnect());
         messageReaction.put(MessageCode.DRAW, new MessageCodeDraw());
         messageReaction.put(MessageCode.ERROR, new MessageCodeError());
-        messageReaction.put(MessageCode.FIGURES_LIST, new MessageCodeFiguresList());
         messageReaction.put(MessageCode.LOSE, new MessageCodeLose());
         messageReaction.put(MessageCode.MOVE_FIGURE, new MessageCodeMoveFigure());
         messageReaction.put(MessageCode.OK, new MessageCodeOk());
-        messageReaction.put(MessageCode.PAINT, new MessageCodePaint());
         messageReaction.put(MessageCode.PICK_FIGURE, new MessageCodePickFigure());
         messageReaction.put(MessageCode.WIN, new MessageCodeWin());*/
         messageReaction.put(MessageCode.TURN, new MessageCodeTurn());
-    }
-
-    public HashMap<MessageCode, IMessageCode> getMessageReaction() {
-        return messageReaction;
+        messageReaction.put(MessageCode.ERROR_TURN, new MessageCodeErrorTurn());
+        messageReaction.put(MessageCode.INIT_GAME, new MessageCodeInitGame());
+        messageReaction.put(MessageCode.UPDATE, new MessageCodeUpdate());
     }
 
     public IMessageCode get(final MessageCode messageCode) {

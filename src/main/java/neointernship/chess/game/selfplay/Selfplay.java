@@ -4,7 +4,6 @@ import neointernship.chess.game.gameplay.init.GameInitializerForBots;
 
 public class  Selfplay implements ISelfplay{
 
-
     @Override
     public void start() {
         for (int i = 0; i < 50; i++) {

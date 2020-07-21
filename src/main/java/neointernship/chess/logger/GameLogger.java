@@ -5,7 +5,6 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.field.IField;
-import org.apache.log4j.Appender;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;

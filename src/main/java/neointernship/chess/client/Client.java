@@ -1,16 +1,10 @@
 package neointernship.chess.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import neointernship.chess.client.controller.Controller;
-import neointernship.chess.client.message.Message;
 import neointernship.chess.client.view.View;
-
-import java.util.concurrent.Exchanger;
 
 
 public class Client{
-    public static final Exchanger<Message> exchanger = new Exchanger<>();
-
     /**
      * Главная функция, начало работы клиента
      *

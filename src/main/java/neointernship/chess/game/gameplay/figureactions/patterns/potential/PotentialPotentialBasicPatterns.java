@@ -1,5 +1,6 @@
 package neointernship.chess.game.gameplay.figureactions.patterns.potential;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
@@ -8,6 +9,7 @@ import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.ArrayList;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public final class PotentialPotentialBasicPatterns implements IPotentialBasicPatterns {
     private final int boardSize;
     private final IMediator mediator;

@@ -1,9 +1,11 @@
 package neointernship.chess.client.controller;
 
-import neointernship.chess.client.message.Message;
-import neointernship.chess.client.message.MessageDto;
-import neointernship.chess.client.message.MessageReaction;
-import neointernship.chess.client.serializer.SerializerForMessage;
+import neointernship.chess.client.communication.message.Message;
+import neointernship.chess.client.communication.message.MessageCode;
+import neointernship.chess.client.communication.message.MessageDto;
+import neointernship.chess.client.communication.message.MessageReactionForModel;
+import neointernship.chess.client.communication.serializer.SerializerForMessage;
+
 import java.io.*;
 import java.net.Socket;
 
@@ -12,24 +14,32 @@ public class Controller implements Runnable{
     private BufferedWriter out = null;
     private Socket socket;
     private Connection connection;
-    private final MessageReaction messageReaction = new MessageReaction();
+    private MessageReactionForModel messageReactionForModel;
 
     @Override
     public void run() {
-        //----------------------------------НУЖЕН КОННЕКТ СО СТОРОНЫ СЕРВЕРА-------------------------------------------
-        /*startConnection();
+        messageReactionForModel = new MessageReactionForModel();
+
+        startConnection();
 
         while (true) {
             try {
                 final String jsonMessage = in.readLine();
                 final MessageDto messageDto = SerializerForMessage.deserializer(jsonMessage);
-                messageDto.validateMessageCode();
-                final Message message = new Message(messageDto.getMessageCode(), messageDto.getData());
-                messageReaction.get(message.getMessageCode()).execute(message, out);
-            } catch (final Exception e) {
+                messageDto.validate();
+                final Message message = new Message(messageDto.getMessageCode());
+                messageReactionForModel.get(message.getMessageCode()).execute(message, in, out);
+            } catch (final java.lang.Exception e) {
                 e.printStackTrace();
+                final Message errMessage = new Message(MessageCode.ERROR_TURN);
+                try {
+                    //out.write(SerializerForMessage.serializer(errMessage) + "\n");
+                    out.flush();
+                } catch (final IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
-        }*/
+        }
     }
 
     private void startConnection() {

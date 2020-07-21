@@ -19,7 +19,7 @@ public class Player implements IPlayer {
     }
 
     @Override
-    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
+    public IAnswer getAnswer(IMediator mediator, IPossibleActionList list) {
         Scanner scanner = new Scanner(System.in);
         System.out.format("%s player turn to move: ", getName());
         String input = scanner.nextLine();

@@ -1,8 +1,19 @@
 package neointernship.chess.game.model.mediator;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import neointernship.chess.client.communication.serializer.FieldDeserializer;
+import neointernship.chess.client.communication.serializer.FieldSerializer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
+import neointernship.chess.game.model.figure.piece.Pawn;
+import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.*;
@@ -11,22 +22,46 @@ import java.util.stream.Collectors;
 /**
  * Связка клетка-фигура.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Mediator implements IMediator, Cloneable {
 
-    private HashMap<IField, Figure> mediator;
+    @JsonSerialize(keyUsing = FieldSerializer.class)
+    @JsonDeserialize(keyUsing = FieldDeserializer.class)
+    private final HashMap<IField, Figure> mediator;
 
+    //@JsonCreator
     public Mediator() {
         mediator = new HashMap<>();
     }
 
-    public Mediator(IMediator mediator) {
+    public Mediator(final IMediator mediator) {
         this();
-        for (Figure figure : mediator.getFigures()){
-            IField field = mediator.getField(figure);
+        for (final Figure figure : mediator.getFigures()){
+            final IField field = mediator.getField(figure);
             addNewConnection(field,figure);
         }
     }
 
+    @JsonCreator
+    public Mediator(@JsonProperty("mediator") final HashMap<IField, Figure> mediator){
+        this.mediator = mediator;
+    }
+
+    //@JsonCreator
+    public Mediator(final String string) {
+        //mediator = new HashMap<>();
+        this();
+        for (final String maps1 : string.split("<")){
+            for (final String maps2: maps1.split(">")) {
+                final String[] maps3 = maps2.split(";");
+                if (maps3.length == 2){
+                    final IField field = new Field(maps3[0]);
+                    final Figure figure =  new Figure(maps3[1]) {};
+                    this.addNewConnection(field, figure);
+                }
+            }
+        }
+    }
 
     /**
      * Добавление новой связи
@@ -55,8 +90,8 @@ public class Mediator implements IMediator, Cloneable {
     }
 
     @Override
-    public Figure getKing(Color color) {
-        for (Figure figure : mediator.values()) {
+    public Figure getKing(final Color color) {
+        for (final Figure figure : mediator.values()) {
             if (figure.getClass().equals(King.class) && figure.getColor() == color) {
                 return figure;
             }
@@ -75,7 +110,7 @@ public class Mediator implements IMediator, Cloneable {
     }
 
     @Override
-    public Collection<Figure> getFigures(Color color) {
+    public Collection<Figure> getFigures(final Color color) {
         return getFigures()
                 .stream()
                 .filter(f -> f.getColor() == color)
@@ -96,9 +131,9 @@ public class Mediator implements IMediator, Cloneable {
      * @return поле.
      */
     public IField getField(final Figure figure) {
-        Set<Map.Entry<IField, Figure>> entrySet = mediator.entrySet();
+        final Set<Map.Entry<IField, Figure>> entrySet = mediator.entrySet();
 
-        for (Map.Entry<IField, Figure> pair : entrySet) {
+        for (final Map.Entry<IField, Figure> pair : entrySet) {
             if (Objects.equals(figure, pair.getValue())) {
                 return pair.getKey();
             }
@@ -109,5 +144,34 @@ public class Mediator implements IMediator, Cloneable {
     @Override
     protected Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+
+   /* @Override
+    @JsonValue
+    public String toString() {
+        String string = "";
+        for (final IField field: mediator.keySet()) {
+            string += "<" + field.toString() + ";" + mediator.get(field).toString() + ">";
+        }
+        return string;
+    }*/
+
+    public static String serializer(final Mediator initGame) throws JsonProcessingException {
+        return new ObjectMapper().writeValueAsString(initGame);
+    }
+
+    public static Mediator deserializer(final String string) throws JsonProcessingException {
+        return new ObjectMapper().readValue(string, Mediator.class);
+    }
+
+    public static void main(String[] args) throws JsonProcessingException {
+        Mediator mediator = new Mediator();
+        //mediator.addNewConnection(new Field(1, 3), new King(Color.BLACK));
+        mediator.addNewConnection(new Field(1, 2), new Pawn(Color.BLACK));
+        String s = serializer(mediator);
+        System.out.println(s);
+
+        Mediator mediator1 = deserializer(s);
+        System.out.println();
     }
 }

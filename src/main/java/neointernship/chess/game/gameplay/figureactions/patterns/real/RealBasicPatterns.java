@@ -1,5 +1,7 @@
 package neointernship.chess.game.gameplay.figureactions.patterns.real;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputation;
@@ -12,6 +14,8 @@ import neointernship.chess.game.model.playmap.field.IField;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
+@JsonIgnoreProperties(value = {"possibleActionList", "kingIsAttackedComputation"})
 public class RealBasicPatterns implements IRealBasicPatterns {
     private final IMediator mediator;
     private final IBoard board;
