@@ -8,7 +8,6 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 import org.junit.Test;
@@ -37,6 +36,7 @@ public class TestPossibleList {
         mediatorCopy.deleteConnection(board.getField(0,0));
 
         possibleActionListCopy.updateRealLists();
+        possibleActionList.updateRealLists();
 
         assertEquals(0, mediatorCopy.getFigures().size());
         assertNotEquals(possibleActionList,possibleActionListCopy);

@@ -1,44 +1,39 @@
 package neointernship.chess.game.actions;
 
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
-import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
+
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.*;
-import neointernship.chess.game.model.mediator.Mediator;
-import neointernship.chess.game.model.playmap.board.Board;
+
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.chess.game.story.StoryGame;
+import org.junit.After;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static neointernship.chess.game.actions.TestStaticMethod.checkPosition;
+
 
 public class TestActionsFreePath {
+    private static Map<Figure,IField> map;
 
-    private void checkPosition(Figure figure,IField field,IField[] expected){
+    @BeforeClass
+    public static void before(){
+        map = new HashMap<>();
+    }
+    @After
+    public void clear(){
+        map.clear();
+    }
 
-        Board board = new Board();
-        Mediator mediator = new Mediator();
-
-        mediator.addNewConnection(field,figure);
-
-        IPossibleActionList possibleActionList = new PossibleActionList(board,mediator,new StoryGame(mediator));
-
-        possibleActionList.updateRealLists();
-
-        List<IField> resultList = (List<IField>) possibleActionList.getRealList(figure);
-
-        List<IField> expectedList = Arrays.stream(expected).collect(Collectors.toList());
-
-        assertEquals(expectedList.size(),resultList.size());
-
-        assertTrue(resultList.containsAll(expectedList));
-
+    private void put(Figure figure,IField field){
+        map.put(figure,field);
     }
 
     @Test
@@ -46,13 +41,14 @@ public class TestActionsFreePath {
         Figure figure = new King(Color.BLACK);
         IField field = new Field(2,2);
 
+
         Field[] expected = {
                 new Field(1,1),new Field(1,2),new Field(1,3),
                 new Field(2,1),                     new Field(2,3),
                 new Field(3,1),new Field(3,2),new Field(3,3)
         };
-
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
 
     }
     @Test
@@ -66,7 +62,8 @@ public class TestActionsFreePath {
                 new Field(7,7)
         };
 
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
 
     }
     @Test
@@ -82,7 +79,8 @@ public class TestActionsFreePath {
                 new Field(3,4),new Field(5,4), new Field(6,4), new Field(7,4)
         };
 
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
     }
     @Test
     public void testPawnWhiteBegin(){
@@ -93,7 +91,8 @@ public class TestActionsFreePath {
                 new Field(5,4),new Field(4,4)
         };
 
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
     }
     @Test
     public void testPawnBlackBegin(){
@@ -104,7 +103,8 @@ public class TestActionsFreePath {
                 new Field(2,4),new Field(3,4)
         };
 
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
     }
     @Test
     public void testPawnBlackEnd(){
@@ -115,18 +115,20 @@ public class TestActionsFreePath {
                 new Field(4,4)
         };
 
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
     }
     @Test
     public void testPawnWhiteEnd(){
         Figure figure = new Pawn(Color.WHITE);
-        IField field = new Field(3,4);
+        IField field = new Field(4,4);
 
         Field[] expected = {
-                new Field(2,4)
+                new Field(3,4)
         };
 
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
     }
     @Test
     public void testKnight(){
@@ -137,7 +139,8 @@ public class TestActionsFreePath {
                 new Field(1,0),new Field(1,4),new Field(2,1),new Field(2,3)
         };
 
-        checkPosition(figure,field,expected);
+        put(figure,field);
+        checkPosition(map,figure,expected);
     }
 
 }

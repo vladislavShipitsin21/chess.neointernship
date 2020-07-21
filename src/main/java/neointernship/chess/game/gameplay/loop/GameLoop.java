@@ -57,7 +57,7 @@ public class GameLoop implements IGameLoop {
         activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
         gameStateController = new GameStateController(possibleActionList, mediator, gameLogger);
         gameProcessController = new GameProcessController(mediator, possibleActionList, board,gameLogger,storyGame);
-        kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer);
+        kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer.getColor());
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
 
@@ -83,7 +83,7 @@ public class GameLoop implements IGameLoop {
             } while (!gameProcessController.playerDidMove());
 
             activePlayer = activePlayerController.getNextPlayer();
-            kingStateController.setActivePlayer(activePlayer);
+            kingStateController.setActiveColor(activePlayer.getColor());
             kingStateController.updateState();
 
         }while (gameStateController.isMatchAlive() && !drawController.isDraw());
