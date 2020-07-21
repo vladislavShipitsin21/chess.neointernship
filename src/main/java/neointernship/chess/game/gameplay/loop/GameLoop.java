@@ -100,7 +100,8 @@ public class GameLoop implements IGameLoop {
                 if (figure != null) {
                     System.out.println(figure.getName() + " " + figure.getColor());
                     for (IField field1 : possibleActionList.getRealList(figure)) {
-                        System.out.print("(" + field1.getXCoord() + ";" + field1.getYCoord() + ")" + " ");
+//                        System.out.print("(" + field1.getXCoord() + ";" + field1.getYCoord() + ")" + " ");
+                        System.out.print(field1.toString() + " ");
                     }
                     System.out.print("\n");
                 }

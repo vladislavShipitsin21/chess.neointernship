@@ -2,10 +2,13 @@ package neointernship.chess.game.model.player;
 
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.answer.Answer;
+import neointernship.chess.game.model.answer.AnswerSimbol;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
+import neointernship.chess.game.model.playmap.field.Field;
+import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.Scanner;
 
@@ -18,7 +21,7 @@ public class Player implements IPlayer {
         this.name = name;
     }
 
-    @Override
+   /* @Override
     public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
         Scanner scanner = new Scanner(System.in);
         System.out.format("%s player turn to move: ", getName());
@@ -28,6 +31,16 @@ public class Player implements IPlayer {
                 Integer.parseInt(strArr[1]),
                 Integer.parseInt(strArr[2]),
                 Integer.parseInt(strArr[3]),'Q');
+    }*/
+    @Override
+    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.format("%s player turn to move: ", getName());
+        String input = scanner.nextLine();
+        String[] strArr = input.split("-");
+
+
+        return new AnswerSimbol( strArr[0].charAt(0), strArr[0].charAt(1), strArr[1].charAt(0), strArr[1].charAt(1));
     }
 
     public Color getColor() {
