@@ -14,8 +14,4 @@ public interface IPlayer {
     IAnswer getAnswer(final IBoard board, final IMediator mediator, final IPossibleActionList list);
     Color getColor();
     String getName();
-    BufferedReader getReader(); // поток завписи в сокет
-    BufferedWriter getWriter();
-    void setName(final String name);
-    Socket getSocket();
 }

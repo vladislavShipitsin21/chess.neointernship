@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
  * Связка клетка-фигура.
  */
 public class Mediator implements IMediator, Cloneable {
-
     private HashMap<IField, Figure> mediator;
 
     public Mediator() {
@@ -35,7 +34,8 @@ public class Mediator implements IMediator, Cloneable {
      * @param figure фигура
      */
     @Override
-    public void addNewConnection(final IField field, final Figure figure) {
+    public void addNewConnection(final IField field,
+                                 final Figure figure) {
         mediator.put(field, figure);
     }
 
@@ -63,7 +63,6 @@ public class Mediator implements IMediator, Cloneable {
         }
         return null;
     }
-
 
     /**
      * Получение фигуры, стоящей на данном поле.

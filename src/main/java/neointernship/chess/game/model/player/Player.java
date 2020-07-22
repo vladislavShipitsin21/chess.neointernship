@@ -13,20 +13,11 @@ import java.util.Scanner;
 
 public class Player implements IPlayer {
     private final Color color;
-    private String name;
+    private final String name;
 
-    private final Socket socket;
-
-    private final BufferedReader in; // поток чтения из сокета
-    private final BufferedWriter out; // поток завписи в сокет
-
-    public Player(final Color color, final Socket socket) throws IOException {
+    public Player(final String name, final Color color) {
         this.color = color;
-
-        this.socket = socket;
-
-        this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        this.out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+        this.name = name;
     }
 
     @Override
@@ -48,26 +39,4 @@ public class Player implements IPlayer {
     public String getName() {
         return name;
     }
-
-    @Override
-    public BufferedReader getReader() {
-        return in;
-    }
-
-    @Override
-    public BufferedWriter getWriter() {
-        return out;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public Socket getSocket() {
-        return socket;
-    }
-
-
 }

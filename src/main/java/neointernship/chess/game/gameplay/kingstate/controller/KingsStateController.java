@@ -19,46 +19,47 @@ public class KingsStateController implements IKingStateController {
     private final KingIsAttackedComputation kingIsAttackedComputation;
     private final KingStateDefineLogic kingStateDefineLogic;
 
-    private IPlayer activePlayer;
+    private Color activeColor;
 
     public KingsStateController(final IPossibleActionList possibleActionList,
                                 final IMediator mediator,
-                                final IPlayer activePlayer) {
+                                final Color activeColor) {
         kingStateMap = new HashMap<Color, KingState>() {{
             put(Color.WHITE, KingState.FREE);
             put(Color.BLACK, KingState.FREE);
         }};
 
-
         subscribersList = new ArrayList<>();
 
         kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
         kingStateDefineLogic = new KingStateDefineLogic();
+
+        this.activeColor = activeColor;
     }
 
     public void updateState() {
-        boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activePlayer.getColor());
+        boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activeColor);
 
         KingState newState = kingStateDefineLogic.getState(kingIsAttacked);
-        System.out.println(activePlayer.getColor() + " KING STATUS UPDATED: " + newState.toString());
+        System.out.println(activeColor + " KING STATUS UPDATED: " + newState.toString());
 
-        if (newState != kingStateMap.get(activePlayer.getColor())) {
+        if (newState != kingStateMap.get(activeColor)) {
             for (ISubscriber currentSubscriber : subscribersList) {
-                currentSubscriber.update(activePlayer.getColor(), newState);
+                currentSubscriber.update(activeColor, newState);
             }
 
-            kingStateMap.replace(activePlayer.getColor(), newState);
+            kingStateMap.replace(activeColor, newState);
         }
     }
 
     @Override
     public KingState getState() {
-        return kingStateMap.get(activePlayer.getColor());
+        return kingStateMap.get(activeColor);
     }
 
     @Override
-    public void setActivePlayer(final IPlayer activePlayer) {
-        this.activePlayer = activePlayer;
+    public void setActiveColor(final Color activeColor) {
+        this.activeColor = activeColor;
     }
 
     @Override

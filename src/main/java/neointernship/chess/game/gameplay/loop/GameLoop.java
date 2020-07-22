@@ -2,8 +2,7 @@ package neointernship.chess.game.gameplay.loop;
 
 import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.console.IConsoleBoardWriter;
-import neointernship.chess.game.gameplay.activeplayercontroller.ActivePlayerController;
-import neointernship.chess.game.gameplay.activeplayercontroller.IActivePlayerController;
+import neointernship.chess.game.gameplay.activecolorcontroller.IActiveColorController;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessController;
 import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessController;
@@ -13,8 +12,8 @@ import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 import neointernship.chess.logger.IGameLogger;
@@ -23,38 +22,28 @@ import neointernship.chess.logger.IGameLogger;
  * Класс, реализующий основное ядро игры (игровой цикл)
  */
 public class GameLoop implements IGameLoop {
-    private final IMediator mediator;
-    private final IPossibleActionList possibleActionList;
-    private final IBoard board;
-    private IPlayer activePlayer;
-
-    private final IActivePlayerController activePlayerController;
+    private final IActiveColorController activeColorController;
     private final IGameStateController gameStateController;
     private final IGameProcessController gameProcessController;
     private final IKingStateController kingStateController;
-
     private final IConsoleBoardWriter consoleBoardWriter;
-
     private final IGameLogger gameLogger;
+
+    private Color activeColor;
 
 
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
                     final IBoard board,
-                    final IPlayer firstPlayer,
-                    final IPlayer secondPlayer,
+                    final IActiveColorController activeColorController,
                     final IGameLogger gameLogger) {
-        this.activePlayer = firstPlayer;
 
-        this.mediator = mediator;
-        this.possibleActionList = possibleActionList;
-        this.board = board;
         this.gameLogger = gameLogger;
 
-        activePlayerController = new ActivePlayerController(firstPlayer, secondPlayer);
+        this.activeColorController = activeColorController;
         gameStateController = new GameStateController(possibleActionList, mediator, gameLogger);
         gameProcessController = new GameProcessController(mediator, possibleActionList, board);
-        kingStateController = new KingsStateController(possibleActionList, mediator, activePlayer);
+        kingStateController = new KingsStateController(possibleActionList, mediator, Color.WHITE);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
@@ -65,12 +54,13 @@ public class GameLoop implements IGameLoop {
      */
     @Override
     public void doIteration(final IAnswer answer) {
+        activeColor = activeColorController.getCurrentColor();
+
         do {
-            gameProcessController.makeTurn(activePlayer, answer, gameLogger);
+            gameProcessController.makeTurn(activeColor, answer, gameLogger);
         } while (!gameProcessController.playerDidMove());
 
-        activePlayer = activePlayerController.getCurrentPlayer();
-        kingStateController.setActivePlayer(activePlayer);
+        kingStateController.setActiveColor(activeColor);
         kingStateController.updateState();
 
         consoleBoardWriter.printBoard();
