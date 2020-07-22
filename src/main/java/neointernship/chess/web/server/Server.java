@@ -20,6 +20,9 @@ import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.board.figuresstartposition.FiguresStartPositionRepository;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.game.story.IStoryGame;
+import neointernship.chess.game.story.StoryGame;
+import neointernship.chess.logger.GameLogger;
 import neointernship.chess.logger.IGameLogger;
 import neointernship.chess.web.server.connection.ActiveConnectionController;
 import neointernship.chess.web.server.connection.UserConnection;
@@ -49,6 +52,7 @@ public class Server {
         private final IFactory figureFactory;
         private final IMediator mediator;
         private final IPossibleActionList possibleActionList;
+        private final IStoryGame storyGame;
 
         private final int lobbyId;
         private final ChessType chessTypes;
@@ -71,17 +75,18 @@ public class Server {
             board = new Board();
             figureFactory = new Factory();
             mediator = new Mediator();
-            possibleActionList = new PossibleActionList(board, mediator);
+            storyGame = new StoryGame(mediator);
+            possibleActionList = new PossibleActionList(board, mediator,storyGame);
 
             this.chessTypes = chessType;
             figuresStartPositionRepository = new FiguresStartPositionRepository();
 
             //TODO:
-            IGameLogger gameLogger = null;
+            IGameLogger gameLogger = new GameLogger(lobbyId);
 
-            gameLoop = new GameLoop(mediator, possibleActionList, board, colorController, gameLogger);
+            gameLoop = new GameLoop(mediator, possibleActionList, board, colorController, gameLogger,storyGame);
 
-            // TODO: gameLogger.logStartGame(firstPlayer, secondPlayer);
+            gameLogger.logStartGame(firstUserConnection.getPlayer(), secondUserConnection.getPlayer());
 
             initGameMap();
             start();
@@ -182,8 +187,8 @@ public class Server {
 
         assert secondPlayerSocket != null;
         String secondPlayerName = "";
-        in = new BufferedReader(new InputStreamReader(secondPlayerSocket.getInputStream()));;
-        out = new BufferedWriter(new OutputStreamWriter(secondPlayerSocket.getOutputStream()));;
+        in = new BufferedReader(new InputStreamReader(secondPlayerSocket.getInputStream()));
+        out = new BufferedWriter(new OutputStreamWriter(secondPlayerSocket.getOutputStream()));
         try {
             out.write(String.valueOf(ServerCodes.INIT));
             secondPlayerName = in.readLine();

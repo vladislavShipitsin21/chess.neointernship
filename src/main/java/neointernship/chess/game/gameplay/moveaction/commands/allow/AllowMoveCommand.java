@@ -3,6 +3,7 @@ package neointernship.chess.game.gameplay.moveaction.commands.allow;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
 import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.figure.piece.Pawn;
@@ -55,7 +56,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
 
     @Override
-    public boolean execute(final IPlayer player, final IAnswer answer) {
+    public boolean execute(final Color color, final IAnswer answer, final IGameLogger gameLogger) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
         final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 
@@ -98,7 +99,7 @@ public class AllowMoveCommand implements IMoveCommand {
         }
         currentComand.execute(answer); // делаю ход
 
-        gameLogger.logPlayerMoveAction(player, startFigure, startField, finalField,currentComand);
+        gameLogger.logPlayerMoveAction(color, startFigure, startField, finalField,currentComand);
 
 
 

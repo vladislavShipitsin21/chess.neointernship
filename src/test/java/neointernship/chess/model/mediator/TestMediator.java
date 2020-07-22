@@ -9,9 +9,7 @@ import neointernship.chess.game.model.figure.piece.Queen;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,8 +26,8 @@ public class TestMediator {
     private static Figure figureB;
     private static Figure figureQ;
 
-    @BeforeClass
-    public static void init(){
+    @Before
+    public void init(){
         mediator = new Mediator();
 
         fieldB = new Field(0,0);
@@ -42,8 +40,8 @@ public class TestMediator {
         mediator.addNewConnection(fieldQ,figureQ);
     }
 
-    @AfterClass
-    public static void clear(){
+    @After
+    public void clear(){
         mediator.clear();
     }
 

@@ -16,6 +16,7 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.subscriber.ISubscriber;
+import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.logger.IGameLogger;
 
 /**
@@ -28,6 +29,7 @@ public class GameLoop implements IGameLoop {
     private final IKingStateController kingStateController;
     private final IConsoleBoardWriter consoleBoardWriter;
     private final IGameLogger gameLogger;
+    private final IStoryGame storyGame;
 
     private Color activeColor;
 
@@ -36,13 +38,15 @@ public class GameLoop implements IGameLoop {
                     final IPossibleActionList possibleActionList,
                     final IBoard board,
                     final IActiveColorController activeColorController,
-                    final IGameLogger gameLogger) {
+                    final IGameLogger gameLogger,
+                    final IStoryGame storyGame) {
 
         this.gameLogger = gameLogger;
+        this.storyGame = storyGame;
 
         this.activeColorController = activeColorController;
         gameStateController = new GameStateController(possibleActionList, mediator, gameLogger);
-        gameProcessController = new GameProcessController(mediator, possibleActionList, board);
+        gameProcessController = new GameProcessController(mediator, possibleActionList, board,gameLogger,storyGame);
         kingStateController = new KingsStateController(possibleActionList, mediator, Color.WHITE);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);

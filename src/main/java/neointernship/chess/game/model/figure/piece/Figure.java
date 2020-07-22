@@ -29,6 +29,7 @@ public abstract class Figure {
         this.price = price;
     }
 
+
     public String getName() {
         return name;
     }

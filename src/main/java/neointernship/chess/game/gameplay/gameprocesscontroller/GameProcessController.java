@@ -5,6 +5,7 @@ import neointernship.chess.game.gameplay.moveaction.MoveCorrectnessValidator;
 import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
 import neointernship.chess.game.gameplay.moveaction.movesrepository.MovesRepository;
 import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
@@ -16,7 +17,6 @@ public class GameProcessController implements IGameProcessController {
 
     private final MovesRepository movesRepository;
     private final MoveCorrectnessValidator moveCorrectnessValidator;
-
 
     private boolean playerDidMove;
 
@@ -31,10 +31,10 @@ public class GameProcessController implements IGameProcessController {
     }
 
     @Override
-    public void makeTurn(final IPlayer player, final IAnswer answer) {
-        final MoveState moveState = moveCorrectnessValidator.check(player.getColor(), answer);
+    public void makeTurn(final Color color, final IAnswer answer, final IGameLogger gameLogger) {
+        final MoveState moveState = moveCorrectnessValidator.check(color, answer);
         final IMoveCommand moveCommand = movesRepository.getCommand(moveState);
-        playerDidMove = moveCommand.execute(player, answer);
+        playerDidMove = moveCommand.execute(color, answer,gameLogger);
     }
 
     @Override

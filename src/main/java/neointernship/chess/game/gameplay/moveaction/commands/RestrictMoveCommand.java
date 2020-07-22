@@ -2,6 +2,7 @@ package neointernship.chess.game.gameplay.moveaction.commands;
 
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.player.IPlayer;
@@ -28,12 +29,12 @@ public class RestrictMoveCommand implements IMoveCommand {
     }
 
     @Override
-    public boolean execute(final IPlayer player, final IAnswer answer) {
+    public boolean execute(final Color color, final IAnswer answer, final IGameLogger gameLogger) {
         System.out.println("Move is not Valid (?!)");
 
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
 
-        gameLogger.logPlayerWrongAction(player, startField);
+        gameLogger.logPlayerWrongAction(color, startField);
         return false;
     }
 }

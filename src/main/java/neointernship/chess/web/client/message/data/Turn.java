@@ -7,7 +7,7 @@ public class Turn implements Data<IAnswer> {
     private final IAnswer answer;
 
     public Turn(final int startX, final int startY, final int finishX, final int finishY) {
-        answer = new Answer(startX, startY, finishX, finishY);
+        answer = new Answer(startX, startY, finishX, finishY,'Q'); // todo превращение ?
     }
 
     @Override

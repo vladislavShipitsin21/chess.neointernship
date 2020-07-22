@@ -9,9 +9,9 @@ import neointernship.chess.game.model.playmap.field.IField;
 
 public interface IGameLogger {
     void logStartGame(final IPlayer playerOne, final IPlayer playerTwo);
-    void logPlayerMoveAction(final IPlayer player, final Figure figure,
+    void logPlayerMoveAction(final Color color, final Figure figure,
                              final IField startField, final IField finalField,final IAllowCommand command);
-    void logPlayerWrongAction(final IPlayer player, final IField field);
+    void logPlayerWrongAction(final Color color, final IField field);
     void logPlayerWin(final Color color);
     void logStalemate();
     void logDraw(final IDrawController drawController );
