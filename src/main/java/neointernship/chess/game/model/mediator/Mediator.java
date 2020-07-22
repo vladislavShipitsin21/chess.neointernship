@@ -45,11 +45,6 @@ public class Mediator implements IMediator, Cloneable {
     }
 
     @Override
-    public void updateConnection(IField field, Figure figure) {
-        mediator.replace(field, figure);
-    }
-
-    @Override
     public void clear() {
         mediator.clear();
     }
@@ -106,7 +101,15 @@ public class Mediator implements IMediator, Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Mediator mediator1 = (Mediator) o;
+        return Objects.equals(mediator, mediator1.mediator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mediator);
     }
 }

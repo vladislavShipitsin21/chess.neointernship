@@ -1,5 +1,6 @@
 package neointernship.chess.game.model.playmap.field;
 
+import neointernship.chess.game.model.answer.RepositiryChar;
 import neointernship.chess.game.model.enums.Color;
 
 import java.util.Objects;
@@ -9,6 +10,11 @@ public class Field implements IField {
     private final int x;
     private final int y;
     private final Color color;
+
+    /**
+     * отвечает за отображение координат клетки
+     */
+    private static final RepositiryChar repositiryChar = new RepositiryChar();
 
     public Field(int x, int y) {
         this.x = x;
@@ -33,8 +39,7 @@ public class Field implements IField {
      * @return
      */
     private Color initColor(){
-        if( (x + y) % 2 == 0) return Color.WHITE;
-        return Color.BLACK;
+        return (x + y) % 2 == 0 ? Color.WHITE : Color.BLACK;
     }
 
     @Override
@@ -50,5 +55,14 @@ public class Field implements IField {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, color);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("(");
+        sb.append(repositiryChar.getY(getYCoord()));
+        sb.append(repositiryChar.getX(getXCoord()));
+        sb.append(')');
+        return sb.toString();
     }
 }

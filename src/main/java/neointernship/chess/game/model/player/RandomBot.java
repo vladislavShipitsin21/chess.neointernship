@@ -12,15 +12,12 @@ import neointernship.chess.game.model.playmap.field.IField;
 import java.util.List;
 import java.util.Random;
 
-public class RandomBot implements IPlayer {
-    private final Color color;
-    private final String name;
+public class RandomBot extends Player{
 
     Random random;
 
     public RandomBot(Color color) {
-        this.color = color;
-        name = "Random bot";
+        super("Random bot",color);
         random = new Random();
     }
 
@@ -42,17 +39,22 @@ public class RandomBot implements IPlayer {
 
         IField startField = mediator.getField(figure);
 
-        return new Answer(startField.getXCoord(), startField.getYCoord(),
-                finalField.getXCoord(), finalField.getYCoord());
+
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
+        IAnswer answer = new Answer(startField.getXCoord(), startField.getYCoord(),
+                finalField.getXCoord(), finalField.getYCoord(),'Q');
+        printAnswer(startField,finalField);
+        return answer;
     }
 
-    @Override
-    public Color getColor() {
-        return color;
-    }
 
-    @Override
-    public String getName() {
-        return color + "-" + name;
+    private void printAnswer(final IField start,final IField finish){
+        System.out.println("Color = " + super.getColor());
+        System.out.println(start.toString() + " - " + finish.toString());
     }
 }

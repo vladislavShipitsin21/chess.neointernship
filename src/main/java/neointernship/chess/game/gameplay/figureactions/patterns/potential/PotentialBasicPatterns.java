@@ -2,21 +2,28 @@ package neointernship.chess.game.gameplay.figureactions.patterns.potential;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.Pawn;
+import neointernship.chess.game.model.figure.piece.Rook;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
+import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.chess.game.story.IStoryGame;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
-public final class PotentialPotentialBasicPatterns implements IPotentialBasicPatterns {
+public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
     private final int boardSize;
     private final IMediator mediator;
     private final IBoard board;
+    private final IStoryGame storyGame;
 
-    public PotentialPotentialBasicPatterns(IMediator mediator, IBoard board) {
+    public PotentialBasicPatterns(final IMediator mediator,final IBoard board,final IStoryGame storyGame) {
         this.mediator = mediator;
         this.board = board;
         boardSize = board.getSize();
+        this.storyGame = storyGame;
     }
 
     public ArrayList<IField> getDiagonalFields(final Figure figure) {
@@ -106,7 +113,7 @@ public final class PotentialPotentialBasicPatterns implements IPotentialBasicPat
         ArrayList<IField> possibleAttackFields = new ArrayList<>();
         IField currentField = mediator.getField(figure);
 
-        int offset = (figure.getColor() == Color.BLACK) ? 1 : -1;
+        int offset = (figure.getColor() == Color.BLACK) ? 1 : -1 ;
 
         int[] onesList = new int[] {1, -1};
         for (int one : onesList) {
@@ -114,6 +121,7 @@ public final class PotentialPotentialBasicPatterns implements IPotentialBasicPat
         }
         addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
 
+        addIfAisleTake(figure,possibleAttackFields);
 
         if (currentField.getXCoord() == 6 && figure.getColor() == Color.WHITE) {
             offset = -  2;
@@ -127,53 +135,98 @@ public final class PotentialPotentialBasicPatterns implements IPotentialBasicPat
         return possibleAttackFields;
     }
 
+    private void addIfAisleTake(final Figure pawn, final Collection<IField> possibleAttackFields){
+        final IField currentField = mediator.getField(pawn);
+        final Color color = pawn.getColor();
+        final Figure lastFigure = storyGame.getLastFigureMove();
+
+        int startXCoord = 3;
+        int move = -1;
+        if(color == Color.BLACK){
+            startXCoord = 4;
+            move = 1;
+        }
+
+        final IField lastFieldLastFigure = storyGame.getLastFieldFigure(lastFigure);
+        final IField realFieldLastFigure = mediator.getField(lastFigure);
+
+        if(realFieldLastFigure != null) { // может быть null если было взятие на проходе
+            if (currentField.getXCoord() == startXCoord && lastFigure.getColor() == Color.swapColor(color)) {
+                if (lastFigure.getClass() == Pawn.class) {
+                    if (Math.abs(realFieldLastFigure.getXCoord() - lastFieldLastFigure.getXCoord()) == 2) {
+                        if (Math.abs(lastFieldLastFigure.getYCoord() - currentField.getYCoord()) == 1) {
+                            possibleAttackFields.add(new Field(startXCoord + move, lastFieldLastFigure.getYCoord()));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Override
-    public ArrayList<IField> getKingFields(Figure figure) {
+    public ArrayList<IField> getKingFields(Figure king) {
         ArrayList<IField> possibleAttackFields = new ArrayList<>();
 
-        IField currentField = mediator.getField(figure);
+        IField fieldKing = mediator.getField(king);
 
         int[] onesList = new int[] {1, -1};
 
         for (int one : onesList) {
             for (int two : onesList) {
-                boolean nextFieldIsAttacked = false;
 
-                if (validCoordinates(currentField.getXCoord() + one, currentField.getYCoord() + two)) {
-                    IField nextField = board.getField(currentField.getXCoord() + one, currentField.getYCoord() + two);
-
-                    /*Set<Map.Entry<Figure, Collection<IField>>> entrySet = possibleActionList.getMap().entrySet();
-                    for (Map.Entry<Figure, Collection<IField>> pair : entrySet) {
-                        for (IField field : pair.getValue()) {
-                            if (Objects.equals(field, nextField)) {
-                                nextFieldIsAttacked = true;
-                                break;
-                            }
-                        }
-                    }*/
-                }
-                if (!nextFieldIsAttacked) {
-                actionToAdd(figure.getColor(),
-                        currentField.getXCoord() + one,
-                        currentField.getYCoord() + two,
+                actionToAdd(king.getColor(),
+                        fieldKing.getXCoord() + one,
+                        fieldKing.getYCoord() + two,
                         possibleAttackFields);
-                }
+
             }
         }
 
         for (int one : onesList) {
-            actionToAdd(figure.getColor(),
-                    currentField.getXCoord() + one,
-                    currentField.getYCoord(),
+            actionToAdd(king.getColor(),
+                    fieldKing.getXCoord() + one,
+                    fieldKing.getYCoord(),
                     possibleAttackFields);
 
-            actionToAdd(figure.getColor(),
-                    currentField.getXCoord(),
-                    currentField.getYCoord() + one,
+            actionToAdd(king.getColor(),
+                    fieldKing.getXCoord(),
+                    fieldKing.getYCoord() + one,
                     possibleAttackFields);
         }
 
+        addIfCastling(king,fieldKing,possibleAttackFields);
+
         return possibleAttackFields;
+    }
+
+    private void addIfCastling(final Figure king,final IField fieldKing,final Collection<IField> possibleAttackFields){
+        // если король не ходил
+        if(!storyGame.isMove(king)){
+
+            for (Figure rook : mediator.getFigures(king.getColor())){
+                // если есть ладья которой не ходил
+                if(rook.getClass() == Rook.class && !storyGame.isMove(rook)){
+                    // если между ними нет других фигур
+                    boolean haveFigure = false;
+                    IField fieldRook = mediator.getField(rook);
+                    int dif = fieldKing.getYCoord() < fieldRook.getYCoord() ? 1 : -1;
+
+                    IField fieldTemp = board.getField(fieldKing.getXCoord(),fieldKing.getYCoord() + dif);
+
+                    while (fieldTemp.getYCoord() != fieldRook.getYCoord()){
+                        if(mediator.getFigure(fieldTemp) != null){
+                            haveFigure = true;
+                        }
+                        fieldTemp = board.getField(fieldKing.getXCoord(),fieldTemp.getYCoord() + dif);
+                    }
+                    //если фигур нет
+                    if(!haveFigure){
+                        IField finalField = board.getField(fieldKing.getXCoord(),fieldKing.getYCoord() + (2 * dif));
+                        possibleAttackFields.add(finalField);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -219,7 +272,7 @@ public final class PotentialPotentialBasicPatterns implements IPotentialBasicPat
         IField field = board.getField(newFieldXCoord, newFieldYCoord);
         Figure figure = mediator.getFigure(field);
 
-        if (figure != null && !mediator.getFigure(field).getColor().equals(color)) {
+        if (figure != null && figure.getColor() != color) {
             possibleMoveList.add(field);
         }
     }

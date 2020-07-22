@@ -9,7 +9,6 @@ import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.subscriber.ISubscriber;
-import neointernship.chess.logger.GameLogger;
 import neointernship.chess.logger.IGameLogger;
 
 public class GameStateController implements ISubscriber, IGameStateController {
@@ -62,6 +61,9 @@ public class GameStateController implements ISubscriber, IGameStateController {
     @Override
     public void update(Color color, KingState kingState) {
         boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
+        if(!figuresHaveMoves){
+            System.out.println();
+        }
         currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);
 
         System.out.format("Game status updated: %s\n", currentState.getValue());

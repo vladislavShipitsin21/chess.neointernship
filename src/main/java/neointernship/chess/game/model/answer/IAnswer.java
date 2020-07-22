@@ -5,4 +5,5 @@ public interface IAnswer {
     int getStartY();
     int getFinalX();
     int getFinalY();
+    char getSimbol();
 }

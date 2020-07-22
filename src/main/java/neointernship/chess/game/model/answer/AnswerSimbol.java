@@ -1,19 +1,22 @@
 package neointernship.chess.game.model.answer;
 
-public class Answer implements IAnswer {
+public class AnswerSimbol implements IAnswer {
     final int startX;
     final int startY;
     final int finalX;
     final int finalY;
     char simbol;
 
-    public Answer(final int startX, final int startY, final int finalX,final int finalY,char simbol) {
-        this.startX = startX;
-        this.startY = startY;
-        this.finalX = finalX;
-        this.finalY = finalY;
+    private static final RepositiryChar repositiryChar = new RepositiryChar();
 
-        this.simbol = simbol;
+    public AnswerSimbol(char startC,char startI,char finishC,char finishI) {
+        this.startX  = repositiryChar.getX(startI);
+        this.startY = repositiryChar.getY(startC);
+
+        this.finalX = repositiryChar.getX(finishI);
+        this.finalY = repositiryChar.getY(finishC);
+
+        simbol = 'Q';
     }
 
     @Override

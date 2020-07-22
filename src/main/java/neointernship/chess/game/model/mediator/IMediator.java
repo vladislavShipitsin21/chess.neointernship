@@ -17,7 +17,6 @@ public interface IMediator {
 
     void addNewConnection(final IField field, final Figure figure);
     void deleteConnection(final IField field);
-    void updateConnection(final IField field, final Figure figure);
 
     void clear();
 

@@ -1,5 +1,5 @@
 package neointernship.chess.game.selfplay;
 
 public interface ISelfplay {
-    void start();
+    void start(int countGame);
 }

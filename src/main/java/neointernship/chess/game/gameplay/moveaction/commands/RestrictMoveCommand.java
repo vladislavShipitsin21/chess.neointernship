@@ -14,16 +14,21 @@ public class RestrictMoveCommand implements IMoveCommand {
     private final IPossibleActionList possibleActionList;
     private final IBoard board;
 
+    private final IGameLogger gameLogger;
+
     public RestrictMoveCommand(final IMediator mediator,
                                final IPossibleActionList possibleActionList,
-                               final IBoard board) {
+                               final IBoard board,
+                               final IGameLogger gameLogger) {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;
+
+        this.gameLogger = gameLogger;
     }
 
     @Override
-    public boolean execute(final IPlayer player, final IAnswer answer, final IGameLogger gameLogger) {
+    public boolean execute(final IPlayer player, final IAnswer answer) {
         System.out.println("Move is not Valid (?!)");
 
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());

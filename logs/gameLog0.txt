@@ -1,1 +1,0 @@
-Игра между игроком neointernship.chess.game.model.player.RandomBot@48cf768c и игроком neointernship.chess.game.model.player.RandomBot@59f95c5d началась!
