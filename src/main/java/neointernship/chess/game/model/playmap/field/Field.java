@@ -1,6 +1,7 @@
 package neointernship.chess.game.model.playmap.field;
 
 import neointernship.chess.game.model.answer.RepositiryChar;
+import com.fasterxml.jackson.annotation.*;
 import neointernship.chess.game.model.enums.Color;
 
 import java.util.Objects;
@@ -20,6 +21,14 @@ public class Field implements IField {
         this.x = x;
         this.y = y;
         color = initColor();
+    }
+
+    @JsonCreator
+    public Field(final String field){
+        final String[] params = field.split(":");
+        this.x = Integer.parseInt(params[0].trim());
+        this.y = Integer.parseInt(params[1].trim());
+        this.color = Color.parseColor(params[2].trim());
     }
 
     public int getXCoord() {
@@ -42,6 +51,14 @@ public class Field implements IField {
         return (x + y) % 2 == 0 ? Color.WHITE : Color.BLACK;
     }
 
+    public String showField() {
+        final StringBuffer sb = new StringBuffer("(");
+        sb.append(repositiryChar.getY(getYCoord()));
+        sb.append(repositiryChar.getX(getXCoord()));
+        sb.append(')');
+        return sb.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -58,11 +75,8 @@ public class Field implements IField {
     }
 
     @Override
+    @JsonValue
     public String toString() {
-        final StringBuffer sb = new StringBuffer("(");
-        sb.append(repositiryChar.getY(getYCoord()));
-        sb.append(repositiryChar.getX(getXCoord()));
-        sb.append(')');
-        return sb.toString();
+        return x + ":" + y + ":" + color;
     }
 }

@@ -1,8 +1,11 @@
 package neointernship.chess.game.model.mediator;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
+import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.*;
@@ -12,20 +15,38 @@ import java.util.stream.Collectors;
  * Связка клетка-фигура.
  */
 public class Mediator implements IMediator, Cloneable {
-    private HashMap<IField, Figure> mediator;
+
+    private final HashMap<IField, Figure> mediator;
+
 
     public Mediator() {
         mediator = new HashMap<>();
     }
 
-    public Mediator(IMediator mediator) {
+    public Mediator(final IMediator mediator) {
         this();
-        for (Figure figure : mediator.getFigures()){
-            IField field = mediator.getField(figure);
+        for (final Figure figure : mediator.getFigures()){
+            final IField field = mediator.getField(figure);
             addNewConnection(field,figure);
         }
     }
 
+    //@JsonCreator
+    public Mediator(final String string) {
+        this();
+        final Factory factory = new Factory();
+        for (final String maps1 : string.split("<")){
+            for (final String maps2: maps1.split(">")) {
+                final String[] maps3 = maps2.split(";");
+                if (maps3.length == 2){
+                    final IField field = new Field(maps3[0]);
+                    String[] maps4 = maps3[1].split(":");
+                    Figure figure = factory.createFigure(maps4[1].trim().charAt(0), Color.parseColor(maps4[2].trim()));
+                    this.addNewConnection(field, figure);
+                }
+            }
+        }
+    }
 
     /**
      * Добавление новой связи
@@ -34,8 +55,7 @@ public class Mediator implements IMediator, Cloneable {
      * @param figure фигура
      */
     @Override
-    public void addNewConnection(final IField field,
-                                 final Figure figure) {
+    public void addNewConnection(final IField field, final Figure figure) {
         mediator.put(field, figure);
     }
 
@@ -50,14 +70,15 @@ public class Mediator implements IMediator, Cloneable {
     }
 
     @Override
-    public Figure getKing(Color color) {
-        for (Figure figure : mediator.values()) {
+    public Figure getKing(final Color color) {
+        for (final Figure figure : mediator.values()) {
             if (figure.getClass().equals(King.class) && figure.getColor() == color) {
                 return figure;
             }
         }
         return null;
     }
+
 
     /**
      * Получение фигуры, стоящей на данном поле.
@@ -69,7 +90,7 @@ public class Mediator implements IMediator, Cloneable {
     }
 
     @Override
-    public Collection<Figure> getFigures(Color color) {
+    public Collection<Figure> getFigures(final Color color) {
         return getFigures()
                 .stream()
                 .filter(f -> f.getColor() == color)
@@ -90,9 +111,9 @@ public class Mediator implements IMediator, Cloneable {
      * @return поле.
      */
     public IField getField(final Figure figure) {
-        Set<Map.Entry<IField, Figure>> entrySet = mediator.entrySet();
+        final Set<Map.Entry<IField, Figure>> entrySet = mediator.entrySet();
 
-        for (Map.Entry<IField, Figure> pair : entrySet) {
+        for (final Map.Entry<IField, Figure> pair : entrySet) {
             if (Objects.equals(figure, pair.getValue())) {
                 return pair.getKey();
             }
@@ -111,5 +132,15 @@ public class Mediator implements IMediator, Cloneable {
     @Override
     public int hashCode() {
         return Objects.hash(mediator);
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        String string = "";
+        for (final IField field: mediator.keySet()) {
+            string += "<" + field.toString() + ";" + mediator.get(field).toString() + ">";
+        }
+        return string;
     }
 }

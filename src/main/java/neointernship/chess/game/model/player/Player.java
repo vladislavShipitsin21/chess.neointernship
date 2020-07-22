@@ -23,8 +23,8 @@ public class Player implements IPlayer {
         this.name = name;
     }
 
-   /* @Override
-    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
+    /*@Override
+    public IAnswer getAnswer(final IMediator mediator, IPossibleActionList list) {
         Scanner scanner = new Scanner(System.in);
         System.out.format("%s player turn to move: ", getName());
         String input = scanner.nextLine();
@@ -32,18 +32,8 @@ public class Player implements IPlayer {
         return new Answer(Integer.parseInt(strArr[0]),
                 Integer.parseInt(strArr[1]),
                 Integer.parseInt(strArr[2]),
-                Integer.parseInt(strArr[3]),'Q');
+                Integer.parseInt(strArr[3]));
     }*/
-    @Override
-    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.format("%s player turn to move: ", getName());
-        String input = scanner.nextLine();
-        String[] strArr = input.split("-");
-
-
-        return new AnswerSimbol( strArr[0].charAt(0), strArr[0].charAt(1), strArr[1].charAt(0), strArr[1].charAt(1));
-    }
 
     public Color getColor() {
         return color;

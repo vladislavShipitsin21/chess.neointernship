@@ -1,8 +1,7 @@
 package neointernship.chess.game.model.figure.piece;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import neointernship.chess.game.model.enums.Color;
-
-import java.util.Objects;
 
 /**
  * Интерфейс (абстрактный класс) для описания шахматных фигур.
@@ -29,7 +28,6 @@ public abstract class Figure {
         this.price = price;
     }
 
-
     public String getName() {
         return name;
     }
@@ -44,6 +42,12 @@ public abstract class Figure {
 
     public short getPrice() {
         return price;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return name + ":" + gameSymbol + ":" + color + ":" + price;
     }
 
     @Override

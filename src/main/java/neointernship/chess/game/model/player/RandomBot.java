@@ -6,7 +6,6 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.List;
@@ -21,8 +20,8 @@ public class RandomBot extends Player{
         random = new Random();
     }
 
-    @Override
-    public IAnswer getAnswer(IBoard board, IMediator mediator, IPossibleActionList list) {
+   /* @Override
+    public IAnswer getAnswer(IMediator mediator, IPossibleActionList list) {
         List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields;
         Figure figure;
@@ -50,8 +49,7 @@ public class RandomBot extends Player{
                 finalField.getXCoord(), finalField.getYCoord(),'Q');
         printAnswer(startField,finalField);
         return answer;
-    }
-
+    }*/
 
     private void printAnswer(final IField start,final IField finish){
         System.out.println("Color = " + super.getColor());

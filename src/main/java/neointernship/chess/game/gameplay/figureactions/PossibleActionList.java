@@ -1,7 +1,7 @@
 package neointernship.chess.game.gameplay.figureactions;
 
 import neointernship.chess.game.gameplay.figureactions.patterns.potential.PotentialBasicPatterns;
-import neointernship.chess.game.gameplay.figureactions.patterns.potential.IPotentialBasicPatterns;
+import neointernship.chess.game.gameplay.figureactions.patterns.potential.IPotentialBasicPatterns;;
 import neointernship.chess.game.gameplay.figureactions.patterns.real.IRealBasicPatterns;
 import neointernship.chess.game.gameplay.figureactions.patterns.real.RealBasicPatterns;
 import neointernship.chess.game.model.figure.piece.Figure;
