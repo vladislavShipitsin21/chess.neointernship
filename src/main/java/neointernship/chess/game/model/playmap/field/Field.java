@@ -1,26 +1,17 @@
 package neointernship.chess.game.model.playmap.field;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.*;
 import neointernship.chess.game.model.enums.Color;
 
 import java.util.Objects;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Field implements IField {
 
-    @JsonProperty
     private final int x;
-    @JsonProperty
     private final int y;
-    @JsonProperty("color")
     private final Color color;
 
-    @JsonCreator
-    public Field(@JsonProperty("x") final int x,
-                 @JsonProperty("y") final int y) {
+    public Field(final int x, final int y) {
         this.x = x;
         this.y = y;
         color = initColor();

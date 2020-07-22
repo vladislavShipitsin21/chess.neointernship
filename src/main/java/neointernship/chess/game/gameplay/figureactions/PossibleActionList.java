@@ -1,8 +1,7 @@
 package neointernship.chess.game.gameplay.figureactions;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import neointernship.chess.game.gameplay.figureactions.patterns.potential.PotentialPotentialBasicPatterns;
 import neointernship.chess.game.gameplay.figureactions.patterns.potential.IPotentialBasicPatterns;
+import neointernship.chess.game.gameplay.figureactions.patterns.potential.PotentialPotentialBasicPatterns;
 import neointernship.chess.game.gameplay.figureactions.patterns.real.IRealBasicPatterns;
 import neointernship.chess.game.gameplay.figureactions.patterns.real.RealBasicPatterns;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -15,7 +14,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class PossibleActionList implements IPossibleActionList {
     private final IMediator mediator;
 

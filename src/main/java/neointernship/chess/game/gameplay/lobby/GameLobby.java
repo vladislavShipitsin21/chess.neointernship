@@ -1,11 +1,5 @@
 package neointernship.chess.game.gameplay.lobby;
 
-import neointernship.chess.client.communication.data.initgame.IInitGame;
-import neointernship.chess.client.communication.data.initgame.InitGame;
-import neointernship.chess.client.communication.message.Message;
-import neointernship.chess.client.communication.message.MessageCode;
-import neointernship.chess.client.communication.serializer.SerializerForInitGame;
-import neointernship.chess.client.communication.serializer.SerializerForMessage;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.loop.GameLoop;
@@ -22,10 +16,6 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.board.figuresstartposition.FiguresStartPositionRepository;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.logger.IGameLogger;
-
-import java.io.IOException;
-
-import static neointernship.chess.Main.*;
 
 
 public class GameLobby implements ILobby {
@@ -80,29 +70,6 @@ public class GameLobby implements ILobby {
 
     @Override
     public void start() {
-        Message message1 = new Message(MessageCode.INIT_GAME);
-        IInitGame initGame1 = new InitGame(mediator, board, Color.WHITE);
-        Message message2 = new Message(MessageCode.INIT_GAME);
-        IInitGame initGame2 = new InitGame(mediator, board, Color.BLACK);
-        try {
-            String s1 = SerializerForMessage.serializer(message1);
-            String s = SerializerForInitGame.serializer(initGame1);
-            System.out.println(s1);
-            System.out.println(s);
-            out1.write(SerializerForMessage.serializer(message1) + "\n");
-            out1.flush();
-            out1.write(SerializerForInitGame.serializer(initGame1) + "\n");
-            out1.flush();
-            System.out.println(in1.readLine());
-
-            out2.write(SerializerForMessage.serializer(message2) + "\n");
-            out2.flush();
-            in2.readLine();
-            out2.write("1");
-            out2.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         gameLoop.activate();
     }
 }
