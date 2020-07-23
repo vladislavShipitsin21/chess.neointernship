@@ -28,15 +28,15 @@ public class Bot implements IPlayer {
     public Bot(){
         this.random = new Random();
         this.name = "Bot";
-        this.color = Color.WHITE;
+        this.color = Color.BLACK;
     }
 
     public void init(final IMediator mediator, final IBoard board, final Color color) {
         this.mediator = mediator;
         this.board = board;
         this.color = color;
-        this.possibleActionList = new PossibleActionList(board, mediator,storyGame);
         this.storyGame = new StoryGame(mediator);
+        this.possibleActionList = new PossibleActionList(board, mediator,storyGame);
     }
 
     @Override
@@ -45,6 +45,8 @@ public class Bot implements IPlayer {
         List<IField> fields = null;
         Figure figure = null;
         int index;
+
+        possibleActionList.updateRealLists();
 
         do {
             index = random.nextInt(figures.size());

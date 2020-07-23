@@ -1,9 +1,10 @@
 package neointernship.web.client.controller;
 
-import neointernship.web.client.communication.message.Message;
 import neointernship.web.client.communication.message.MessageDto;
 import neointernship.web.client.communication.message.ModelMessageReaction;
 import neointernship.web.client.communication.serializer.MessageSerializer;
+import neointernship.web.client.player.Bot;
+import neointernship.web.client.player.IPlayer;
 
 import java.io.*;
 import java.net.Socket;
@@ -14,7 +15,7 @@ public class Controller implements Runnable{
     private Socket socket;
     private Connection connection;
     private ModelMessageReaction modelMessageReaction;
-
+    private IPlayer player = new Bot();
     @Override
     public void run() {
         modelMessageReaction = new ModelMessageReaction();
@@ -26,16 +27,9 @@ public class Controller implements Runnable{
                 final String jsonMessage = in.readLine();
                 final MessageDto messageDto = MessageSerializer.deserialize(jsonMessage);
                 messageDto.validate();
-                final Message message = new Message(messageDto.getClientCodes());
-                modelMessageReaction.get(message.getClientCodes()).execute(message, in, out);
-            } catch (final java.lang.Exception e) {
+                modelMessageReaction.get(messageDto.getClientCodes()).execute(player, in, out);
+            } catch (final Exception e) {
                 e.printStackTrace();
-                try {
-                    //out.write(SerializerForMessage.serializer(errMessage) + "\n");
-                    out.flush();
-                } catch (final IOException ioException) {
-                    ioException.printStackTrace();
-                }
             }
         }
     }

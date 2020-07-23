@@ -1,7 +1,6 @@
 package neointernship.web.client;
 
 import neointernship.web.client.controller.Controller;
-import neointernship.web.client.view.View;
 
 public class Client {
     /**
@@ -10,14 +9,14 @@ public class Client {
      * @param args аргументы командной строки
      */
     public static void main(final String[] args) {
-        startView();
+        //startView();
         startController();
     }
 
-    private static void startView() {
+   /* private static void startView() {
         final Runnable view = new View();
         new Thread(view).start();
-    }
+    }*/
 
     private static void startController() {
         final Runnable controller = new Controller();

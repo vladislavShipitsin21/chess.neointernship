@@ -18,7 +18,6 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.logger.IGameLogger;
 import neointernship.web.client.communication.message.ChessCodes;
 
 /**
@@ -56,14 +55,17 @@ public class GameLoop implements IGameLoop {
     @Override
     public ChessCodes doIteration(final IAnswer answer) {
         activeColor = activeColorController.getCurrentColor();
-
         gameProcessController.makeTurn(activeColor, answer);
 
         final ChessCodes chessCodes = gameProcessController.getChessCode();
 
         if(chessCodes != ChessCodes.ERROR) {
+            activeColorController.update();
+            activeColor = activeColorController.getCurrentColor();
+
             kingStateController.setActiveColor(activeColor);
             kingStateController.updateState();
+
 
             consoleBoardWriter.printBoard();
         }

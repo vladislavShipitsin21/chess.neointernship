@@ -1,5 +1,6 @@
 package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
+import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.story.IStoryGame;
@@ -13,7 +14,7 @@ public class DrawFiftyStep implements IDrawController {
     private int countStep;
     private int lastSizeMediator;
 
-    public DrawFiftyStep(IStoryGame storyGame){
+    public DrawFiftyStep(final IStoryGame storyGame){
         this.storyGame = storyGame;
         countStep = 0;
         lastSizeMediator = 32;
@@ -24,8 +25,11 @@ public class DrawFiftyStep implements IDrawController {
      * @return
      */
     @Override
-    public boolean isDraw(IMediator mediator) {
+    public boolean isDraw(final IMediator mediator) {
         final int newSizeMediator = mediator.getFigures().size();
+
+        final Figure figure = storyGame.getLastFigureMove();
+        if (figure == null) return false;
 
         if(lastSizeMediator == newSizeMediator
                 && storyGame.getLastFigureMove().getClass() != Pawn.class) {

@@ -1,8 +1,12 @@
 package neointernship.web.client.communication.data.initinfo;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import neointernship.chess.game.model.enums.Color;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonTypeName("InitInfoDto")
 public class InitInfoDto implements IInitInfo {
     @JsonProperty
     private String name;
