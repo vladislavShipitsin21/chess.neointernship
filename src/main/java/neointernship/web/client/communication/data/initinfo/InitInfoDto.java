@@ -1,8 +1,8 @@
-package neointernship.web.client.communication.data.info;
+package neointernship.web.client.communication.data.initinfo;
 
 import neointernship.chess.game.model.enums.Color;
 
-public class InfoDto implements IInfo {
+public class InitInfoDto implements IInitInfo {
     private String name;
     private Color color;
 

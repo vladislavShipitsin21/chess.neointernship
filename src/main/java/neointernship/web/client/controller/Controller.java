@@ -1,9 +1,8 @@
 package neointernship.web.client.controller;
 
 import neointernship.web.client.communication.message.Message;
-import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.MessageDto;
-import neointernship.web.client.communication.message.MessageReactionForModel;
+import neointernship.web.client.communication.message.ModelMessageReaction;
 import neointernship.web.client.communication.serializer.MessageSerializer;
 
 import java.io.*;
@@ -14,24 +13,23 @@ public class Controller implements Runnable{
     private BufferedWriter out = null;
     private Socket socket;
     private Connection connection;
-    private MessageReactionForModel messageReactionForModel;
+    private ModelMessageReaction modelMessageReaction;
 
     @Override
     public void run() {
-        messageReactionForModel = new MessageReactionForModel();
+        modelMessageReaction = new ModelMessageReaction();
 
         startConnection();
 
         while (true) {
             try {
                 final String jsonMessage = in.readLine();
-                final MessageDto messageDto = MessageSerializer.deserializer(jsonMessage);
+                final MessageDto messageDto = MessageSerializer.deserialize(jsonMessage);
                 messageDto.validate();
                 final Message message = new Message(messageDto.getClientCodes());
-                messageReactionForModel.get(message.getClientCodes()).execute(message, in, out);
+                modelMessageReaction.get(message.getClientCodes()).execute(message, in, out);
             } catch (final java.lang.Exception e) {
                 e.printStackTrace();
-                final Message errMessage = new Message(ClientCodes.ERROR_TURN);
                 try {
                     //out.write(SerializerForMessage.serializer(errMessage) + "\n");
                     out.flush();

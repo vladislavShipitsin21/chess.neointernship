@@ -14,7 +14,7 @@ public class InitGameSerializer {
         return objectMapper.writeValueAsString(initGame);
     }
 
-    public static InitGameDto deserializer(final String string) throws JsonProcessingException {
+    public static InitGameDto deserialize(final String string) throws JsonProcessingException {
         return objectMapper.readValue(string, InitGameDto.class);
     }
 }

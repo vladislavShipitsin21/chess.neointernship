@@ -1,4 +1,4 @@
-package neointernship.web.client.communication.data.info;
+package neointernship.web.client.communication.data.initinfo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -6,10 +6,10 @@ import neointernship.chess.game.model.enums.Color;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Info.class, name = "Name"),
-        @JsonSubTypes.Type(value = InfoDto.class, name = "NameDto"),
+        @JsonSubTypes.Type(value = InitInfo.class, name = "Name"),
+        @JsonSubTypes.Type(value = InitInfoDto.class, name = "NameDto"),
 })
-public interface IInfo {
+public interface IInitInfo {
     String getName();
     Color getColor();
 }

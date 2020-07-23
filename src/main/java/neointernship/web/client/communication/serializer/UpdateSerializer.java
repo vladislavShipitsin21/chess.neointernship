@@ -14,7 +14,7 @@ public class UpdateSerializer {
         return objectMapper.writeValueAsString(update);
     }
 
-    public static UpdateDto deserializer(final String string) throws JsonProcessingException {
+    public static UpdateDto deserialize(final String string) throws JsonProcessingException {
         return objectMapper.readValue(string, UpdateDto.class);
     }
 }

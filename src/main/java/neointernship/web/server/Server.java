@@ -15,7 +15,6 @@ import neointernship.chess.game.model.figure.factory.IFactory;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
-import neointernship.chess.game.model.player.Player;
 import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.board.figuresstartposition.FiguresStartPositionRepository;
@@ -23,8 +22,7 @@ import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 import neointernship.chess.logger.GameLogger;
-import neointernship.chess.logger.IGameLogger;
-import neointernship.web.client.communication.data.info.InfoDto;
+import neointernship.web.client.communication.data.initinfo.InitInfoDto;
 import neointernship.web.client.communication.data.initgame.IInitGame;
 import neointernship.web.client.communication.data.initgame.InitGame;
 import neointernship.web.client.communication.data.turn.TurnDto;
@@ -106,7 +104,7 @@ public class Server {
 
             gameLoop = new GameLoop(mediator, possibleActionList, board, colorController, gameLogger, storyGame);
 
-            GameLogger.getLogger(lobbyId).logStartGame(firstUserConnection.getPlayer(), secondUserConnection.getPlayer());
+            GameLogger.getLogger(lobbyId).logStartGame(firstUserConnection.getName(), secondUserConnection.getName());
 
             initGameMap();
             start();
@@ -179,7 +177,7 @@ public class Server {
 
                         BufferedReader in = connection.getIn();
                         String msg = in.readLine();
-                        TurnDto turnDto = AnswerSerializer.deserializer(msg);
+                        TurnDto turnDto = AnswerSerializer.deserialize(msg);
                         turnDto.validate();
                         answer = turnDto.getAnswer();
 
@@ -250,7 +248,7 @@ public class Server {
             send(out, MessageSerializer.serialize(message));
 
             String msg = in.readLine();
-            InfoDto info = InfoSerializer.deserialize(msg);
+            InitInfoDto info = InfoSerializer.deserialize(msg);
             info.validate();
 
             color = info.getColor();

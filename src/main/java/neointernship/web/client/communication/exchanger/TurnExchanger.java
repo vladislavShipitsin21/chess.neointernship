@@ -4,10 +4,10 @@ import neointernship.web.client.communication.data.turn.ITurn;
 
 import java.util.concurrent.Exchanger;
 
-public class ExchangerForTurn {
+public class TurnExchanger {
     private static final Exchanger<ITurn> exchanger = new Exchanger<>();
 
-    private ExchangerForTurn(){}
+    private TurnExchanger(){}
 
     public static ITurn exchange(final ITurn turn) throws InterruptedException {
         return exchanger.exchange(turn);

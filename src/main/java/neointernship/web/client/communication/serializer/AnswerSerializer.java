@@ -10,11 +10,11 @@ public class AnswerSerializer {
 
     private AnswerSerializer(){}
 
-    public static String serializer(final ITurn turn) throws JsonProcessingException {
+    public static String serialize(final ITurn turn) throws JsonProcessingException {
         return objectMapper.writeValueAsString(turn);
     }
 
-    public static TurnDto deserializer(final String string) throws JsonProcessingException {
+    public static TurnDto deserialize(final String string) throws JsonProcessingException {
         return objectMapper.readValue(string, TurnDto.class);
     }
 }

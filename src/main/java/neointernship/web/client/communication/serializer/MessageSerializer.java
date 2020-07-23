@@ -15,7 +15,7 @@ public final class MessageSerializer {
         return objectMapper.writeValueAsString(message);
     }
 
-    public static MessageDto deserializer(final String string) throws JsonProcessingException {
+    public static MessageDto deserialize(final String string) throws JsonProcessingException {
         return objectMapper.readValue(string, MessageDto.class);
     }
 }

@@ -5,7 +5,6 @@ import neointernship.chess.game.gameplay.gamestate.controller.draw.IDrawControll
 import neointernship.chess.game.gameplay.moveaction.commands.allow.IAllowCommand;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.field.IField;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
@@ -45,8 +44,8 @@ public class GameLogger implements IGameLogger{
     }
 
     @Override
-    public void logStartGame(final IPlayer playerOne, final IPlayer playerTwo) {
-        logger.info("Игра между игроком " + playerOne.getName() + " и игроком " + playerTwo.getName() + " началась!");
+    public void logStartGame(final String firstPlayerName, final String secondPlayerName) {
+        logger.info("Игра между игроком " + firstPlayerName + " и игроком " + secondPlayerName + " началась!");
     }
 
     @Override
