@@ -19,25 +19,29 @@ public class Bot implements IPlayer {
     private IMediator mediator;
     private IBoard board;
     private Color color;
-    private final IStoryGame storyGame;
+    private IStoryGame storyGame;
     private IPossibleActionList possibleActionList;
-    private String name;
-    private Random random;
+    private final String name;
+    private final Random random;
 
 
-    public Bot(final IMediator mediator, final IBoard board, final Color color){
+    public Bot(){
+        this.random = new Random();
+        this.name = "Bot";
+        this.color = Color.BLACK;
+    }
+
+    public void init(final IMediator mediator, final IBoard board, final Color color) {
         this.mediator = mediator;
         this.board = board;
         this.color = color;
-        this.storyGame = new StoryGame(mediator);
         this.possibleActionList = new PossibleActionList(board, mediator,storyGame);
-        random = new Random();
-        this.name = "Bot";
+        this.storyGame = new StoryGame(mediator);
     }
 
     @Override
     public IAnswer getAnswer() {
-        List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
+        final List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields = null;
         Figure figure = null;
         int index;
@@ -49,9 +53,9 @@ public class Bot implements IPlayer {
         } while (fields.isEmpty());
 
         index = random.nextInt(fields.size());
-        IField finalField = fields.get(index);
+        final IField finalField = fields.get(index);
 
-        IField startField = mediator.getField(figure);
+        final IField startField = mediator.getField(figure);
 
         return new Answer(startField.getXCoord(), startField.getYCoord(),
                 finalField.getXCoord(), finalField.getYCoord(),'Q');

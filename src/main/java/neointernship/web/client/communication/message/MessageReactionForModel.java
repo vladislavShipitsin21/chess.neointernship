@@ -6,7 +6,7 @@ import neointernship.web.client.communication.message.reaction.model.*;
 import java.util.HashMap;
 
 public class MessageReactionForModel {
-    private HashMap<MessageCode, IMessageCode> messageReaction;
+    private final HashMap<MessageCode, IMessageCode> messageReaction;
 
     public MessageReactionForModel() {
         this.messageReaction = new HashMap<>();
@@ -27,6 +27,7 @@ public class MessageReactionForModel {
         messageReaction.put(MessageCode.ERROR_TURN, new MessageCodeErrorTurn());
         messageReaction.put(MessageCode.INIT_GAME, new MessageCodeInitGame());
         messageReaction.put(MessageCode.UPDATE, new MessageCodeUpdate());
+        messageReaction.put(MessageCode.NAME, new MessageCodeInfo());
     }
 
     public IMessageCode get(final MessageCode messageCode) {

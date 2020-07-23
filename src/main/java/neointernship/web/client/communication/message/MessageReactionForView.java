@@ -1,10 +1,7 @@
 package neointernship.web.client.communication.message;
 
 
-import neointernship.web.client.communication.message.reaction.view.IMessageCode;
-import neointernship.web.client.communication.message.reaction.view.MessageCodeInitGame;
-import neointernship.web.client.communication.message.reaction.view.MessageCodeTurn;
-import neointernship.web.client.communication.message.reaction.view.MessageCodeUpdate;
+import neointernship.web.client.communication.message.reaction.view.*;
 
 import java.util.HashMap;
 
@@ -29,6 +26,7 @@ public class MessageReactionForView {
         messageReaction.put(MessageCode.TURN, new MessageCodeTurn());
         messageReaction.put(MessageCode.INIT_GAME, new MessageCodeInitGame());
         messageReaction.put(MessageCode.UPDATE, new MessageCodeUpdate());
+        messageReaction.put(MessageCode.NAME, new MessageCodeInfo());
     }
 
     public IMessageCode get(final MessageCode messageCode) {
