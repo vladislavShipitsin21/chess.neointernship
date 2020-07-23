@@ -5,16 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import neointernship.web.client.communication.data.turn.ITurn;
 import neointernship.web.client.communication.data.turn.TurnDto;
 
-public class SerializerForTurn {
+public class AnswerSerializer {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private SerializerForTurn(){}
+    private AnswerSerializer(){}
 
-    public static String serializer(final ITurn turn) throws JsonProcessingException {
+    public static String serialize(final ITurn turn) throws JsonProcessingException {
         return objectMapper.writeValueAsString(turn);
     }
 
-    public static TurnDto deserializer(final String string) throws JsonProcessingException {
+    public static TurnDto deserialize(final String string) throws JsonProcessingException {
         return objectMapper.readValue(string, TurnDto.class);
     }
 }

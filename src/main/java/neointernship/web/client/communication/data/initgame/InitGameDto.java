@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.mediator.Mediator;
+import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeName("InitGameDto")
 public class InitGameDto implements IInitGame {
     @JsonProperty
-    private Mediator mediator;
+    private IMediator mediator;
     @JsonProperty
     private IBoard board;
     @JsonProperty
@@ -31,7 +31,7 @@ public class InitGameDto implements IInitGame {
     }
 
     @Override
-    public Mediator getMediator() {
+    public IMediator getMediator() {
         return mediator;
     }
 

@@ -32,8 +32,8 @@ public class GameLoop implements IGameLoop {
     private final IGameLogger gameLogger;
     private final DrawController drawController; // todo сделать его gameStateController
 
-//    сделать глобальный stateController который будет содержать в себе
-//            контроллер короля и контроллер ничьи
+    private Color activeColor;
+
 
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
@@ -43,8 +43,9 @@ public class GameLoop implements IGameLoop {
                     final IStoryGame storyGame) {
 
         this.gameLogger = gameLogger;
-        this.activeColorController = activeColorController;
+        this.storyGame = storyGame;
 
+        this.activeColorController = activeColorController;
         gameStateController = new GameStateController(possibleActionList, mediator, gameLogger);
         gameProcessController = new GameProcessController(mediator, possibleActionList, board,gameLogger,storyGame);
         kingStateController = new KingsStateController(possibleActionList, mediator, Color.WHITE);
@@ -52,15 +53,14 @@ public class GameLoop implements IGameLoop {
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
-
     }
 
     /**
      * Активация главного игрового цикла.
      */
     @Override
-    public void doIteration(final IAnswer answer) {
-        Color activeColor = activeColorController.getCurrentColor();
+    public boolean doIteration(final IAnswer answer) {
+        activeColor = activeColorController.getCurrentColor();
 
         do {
             gameProcessController.makeTurn(activeColor, answer, gameLogger);
@@ -82,12 +82,4 @@ public class GameLoop implements IGameLoop {
     public IGameState getMatchResult() {
         return gameStateController.getState();
     }
-
-    @Override
-    public void activate() {
-        while (isAlive()){
-            
-        }
-    }
-
 }
