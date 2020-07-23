@@ -39,12 +39,12 @@ public class GameLogger implements IGameLogger{
     public void logPlayerMoveAction(final Color color, final Figure figure,
                                     final IField startField, final IField finalField, final IAllowCommand command) {
         logger.info(command.getNameCommand() + "- Игрок " + color + " сделал ход фигурой " + figure.getName() + " из клетки " +
-                startField.toString() + " в клетку " + finalField.toString());
+                startField.showField() + " в клетку " + finalField.showField());
     }
 
     @Override
     public void logPlayerWrongAction(final Color color, final IField field) {
-        logger.warn("Игрок " + color + " попыталя сделать ход из клетки " + field.toString() + ", но он невозможен");
+        logger.warn("Игрок " + color + " попыталя сделать ход из клетки " + field.showField() + ", но он невозможен");
     }
 
     @Override

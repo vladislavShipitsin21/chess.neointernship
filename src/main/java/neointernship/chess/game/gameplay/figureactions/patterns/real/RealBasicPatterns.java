@@ -18,17 +18,14 @@ import java.util.Collection;
 public class RealBasicPatterns implements IRealBasicPatterns {
     private final IMediator mediator;
     private final IBoard board;
-    private final IPossibleActionList possibleActionList;
     private KingIsAttackedComputation kingIsAttackedComputation;
     private final IStoryGame storyGame;
 
     public RealBasicPatterns(final IMediator mediator,
-                             final IPossibleActionList possibleActionList,
                              final IBoard board,
                              final IStoryGame storyGame) {
         this.mediator = mediator;
         this.board = board;
-        this.possibleActionList = possibleActionList;
         this.storyGame = storyGame;
     }
 
@@ -44,24 +41,11 @@ public class RealBasicPatterns implements IRealBasicPatterns {
             IStoryGame newStoryGame = new StoryGame((StoryGame) storyGame);
             IPossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
 
-            // если это рокировка то необходимо проверить 3 клетки
-            if (figure.getClass() == King.class &&
-                    Math.abs(startField.getYCoord() - finalField.getYCoord()) == 2) {
-
-                Collection<IField> forCastling = new ArrayList<>();
-
-                int dif = startField.getYCoord() < finalField.getYCoord() ? 1 : -1;
-
-                forCastling.add(startField);
-                forCastling.add(board.getField(startField.getXCoord(), startField.getYCoord() + dif));
-                forCastling.add(finalField);
-
-                boolean isAttack = false;
-                kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
-                for(IField tempField : forCastling){
-                    isAttack |= kingIsAttackedComputation.fieldIsAttacked(tempField,figure.getColor());
+            // если это рокировка
+            if (isCastling(figure,startField,finalField)) {
+                if(isCorrectCastling(figure,startField,finalField,newMediator,newPossibleActionList)){
+                    realList.add(finalField);
                 }
-                if(!isAttack) realList.add(finalField);
             } else {
 
                 Figure finalFigure = newMediator.getFigure(finalField);
@@ -82,5 +66,31 @@ public class RealBasicPatterns implements IRealBasicPatterns {
             }
         }
         return realList;
+    }
+
+    private boolean isCastling(final Figure figure,IField startField,IField finishField){
+        return figure.getClass() == King.class &&
+                Math.abs(startField.getYCoord() - finishField.getYCoord()) == 2;
+    }
+
+    private boolean isCorrectCastling(final Figure figure,
+                                      final IField startField,
+                                      final IField finishField,
+                                      final IMediator mediator,
+                                      final IPossibleActionList possibleActionList){
+        possibleActionList.updatePotentialLists();
+        Collection<IField> forCastling = new ArrayList<>();
+
+        int dif = startField.getYCoord() < finishField.getYCoord() ? 1 : -1;
+
+        forCastling.add(startField);
+        forCastling.add(board.getField(startField.getXCoord(), startField.getYCoord() + dif));
+        forCastling.add(finishField);
+
+        kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
+        for(IField tempField : forCastling){
+            if(kingIsAttackedComputation.fieldIsAttacked(tempField,figure.getColor()))return false;
+        }
+        return true;
     }
 }

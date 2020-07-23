@@ -11,20 +11,15 @@ import java.util.HashSet;
 public class DrawController {
 
     private final IMediator mediator;
-    private final IPossibleActionList possibleActionList;
     private final IGameLogger gameLogger;
-    private final IStoryGame storyGame;
 
     private final Collection<IDrawController> drawControllers;
 
     public DrawController(final IMediator mediator,
-                          final IPossibleActionList possibleActionList,
                           final IGameLogger gameLogger,
                           final IStoryGame storyGame) {
         this.mediator = mediator;
-        this.possibleActionList = possibleActionList;
         this.gameLogger = gameLogger;
-        this.storyGame = storyGame;
 
         this.drawControllers = new HashSet<>();
         drawControllers.add(new DrawOnlyKing());

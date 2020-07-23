@@ -1,13 +1,10 @@
 package neointernship.chess.game.gameplay.moveaction.commands.allow;
 
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.logger.IGameLogger;
 
 public class MoveCommand extends AbstractCommand implements IAllowCommand{
 

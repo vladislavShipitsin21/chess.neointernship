@@ -38,14 +38,8 @@ public class GameStateController implements ISubscriber, IGameStateController {
 
         switch (currentState.getValue()){
             case MATE:
-                switch (currentState.getColor()) {
-                    case BLACK:
-                        gameLogger.logPlayerWin(Color.WHITE);
-                        break;
-                    case WHITE:
-                        gameLogger.logPlayerWin(Color.BLACK);
-                        break;
-                }
+                final Color color = currentState.getColor();
+                gameLogger.logPlayerWin(Color.swapColor(color));
                 break;
             case STALEMATE:
                 gameLogger.logStalemate();

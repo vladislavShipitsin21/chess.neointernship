@@ -1,10 +1,7 @@
 package neointernship.chess.game.actions;
 
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.piece.Bishop;
-import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.piece.King;
-import neointernship.chess.game.model.figure.piece.Rook;
+import neointernship.chess.game.model.figure.piece.*;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 import org.junit.After;
@@ -32,6 +29,9 @@ public class TestKing {
         map.put(figure,field);
     }
 
+    /**
+     * корректная рокровка
+     */
     @Test
     public void testFreeCastling(){
         final Figure king = new King(Color.WHITE);
@@ -50,6 +50,10 @@ public class TestKing {
         checkPosition(map,king,expected);
 
     }
+
+    /**
+     * запрет рокировки в связи с тем, что на пути короля к ладье есть помеха
+     */
     @Test
     public void testCloseCastling(){
         final Figure king = new King(Color.WHITE);
@@ -75,6 +79,9 @@ public class TestKing {
 
     }
 
+    /**
+     * запрет рокировки в связи с атакой поля перемещения короля
+     */
     @Test
     public void testAttackPathCastling(){
         final Figure king = new King(Color.WHITE);
@@ -99,6 +106,9 @@ public class TestKing {
         checkPosition(map,king,expected);
     }
 
+    /**
+     * проверка ситуации, когда у королю нет ходов
+     */
     @Test
     public void testNothingMove(){
         final Figure king = new King(Color.WHITE);
@@ -119,6 +129,9 @@ public class TestKing {
         checkPosition(map,king,expected);
     }
 
+    /**
+     * тест на то, что короли не могут быть близко (
+     */
     @Test
     public void testTwoKing(){
         final Figure kingW = new King(Color.WHITE);
@@ -134,6 +147,29 @@ public class TestKing {
         put(kingB,fieldKingB);
 
         checkPosition(map,kingW,expected);
+    }
+
+    /**
+     * связка короля
+     */
+    @Test
+    public void testTieUp(){
+        final Figure king = new King(Color.WHITE);
+        final IField fieldKing = new Field(6,7);
+
+        final Figure pawn = new Pawn(Color.WHITE);
+        final IField fieldPawn = new Field(6,6);
+
+        final Figure rookB = new Rook(Color.BLACK);
+        final IField fieldRookB = new Field(6,0);
+
+        Field[] expected = {};
+
+        put(king,fieldKing);
+        put(pawn,fieldPawn);
+        put(rookB,fieldRookB);
+
+        checkPosition(map,pawn,expected);
     }
 
 

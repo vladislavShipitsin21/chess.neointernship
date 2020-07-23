@@ -21,17 +21,13 @@ public class PossibleActionList implements IPossibleActionList {
     private Map<Figure, Collection<IField>> realFigureActions;
     private Map<Figure, Collection<IField>> potentialFigureAction;
 
-    private IStoryGame storyGame;
-
     public PossibleActionList(final IBoard board,
                               final IMediator mediator,
                               final IStoryGame storyGame) {
         this.mediator = mediator;
 
-        this.storyGame = storyGame;
-
         this.potentialPatterns = new PotentialBasicPatterns(mediator, board,storyGame);
-        this.realPatterns = new RealBasicPatterns(mediator, this, board,storyGame);
+        this.realPatterns = new RealBasicPatterns(mediator, board,storyGame);
 
         this.realFigureActions = new HashMap<>();
         this.potentialFigureAction = new HashMap<>();

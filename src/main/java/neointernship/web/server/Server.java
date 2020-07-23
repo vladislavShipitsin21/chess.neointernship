@@ -81,7 +81,6 @@ public class Server {
             this.chessTypes = chessType;
             figuresStartPositionRepository = new FiguresStartPositionRepository();
 
-            //TODO:
             IGameLogger gameLogger = new GameLogger(lobbyId);
 
             gameLoop = new GameLoop(mediator, possibleActionList, board, colorController, gameLogger,storyGame);

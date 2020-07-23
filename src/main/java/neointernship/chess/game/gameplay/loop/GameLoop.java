@@ -8,6 +8,7 @@ import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessContro
 import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessController;
 import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.IGameStateController;
+import neointernship.chess.game.gameplay.gamestate.controller.draw.DrawController;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
 import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
@@ -29,10 +30,10 @@ public class GameLoop implements IGameLoop {
     private final IKingStateController kingStateController;
     private final IConsoleBoardWriter consoleBoardWriter;
     private final IGameLogger gameLogger;
-    private final IStoryGame storyGame;
+    private final DrawController drawController; // todo сделать его gameStateController
 
-    private Color activeColor;
-
+//    сделать глобальный stateController который будет содержать в себе
+//            контроллер короля и контроллер ничьи
 
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
@@ -42,15 +43,16 @@ public class GameLoop implements IGameLoop {
                     final IStoryGame storyGame) {
 
         this.gameLogger = gameLogger;
-        this.storyGame = storyGame;
-
         this.activeColorController = activeColorController;
+
         gameStateController = new GameStateController(possibleActionList, mediator, gameLogger);
         gameProcessController = new GameProcessController(mediator, possibleActionList, board,gameLogger,storyGame);
         kingStateController = new KingsStateController(possibleActionList, mediator, Color.WHITE);
+        drawController = new DrawController(mediator,gameLogger,storyGame);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
+
     }
 
     /**
@@ -58,7 +60,7 @@ public class GameLoop implements IGameLoop {
      */
     @Override
     public void doIteration(final IAnswer answer) {
-        activeColor = activeColorController.getCurrentColor();
+        Color activeColor = activeColorController.getCurrentColor();
 
         do {
             gameProcessController.makeTurn(activeColor, answer, gameLogger);
@@ -73,7 +75,7 @@ public class GameLoop implements IGameLoop {
 
     @Override
     public boolean isAlive() {
-        return gameStateController.isMatchAlive();
+        return gameStateController.isMatchAlive() && !drawController.isDraw();
     }
 
     @Override

@@ -6,7 +6,7 @@ import neointernship.chess.game.story.IStoryGame;
 
 public class DrawFiftyStep implements IDrawController {
 
-    private static final String MESSAGE = "50 ходов без взятия и хода пешки";
+    private static final String MESSAGE = "50 ходов без взятия фигуры и движения пешки";
 
     private final static Integer MAX_COUNT_STEP = 50;
     private final IStoryGame storyGame;

@@ -51,6 +51,7 @@ public class Field implements IField {
         return (x + y) % 2 == 0 ? Color.WHITE : Color.BLACK;
     }
 
+    @Override
     public String showField() {
         final StringBuffer sb = new StringBuffer("(");
         sb.append(repositiryChar.getY(getYCoord()));

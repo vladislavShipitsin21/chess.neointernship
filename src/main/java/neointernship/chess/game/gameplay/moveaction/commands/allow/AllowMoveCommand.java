@@ -27,11 +27,11 @@ public class AllowMoveCommand implements IMoveCommand {
 
     private final IGameLogger gameLogger;
 
-    private final AttackComand attackComand;
-    private final MoveCommand moveCommand;
-    private final AisleTakeCommand aisleTakeCommand;
-    private final CastlingCommand castlingCommand;
-    private final TransformationCommand transformationCommand;
+    private final IAllowCommand attackComand;
+    private final IAllowCommand moveCommand;
+    private final IAllowCommand aisleTakeCommand;
+    private final IAllowCommand castlingCommand;
+    private final IAllowCommand transformationCommand;
 
 
     public AllowMoveCommand(final IMediator mediator,
@@ -63,48 +63,39 @@ public class AllowMoveCommand implements IMoveCommand {
         final Figure startFigure = mediator.getFigure(startField);
         final Figure finalFigure = mediator.getFigure(finalField);
 
-         // todo обновление не тут!
         storyGame.update(startFigure);
 
-        IAllowCommand currentComand = null;
+        IAllowCommand currentCommand = getCommand(startFigure,startField,finalFigure,finalField);
+        currentCommand.execute(answer); // делаю ход
 
-        boolean flag = false;
-
-        if(     startFigure.getClass() == Pawn.class &&
-                (
-                finalField.getXCoord() == board.getSize() - 1 ||
-                finalField.getXCoord() == 0
-                )
-        ){
-            currentComand = transformationCommand;
-            flag = true;
-        }
-
-        if(finalFigure != null && !flag) {
-            currentComand = attackComand;
-            flag = true;
-        }
-        if(!flag && startFigure.getClass() == King.class &&
-                    Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1){
-            currentComand = castlingCommand;
-            flag = true;
-        }
-        if(!flag && startFigure.getClass() == Pawn.class &&
-                    Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1){
-            currentComand = aisleTakeCommand;
-            flag = true;
-        }
-        if(!flag){
-            currentComand = moveCommand;
-        }
-        currentComand.execute(answer); // делаю ход
-
-        gameLogger.logPlayerMoveAction(color, startFigure, startField, finalField,currentComand);
-
-
+        gameLogger.logPlayerMoveAction(color, startFigure, startField, finalField,currentCommand);
 
         possibleActionList.updateRealLists();
 
         return true;
+    }
+
+    private IAllowCommand getCommand(final Figure startFigure,final IField startField,final Figure finalFigure,final IField finalField){
+        if(     startFigure.getClass() == Pawn.class &&
+                (
+                        finalField.getXCoord() == board.getSize() - 1 ||
+                                finalField.getXCoord() == 0
+                )
+        ){
+            return transformationCommand;
+        }
+
+        if(finalFigure != null) {
+            return attackComand;
+        }
+        if(startFigure.getClass() == King.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1){
+            return castlingCommand;
+        }
+        if(startFigure.getClass() == Pawn.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1){
+            return aisleTakeCommand;
+        }
+        return moveCommand;
     }
 }

@@ -22,18 +22,15 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
 
         Figure king = mediator.getFigure(startFieldKing);
 
-        //for(Figure figure : mediator.getFigures(Colo))
-
         int yStartCoordRook = 0; // todo корректно только для класических шахмат !!!
         int difCoordRook = 1;
 
         // если двигаемся вправо
         if(startFieldKing.getYCoord() < finalFieldKing.getYCoord()){
-            yStartCoordRook = 7; // todo корректно только для класических шахмат !!!
+            yStartCoordRook = 7;
             difCoordRook = -1;
         }
         IField startFieldRook = board.getField(startFieldKing.getXCoord(),yStartCoordRook);
-
 
         IField finalFieldRook = board.getField(
                 finalFieldKing.getXCoord(),

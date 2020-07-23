@@ -2,14 +2,11 @@ package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
-import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.Board;
-import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.StoryGame;
 
-import java.util.Collection;
 import java.util.Objects;
 
 public class Position {

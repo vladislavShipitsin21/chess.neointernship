@@ -12,4 +12,5 @@ public interface IField {
     int getXCoord();
     int getYCoord();
     Color getColor();
+    String showField();
 }
