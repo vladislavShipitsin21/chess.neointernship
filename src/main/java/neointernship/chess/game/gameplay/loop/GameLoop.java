@@ -82,4 +82,12 @@ public class GameLoop implements IGameLoop {
     public IGameState getMatchResult() {
         return gameStateController.getState();
     }
+
+    @Override
+    public void activate() {
+        while (isAlive()){
+            
+        }
+    }
+
 }

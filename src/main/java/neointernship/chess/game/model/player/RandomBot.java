@@ -20,7 +20,7 @@ public class RandomBot extends Player{
         random = new Random();
     }
 
-   /* @Override
+    @Override
     public IAnswer getAnswer(IMediator mediator, IPossibleActionList list) {
         List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields;
@@ -49,10 +49,10 @@ public class RandomBot extends Player{
                 finalField.getXCoord(), finalField.getYCoord(),'Q');
         printAnswer(startField,finalField);
         return answer;
-    }*/
+    }
 
     private void printAnswer(final IField start,final IField finish){
         System.out.println("Color = " + super.getColor());
-        System.out.println(start.toString() + " - " + finish.toString());
+        System.out.println(start.showField() + " - " + finish.showField());
     }
 }

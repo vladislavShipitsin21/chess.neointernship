@@ -7,4 +7,5 @@ public interface IGameLoop {
     void doIteration(final IAnswer answer);
     boolean isAlive();
     IGameState getMatchResult();
+    void activate();
 }
