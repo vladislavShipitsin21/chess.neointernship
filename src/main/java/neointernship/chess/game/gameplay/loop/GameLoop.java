@@ -57,7 +57,7 @@ public class GameLoop implements IGameLoop {
      * Активация главного игрового цикла.
      */
     @Override
-    public void doIteration(final IAnswer answer) {
+    public boolean doIteration(final IAnswer answer) {
         activeColor = activeColorController.getCurrentColor();
 
         do {

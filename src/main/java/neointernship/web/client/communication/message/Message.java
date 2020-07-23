@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Message implements IMessage {
-    private final MessageCode messageCode;
+    private final ClientCodes clientCodes;
 
-    public Message(@JsonProperty("messageCode") final MessageCode messageCode) {
-        this.messageCode = messageCode;
+    public Message(@JsonProperty("messageCode") final ClientCodes clientCodes) {
+        this.clientCodes = clientCodes;
     }
 
-    public MessageCode getMessageCode() {
-        return messageCode;
+    public ClientCodes getClientCodes() {
+        return clientCodes;
     }
 }

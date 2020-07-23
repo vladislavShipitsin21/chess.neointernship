@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import neointernship.web.client.communication.data.initgame.IInitGame;
 import neointernship.web.client.communication.data.initgame.InitGameDto;
 
-public class SerializerForInitGame {
+public class InitGameSerializer {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private SerializerForInitGame(){}
+    private InitGameSerializer(){}
 
-    public static String serializer(final IInitGame initGame) throws JsonProcessingException {
+    public static String serialize(final IInitGame initGame) throws JsonProcessingException {
         return objectMapper.writeValueAsString(initGame);
     }
 

@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageDto {
-    private MessageCode messageCode;
+    private ClientCodes clientCodes;
 
     public boolean validate() throws Exception {
-        if (messageCode == null) {
+        if (clientCodes == null) {
             throw new Exception("Код сообщения отсутствует");
         }
         return true;
     }
 
-    public MessageCode getMessageCode() {
-        return messageCode;
+    public ClientCodes getClientCodes() {
+        return clientCodes;
     }
 }

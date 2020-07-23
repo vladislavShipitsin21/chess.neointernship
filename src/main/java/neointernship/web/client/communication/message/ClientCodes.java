@@ -1,20 +1,16 @@
 package neointernship.web.client.communication.message;
 
-public enum MessageCode {
-    //Системные коды
+public enum ClientCodes {
     OK,
-    ERROR_TURN,
-    NAME,
-    CONNECT,
+    INIT_INFO,
+    TURN,
 
     //Коды для view
-    INIT_GAME,
     UPDATE,
 
     //Коды для игрового процесса
     PICK_FIGURE,
     MOVE_FIGURE,
-    TURN,
 
     //Коды окончания игры
     WIN,

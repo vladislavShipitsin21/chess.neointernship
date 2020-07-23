@@ -6,14 +6,14 @@ import neointernship.web.client.communication.message.reaction.view.*;
 import java.util.HashMap;
 
 public class MessageReactionForView {
-    private final HashMap<MessageCode, IMessageCode> messageReaction;
+    private final HashMap<ClientCodes, IMessageCode> messageReaction;
 
     public MessageReactionForView() {
         this.messageReaction = new HashMap<>();
         initMessageReaction(messageReaction);
     }
 
-    private void initMessageReaction(final HashMap<MessageCode, IMessageCode> messageReaction) {
+    private void initMessageReaction(final HashMap<ClientCodes, IMessageCode> messageReaction) {
         //НУЖНО ОПРЕДЕЛИТЬСЯ С КЛАССАМИ И/ИЛИ ВОССТАНОВИТЬ ЭТИ КЛАССЫ
         /*messageReaction.put(MessageCode.CONNECT, new MessageCodeConnect());
         messageReaction.put(MessageCode.DRAW, new MessageCodeDraw());
@@ -23,13 +23,13 @@ public class MessageReactionForView {
         messageReaction.put(MessageCode.OK, new MessageCodeOk());
         messageReaction.put(MessageCode.PICK_FIGURE, new MessageCodePickFigure());
         messageReaction.put(MessageCode.WIN, new MessageCodeWin());*/
-        messageReaction.put(MessageCode.TURN, new MessageCodeTurn());
-        messageReaction.put(MessageCode.INIT_GAME, new MessageCodeInitGame());
-        messageReaction.put(MessageCode.UPDATE, new MessageCodeUpdate());
-        messageReaction.put(MessageCode.NAME, new MessageCodeInfo());
+        messageReaction.put(ClientCodes.TURN, new MessageCodeTurn());
+        messageReaction.put(ClientCodes.INIT_GAME, new MessageCodeInitGame());
+        messageReaction.put(ClientCodes.UPDATE, new MessageCodeUpdate());
+        messageReaction.put(ClientCodes.INIT_INFO, new MessageCodeInfo());
     }
 
-    public IMessageCode get(final MessageCode messageCode) {
-        return messageReaction.get(messageCode);
+    public IMessageCode get(final ClientCodes clientCodes) {
+        return messageReaction.get(clientCodes);
     }
 }

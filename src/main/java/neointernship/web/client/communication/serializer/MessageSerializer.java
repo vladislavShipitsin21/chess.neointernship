@@ -6,12 +6,12 @@ import neointernship.web.client.communication.message.IMessage;
 import neointernship.web.client.communication.message.MessageDto;
 ;
 
-public final class SerializerForMessage {
+public final class MessageSerializer {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private SerializerForMessage(){}
+    private MessageSerializer(){}
 
-    public static String serializer(final IMessage message) throws JsonProcessingException {
+    public static String serialize(final IMessage message) throws JsonProcessingException {
         return objectMapper.writeValueAsString(message);
     }
 
