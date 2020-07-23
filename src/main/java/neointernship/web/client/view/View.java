@@ -16,7 +16,7 @@ public class View implements Runnable {
         while (true){
             try {
                 final IMessage message = ExchangerForMessage.exchange(null);
-                messageReactionForView.get(message.getMessageCode()).execute(player);
+                messageReactionForView.get(message.getClientCodes()).execute(player);
             } catch (final InterruptedException e) {
                 e.printStackTrace();
             }

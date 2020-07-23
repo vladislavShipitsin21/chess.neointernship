@@ -8,7 +8,7 @@ import neointernship.web.client.communication.exchanger.ExchangerForInitGame;
 import neointernship.web.client.communication.exchanger.ExchangerForMessage;
 import neointernship.web.client.communication.message.IMessage;
 import neointernship.web.client.communication.message.Message;
-import neointernship.web.client.communication.message.MessageCode;
+import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.controller.Controller;
 import neointernship.web.client.player.IPlayer;
 import neointernship.web.client.view.View;
@@ -21,7 +21,7 @@ public class MessageCodeInitGame implements IMessageCode {
         final IBoard board = initGame.getBoard();
         final Color color = initGame.getColor();
         player.init(mediator, board, color);
-        final IMessage mes = new Message(MessageCode.OK);
+        final IMessage mes = new Message(ClientCodes.OK);
         ExchangerForMessage.exchange(mes);
     }
 

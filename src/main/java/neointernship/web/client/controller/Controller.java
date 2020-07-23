@@ -1,10 +1,10 @@
 package neointernship.web.client.controller;
 
 import neointernship.web.client.communication.message.Message;
-import neointernship.web.client.communication.message.MessageCode;
+import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.MessageDto;
 import neointernship.web.client.communication.message.MessageReactionForModel;
-import neointernship.web.client.communication.serializer.SerializerForMessage;
+import neointernship.web.client.communication.serializer.MessageSerializer;
 
 import java.io.*;
 import java.net.Socket;
@@ -25,13 +25,13 @@ public class Controller implements Runnable{
         while (true) {
             try {
                 final String jsonMessage = in.readLine();
-                final MessageDto messageDto = SerializerForMessage.deserializer(jsonMessage);
+                final MessageDto messageDto = MessageSerializer.deserializer(jsonMessage);
                 messageDto.validate();
-                final Message message = new Message(messageDto.getMessageCode());
-                messageReactionForModel.get(message.getMessageCode()).execute(message, in, out);
+                final Message message = new Message(messageDto.getClientCodes());
+                messageReactionForModel.get(message.getClientCodes()).execute(message, in, out);
             } catch (final java.lang.Exception e) {
                 e.printStackTrace();
-                final Message errMessage = new Message(MessageCode.ERROR_TURN);
+                final Message errMessage = new Message(ClientCodes.ERROR_TURN);
                 try {
                     //out.write(SerializerForMessage.serializer(errMessage) + "\n");
                     out.flush();

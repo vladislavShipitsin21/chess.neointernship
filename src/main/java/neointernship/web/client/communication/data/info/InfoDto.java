@@ -6,11 +6,11 @@ public class InfoDto implements IInfo {
     private String name;
     private Color color;
 
-    boolean validation() throws Exception {
-        if (name == null){
+    public boolean validate() throws Exception {
+        if (name == null) {
             throw new Exception("Отсутствует name");
         }
-        if (color == null){
+        if (color == null) {
             throw new Exception("Отсутствует color");
         }
         return true;
