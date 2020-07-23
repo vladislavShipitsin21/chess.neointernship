@@ -18,7 +18,7 @@ public class MessageCodeInfo implements IMessageCode {
         ExchangerForMessage.exchange(message);
         final IInfo name = ExchangerForInfo.exchange(null);
 
-        final IMessage mes = new Message(MessageCode.NAME);
+        final IMessage mes = new Message(MessageCode.INFO);
         out.write(SerializerForMessage.serializer(mes) + "\n");
         out.flush();
 

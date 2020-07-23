@@ -4,7 +4,7 @@ public enum MessageCode {
     //Системные коды
     OK,
     ERROR_TURN,
-    NAME,
+    INFO,
     CONNECT,
 
     //Коды для view

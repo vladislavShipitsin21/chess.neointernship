@@ -12,22 +12,36 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 
 public class GameLogger implements IGameLogger{
-    final Logger logger;
+    static final HashMap<Integer, IGameLogger> mapLogger = new HashMap<>();
+    private final Logger logger;
 
-    public GameLogger(final int lobbyId) {
-        this.logger = Logger.getLogger(lobbyId + "");
+
+    private GameLogger(final int lobbyId) {
+        logger = Logger.getLogger(Integer.toString(lobbyId));
 
         try {
             final PatternLayout patternLayout = new PatternLayout();
             patternLayout.setConversionPattern("%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n");
             logger.addAppender(new FileAppender(patternLayout, "logs\\gameLog" + lobbyId + ".txt", false));
-
+            //mapLogger.put(lobbyId, logger);
         } catch (final IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void addLogger(final int lobbuId) {
+        mapLogger.put(lobbuId, new GameLogger(lobbuId));
+    }
+
+    public static IGameLogger getLogger(final int lobbyId) {
+        if (!mapLogger.containsKey(lobbyId)) {
+            mapLogger.put(lobbyId, new GameLogger(lobbyId));
+        }
+        return mapLogger.get(lobbyId);
     }
 
     @Override

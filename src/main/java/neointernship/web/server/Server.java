@@ -24,11 +24,22 @@ import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 import neointernship.chess.logger.GameLogger;
 import neointernship.chess.logger.IGameLogger;
+import neointernship.web.client.communication.data.initgame.InitGame;
+import neointernship.web.client.communication.data.info.InfoDto;
+import neointernship.web.client.communication.message.IMessage;
+import neointernship.web.client.communication.message.Message;
+import neointernship.web.client.communication.message.MessageCode;
+import neointernship.web.client.communication.message.MessageDto;
+import neointernship.web.client.communication.serializer.SerializerForInitGame;
+import neointernship.web.client.communication.serializer.SerializerForMessage;
+import neointernship.web.client.communication.serializer.SerializerForInfo;
 import neointernship.web.server.connection.ActiveConnectionController;
 import neointernship.web.server.connection.UserConnection;
 
 import java.io.*;
-import java.net.*;
+import java.net.BindException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -82,11 +93,11 @@ public class Server {
             figuresStartPositionRepository = new FiguresStartPositionRepository();
 
             //TODO:
-            IGameLogger gameLogger = new GameLogger(lobbyId);
+            GameLogger.addLogger(lobbyId);
 
             gameLoop = new GameLoop(mediator, possibleActionList, board, colorController, gameLogger,storyGame);
 
-            gameLogger.logStartGame(firstUserConnection.getPlayer(), secondUserConnection.getPlayer());
+            GameLogger.getLogger(lobbyId).logStartGame(firstUserConnection.getPlayer(), secondUserConnection.getPlayer());
 
             initGameMap();
             start();
@@ -112,10 +123,41 @@ public class Server {
 
        @Override
         public void run() {
-            connectionController.update();
-            final UserConnection currentConnection = connectionController.getCurrentConnection();
+           connectionController.update();
+           UserConnection currentConnection = connectionController.getCurrentConnection();
 
-            while (gameLoop.isAlive()) {
+            Message m1 = new Message(MessageCode.INIT_GAME);
+            InitGame initGame1 = new InitGame(mediator, board, Color.WHITE);
+            InitGame initGame2 = new InitGame(mediator, board, Color.BLACK);
+
+           try {
+               currentConnection.getOut().write(SerializerForMessage.serializer(m1));
+               currentConnection.getOut().write(SerializerForInitGame.serializer(initGame1));
+               String mesS = currentConnection.getIn().readLine();
+               MessageDto messageDto = SerializerForMessage.deserializer(mesS);
+               messageDto.validate();
+               Message message = new Message(messageDto.getMessageCode());
+               System.out.println(message);
+
+               connectionController.update();
+               currentConnection = connectionController.getCurrentConnection();
+
+               currentConnection.getOut().write(SerializerForMessage.serializer(m1));
+               currentConnection.getOut().write(SerializerForInitGame.serializer(initGame2));
+               mesS = currentConnection.getIn().readLine();
+               messageDto = SerializerForMessage.deserializer(mesS);
+               messageDto.validate();
+               message = new Message(messageDto.getMessageCode());
+               System.out.println(message);
+
+               connectionController.update();
+               currentConnection = connectionController.getCurrentConnection();
+
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+
+           while (gameLoop.isAlive()) {
                 try {
                     send(currentConnection.getOut(), String.valueOf(ServerCodes.TURN));
                 } catch (IOException e) {
@@ -175,12 +217,20 @@ public class Server {
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(firstPlayerSocket.getOutputStream()));
         String firstPlayerName = "";
         try {
-            out.write(String.valueOf(ServerCodes.INIT));
-            firstPlayerName = in.readLine();
+            IMessage message = new Message(MessageCode.NAME);
+            out.write(SerializerForMessage.serializer(message) + "\n");
+            out.flush();
+
+            String s = in.readLine();
+            String s1 = in.readLine();
+            InfoDto nameDto = SerializerForInfo.deserializer(s1);
+            firstPlayerName = nameDto.getName();
+            //out.write(String.valueOf(ServerCodes.INIT));
+            //firstPlayerName = in.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        UserConnection firstConnection = new UserConnection(in,
+        final UserConnection firstConnection = new UserConnection(in,
                 out,
                 new Player(firstPlayerName, Color.WHITE),
                 firstPlayerSocket);
@@ -190,18 +240,28 @@ public class Server {
         in = new BufferedReader(new InputStreamReader(secondPlayerSocket.getInputStream()));
         out = new BufferedWriter(new OutputStreamWriter(secondPlayerSocket.getOutputStream()));
         try {
-            out.write(String.valueOf(ServerCodes.INIT));
-            secondPlayerName = in.readLine();
+
+            IMessage message = new Message(MessageCode.NAME);
+            out.write(SerializerForMessage.serializer(message) + "\n");
+            out.flush();
+
+            String s = in.readLine();
+            String s1 = in.readLine();
+            InfoDto nameDto = SerializerForInfo.deserializer(s1);
+            secondPlayerName = nameDto.getName();
+
+            //out.write(String.valueOf(ServerCodes.INIT));
+            //secondPlayerName = in.readLine();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        UserConnection secondConnection = new UserConnection(in,
+        final UserConnection secondConnection = new UserConnection(in,
                 out,
                 new Player(secondPlayerName, Color.BLACK),
                 secondPlayerSocket);
 
-        int lobbyID = lobbyList.size() + 1;
-        Lobby lobby = new Lobby(firstConnection, secondConnection, lobbyID, this, ChessType.CLASSIC);
+        final int lobbyID = lobbyList.size() + 1;
+        final Lobby lobby = new Lobby(firstConnection, secondConnection, lobbyID, this, ChessType.CLASSIC);
         lobbyList.add(lobby);
         lobby.start();
     }
