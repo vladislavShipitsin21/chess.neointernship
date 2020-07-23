@@ -13,6 +13,7 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.logger.IGameLogger;
+import neointernship.web.client.communication.message.ChessCodes;
 
 /**
  * Реализация хода в нормальной ситуации
@@ -25,8 +26,6 @@ public class AllowMoveCommand implements IMoveCommand {
 
     private final IStoryGame storyGame;
 
-    private final IGameLogger gameLogger;
-
     private final IAllowCommand attackComand;
     private final IAllowCommand moveCommand;
     private final IAllowCommand aisleTakeCommand;
@@ -37,13 +36,10 @@ public class AllowMoveCommand implements IMoveCommand {
     public AllowMoveCommand(final IMediator mediator,
                             final IPossibleActionList possibleActionList,
                             final IBoard board,
-                            final IGameLogger gameLogger,
                             final IStoryGame storyGame) {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;
-
-        this.gameLogger = gameLogger;
 
         this.storyGame = storyGame;
 
@@ -52,11 +48,12 @@ public class AllowMoveCommand implements IMoveCommand {
         aisleTakeCommand = new AisleTakeCommand(board, mediator);
         castlingCommand = new CastlingCommand(board,mediator);
         transformationCommand = new TransformationCommand(board, mediator);
+
     }
 
 
     @Override
-    public boolean execute(final Color color, final IAnswer answer, final IGameLogger gameLogger) {
+    public ChessCodes execute(final Color color, final IAnswer answer) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
         final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 
@@ -68,11 +65,9 @@ public class AllowMoveCommand implements IMoveCommand {
         IAllowCommand currentCommand = getCommand(startFigure,startField,finalFigure,finalField);
         currentCommand.execute(answer); // делаю ход
 
-        gameLogger.logPlayerMoveAction(color, startFigure, startField, finalField,currentCommand);
-
         possibleActionList.updateRealLists();
 
-        return true;
+        return currentCommand.getChessCode();
     }
 
     private IAllowCommand getCommand(final Figure startFigure,final IField startField,final Figure finalFigure,final IField finalField){

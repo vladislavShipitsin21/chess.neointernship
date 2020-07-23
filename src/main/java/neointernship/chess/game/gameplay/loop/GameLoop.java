@@ -19,6 +19,7 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.logger.IGameLogger;
+import neointernship.web.client.communication.message.ChessCodes;
 
 /**
  * Класс, реализующий основное ядро игры (игровой цикл)
@@ -29,27 +30,21 @@ public class GameLoop implements IGameLoop {
     private final IGameProcessController gameProcessController;
     private final IKingStateController kingStateController;
     private final IConsoleBoardWriter consoleBoardWriter;
-    private final IGameLogger gameLogger;
     private final DrawController drawController; // todo сделать его gameStateController
 
     private Color activeColor;
-
 
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
                     final IBoard board,
                     final IActiveColorController activeColorController,
-                    final IGameLogger gameLogger,
                     final IStoryGame storyGame) {
 
-        this.gameLogger = gameLogger;
-        this.storyGame = storyGame;
-
         this.activeColorController = activeColorController;
-        gameStateController = new GameStateController(possibleActionList, mediator, gameLogger);
-        gameProcessController = new GameProcessController(mediator, possibleActionList, board,gameLogger,storyGame);
+        gameStateController = new GameStateController(possibleActionList, mediator);
+        gameProcessController = new GameProcessController(mediator, possibleActionList, board,storyGame);
         kingStateController = new KingsStateController(possibleActionList, mediator, Color.WHITE);
-        drawController = new DrawController(mediator,gameLogger,storyGame);
+        drawController = new DrawController(mediator,storyGame);
 
         consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
@@ -59,18 +54,20 @@ public class GameLoop implements IGameLoop {
      * Активация главного игрового цикла.
      */
     @Override
-    public boolean doIteration(final IAnswer answer) {
+    public ChessCodes doIteration(final IAnswer answer) {
         activeColor = activeColorController.getCurrentColor();
 
-        do {
-            gameProcessController.makeTurn(activeColor, answer, gameLogger);
-        } while (!gameProcessController.playerDidMove());
+        gameProcessController.makeTurn(activeColor, answer);
 
-        kingStateController.setActiveColor(activeColor);
-        kingStateController.updateState();
+        final ChessCodes chessCodes = gameProcessController.getChessCode();
 
-        consoleBoardWriter.printBoard();
-        gameStateController.showResults();
+        if(chessCodes != ChessCodes.ERROR) {
+            kingStateController.setActiveColor(activeColor);
+            kingStateController.updateState();
+
+            consoleBoardWriter.printBoard();
+        }
+        return chessCodes;
     }
 
     @Override

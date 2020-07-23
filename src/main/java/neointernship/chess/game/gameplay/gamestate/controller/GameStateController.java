@@ -16,35 +16,18 @@ public class GameStateController implements ISubscriber, IGameStateController {
 
     private final FiguresHaveMovesComputation figuresHaveMovesComputation;
     private final GameStateDefineLogic gameStateDefineLogic;
-    private final IGameLogger gameLogger;
 
     public GameStateController(final IPossibleActionList possibleActionList,
-                               final IMediator mediator,
-                               final IGameLogger gameLogger) {
+                               final IMediator mediator) {
 
         currentState = new GameState(EnumGameState.ALIVE, Color.BOTH);
         figuresHaveMovesComputation = new FiguresHaveMovesComputation(possibleActionList, mediator);
         gameStateDefineLogic = new GameStateDefineLogic();
-        this.gameLogger = gameLogger;
     }
 
     @Override
     public boolean isMatchAlive() {
         return currentState.getValue() == EnumGameState.ALIVE;
-    }
-
-    @Override
-    public void showResults() {
-
-        switch (currentState.getValue()){
-            case MATE:
-                final Color color = currentState.getColor();
-                gameLogger.logPlayerWin(Color.swapColor(color));
-                break;
-            case STALEMATE:
-                gameLogger.logStalemate();
-                break;
-        }
     }
 
     @Override

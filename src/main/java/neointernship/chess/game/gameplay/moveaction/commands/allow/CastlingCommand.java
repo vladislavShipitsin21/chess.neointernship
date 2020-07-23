@@ -5,6 +5,7 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.web.client.communication.message.ChessCodes;
 
 /**
  * Класс реализующий команду рокировки
@@ -46,7 +47,8 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
     }
 
     @Override
-    public String getNameCommand() {
-        return "рокировка";
+    public ChessCodes getChessCode() {
+        return ChessCodes.CASTLING;
     }
+
 }

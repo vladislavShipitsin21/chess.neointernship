@@ -9,7 +9,6 @@ import neointernship.chess.game.gameplay.loop.IGameLoop;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.enums.ServerCodes;
 import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.factory.IFactory;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -102,7 +101,7 @@ public class Server {
             //TODO:
             GameLogger.addLogger(lobbyId);
 
-            gameLoop = new GameLoop(mediator, possibleActionList, board, colorController, gameLogger, storyGame);
+            gameLoop = new GameLoop(mediator, possibleActionList, board, colorController, storyGame);
 
             GameLogger.getLogger(lobbyId).logStartGame(firstUserConnection.getName(), secondUserConnection.getName());
 
@@ -181,7 +180,7 @@ public class Server {
                         turnDto.validate();
                         answer = turnDto.getAnswer();
 
-                    } while(makeTurn(answer) != ChessCodes.OK);
+                    } while(makeTurn(answer) == ChessCodes.ERROR);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -192,11 +191,7 @@ public class Server {
         }
 
         public ChessCodes makeTurn(final IAnswer answer) {
-            if (gameLoop.doIteration(answer)) {
-                return ChessCodes.OK;
-            }
-
-            return ChessCodes.ERROR;
+            return gameLoop.doIteration(answer);
         }
 
         /**

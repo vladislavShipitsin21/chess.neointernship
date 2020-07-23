@@ -5,6 +5,7 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.web.client.communication.message.ChessCodes;
 
 public class AttackComand extends AbstractCommand implements IAllowCommand{
 
@@ -25,7 +26,8 @@ public class AttackComand extends AbstractCommand implements IAllowCommand{
     }
 
     @Override
-    public String getNameCommand() {
-        return "атака";
+    public ChessCodes getChessCode() {
+        return ChessCodes.ATTACK;
     }
+
 }

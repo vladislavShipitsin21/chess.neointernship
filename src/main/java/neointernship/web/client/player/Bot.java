@@ -28,7 +28,7 @@ public class Bot implements IPlayer {
     public Bot(){
         this.random = new Random();
         this.name = "Bot";
-        this.color = Color.BLACK;
+        this.color = Color.WHITE;
     }
 
     public void init(final IMediator mediator, final IBoard board, final Color color) {

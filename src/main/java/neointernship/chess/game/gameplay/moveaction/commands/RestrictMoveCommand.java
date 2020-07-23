@@ -9,32 +9,24 @@ import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.logger.IGameLogger;
+import neointernship.web.client.communication.message.ChessCodes;
 
 public class RestrictMoveCommand implements IMoveCommand {
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
     private final IBoard board;
 
-    private final IGameLogger gameLogger;
-
     public RestrictMoveCommand(final IMediator mediator,
                                final IPossibleActionList possibleActionList,
-                               final IBoard board,
-                               final IGameLogger gameLogger) {
+                               final IBoard board) {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;
 
-        this.gameLogger = gameLogger;
     }
 
     @Override
-    public boolean execute(final Color color, final IAnswer answer, final IGameLogger gameLogger) {
-        System.out.println("Move is not Valid (?!)");
-
-        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
-
-        gameLogger.logPlayerWrongAction(color, startField);
-        return false;
+    public ChessCodes execute(final Color color, final IAnswer answer) {
+        return ChessCodes.ERROR;
     }
 }

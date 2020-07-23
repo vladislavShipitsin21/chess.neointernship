@@ -51,7 +51,7 @@ public class GameLogger implements IGameLogger{
     @Override
     public void logPlayerMoveAction(final Color color, final Figure figure,
                                     final IField startField, final IField finalField, final IAllowCommand command) {
-        logger.info(command.getNameCommand() + "- Игрок " + color + " сделал ход фигурой " + figure.getName() + " из клетки " +
+        logger.info(command.getChessCode() + "- Игрок " + color + " сделал ход фигурой " + figure.getName() + " из клетки " +
                 startField.showField() + " в клетку " + finalField.showField());
     }
 

@@ -7,6 +7,7 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.web.client.communication.message.ChessCodes;
 
 public class TransformationCommand extends AbstractCommand implements IAllowCommand {
 
@@ -36,7 +37,8 @@ public class TransformationCommand extends AbstractCommand implements IAllowComm
     }
 
     @Override
-    public String getNameCommand() {
-        return "превращение пешки";
+    public ChessCodes getChessCode() {
+        return ChessCodes.TRANSFORMATION;
     }
+
 }

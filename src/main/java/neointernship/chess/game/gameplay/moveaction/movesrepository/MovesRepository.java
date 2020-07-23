@@ -20,11 +20,10 @@ public class MovesRepository {
     public MovesRepository(final IMediator mediator,
                            final IPossibleActionList possibleActionList,
                            final IBoard board,
-                           final IGameLogger gameLogger,
                            final IStoryGame storyGame) {
 
-        allowMoveCommand = new AllowMoveCommand(mediator, possibleActionList, board,gameLogger,storyGame);
-        restrictCommand = new RestrictMoveCommand(mediator, possibleActionList, board,gameLogger);
+        allowMoveCommand = new AllowMoveCommand(mediator, possibleActionList, board,storyGame);
+        restrictCommand = new RestrictMoveCommand(mediator, possibleActionList, board);
 
         actionCommandMap = new HashMap<MoveState, IMoveCommand>() {
             {
