@@ -18,10 +18,6 @@ public class InfoModel implements IMessageCodeModel {
         MessageExchanger.exchange(message);
         final IInitInfo name = InfoExchanger.exchange(null);
 
-        final IMessage mes = new Message(ClientCodes.INIT_INFO);
-        out.write(MessageSerializer.serialize(mes) + "\n");
-        out.flush();
-
         out.write(InfoSerializer.serialize(name) + "\n");
         out.flush();
     }

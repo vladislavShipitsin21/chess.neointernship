@@ -22,9 +22,5 @@ public class InitGameModel implements IMessageCodeModel {
 
         MessageExchanger.exchange(message);
         InitGameExchanger.exchange(initGame);
-
-        final IMessage mes = MessageExchanger.exchange(null);
-        out.write(MessageSerializer.serialize(mes) + "\n");
-        out.flush();
     }
 }

@@ -17,10 +17,6 @@ public class TurnModel implements IMessageCodeModel {
     @Override
     public void execute(final IMessage message, final BufferedReader in, final BufferedWriter out) throws InterruptedException, IOException {
         MessageExchanger.exchange(message);
-        final IMessage mes = new Message(ClientCodes.TURN);
-
-        out.write(MessageSerializer.serialize(mes) + "\n");
-        out.flush();
 
         final ITurn turn = TurnExchanger.exchange(null);
         out.write(AnswerSerializer.serialize(turn));

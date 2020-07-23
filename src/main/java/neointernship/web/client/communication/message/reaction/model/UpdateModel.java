@@ -20,8 +20,5 @@ public class UpdateModel implements IMessageCodeModel {
         updateDto.validate();
         final Update update = new Update(updateDto.getMediator());
         UpdateExchanger.exchange(update);
-        final IMessage mes = MessageExchanger.exchange(null);
-        out.write(MessageSerializer.serialize(mes) + "\n");
-        out.flush();
     }
 }
