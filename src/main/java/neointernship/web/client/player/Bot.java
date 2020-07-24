@@ -28,10 +28,10 @@ public class Bot implements IPlayer {
     private ChessCodesReaction chessCodesReaction;
 
 
-    public Bot(){
+    public Bot(final Color color, final String name){
         this.random = new Random();
-        this.name = "Bot";
-        this.color = Color.BLACK;
+        this.color = color;
+        this.name = name;
     }
 
     public void init(final IMediator mediator, final IBoard board, final Color color) {

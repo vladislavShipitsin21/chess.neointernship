@@ -10,6 +10,7 @@ public interface IGameLogger {
     void logStartGame(final String firstPlayerName, final String secondPlayerName);
     void logPlayerMoveAction(final Color color, final Figure figure,
                              final IField startField, final IField finalField, final ChessCodes chessCodes);
+    void logMap(String string);
     void logPlayerWrongAction(final Color color, final IField field);
     void logPlayerWin(final Color color);
     void logStalemate();

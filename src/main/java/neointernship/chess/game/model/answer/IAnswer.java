@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Answer.class, name = "Answer"),
+        @JsonSubTypes.Type(value = AnswerSimbol.class, name = "AnswerSimbol"),
 })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public interface IAnswer {

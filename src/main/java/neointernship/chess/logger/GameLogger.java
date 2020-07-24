@@ -56,6 +56,11 @@ public class GameLogger implements IGameLogger{
     }
 
     @Override
+    public void logMap(final String string) {
+        logger.info(string);
+    }
+
+    @Override
     public void logPlayerWrongAction(final Color color, final IField field) {
         logger.warn("Игрок " + color + " попыталя сделать ход из клетки " + field.showField() + ", но он невозможен");
     }

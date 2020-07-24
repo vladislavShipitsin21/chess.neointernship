@@ -157,6 +157,19 @@ public class Server {
             }
         }
 
+        private void sendEndGame() {
+            for (final UserConnection userConnection : connectionController.getConnections()) {
+                final BufferedWriter out = userConnection.getOut();
+                final IMessage msg = new Message(ClientCodes.END_GAME);
+
+                try {
+                    send(out, MessageSerializer.serialize(msg));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
        @Override
         public void run() {
@@ -192,6 +205,8 @@ public class Server {
                     e.printStackTrace();
                 }
             }
+
+            sendEndGame();
             gameLoop.getMatchResult();
             downService();
         }

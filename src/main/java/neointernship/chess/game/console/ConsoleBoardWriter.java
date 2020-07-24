@@ -1,7 +1,5 @@
 package neointernship.chess.game.console;
 
-import neointernship.chess.game.gameplay.gamestate.state.GameState;
-import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
