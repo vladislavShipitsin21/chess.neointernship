@@ -8,11 +8,9 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.logger.IGameLogger;
 import neointernship.web.client.communication.message.ChessCodes;
 
 /**
@@ -43,7 +41,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
         this.storyGame = storyGame;
 
-        attackComand = new AttackComand(board, mediator);
+        attackComand = new AttackCommand(board, mediator);
         moveCommand = new MoveCommand(board, mediator);
         aisleTakeCommand = new AisleTakeCommand(board, mediator);
         castlingCommand = new CastlingCommand(board,mediator);
@@ -62,7 +60,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
         storyGame.update(startFigure);
 
-        IAllowCommand currentCommand = getCommand(startFigure,startField,finalFigure,finalField);
+        final IAllowCommand currentCommand = getCommand(startFigure,startField,finalFigure,finalField);
         currentCommand.execute(answer); // делаю ход
 
         possibleActionList.updateRealLists();

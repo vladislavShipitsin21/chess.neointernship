@@ -11,6 +11,8 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
+import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.ChessCodesReaction;
 
 import java.util.List;
 import java.util.Random;
@@ -23,6 +25,7 @@ public class Bot implements IPlayer {
     private IPossibleActionList possibleActionList;
     private final String name;
     private final Random random;
+    private ChessCodesReaction chessCodesReaction;
 
 
     public Bot(){
@@ -37,13 +40,14 @@ public class Bot implements IPlayer {
         this.color = color;
         this.storyGame = new StoryGame(mediator);
         this.possibleActionList = new PossibleActionList(board, mediator,storyGame);
+        this.chessCodesReaction = new ChessCodesReaction(board, mediator);
     }
 
     @Override
     public IAnswer getAnswer() {
         final List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
-        List<IField> fields = null;
-        Figure figure = null;
+        List<IField> fields;
+        Figure figure;
         int index;
 
         possibleActionList.updateRealLists();
@@ -74,8 +78,12 @@ public class Bot implements IPlayer {
     }
 
     @Override
-    public void setMediator(final IMediator mediator) {
-        this.mediator = mediator;
+    public void updateMediator(final IAnswer answer, final ChessCodes chessCode) {
+        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        final Figure startFigure = mediator.getFigure(startField);
+        storyGame.update(startFigure);
+
+        chessCodesReaction.get(chessCode).execute(answer);
     }
 
     @Override

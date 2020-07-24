@@ -2,7 +2,8 @@ package neointernship.web.client.communication.data.update;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.answer.IAnswer;
+import neointernship.web.client.communication.message.ChessCodes;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSubTypes({
@@ -10,5 +11,6 @@ import neointernship.chess.game.model.mediator.IMediator;
         @JsonSubTypes.Type(value = UpdateDto.class, name = "UpdateDto"),
 })
 public interface IUpdate {
-    IMediator getMediator();
+    IAnswer getAnswer();
+    ChessCodes getChessCode();
 }

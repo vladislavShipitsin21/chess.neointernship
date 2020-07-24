@@ -142,11 +142,11 @@ public class Server {
             }
         }
 
-        private void sendUpdatedMediator() {
+        private void sendUpdatedMediator(final IAnswer answer, final ChessCodes chessCode) {
             for (final UserConnection userConnection : connectionController.getConnections()) {
                 final BufferedWriter out = userConnection.getOut();
                 final IMessage msg = new Message(ClientCodes.UPDATE);
-                final IUpdate update = new Update(mediator);
+                final IUpdate update = new Update(answer, chessCode);
 
                 try {
                     send(out, MessageSerializer.serialize(msg));
@@ -165,9 +165,9 @@ public class Server {
             while (gameLoop.isAlive()) {
                 connectionController.update();
                 final UserConnection connection = connectionController.getCurrentConnection();
-                ChessCodes chessCodes;
+                ChessCodes chessCode;
                 try {
-                    IAnswer answer = null;
+                    IAnswer answer;
                     do {
                         final BufferedWriter out = connection.getOut();
                         final IMessage message = new Message(ClientCodes.TURN);
@@ -180,14 +180,14 @@ public class Server {
                         turnDto.validate();
                         answer = turnDto.getAnswer();
 
-                        chessCodes = makeTurn(answer);
+                        chessCode = makeTurn(answer);
 
                         GameLogger.getLogger(lobbyId).logPlayerMoveAction(connection.getColor(),
                                 mediator.getFigure(new Field(answer.getFinalX(), answer.getFinalY())),
                                 new Field(answer.getStartX(), answer.getStartY()),
-                                new Field(answer.getFinalX(), answer.getFinalY()), chessCodes);
-                    } while(chessCodes == ChessCodes.ERROR);
-                    sendUpdatedMediator();
+                                new Field(answer.getFinalX(), answer.getFinalY()), chessCode);
+                    } while(chessCode == ChessCodes.ERROR);
+                    sendUpdatedMediator(answer, chessCode);
                 } catch (final Exception e) {
                     e.printStackTrace();
                 }
