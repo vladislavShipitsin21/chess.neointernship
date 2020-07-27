@@ -1,4 +1,6 @@
-package neointernship.web.server.connection;
+package neointernship.web.server.connection.controller;
+
+import neointernship.web.server.connection.userconnection.UserConnection;
 
 import neointernship.chess.game.gameplay.activecolorcontroller.IActiveColorController;
 import neointernship.chess.game.gameplay.activecolorcontroller.IColorControllerSubscriber;
