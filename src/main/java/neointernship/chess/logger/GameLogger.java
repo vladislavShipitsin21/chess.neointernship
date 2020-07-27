@@ -76,4 +76,5 @@ public class GameLogger implements IGameLogger{
     public void logDraw(final IDrawController drawController ) {
         logger.info("Ничья : " + drawController.getMessage());
     }
+
 }
