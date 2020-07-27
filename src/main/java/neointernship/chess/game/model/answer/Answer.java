@@ -5,9 +5,9 @@ public class Answer implements IAnswer {
     final int startY;
     final int finalX;
     final int finalY;
-    char simbol;
+    final char simbol;
 
-    public Answer(final int startX, final int startY, final int finalX,final int finalY,char simbol) {
+    public Answer(final int startX, final int startY, final int finalX, final int finalY, char simbol) {
         this.startX = startX;
         this.startY = startY;
         this.finalX = finalX;

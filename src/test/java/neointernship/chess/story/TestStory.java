@@ -16,28 +16,26 @@ import static org.junit.Assert.*;
 public class TestStory {
 
     @Test
-    public void testGet(){
+    public void testGet() {
         IMediator mediator = new Mediator();
         IStoryGame storyGame = new StoryGame(mediator);
 
         Figure king = new King(Color.WHITE);
-        IField field = new Field(0,0);
+        IField field = new Field(0, 0);
 
-        mediator.addNewConnection(field,king);
+        mediator.addNewConnection(field, king);
 
         storyGame.update(king);
 
         IField result = storyGame.getLastField();
-        IField expectedField = new Field(0,0);
+        IField expectedField = new Field(0, 0);
 
         assertNotNull(result);
-        assertEquals(expectedField,result);
-        assertEquals(king,storyGame.getLastFigureMove());
+        assertEquals(expectedField, result);
+        assertEquals(king, storyGame.getLastFigureMove());
         assertTrue(storyGame.isMove(king));
     }
 
-    @Test
-    public void testUpdate(){
-
-    }
+    // todo сделал ход, проверил что фигура добавилась в историю корректно
+    // todo проверка рокировки с помощью истории
 }

@@ -25,6 +25,8 @@ public class TestAttack extends TestAllowCommand {
         addFigure(fieldW,figureW);
         addFigure(fieldB,figureB);
 
+        assertEquals(2,mediator.getFigures().size());
+
         IAnswer answer = new Answer(0,0,0,6,'Q');
 
         TurnStatus result = allowMoveCommand.execute(figureW.getColor(),answer);
