@@ -22,7 +22,7 @@ import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -63,9 +63,9 @@ public class TestMate {
 
         assertTrue(gameLoop.isAlive());
 
-        ChessCodes result = gameLoop.doIteration(answer);
+        TurnStatus result = gameLoop.doIteration(answer);
 
-        assertEquals(result,ChessCodes.MOVE);
+        assertEquals(result, TurnStatus.MOVE);
 
         System.out.println(gameLoop.getMatchResult().getValue());
         assertFalse(gameLoop.isAlive());
@@ -104,11 +104,11 @@ public class TestMate {
 
         assertEquals(Color.WHITE, activeColorController.getCurrentColor());
 
-        ChessCodes result = gameLoop.doIteration(answer);
+        TurnStatus result = gameLoop.doIteration(answer);
 
         assertEquals(Color.BLACK, activeColorController.getCurrentColor());
 
-        assertEquals(result, ChessCodes.MOVE);
+        assertEquals(result, TurnStatus.MOVE);
 
         System.out.println(gameLoop.getMatchResult().getValue());
         assertFalse(gameLoop.isAlive());

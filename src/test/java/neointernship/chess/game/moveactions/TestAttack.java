@@ -1,17 +1,13 @@
 package neointernship.chess.game.moveactions;
 
-import neointernship.chess.game.gameplay.moveaction.commands.allow.AllowMoveCommand;
 import neointernship.chess.game.model.answer.Answer;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.figure.piece.Rook;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.web.client.communication.message.ChessCodes;
-import org.junit.After;
-import org.junit.BeforeClass;
+import neointernship.web.client.communication.message.TurnStatus;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -31,9 +27,9 @@ public class TestAttack extends TestAllowCommand {
 
         IAnswer answer = new Answer(0,0,0,6,'Q');
 
-        ChessCodes result = allowMoveCommand.execute(figureW.getColor(),answer);
+        TurnStatus result = allowMoveCommand.execute(figureW.getColor(),answer);
 
-        assertEquals(ChessCodes.ATTACK,result);
+        assertEquals(TurnStatus.ATTACK,result);
 
         assertEquals(1,mediator.getFigures().size());
 

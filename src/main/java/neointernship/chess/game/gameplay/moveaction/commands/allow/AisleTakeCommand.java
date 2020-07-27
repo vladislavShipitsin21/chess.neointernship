@@ -5,7 +5,7 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 /**
  * Класс реализующий команду взятие на проходе
@@ -32,8 +32,8 @@ public class AisleTakeCommand extends AbstractCommand implements IAllowCommand {
     }
 
     @Override
-    public ChessCodes getChessCode() {
-        return ChessCodes.AISLE_TAKE;
+    public TurnStatus getChessCode() {
+        return TurnStatus.AISLE_TAKE;
     }
 
 }

@@ -8,7 +8,7 @@ import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.figure.piece.Rook;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -63,9 +63,9 @@ public class TestCastling extends TestAllowCommand {
                 fieldKing.getYCoord() + offset,
                 'Q');
 
-        ChessCodes result = allowMoveCommand.execute(king.getColor(), answer);
+        TurnStatus result = allowMoveCommand.execute(king.getColor(), answer);
 
-        assertEquals(ChessCodes.CASTLING, result);
+        assertEquals(TurnStatus.CASTLING, result);
 
         IField fieldKingExpected = new Field(answer.getFinalX(), answer.getFinalY());
         offset /= 2;

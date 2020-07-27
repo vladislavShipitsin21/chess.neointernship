@@ -8,12 +8,10 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
 import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.logger.IGameLogger;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 /**
  * Реализация хода в нормальной ситуации
@@ -53,7 +51,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
 
     @Override
-    public ChessCodes execute(final Color color, final IAnswer answer) {
+    public TurnStatus execute(final Color color, final IAnswer answer) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
         final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 

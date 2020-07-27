@@ -30,7 +30,7 @@ import neointernship.web.client.communication.data.update.Update;
 import neointernship.web.client.communication.message.IMessage;
 import neointernship.web.client.communication.message.Message;
 import neointernship.web.client.communication.message.ClientCodes;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 import neointernship.web.client.communication.serializer.*;
 import neointernship.web.server.connection.ActiveConnectionController;
 import neointernship.web.server.connection.UserConnection;
@@ -177,7 +177,7 @@ public class Server {
                         turnDto.validate();
                         answer = turnDto.getAnswer();
 
-                    } while(makeTurn(answer) == ChessCodes.ERROR);
+                    } while(makeTurn(answer) == TurnStatus.ERROR);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -187,7 +187,7 @@ public class Server {
             downService();
         }
 
-        public ChessCodes makeTurn(final IAnswer answer) {
+        public TurnStatus makeTurn(final IAnswer answer) {
             return gameLoop.doIteration(answer);
         }
 

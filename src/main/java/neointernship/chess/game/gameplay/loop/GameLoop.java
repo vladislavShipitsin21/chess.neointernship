@@ -1,7 +1,5 @@
 package neointernship.chess.game.gameplay.loop;
 
-import neointernship.chess.game.console.ConsoleBoardWriter;
-import neointernship.chess.game.console.IConsoleBoardWriter;
 import neointernship.chess.game.gameplay.activecolorcontroller.IActiveColorController;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessController;
@@ -18,7 +16,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 import neointernship.chess.game.story.IStoryGame;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -34,7 +32,6 @@ public class GameLoop implements IGameLoop {
 
     private final IGameProcessController gameProcessController;
     private final IKingStateController kingStateController;
-    private final IConsoleBoardWriter consoleBoardWriter;
 
     private Color activeColor;
     private IGameState actualGameState;
@@ -57,7 +54,6 @@ public class GameLoop implements IGameLoop {
         gameProcessController = new GameProcessController(mediator, possibleActionList, board,storyGame);
         kingStateController = new KingsStateController(possibleActionList, mediator, Color.WHITE);
 
-        consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
     }
 
@@ -65,22 +61,21 @@ public class GameLoop implements IGameLoop {
      * Активация главного игрового цикла.
      */
     @Override
-    public ChessCodes doIteration(final IAnswer answer) {
+    public TurnStatus doIteration(final IAnswer answer) {
         activeColor = activeColorController.getCurrentColor();
 
         gameProcessController.makeTurn(activeColor, answer);
 
-        final ChessCodes chessCodes = gameProcessController.getChessCode();
+        final TurnStatus turnStatus = gameProcessController.getTurnStatus();
 
-        if(chessCodes != ChessCodes.ERROR) {
+        if(turnStatus != TurnStatus.ERROR) {
             activeColorController.update();
             activeColor = activeColorController.getCurrentColor();
 
             kingStateController.setActiveColor(activeColor);
             kingStateController.updateState();
-            consoleBoardWriter.printBoard();
         }
-        return chessCodes;
+        return turnStatus;
     }
 
     @Override
