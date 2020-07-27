@@ -13,28 +13,65 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * класс проверяющий правильную реализацию рокировки при классических шахматах.
+ */
 public class TestCastling extends TestAllowCommand {
     @Test
-    public void testCastling(){
-        Figure king = new King(Color.WHITE);
-        IField fieldW = new Field(7,4);
+    public void testCastlingWhiteRight() {
+        check(false, Color.WHITE);
+    }
 
-        Figure rook = new Rook(Color.WHITE);
-        IField fieldB = new Field(7,7);
+    @Test
+    public void testCastlingWhiteLeft() {
+        check(true, Color.WHITE);
+    }
 
-        addFigure(fieldW,king);
-        addFigure(fieldB,rook);
+    @Test
+    public void testCastlingBlackRight() {
+        check(false, Color.BLACK);
+    }
 
-        IAnswer answer = new Answer(7,4,7,6,'Q');
+    @Test
+    public void testCastlingBlackLeft() {
+        check(true, Color.BLACK);
+    }
 
-        ChessCodes result = allowMoveCommand.execute(king.getColor(),answer);
+    public void check(final boolean isLeft, final Color color) {
+        Figure king = new King(color);
 
-        assertEquals(ChessCodes.CASTLING,result);
+        int startXCoordKing = color == Color.WHITE ? 7 : 0;
+        IField fieldKing = new Field(startXCoordKing, 4);
 
-        IField fieldKingExpected = new Field(7,6);
-        IField fieldRookExpected = new Field(7,5);
+        int startYCoordRook = 7;
+        int offset = 2;
+        if (isLeft) {
+            startYCoordRook = 0;
+            offset = -2;
+        }
 
-        assertEquals(fieldKingExpected,mediator.getField(king));
-        assertEquals(fieldRookExpected,mediator.getField(rook));
+        Figure rook = new Rook(king.getColor());
+        IField fieldRook = new Field(fieldKing.getXCoord(), startYCoordRook);
+
+        addFigure(fieldKing, king);
+        addFigure(fieldRook, rook);
+
+        IAnswer answer = new Answer(
+                fieldKing.getXCoord(),
+                fieldKing.getYCoord(),
+                fieldKing.getXCoord(),
+                fieldKing.getYCoord() + offset,
+                'Q');
+
+        ChessCodes result = allowMoveCommand.execute(king.getColor(), answer);
+
+        assertEquals(ChessCodes.CASTLING, result);
+
+        IField fieldKingExpected = new Field(answer.getFinalX(), answer.getFinalY());
+        offset /= 2;
+        IField fieldRookExpected = new Field(answer.getFinalX(), answer.getStartY() + offset);
+
+        assertEquals(fieldKingExpected, mediator.getField(king));
+        assertEquals(fieldRookExpected, mediator.getField(rook));
     }
 }

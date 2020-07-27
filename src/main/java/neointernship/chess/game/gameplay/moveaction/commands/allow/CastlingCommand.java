@@ -43,7 +43,6 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
         mediator.deleteConnection(startFieldRook);
         mediator.addNewConnection(finalFieldKing,king);
         mediator.addNewConnection(finalFieldRook,rook);
-
     }
 
     @Override
