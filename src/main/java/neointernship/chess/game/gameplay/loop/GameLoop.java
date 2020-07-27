@@ -14,7 +14,7 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.chess.game.model.subscriber.ISubscriber;
+import neointernship.chess.game.gameplay.kingstate.subscriber.IKingStateSubscriber;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.web.client.communication.message.TurnStatus;
 
@@ -28,13 +28,10 @@ public class GameLoop implements IGameLoop {
     private final IActiveColorController activeColorController;
 
     private final IGameStateController gameStateController;
-    private final Collection<IGameStateController> gameControllers;
 
     private final IGameProcessController gameProcessController;
-    private final IKingStateController kingStateController;
 
     private Color activeColor;
-    private IGameState actualGameState;
 
     public GameLoop(final IMediator mediator,
                     final IPossibleActionList possibleActionList,
@@ -44,17 +41,9 @@ public class GameLoop implements IGameLoop {
 
         this.activeColorController = activeColorController;
 
-        gameStateController = new GameStateController(possibleActionList, mediator);
-        gameControllers = new HashSet<>();
-        gameControllers.add(gameStateController);
-        gameControllers.add(new DrawStateController(mediator,storyGame));
-        actualGameState = gameStateController.getState();
-
+        gameStateController = new GameStateController(possibleActionList, mediator,storyGame);
 
         gameProcessController = new GameProcessController(mediator, possibleActionList, board,storyGame);
-        kingStateController = new KingsStateController(possibleActionList, mediator);
-
-        kingStateController.addToSubscriber((ISubscriber) gameStateController);
     }
 
     /**
@@ -72,24 +61,18 @@ public class GameLoop implements IGameLoop {
             activeColorController.update();
             activeColor = activeColorController.getCurrentColor();
 
-            kingStateController.updateState(activeColor);
+            gameStateController.update(activeColor);
         }
         return turnStatus;
     }
 
     @Override
     public boolean isAlive() {
-        for(IGameStateController controller : gameControllers){
-            if(!controller.isMatchAlive()){
-                actualGameState = controller.getState();
-                return false;
-            }
-        }
-        return true;
+        return gameStateController.isMatchAlive();
     }
 
     @Override
     public IGameState getMatchResult() {
-        return actualGameState;
+        return gameStateController.getState();
     }
 }

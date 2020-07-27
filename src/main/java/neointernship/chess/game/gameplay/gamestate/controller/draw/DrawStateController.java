@@ -11,7 +11,7 @@ import neointernship.chess.game.story.IStoryGame;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class DrawStateController implements IGameStateController {
+public class DrawStateController {
 
     private final IMediator mediator;
 
@@ -31,18 +31,16 @@ public class DrawStateController implements IGameStateController {
         actualState = EnumGameState.ALIVE;
     }
 
-    @Override
-    public boolean isMatchAlive() {
+
+    public void update() {
         for(final IDrawController drawController : drawControllers){
             if(drawController.isDraw(mediator)){
                 actualState = drawController.getState();
-                return false;
             }
         }
-        return true;
     }
 
-    @Override
+
     public IGameState getState() {
         return new GameState(actualState, Color.BOTH);
     }

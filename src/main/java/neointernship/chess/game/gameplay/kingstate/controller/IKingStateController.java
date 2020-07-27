@@ -1,10 +1,13 @@
 package neointernship.chess.game.gameplay.kingstate.controller;
 
+import neointernship.chess.game.gameplay.kingstate.subscriber.IKingStateSubscriber;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
-import neointernship.chess.game.model.subscriber.ISubscriber;
 
 public interface IKingStateController {
-    void updateState(final Color activeColor);
-    void addToSubscriber(ISubscriber subscriber);
+    void update(final Color color);
+
+    void addToSubscriber(IKingStateSubscriber subscriber);
+
+    KingState getKingState(final Color color);
 }
