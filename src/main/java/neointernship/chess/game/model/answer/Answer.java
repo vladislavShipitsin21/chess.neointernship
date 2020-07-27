@@ -53,8 +53,12 @@ public class Answer implements IAnswer {
         return finalY;
     }
 
-    @Override
     public char getSimbol() {
         return simbol;
+    }
+
+    @Override
+    public void setSimbol(final char simbol) {
+
     }
 }

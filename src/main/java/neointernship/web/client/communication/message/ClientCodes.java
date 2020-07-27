@@ -8,5 +8,6 @@ public enum ClientCodes {
     END_GAME,
     HAND_SHAKE,
     YES,
-    NO
+    NO,
+    TRANSFORMATION
 }

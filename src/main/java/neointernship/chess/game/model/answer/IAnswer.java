@@ -14,4 +14,5 @@ public interface IAnswer {
     int getFinalX();
     int getFinalY();
     char getSimbol();
+    void setSimbol(char simbol);
 }

@@ -7,9 +7,16 @@ import neointernship.web.client.player.APlayer;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.net.Socket;
 import java.util.Scanner;
 
 public class HandShakeModel implements IMessageCodeModel {
+    private final Socket socket;
+
+    public HandShakeModel(final Socket socket){
+        this.socket = socket;
+    }
+
     @Override
     public void execute(final APlayer player, final BufferedReader in, final BufferedWriter out) throws Exception {
         final Scanner scanner = new Scanner(System.in);
@@ -29,5 +36,7 @@ public class HandShakeModel implements IMessageCodeModel {
 
         out.write(MessageSerializer.serialize(message) + "\n");
         out.flush();
+
+        if (!answer.equals("да")) new EndGameModel(socket).execute(player, in, out);
     }
 }

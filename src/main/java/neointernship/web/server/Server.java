@@ -193,7 +193,6 @@ public class Server {
                         final IMessage message = new Message(ClientCodes.TURN);
                         send(out, MessageSerializer.serialize(message));
 
-
                         final BufferedReader in = connection.getIn();
                         final String msg = in.readLine();
                         final TurnDto turnDto = AnswerSerializer.deserialize(msg);

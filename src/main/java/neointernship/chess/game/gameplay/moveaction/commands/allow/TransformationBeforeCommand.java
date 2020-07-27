@@ -1,7 +1,6 @@
 package neointernship.chess.game.gameplay.moveaction.commands.allow;
 
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -17,15 +16,16 @@ public class TransformationBeforeCommand extends AbstractCommand implements IAll
     @Override
     public void execute(final IAnswer answer) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 
         final Figure startFigure = mediator.getFigure(startField);
-
-        final Figure newFigure = new Factory().createFigure(answer.getSimbol(), startFigure.getColor());
+        final Figure finalFigure = mediator.getFigure(finalField);
 
         mediator.deleteConnection(startField);
-
-        mediator.addNewConnection(startField, startFigure);
-
+        if(finalFigure != null){
+            mediator.deleteConnection(finalField);
+        }
+        mediator.addNewConnection(finalField, startFigure);
     }
 
     @Override

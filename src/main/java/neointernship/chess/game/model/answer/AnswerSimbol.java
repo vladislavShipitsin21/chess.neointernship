@@ -37,8 +37,6 @@ public class AnswerSimbol implements IAnswer {
 
         this.finalX = repositiryChar.getX(finishI);
         this.finalY = repositiryChar.getY(finishC);
-
-        this.simbol = 'Q';
     }
 
     @Override
@@ -64,6 +62,11 @@ public class AnswerSimbol implements IAnswer {
     @Override
     public char getSimbol() {
         return simbol;
+    }
+
+    @Override
+    public void setSimbol(final char simbol) {
+        this.simbol = simbol;
     }
 
     @Override
