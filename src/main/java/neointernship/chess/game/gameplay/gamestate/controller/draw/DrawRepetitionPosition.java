@@ -1,13 +1,12 @@
 package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.mediator.IMediator;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class DrawRepetitionPosition implements IDrawController {
-
-    private static final String MESSAGE = "трехкратное повторение позиции";
 
     private static final Integer MAX_REPETITION = 3;
     private static final Integer START_REPETITION = 1;
@@ -46,7 +45,7 @@ public class DrawRepetitionPosition implements IDrawController {
     }
 
     @Override
-    public String getMessage() {
-        return MESSAGE;
+    public EnumGameState getState() {
+        return EnumGameState.DRAW_REPETITION_POSITION;
     }
 }

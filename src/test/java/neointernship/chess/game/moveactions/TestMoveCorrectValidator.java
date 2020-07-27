@@ -1,7 +1,5 @@
 package neointernship.chess.game.moveactions;
 
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
-import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.moveaction.MoveCorrectnessValidator;
 import neointernship.chess.game.model.answer.Answer;
 import neointernship.chess.game.model.answer.IAnswer;
@@ -9,27 +7,21 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
-import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.mediator.Mediator;
-import neointernship.chess.game.model.playmap.board.Board;
-import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.game.story.StoryGame;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestMoveCorrectValidator extends TestHead {
+public class TestMoveCorrectValidator extends TestHeadCommand {
 
     private static MoveCorrectnessValidator validator;
 
     @BeforeClass
     public static void init(){
-        TestHead.init();
+        TestHeadCommand.init();
         validator = new MoveCorrectnessValidator(mediator,possibleActionList,board);
     }
     @After

@@ -13,7 +13,7 @@ import neointernship.chess.game.story.IStoryGame;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
+public class PotentialBasicPatterns implements IPotentialBasicPatterns {
     private final int boardSize;
     private final IMediator mediator;
     private final IBoard board;
@@ -119,17 +119,18 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
         for (final int one : onesList) {
             addAttackField(figure.getColor(), currentField.getXCoord() + offset, currentField.getYCoord() + one, possibleAttackFields);
         }
-        addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+
+        boolean isFreePAth = addMoveField(currentField.getXCoord() + offset,
+                        currentField.getYCoord(),
+                        possibleAttackFields);
 
         addIfAisleTake(figure,possibleAttackFields);
 
-        if (currentField.getXCoord() == 6 && figure.getColor() == Color.WHITE) {
-            offset = -  2;
-            addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
-        }
-        if (currentField.getXCoord() == 1 && figure.getColor() == Color.BLACK) {
-            offset = 2;
-            addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+        if(isFreePAth) {
+            if (currentField.getXCoord() == 1 || currentField.getXCoord() == 6) {
+                offset *= 2;
+                addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+            }
         }
 
         return possibleAttackFields;
@@ -147,7 +148,7 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
             move = 1;
         }
 
-        final IField lastFieldLastFigure = storyGame.getLastFieldFigure(lastFigure);
+        final IField lastFieldLastFigure = storyGame.getLastField();
         final IField realFieldLastFigure = mediator.getField(lastFigure);
 
         if(realFieldLastFigure != null && lastFieldLastFigure != null) { // может быть null если было превращение
@@ -238,9 +239,8 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
      * @param possibleMoveList a list where we add the field if it needed.
      * @return boolean value if moving through direction is possible (not covered with another piece).
      */
-    private boolean actionToAdd(final Color color, final int newFieldXCoord,
-                                final int newFieldYCoord, final ArrayList<IField> possibleMoveList) {
-        if (!validCoordinates(newFieldXCoord, newFieldYCoord)) {
+    private boolean actionToAdd(final Color color, final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+        if (validCoordinates(newFieldXCoord, newFieldYCoord)) {
             return false;
         }
         final IField field = board.getField(newFieldXCoord, newFieldYCoord);
@@ -252,10 +252,9 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
         return figure == null;
     }
 
-    private void addMoveField(final int newFieldXCoord, final int newFieldYCoord,
-                              final ArrayList<IField> possibleMoveList) {
-        if (!validCoordinates(newFieldXCoord, newFieldYCoord)) {
-            return;
+    private boolean addMoveField(final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+        if (validCoordinates(newFieldXCoord, newFieldYCoord)) {
+            return false;
         }
 
         final IField field = board.getField(newFieldXCoord, newFieldYCoord);
@@ -263,12 +262,13 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
 
         if (figure == null) {
             possibleMoveList.add(field);
+            return true;
         }
+        return false;
     }
 
-    private void addAttackField(final Color color, final int newFieldXCoord, final int newFieldYCoord,
-                                final ArrayList<IField> possibleMoveList) {
-        if (!validCoordinates(newFieldXCoord, newFieldYCoord)) {
+    private void addAttackField(final Color color, final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+        if (validCoordinates(newFieldXCoord, newFieldYCoord)) {
             return;
         }
 
@@ -281,9 +281,9 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
     }
 
     private boolean validCoordinates(final int newFieldXCoord, final int newFieldYCoord) {
-        return newFieldXCoord >= 0
-                && newFieldXCoord < boardSize
-                && newFieldYCoord >= 0
-                && newFieldYCoord < boardSize;
+        return newFieldXCoord < 0
+                || newFieldXCoord >= boardSize
+                || newFieldYCoord < 0
+                || newFieldYCoord >= boardSize;
     }
 }

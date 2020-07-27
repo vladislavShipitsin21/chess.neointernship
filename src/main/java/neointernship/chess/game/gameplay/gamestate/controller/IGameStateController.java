@@ -1,8 +1,8 @@
 package neointernship.chess.game.gameplay.gamestate.controller;
 
-import neointernship.chess.game.gameplay.gamestate.state.GameState;
+import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 
 public interface IGameStateController {
     boolean isMatchAlive();
-    GameState getState();
+    IGameState getState();
 }

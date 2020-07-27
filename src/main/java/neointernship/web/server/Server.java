@@ -68,7 +68,6 @@ public class Server {
         socketList = new ConcurrentLinkedQueue<>();
         lobbyList = new ConcurrentLinkedQueue<>();
     }
-  //  private History history = new History(); // история
 
     private class Lobby extends Thread {
         private final IBoard board;
@@ -176,7 +175,6 @@ public class Server {
                 }
             }
         }
-
 
        @Override
         public void run() {
@@ -330,7 +328,6 @@ public class Server {
             ErrorLoggerServer.logException(e);
         }
     }
-
 
     @SuppressWarnings("InfiniteLoopStatement")
     private void startServer() throws IOException {

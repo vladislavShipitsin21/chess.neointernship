@@ -107,7 +107,7 @@ public class TestActionsFreePath {
         checkPosition(map,figure,expected);
     }
     @Test
-    public void testPawnBlackEnd(){
+    public void testPawnBlackCenter(){
         Figure figure = new Pawn(Color.BLACK);
         IField field = new Field(3,4);
 
@@ -119,12 +119,36 @@ public class TestActionsFreePath {
         checkPosition(map,figure,expected);
     }
     @Test
-    public void testPawnWhiteEnd(){
+    public void testPawnWhiteCenter(){
         Figure figure = new Pawn(Color.WHITE);
         IField field = new Field(4,4);
 
         Field[] expected = {
                 new Field(3,4)
+        };
+
+        put(figure,field);
+        checkPosition(map,figure,expected);
+    }
+    @Test
+    public void testPawnWhiteEnd(){
+        Figure figure = new Pawn(Color.WHITE);
+        IField field = new Field(1,4);
+
+        Field[] expected = {
+                new Field(0,4)
+        };
+
+        put(figure,field);
+        checkPosition(map,figure,expected);
+    }
+    @Test
+    public void testPawnBlackEnd(){
+        Figure figure = new Pawn(Color.BLACK);
+        IField field = new Field(6,4);
+
+        Field[] expected = {
+                new Field(7,4)
         };
 
         put(figure,field);

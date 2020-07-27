@@ -61,7 +61,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
         storyGame.update(startFigure);
 
-        final IAllowCommand currentCommand = getCommand(startFigure,startField,finalFigure,finalField);
+        final IAllowCommand currentCommand = getCommand(startFigure, startField, finalFigure, finalField);
         currentCommand.execute(answer); // делаю ход
 
         possibleActionList.updateRealLists();
@@ -69,8 +69,8 @@ public class AllowMoveCommand implements IMoveCommand {
         return currentCommand.getChessCode();
     }
 
-    private IAllowCommand getCommand(final Figure startFigure,final IField startField,final Figure finalFigure,final IField finalField){
-        if(     startFigure.getClass() == Pawn.class &&
+    private IAllowCommand getCommand(final Figure startFigure, final IField startField, final Figure finalFigure, final IField finalField) {
+        if (startFigure.getClass() == Pawn.class &&
                 (
                         finalField.getXCoord() == board.getSize() - 1 ||
                                 finalField.getXCoord() == 0
@@ -88,15 +88,15 @@ public class AllowMoveCommand implements IMoveCommand {
             return transformationBeforeCommand;
         }
 
-        if(finalFigure != null) {
+        if (finalFigure != null) {
             return attackComand;
         }
-        if(startFigure.getClass() == King.class &&
-                Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1){
+        if (startFigure.getClass() == King.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1) {
             return castlingCommand;
         }
-        if(startFigure.getClass() == Pawn.class &&
-                Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1){
+        if (startFigure.getClass() == Pawn.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1) {
             return aisleTakeCommand;
         }
         return moveCommand;

@@ -17,6 +17,7 @@ public class StoryGame implements IStoryGame {
     private Figure lastFigure;
     private IField lastField;
 
+    // todo можешь существовать без Mediator ?
     public StoryGame(final IMediator mediator) {
         this.mediator = mediator;
         this.hoIsMove = new HashSet<>();
@@ -40,15 +41,12 @@ public class StoryGame implements IStoryGame {
     }
 
     @Override
-    public IField getLastFieldFigure(final Figure figure) {
+    public IField getLastField() {
         return lastField;
     }
 
     @Override
     public void update(final Figure figure) {
-        if(figure.getClass() == Pawn.class){
-
-        }
         hoIsMove.add(figure);
         this.lastFigure = figure;
         lastField = mediator.getField(figure);
