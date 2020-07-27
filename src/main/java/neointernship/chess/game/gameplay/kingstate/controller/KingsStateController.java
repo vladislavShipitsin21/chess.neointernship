@@ -6,23 +6,21 @@ import neointernship.chess.game.gameplay.kingstate.update.KingStateDefineLogic;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.subscriber.ISubscriber;
+import neointernship.chess.game.gameplay.kingstate.subscriber.IKingStateSubscriber;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class KingsStateController implements IKingStateController {
-    private final ArrayList<ISubscriber> subscribersList;
+
+    private final ArrayList<IKingStateSubscriber> subscribersList;
 
     private final HashMap<Color, KingState> kingStateMap;
     private final KingIsAttackedComputation kingIsAttackedComputation;
     private final KingStateDefineLogic kingStateDefineLogic;
 
-    private Color activeColor;
-
     public KingsStateController(final IPossibleActionList possibleActionList,
-                                final IMediator mediator,
-                                final Color activeColor) {
+                                final IMediator mediator) {
         kingStateMap = new HashMap<Color, KingState>() {{
             put(Color.WHITE, KingState.FREE);
             put(Color.BLACK, KingState.FREE);
@@ -32,37 +30,24 @@ public class KingsStateController implements IKingStateController {
 
         kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
         kingStateDefineLogic = new KingStateDefineLogic();
-
-        this.activeColor = activeColor;
     }
 
-    public void updateState() {
+    @Override
+    public void addToSubscriber(IKingStateSubscriber subscriber) {
+        subscribersList.add(subscriber);
+    }
+
+    @Override
+    public KingState getKingState(Color color) {
+        return kingStateMap.get(color);
+    }
+
+    @Override
+    public void update(final Color activeColor) {
         boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activeColor);
 
         KingState newState = kingStateDefineLogic.getState(kingIsAttacked);
-        System.out.println(activeColor + " KING STATUS UPDATED: " + newState.toString());
 
-        if (newState != kingStateMap.get(activeColor)) {
-            for (ISubscriber currentSubscriber : subscribersList) {
-                currentSubscriber.update(activeColor, newState);
-            }
-
-            kingStateMap.replace(activeColor, newState);
-        }
-    }
-
-    @Override
-    public KingState getState() {
-        return kingStateMap.get(activeColor);
-    }
-
-    @Override
-    public void setActiveColor(final Color activeColor) {
-        this.activeColor = activeColor;
-    }
-
-    @Override
-    public void addToSubscriber(ISubscriber subscriber) {
-        subscribersList.add(subscriber);
+        kingStateMap.replace(activeColor, newState);
     }
 }

@@ -3,13 +3,9 @@ package neointernship.chess.game.gameplay.moveaction.commands;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.chess.logger.IGameLogger;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 public class RestrictMoveCommand implements IMoveCommand {
     private final IMediator mediator;
@@ -26,7 +22,7 @@ public class RestrictMoveCommand implements IMoveCommand {
     }
 
     @Override
-    public ChessCodes execute(final Color color, final IAnswer answer) {
-        return ChessCodes.ERROR;
+    public TurnStatus execute(final Color color, final IAnswer answer) {
+        return TurnStatus.ERROR;
     }
 }

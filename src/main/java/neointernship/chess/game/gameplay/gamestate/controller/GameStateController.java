@@ -1,28 +1,39 @@
 package neointernship.chess.game.gameplay.gamestate.controller;
 
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
+import neointernship.chess.game.gameplay.gamestate.controller.draw.DrawStateController;
 import neointernship.chess.game.gameplay.gamestate.state.GameState;
+import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.gameplay.gamestate.update.FiguresHaveMovesComputation;
 import neointernship.chess.game.gameplay.gamestate.update.GameStateDefineLogic;
+import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
+import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.subscriber.ISubscriber;
-import neointernship.chess.logger.IGameLogger;
+import neointernship.chess.game.story.IStoryGame;
 
-public class GameStateController implements ISubscriber, IGameStateController {
-    private GameState currentState;
+public class GameStateController implements IGameStateController {
+    private IGameState currentState;
 
     private final FiguresHaveMovesComputation figuresHaveMovesComputation;
     private final GameStateDefineLogic gameStateDefineLogic;
 
+    private final DrawStateController drawStateController;
+    private final IKingStateController kingStateController;
+
     public GameStateController(final IPossibleActionList possibleActionList,
-                               final IMediator mediator) {
+                               final IMediator mediator,
+                               final IStoryGame storyGame) {
 
         currentState = new GameState(EnumGameState.ALIVE, Color.BOTH);
         figuresHaveMovesComputation = new FiguresHaveMovesComputation(possibleActionList, mediator);
         gameStateDefineLogic = new GameStateDefineLogic();
+
+        drawStateController = new DrawStateController(mediator, storyGame);
+        kingStateController = new KingsStateController(possibleActionList, mediator);
+
     }
 
     @Override
@@ -31,19 +42,25 @@ public class GameStateController implements ISubscriber, IGameStateController {
     }
 
     @Override
-    public GameState getState() {
+    public IGameState getState() {
         return currentState;
     }
 
     @Override
-    public void update(Color color, KingState kingState) {
+    public void update(Color color) {
+        kingStateController.update(color);
+
+        final KingState kingState = kingStateController.getKingState(color);
+
         boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
-        if(!figuresHaveMoves){
-            System.out.println();
-        }
+
         currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);
 
-        System.out.format("Game status updated: %s\n", currentState.getValue());
+        if (currentState.getValue() == EnumGameState.ALIVE) {
+            drawStateController.update();
+            currentState = drawStateController.getState();
+        }
     }
+
 }
 

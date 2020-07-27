@@ -1,6 +1,7 @@
 package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.figure.piece.Bishop;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
@@ -14,7 +15,6 @@ import java.util.Set;
 
 public class DrawFewFigure implements IDrawController {
 
-    private static final String MESSAGE = "мало фигу для мата!";
     // Невозможно поставить мат, если на доске остались только короли, либо,
     // кроме двух королей, один конь или произвольное количество однопольных слонов
     @Override
@@ -29,8 +29,8 @@ public class DrawFewFigure implements IDrawController {
     }
 
     @Override
-    public String getMessage() {
-        return MESSAGE;
+    public EnumGameState getState() {
+        return EnumGameState.DRAW_FEW_FIGURE;
     }
 
     private boolean isBishops(final Collection<Figure> figures,final IMediator mediator){

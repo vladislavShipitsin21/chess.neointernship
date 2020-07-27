@@ -11,7 +11,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 /**
  * Реализация хода в нормальной ситуации
@@ -41,17 +41,17 @@ public class AllowMoveCommand implements IMoveCommand {
 
         this.storyGame = storyGame;
 
-        attackComand = new AttackCommand(board, mediator);
+        attackComand = new AttackComand(board, mediator);
         moveCommand = new MoveCommand(board, mediator);
         aisleTakeCommand = new AisleTakeCommand(board, mediator);
-        castlingCommand = new CastlingCommand(board,mediator);
+        castlingCommand = new CastlingCommand(board, mediator);
         transformationCommand = new TransformationCommand(board, mediator);
 
     }
 
 
     @Override
-    public ChessCodes execute(final Color color, final IAnswer answer) {
+    public TurnStatus execute(final Color color, final IAnswer answer) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
         final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 
@@ -60,7 +60,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
         storyGame.update(startFigure);
 
-        final IAllowCommand currentCommand = getCommand(startFigure,startField,finalFigure,finalField);
+        IAllowCommand currentCommand = getCommand(startFigure, startField, finalFigure, finalField);
         currentCommand.execute(answer); // делаю ход
 
         possibleActionList.updateRealLists();
@@ -68,25 +68,25 @@ public class AllowMoveCommand implements IMoveCommand {
         return currentCommand.getChessCode();
     }
 
-    private IAllowCommand getCommand(final Figure startFigure,final IField startField,final Figure finalFigure,final IField finalField){
-        if(     startFigure.getClass() == Pawn.class &&
+    private IAllowCommand getCommand(final Figure startFigure, final IField startField, final Figure finalFigure, final IField finalField) {
+        if (startFigure.getClass() == Pawn.class &&
                 (
                         finalField.getXCoord() == board.getSize() - 1 ||
                                 finalField.getXCoord() == 0
                 )
-        ){
+        ) {
             return transformationCommand;
         }
 
-        if(finalFigure != null) {
+        if (finalFigure != null) {
             return attackComand;
         }
-        if(startFigure.getClass() == King.class &&
-                Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1){
+        if (startFigure.getClass() == King.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1) {
             return castlingCommand;
         }
-        if(startFigure.getClass() == Pawn.class &&
-                Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1){
+        if (startFigure.getClass() == Pawn.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1) {
             return aisleTakeCommand;
         }
         return moveCommand;

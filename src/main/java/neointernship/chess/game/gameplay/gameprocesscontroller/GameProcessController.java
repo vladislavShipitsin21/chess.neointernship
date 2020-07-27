@@ -8,18 +8,16 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.player.IPlayer;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.logger.IGameLogger;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 public class GameProcessController implements IGameProcessController {
 
     private final MovesRepository movesRepository;
     private final MoveCorrectnessValidator moveCorrectnessValidator;
 
-    private ChessCodes playerDidMove;
+    private TurnStatus turnStatus;
 
     public GameProcessController(final IMediator mediator,
                                  final IPossibleActionList possibleActionList,
@@ -34,11 +32,11 @@ public class GameProcessController implements IGameProcessController {
     public void makeTurn(final Color color, final IAnswer answer) {
         final MoveState moveState = moveCorrectnessValidator.check(color, answer);
         final IMoveCommand moveCommand = movesRepository.getCommand(moveState);
-        playerDidMove = moveCommand.execute(color, answer);
+        turnStatus = moveCommand.execute(color, answer);
     }
 
     @Override
-    public ChessCodes getChessCode() {
-        return playerDidMove;
+    public TurnStatus getTurnStatus() {
+        return turnStatus;
     }
 }

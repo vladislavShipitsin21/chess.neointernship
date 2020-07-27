@@ -1,12 +1,9 @@
 package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.logger.IGameLogger;
 
 public class DrawOnlyKing implements IDrawController {
-    private static final String MESSAGE = "только 2 короля на поле";
 
     @Override
     public boolean isDraw(IMediator mediator) {
@@ -14,7 +11,7 @@ public class DrawOnlyKing implements IDrawController {
     }
 
     @Override
-    public String getMessage() {
-        return MESSAGE;
+    public EnumGameState getState() {
+        return EnumGameState.DRAW_ONLY_KING;
     }
 }

@@ -7,7 +7,7 @@ import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 public class TransformationCommand extends AbstractCommand implements IAllowCommand {
 
@@ -37,8 +37,8 @@ public class TransformationCommand extends AbstractCommand implements IAllowComm
     }
 
     @Override
-    public ChessCodes getChessCode() {
-        return ChessCodes.TRANSFORMATION;
+    public TurnStatus getChessCode() {
+        return TurnStatus.TRANSFORMATION;
     }
 
 }
