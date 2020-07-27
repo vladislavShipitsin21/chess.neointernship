@@ -2,6 +2,7 @@ package neointernship.web.server;
 
 import neointernship.chess.game.gameplay.activecolorcontroller.ActiveColorController;
 import neointernship.chess.game.gameplay.activecolorcontroller.IActiveColorController;
+import neointernship.chess.game.gameplay.activecolorcontroller.IColorControllerSubscriber;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.loop.GameLoop;
@@ -80,13 +81,15 @@ public class Server {
 
         private final Server server;
         private final ActiveConnectionController connectionController;
+        private IActiveColorController activeColorController;
 
         private Lobby(final UserConnection firstUserConnection, final UserConnection secondUserConnection,
                       final int lobbyId, final Server server, final ChessType chessType) {
             this.lobbyId = lobbyId;
             this.server = server;
-            IActiveColorController colorController = new ActiveColorController();
-            this.connectionController = new ActiveConnectionController(firstUserConnection, secondUserConnection);
+
+            activeColorController = new ActiveColorController();
+            this.connectionController = new ActiveConnectionController(firstUserConnection, secondUserConnection, (IColorControllerSubscriber) activeColorController);
 
             board = new Board();
             figureFactory = new Factory();

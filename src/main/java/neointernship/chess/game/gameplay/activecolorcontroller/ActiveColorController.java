@@ -2,7 +2,7 @@ package neointernship.chess.game.gameplay.activecolorcontroller;
 
 import neointernship.chess.game.model.enums.Color;
 
-public class ActiveColorController implements IActiveColorController {
+public class ActiveColorController implements IActiveColorController, IColorControllerSubscriber {
     private final Color white;
     private final Color black;
 
