@@ -52,7 +52,7 @@ public class GameLoop implements IGameLoop {
 
 
         gameProcessController = new GameProcessController(mediator, possibleActionList, board,storyGame);
-        kingStateController = new KingsStateController(possibleActionList, mediator, Color.WHITE);
+        kingStateController = new KingsStateController(possibleActionList, mediator);
 
         kingStateController.addToSubscriber((ISubscriber) gameStateController);
     }
@@ -72,8 +72,7 @@ public class GameLoop implements IGameLoop {
             activeColorController.update();
             activeColor = activeColorController.getCurrentColor();
 
-            kingStateController.setActiveColor(activeColor);
-            kingStateController.updateState();
+            kingStateController.updateState(activeColor);
         }
         return turnStatus;
     }

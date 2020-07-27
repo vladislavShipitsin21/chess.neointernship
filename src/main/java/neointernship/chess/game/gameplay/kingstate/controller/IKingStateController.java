@@ -5,8 +5,6 @@ import neointernship.chess.game.model.enums.KingState;
 import neointernship.chess.game.model.subscriber.ISubscriber;
 
 public interface IKingStateController {
-    void updateState();
-    KingState getState();
-    void setActiveColor(final Color activeColor);
+    void updateState(final Color activeColor);
     void addToSubscriber(ISubscriber subscriber);
 }

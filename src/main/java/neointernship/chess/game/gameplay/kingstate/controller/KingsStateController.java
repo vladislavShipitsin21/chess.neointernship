@@ -18,11 +18,8 @@ public class KingsStateController implements IKingStateController {
     private final KingIsAttackedComputation kingIsAttackedComputation;
     private final KingStateDefineLogic kingStateDefineLogic;
 
-    private Color activeColor;
-
     public KingsStateController(final IPossibleActionList possibleActionList,
-                                final IMediator mediator,
-                                final Color activeColor) {
+                                final IMediator mediator) {
         kingStateMap = new HashMap<Color, KingState>() {{
             put(Color.WHITE, KingState.FREE);
             put(Color.BLACK, KingState.FREE);
@@ -32,15 +29,12 @@ public class KingsStateController implements IKingStateController {
 
         kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
         kingStateDefineLogic = new KingStateDefineLogic();
-
-        this.activeColor = activeColor;
     }
 
-    public void updateState() {
+    public void updateState(final Color activeColor) {
         boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activeColor);
 
         KingState newState = kingStateDefineLogic.getState(kingIsAttacked);
-        System.out.println(activeColor + " KING STATUS UPDATED: " + newState.toString());
 
         if (newState != kingStateMap.get(activeColor)) {
             for (ISubscriber currentSubscriber : subscribersList) {
@@ -49,16 +43,6 @@ public class KingsStateController implements IKingStateController {
 
             kingStateMap.replace(activeColor, newState);
         }
-    }
-
-    @Override
-    public KingState getState() {
-        return kingStateMap.get(activeColor);
-    }
-
-    @Override
-    public void setActiveColor(final Color activeColor) {
-        this.activeColor = activeColor;
     }
 
     @Override
