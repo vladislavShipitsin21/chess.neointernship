@@ -23,7 +23,6 @@ public class TestColor {
         Color expected = Color.WHITE;
         assertEquals(expected,result);
     }
-
     @Test
     public void equals(){
         Set<Color> colorSet = new HashSet<>();
@@ -32,4 +31,5 @@ public class TestColor {
 
         assertEquals(2,colorSet.size());
     }
+
 }

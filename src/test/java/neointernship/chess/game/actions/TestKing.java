@@ -25,12 +25,12 @@ public class TestKing {
         map.clear();
     }
 
-    private void put(Figure figure,IField field){
+    private void put(final Figure figure,final IField field){
         map.put(figure,field);
     }
 
     /**
-     * корректная рокровка
+     * корректная рокировка
      */
     @Test
     public void testFreeCastling(){
@@ -48,7 +48,6 @@ public class TestKing {
         put(rook,fieldRook);
 
         checkPosition(map,king,expected);
-
     }
 
     /**
@@ -66,8 +65,6 @@ public class TestKing {
         final Figure bishop = new Bishop(Color.BLACK);
         final IField fieldBishop = new Field(7,5);
 
-
-
         Field[] expected = {
                 new Field(7,3),new Field(6,3),new Field(6,5),new Field(7,5)};
 
@@ -76,7 +73,6 @@ public class TestKing {
         put(bishop,fieldBishop);
 
         checkPosition(map,king,expected);
-
     }
 
     /**
@@ -93,8 +89,6 @@ public class TestKing {
 
         final Figure bishop = new Bishop(Color.BLACK);
         final IField fieldBishop = new Field(5,7);
-
-
 
         Field[] expected = {
                 new Field(7,3),new Field(6,3),new Field(6,4),new Field(6,5)};
@@ -171,8 +165,4 @@ public class TestKing {
 
         checkPosition(map,pawn,expected);
     }
-
-
-
-
 }

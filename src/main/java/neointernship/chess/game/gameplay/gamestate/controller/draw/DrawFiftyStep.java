@@ -1,13 +1,12 @@
 package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.story.IStoryGame;
 
 public class DrawFiftyStep implements IDrawController {
-
-    private static final String MESSAGE = "50 ходов без взятия фигуры и движения пешки";
 
     private final static Integer MAX_COUNT_STEP = 50;
     private final IStoryGame storyGame;
@@ -28,7 +27,7 @@ public class DrawFiftyStep implements IDrawController {
     public boolean isDraw(IMediator mediator) {
         final int newSizeMediator = mediator.getFigures().size();
 
-        Figure figure = storyGame.getLastFigureMove();
+        final Figure figure = storyGame.getLastFigureMove();
         if(figure == null) return false;
 
         if(lastSizeMediator == newSizeMediator
@@ -42,7 +41,7 @@ public class DrawFiftyStep implements IDrawController {
     }
 
     @Override
-    public String getMessage() {
-        return MESSAGE;
+    public EnumGameState getState() {
+        return EnumGameState.DRAW_FIFTY_STEP;
     }
 }

@@ -18,7 +18,6 @@ public class GameLogger implements IGameLogger{
     static final HashMap<Integer, IGameLogger> mapLogger = new HashMap<>();
     private final Logger logger;
 
-
     private GameLogger(final int lobbyId) {
         logger = Logger.getLogger(Integer.toString(lobbyId));
 
@@ -72,7 +71,7 @@ public class GameLogger implements IGameLogger{
 
     @Override
     public void logDraw(final IDrawController drawController ) {
-        logger.info("Ничья : " + drawController.getMessage());
+        logger.info("Ничья : " + drawController.getState());
     }
 
 }

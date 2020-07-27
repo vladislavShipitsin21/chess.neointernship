@@ -63,7 +63,6 @@ public class Server {
         socketList = new ConcurrentLinkedQueue<>();
         lobbyList = new ConcurrentLinkedQueue<>();
     }
-  //  private History history = new History(); // история
 
     private class Lobby extends Thread {
         private final IBoard board;
@@ -83,7 +82,7 @@ public class Server {
         private final ActiveConnectionController connectionController;
 
         private Lobby(final UserConnection firstUserConnection, final UserConnection secondUserConnection,
-                      final int lobbyId, final Server server, final ChessType chessType) throws IOException {
+                      final int lobbyId, final Server server, final ChessType chessType) {
             this.lobbyId = lobbyId;
             this.server = server;
             IActiveColorController colorController = new ActiveColorController();
@@ -106,7 +105,6 @@ public class Server {
             GameLogger.getLogger(lobbyId).logStartGame(firstUserConnection.getName(), secondUserConnection.getName());
 
             initGameMap();
-            start();
         }
 
         private void initGameMap() {
@@ -156,7 +154,6 @@ public class Server {
                 }
             }
         }
-
 
        @Override
         public void run() {
@@ -214,7 +211,7 @@ public class Server {
         }
     }
 
-    private void createNewLobby() throws IOException {
+    private void createNewLobby(){
         if (whiteSideWaitingConnectionList.size() > 0 && blackSideWaitingConnectionList.size() > 0) {
             final UserConnection whiteSideConnection = whiteSideWaitingConnectionList.poll();
             final UserConnection blackSideConnection = blackSideWaitingConnectionList.poll();
@@ -260,7 +257,6 @@ public class Server {
             blackSideWaitingConnectionList.add(connection);
         }
     }
-
 
     @SuppressWarnings("InfiniteLoopStatement")
     private void startServer() throws IOException {

@@ -28,7 +28,7 @@ public class Bot implements IPlayer {
     public Bot(){
         this.random = new Random();
         this.name = "Bot";
-        this.color = Color.WHITE;
+        this.color = Color.BLACK;
     }
 
     public void init(final IMediator mediator, final IBoard board, final Color color) {
@@ -45,7 +45,6 @@ public class Bot implements IPlayer {
         List<IField> fields = null;
         Figure figure = null;
         int index;
-
         do {
             index = random.nextInt(figures.size());
             figure = figures.get(index);

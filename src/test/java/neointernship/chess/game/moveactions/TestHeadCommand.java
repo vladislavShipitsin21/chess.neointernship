@@ -14,7 +14,7 @@ import neointernship.chess.game.story.StoryGame;
 import org.junit.After;
 import org.junit.BeforeClass;
 
-public class TestHead {
+public class TestHeadCommand {
     protected static IBoard board;
     protected static IMediator mediator;
     protected static IStoryGame storyGame;

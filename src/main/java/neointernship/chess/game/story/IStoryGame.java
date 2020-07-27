@@ -20,11 +20,9 @@ public interface IStoryGame {
 
     /**
      * Возвращает поле, на котором стояла фигура перед последним её ходом.
-     * Если она не ходила, то её текущее положение
-     * @param figure
      * @return
      */
-    IField getLastFieldFigure(final Figure figure);
+    IField getLastField();
 
     /**
      *

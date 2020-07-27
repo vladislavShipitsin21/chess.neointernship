@@ -119,17 +119,25 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
         for (int one : onesList) {
             addAttackField(figure.getColor(), currentField.getXCoord() + offset, currentField.getYCoord() + one, possibleAttackFields);
         }
-        addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+        boolean isFreePAth = addMoveField(currentField.getXCoord() + offset,
+                        currentField.getYCoord(),
+                        possibleAttackFields);
 
         addIfAisleTake(figure,possibleAttackFields);
 
-        if (currentField.getXCoord() == 6 && figure.getColor() == Color.WHITE) {
-            offset = -  2;
-            addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
-        }
-        if (currentField.getXCoord() == 1 && figure.getColor() == Color.BLACK) {
-            offset = 2;
-            addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+        if(isFreePAth) {
+            /*if (currentField.getXCoord() == 6 && figure.getColor() == Color.WHITE) {
+                offset = -2;
+                addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+            }
+            if (currentField.getXCoord() == 1 && figure.getColor() == Color.BLACK) {
+                offset = 2;
+                addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+            }*/
+            if (currentField.getXCoord() == 1 || currentField.getXCoord() == 6) {
+                offset *= 2;
+                addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
+            }
         }
 
         return possibleAttackFields;
@@ -147,7 +155,7 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
             move = 1;
         }
 
-        final IField lastFieldLastFigure = storyGame.getLastFieldFigure(lastFigure);
+        final IField lastFieldLastFigure = storyGame.getLastField();
         final IField realFieldLastFigure = mediator.getField(lastFigure);
 
         if(realFieldLastFigure != null) { // может быть null если было превращение
@@ -251,9 +259,9 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
         return figure == null;
     }
 
-    private void addMoveField(final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+    private boolean addMoveField(final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
         if (!validCoordinates(newFieldXCoord, newFieldYCoord)) {
-            return;
+            return false;
         }
 
         IField field = board.getField(newFieldXCoord, newFieldYCoord);
@@ -261,7 +269,9 @@ public final class PotentialBasicPatterns implements IPotentialBasicPatterns {
 
         if (figure == null) {
             possibleMoveList.add(field);
+            return true;
         }
+        return false;
     }
 
     private void addAttackField(final Color color, final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
