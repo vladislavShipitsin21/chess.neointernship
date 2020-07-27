@@ -33,8 +33,8 @@ import neointernship.web.client.communication.message.Message;
 import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.TurnStatus;
 import neointernship.web.client.communication.serializer.*;
-import neointernship.web.server.connection.ActiveConnectionController;
-import neointernship.web.server.connection.UserConnection;
+import neointernship.web.server.connection.controller.ActiveConnectionController;
+import neointernship.web.server.connection.userconnection.UserConnection;
 
 import java.io.*;
 import java.net.*;
