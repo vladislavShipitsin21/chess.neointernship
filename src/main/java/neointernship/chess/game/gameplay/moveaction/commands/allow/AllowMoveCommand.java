@@ -28,7 +28,8 @@ public class AllowMoveCommand implements IMoveCommand {
     private final IAllowCommand moveCommand;
     private final IAllowCommand aisleTakeCommand;
     private final IAllowCommand castlingCommand;
-    private final IAllowCommand transformationCommand;
+    private final IAllowCommand transformationAfterCommand;
+    private final IAllowCommand transformationBeforeCommand;
 
 
     public AllowMoveCommand(final IMediator mediator,
@@ -45,8 +46,8 @@ public class AllowMoveCommand implements IMoveCommand {
         moveCommand = new MoveCommand(board, mediator);
         aisleTakeCommand = new AisleTakeCommand(board, mediator);
         castlingCommand = new CastlingCommand(board,mediator);
-        transformationCommand = new TransformationCommand(board, mediator);
-
+        transformationAfterCommand = new TransformationAfterCommand(board, mediator);
+        transformationBeforeCommand = new TransformationBeforeCommand(board, mediator);
     }
 
 
@@ -75,7 +76,16 @@ public class AllowMoveCommand implements IMoveCommand {
                                 finalField.getXCoord() == 0
                 )
         ){
-            return transformationCommand;
+            return transformationAfterCommand;
+        }
+
+        if(     startFigure.getClass() == Pawn.class &&
+                (
+                        startField.getXCoord() == board.getSize() - 1 ||
+                                startField.getXCoord() == 0
+                )
+        ){
+            return transformationBeforeCommand;
         }
 
         if(finalFigure != null) {

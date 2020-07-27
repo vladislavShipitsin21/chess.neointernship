@@ -21,7 +21,8 @@ public class ChessCodesReaction {
         chessCodesReaction.put(ChessCodes.ATTACK, new AttackCommand(board, mediator));
         chessCodesReaction.put(ChessCodes.CASTLING, new CastlingCommand(board, mediator));
         chessCodesReaction.put(ChessCodes.AISLE_TAKE, new AisleTakeCommand(board, mediator));
-        chessCodesReaction.put(ChessCodes.TRANSFORMATION, new TransformationCommand(board, mediator));
+        chessCodesReaction.put(ChessCodes.TRANSFORMATION_AFTER, new TransformationAfterCommand(board, mediator));
+        chessCodesReaction.put(ChessCodes.TRANSFORMATION_BEFORE, new TransformationBeforeCommand(board, mediator));
     }
 
     public IAllowCommand get(final ChessCodes chessCodes){

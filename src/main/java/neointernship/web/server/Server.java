@@ -9,6 +9,7 @@ import neointernship.chess.game.gameplay.loop.IGameLoop;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.factory.IFactory;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -21,23 +22,25 @@ import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
+import neointernship.chess.logger.ErrorLoggerServer;
 import neointernship.chess.logger.GameLogger;
-import neointernship.web.client.communication.data.initinfo.InitInfoDto;
+import neointernship.web.client.communication.data.endgame.EndGame;
+import neointernship.web.client.communication.data.endgame.IEndGame;
 import neointernship.web.client.communication.data.initgame.IInitGame;
 import neointernship.web.client.communication.data.initgame.InitGame;
+import neointernship.web.client.communication.data.initinfo.InitInfoDto;
 import neointernship.web.client.communication.data.turn.TurnDto;
 import neointernship.web.client.communication.data.update.IUpdate;
 import neointernship.web.client.communication.data.update.Update;
-import neointernship.web.client.communication.message.IMessage;
-import neointernship.web.client.communication.message.Message;
-import neointernship.web.client.communication.message.ClientCodes;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.*;
 import neointernship.web.client.communication.serializer.*;
 import neointernship.web.server.connection.ActiveConnectionController;
 import neointernship.web.server.connection.UserConnection;
 
 import java.io.*;
-import java.net.*;
+import java.net.BindException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -56,6 +59,7 @@ public class Server {
 
     private final Queue<Socket> socketList;
     private final Queue<Lobby> lobbyList;
+    private int lobbyNum = 0;
 
     public Server() {
         blackSideWaitingConnectionList = new ConcurrentLinkedQueue<>();
@@ -137,7 +141,7 @@ public class Server {
                     send(out, MessageSerializer.serialize(msg));
                     send(out, InitGameSerializer.serialize(initGame));
                 } catch (final IOException e) {
-                    e.printStackTrace();
+                    ErrorLoggerServer.logException(e);
                 }
             }
         }
@@ -152,20 +156,23 @@ public class Server {
                     send(out, MessageSerializer.serialize(msg));
                     send(out, UpdateSerializer.serialize(update));
                 } catch (final IOException e) {
-                    e.printStackTrace();
+                    ErrorLoggerServer.logException(e);
                 }
             }
         }
 
-        private void sendEndGame() {
+        private void sendEndGame(final EnumGameState enumGameState) {
             for (final UserConnection userConnection : connectionController.getConnections()) {
                 final BufferedWriter out = userConnection.getOut();
                 final IMessage msg = new Message(ClientCodes.END_GAME);
 
+                final IEndGame endGame = new EndGame(enumGameState);
+
                 try {
                     send(out, MessageSerializer.serialize(msg));
+                    send(out, EndGameSerializer.serialize(endGame));
                 } catch (final IOException e) {
-                    e.printStackTrace();
+                    ErrorLoggerServer.logException(e);
                 }
             }
         }
@@ -178,10 +185,12 @@ public class Server {
             while (gameLoop.isAlive()) {
                 connectionController.update();
                 final UserConnection connection = connectionController.getCurrentConnection();
-                ChessCodes chessCode;
-                try {
-                    IAnswer answer;
-                    do {
+
+                ChessCodes chessCode = null;
+                IAnswer answer = null;
+
+                do {
+                    try {
                         final BufferedWriter out = connection.getOut();
                         final IMessage message = new Message(ClientCodes.TURN);
                         send(out, MessageSerializer.serialize(message));
@@ -199,15 +208,21 @@ public class Server {
                                 mediator.getFigure(new Field(answer.getFinalX(), answer.getFinalY())),
                                 new Field(answer.getStartX(), answer.getStartY()),
                                 new Field(answer.getFinalX(), answer.getFinalY()), chessCode);
-                    } while(chessCode == ChessCodes.ERROR);
-                    sendUpdatedMediator(answer, chessCode);
-                } catch (final Exception e) {
-                    e.printStackTrace();
-                }
+                    } catch (final Exception e) {
+                        ErrorLoggerServer.logException(e);
+                    }
+
+                } while(chessCode == ChessCodes.ERROR);
+                sendUpdatedMediator(answer, chessCode);
             }
 
-            sendEndGame();
             gameLoop.getMatchResult();
+
+            final EnumGameState enumGameState = gameLoop.getMatchResult().getValue();
+
+            sendEndGame(enumGameState);
+            GameLogger.getLogger(lobbyId).logEndGame(enumGameState);
+
             downService();
         }
 
@@ -235,12 +250,45 @@ public class Server {
         }
     }
 
-    private void createNewLobby() {
-        if (whiteSideWaitingConnectionList.size() > 0 && blackSideWaitingConnectionList.size() > 0) {
-            final UserConnection whiteSideConnection = whiteSideWaitingConnectionList.poll();
-            final UserConnection blackSideConnection = blackSideWaitingConnectionList.poll();
+    private ClientCodes checkPlayers(final UserConnection userConnection) throws Exception {
+        final Message messageHandShake = new Message(ClientCodes.HAND_SHAKE);
+        final String msg = MessageSerializer.serialize(messageHandShake);
 
-            final Lobby lobby = new Lobby(whiteSideConnection, blackSideConnection, lobbyList.size(), this, ChessType.CLASSIC);
+        final String answer;
+        final MessageDto message;
+
+        send(userConnection.getOut(), msg);
+
+        answer = userConnection.getIn().readLine();
+        message = MessageSerializer.deserialize(answer);
+        message.validate();
+
+        return message.getClientCodes();
+    }
+
+    private void createNewLobby() throws Exception {
+        if (whiteSideWaitingConnectionList.size() > 0 && blackSideWaitingConnectionList.size() > 0) {
+            UserConnection whiteSideConnection;
+            UserConnection blackSideConnection;
+            ClientCodes clientCodes;
+
+            do {
+                whiteSideConnection = whiteSideWaitingConnectionList.poll();
+                clientCodes = checkPlayers(whiteSideConnection);
+            }while (whiteSideWaitingConnectionList.size() > 0 && clientCodes != ClientCodes.YES);
+            if (clientCodes == ClientCodes.NO) return;
+
+            do {
+                blackSideConnection = blackSideWaitingConnectionList.poll();
+                clientCodes = checkPlayers(blackSideConnection);
+            }while (blackSideWaitingConnectionList.size() > 0 && clientCodes != ClientCodes.YES);
+
+            if (clientCodes == ClientCodes.NO) {
+                whiteSideWaitingConnectionList.add(whiteSideConnection);
+                return;
+            }
+
+            final Lobby lobby = new Lobby(whiteSideConnection, blackSideConnection, lobbyNum++, this, ChessType.CLASSIC);
             lobbyList.add(lobby);
             lobby.start();
         }
@@ -252,8 +300,8 @@ public class Server {
         assert socket != null;
         final BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        String name = "";
-        Color color = null;
+        final String name;
+        final Color color;
 
         /*
         TODO с Андреем: принятие цвета,
@@ -270,15 +318,16 @@ public class Server {
             color = info.getColor();
             name = info.getName();
 
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
-        final UserConnection connection = new UserConnection(in, out, socket, color, name);
+            final UserConnection connection = new UserConnection(in, out, socket, color, name);
 
-        if (connection.getColor() == Color.WHITE) {
-            whiteSideWaitingConnectionList.add(connection);
-        } else {
-            blackSideWaitingConnectionList.add(connection);
+            if (connection.getColor() == Color.WHITE) {
+                whiteSideWaitingConnectionList.add(connection);
+            } else {
+                blackSideWaitingConnectionList.add(connection);
+            }
+
+        } catch (final Exception e) {
+            ErrorLoggerServer.logException(e);
         }
     }
 
@@ -287,16 +336,20 @@ public class Server {
     private void startServer() throws IOException {
         System.out.println(String.format("Server started, port: %d", PORT));
 
-        try (final ServerSocket serverSocket = new ServerSocket(PORT)) {
-            while (true) {
-                final Socket socket = serverSocket.accept();
-                socketList.add(socket);
+        while (true) {
+            try (final ServerSocket serverSocket = new ServerSocket(PORT)) {
+                while (true) {
+                    final Socket socket = serverSocket.accept();
+                    socketList.add(socket);
 
-                createNewConnection();
-                createNewLobby();
+                    createNewConnection();
+                    createNewLobby();
+                }
+            } catch (final BindException e) {
+                ErrorLoggerServer.logException(e);
+            } catch (final Exception exception) {
+                exception.printStackTrace();
             }
-        } catch (final BindException e) {
-            e.printStackTrace();
         }
     }
 

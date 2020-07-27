@@ -4,7 +4,7 @@
 # Log file
 *.logs
 *.log
-gameLog*.txt
+*log*.txt
 
 # Package Files #
 *.jar

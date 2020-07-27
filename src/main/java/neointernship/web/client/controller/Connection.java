@@ -1,6 +1,6 @@
 package neointernship.web.client.controller;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.Socket;
 
 public class Connection {
@@ -22,12 +22,14 @@ public class Connection {
     }
 
     public void connection() {
-        try {
-            socket = new Socket(ip, port);
-            System.out.println(String.format("Client started, ip: %s, port: %d", ip, port));
-        } catch (final IOException e) {
-            System.err.println("Socket failed");
-        }
+        do {
+            try {
+                socket = new Socket(ip, port);
+                System.out.println(String.format("Client started, ip: %s, port: %d", ip, port));
+            } catch (final IOException e) {
+                System.err.println("Socket failed");
+            }
+        } while (socket == null);
     }
 
     public String getIp() {

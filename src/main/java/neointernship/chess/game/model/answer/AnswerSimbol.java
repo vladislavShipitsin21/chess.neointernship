@@ -1,9 +1,6 @@
 package neointernship.chess.game.model.answer;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.*;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
@@ -22,18 +19,16 @@ public class AnswerSimbol implements IAnswer {
     private static final RepositiryChar repositiryChar = new RepositiryChar();
 
     @JsonCreator
-    public AnswerSimbol(@JsonProperty("startC") final char startC,
-                        @JsonProperty("startI") final char startI,
-                        @JsonProperty("finishC") final char finishC,
-                        @JsonProperty("finishI") final char finishI,
-                        @JsonProperty("simbol") final char simbol) {
-        this.startX  = repositiryChar.getX(startI);
-        this.startY = repositiryChar.getY(startC);
+    public AnswerSimbol(final String string) {
+        final String[] params = string.split("/");
+        final String[] coord = params[0].split(":");
+        this.startX  = Integer.parseInt(coord[0]);
+        this.startY = Integer.parseInt(coord[1]);
 
-        this.finalX = repositiryChar.getX(finishI);
-        this.finalY = repositiryChar.getY(finishC);
+        this.finalX = Integer.parseInt(coord[2]);
+        this.finalY = Integer.parseInt(coord[3]);
 
-        this.simbol = simbol;
+        this.simbol = params[1].charAt(0);
     }
 
     public AnswerSimbol(final char startC, final char startI, final char finishC, final char finishI) {
@@ -69,5 +64,11 @@ public class AnswerSimbol implements IAnswer {
     @Override
     public char getSimbol() {
         return simbol;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+        return startX + ":" + startY + ":" + finalX + ":" + finalY + "/" + simbol;
     }
 }

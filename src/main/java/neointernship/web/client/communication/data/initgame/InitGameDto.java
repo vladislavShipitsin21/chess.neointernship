@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
+import neointernship.web.client.communication.data.DataErrorCode;
+import neointernship.web.client.communication.data.DataException;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeName("InitGameDto")
@@ -19,13 +21,13 @@ public class InitGameDto implements IInitGame {
 
     public boolean validate() throws Exception {
         if (mediator == null) {
-            throw new Exception("Отсутствует mediator");
+            throw new DataException(DataErrorCode.NOT_MEDIATOR);
         }
         if (board == null) {
-            throw new Exception("Отсутствует board");
+            throw new DataException(DataErrorCode.NOT_BOARD);
         }
         if (color == null) {
-            throw new Exception("Отсутствует color");
+            throw new DataException(DataErrorCode.NOT_COLOR);
         }
         return true;
     }

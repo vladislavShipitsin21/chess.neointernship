@@ -3,6 +3,7 @@ package neointernship.chess.logger;
 
 import neointernship.chess.game.gameplay.gamestate.controller.draw.IDrawController;
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.web.client.communication.message.ChessCodes;
@@ -25,8 +26,7 @@ public class GameLogger implements IGameLogger{
         try {
             final PatternLayout patternLayout = new PatternLayout();
             patternLayout.setConversionPattern("%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n");
-            logger.addAppender(new FileAppender(patternLayout, "logs\\gameLog" + lobbyId + ".txt", false));
-            //mapLogger.put(lobbyId, logger);
+            logger.addAppender(new FileAppender(patternLayout, "logs\\server\\game_log_" + lobbyId + ".txt", false));
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -37,9 +37,6 @@ public class GameLogger implements IGameLogger{
     }
 
     public static IGameLogger getLogger(final int lobbyId) {
-        if (!mapLogger.containsKey(lobbyId)) {
-            mapLogger.put(lobbyId, new GameLogger(lobbyId));
-        }
         return mapLogger.get(lobbyId);
     }
 
@@ -56,8 +53,8 @@ public class GameLogger implements IGameLogger{
     }
 
     @Override
-    public void logMap(final String string) {
-        logger.info(string);
+    public void logEndGame(final EnumGameState enumGameState) {
+        logger.info("Конец игры - " + enumGameState);
     }
 
     @Override

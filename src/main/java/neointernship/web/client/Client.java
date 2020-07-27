@@ -9,18 +9,11 @@ public class Client {
      * @param args аргументы командной строки
      */
     public static void main(final String[] args) {
-        //startView();
         startController();
     }
 
-   /* private static void startView() {
-        final Runnable view = new View();
-        new Thread(view).start();
-    }*/
-
     private static void startController() {
-        final Runnable controller = new Controller();
-        new Thread(controller).start();
+        final Controller controller = new Controller();
+        controller.start();
     }
-
 }

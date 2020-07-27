@@ -2,16 +2,15 @@ package neointernship.chess.game.gameplay.moveaction.commands.allow;
 
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.web.client.communication.message.ChessCodes;
 
-public class TransformationCommand extends AbstractCommand implements IAllowCommand {
+public class TransformationAfterCommand extends AbstractCommand implements IAllowCommand {
 
-    public TransformationCommand(IBoard board, IMediator mediator) {
+    public TransformationAfterCommand(IBoard board, IMediator mediator) {
         super(board, mediator);
     }
 
@@ -25,20 +24,19 @@ public class TransformationCommand extends AbstractCommand implements IAllowComm
             color = Color.BLACK;
         }
 
+        final Figure startFigure = mediator.getFigure(startField);
         final Figure finalFigure = mediator.getFigure(finalField);
-
-        Figure newFigure = new Factory().createFigure(answer.getSimbol(),color);
 
         mediator.deleteConnection(startField);
         if(finalFigure != null){
             mediator.deleteConnection(finalField);
         }
-        mediator.addNewConnection(finalField,newFigure);
+        mediator.addNewConnection(finalField, startFigure);
     }
 
     @Override
     public ChessCodes getChessCode() {
-        return ChessCodes.TRANSFORMATION;
+        return ChessCodes.TRANSFORMATION_AFTER;
     }
 
 }

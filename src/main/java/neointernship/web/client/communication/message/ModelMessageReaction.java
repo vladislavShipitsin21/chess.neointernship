@@ -18,8 +18,9 @@ public class ModelMessageReaction {
         messageReaction.put(ClientCodes.TURN, new TurnModel());
         messageReaction.put(ClientCodes.UPDATE, new UpdateModel());
         messageReaction.put(ClientCodes.INIT_INFO, new InfoModel());
-        messageReaction.put(ClientCodes.END_GAME, new EndGameModel(socket));
         messageReaction.put(ClientCodes.INIT_GAME, new InitGameModel());
+        messageReaction.put(ClientCodes.HAND_SHAKE, new HandShakeModel());
+        messageReaction.put(ClientCodes.END_GAME, new EndGameModel(socket));
     }
 
     public IMessageCodeModel get(final ClientCodes clientCodes) {

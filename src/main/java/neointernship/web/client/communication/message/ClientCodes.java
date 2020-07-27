@@ -6,4 +6,7 @@ public enum ClientCodes {
     INIT_GAME,
     UPDATE,
     END_GAME,
+    HAND_SHAKE,
+    YES,
+    NO
 }
