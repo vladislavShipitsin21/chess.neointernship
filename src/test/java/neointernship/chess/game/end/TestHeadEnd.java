@@ -49,32 +49,34 @@ public class TestHeadEnd {
         activeColorController = new ActiveColorController();
         gameLoop = new GameLoop(mediator, possibleActionList, board, activeColorController, storyGame);
 
-        printer = new ConsoleBoardWriter(mediator,board);
+        printer = new ConsoleBoardWriter(mediator, board);
         activeColorController.update();
     }
 
-    private void initMediator(final Map<IField, Figure> figureMap){
-        for(IField field : figureMap.keySet()){
-            mediator.addNewConnection(field,figureMap.get(field));
+    private void initMediator(final Map<IField, Figure> figureMap) {
+        for (IField field : figureMap.keySet()) {
+            mediator.addNewConnection(field, figureMap.get(field));
         }
     }
 
-    public void doAllowIteration(final IAnswer answer){
+    public void doAllowIteration(final IAnswer answer) {
         TurnStatus turnStatus = gameLoop.doIteration(answer);
-        assertNotEquals(TurnStatus.ERROR,turnStatus);
+        assertNotEquals(TurnStatus.ERROR, turnStatus);
         activeColorController.update();
     }
-    public void doRestringIteration(final IAnswer answer){
+
+    public void doRestringIteration(final IAnswer answer) {
         TurnStatus turnStatus = gameLoop.doIteration(answer);
-        assertEquals(TurnStatus.ERROR,turnStatus);
+        assertEquals(TurnStatus.ERROR, turnStatus);
         activeColorController.update();
     }
-    public IGameState getState(){
+
+    public IGameState getState() {
         return gameLoop.getMatchResult();
     }
 
-    public void doIterations(final Map<Integer,IAnswer> map){
-        for(Integer i : map.keySet()) {
+    public void doIterations(final Map<Integer, IAnswer> map) {
+        for (Integer i : map.keySet()) {
             final IAnswer answer = map.get(i);
             TurnStatus turnStatus = gameLoop.doIteration(answer);
             assertEquals(EnumGameState.ALIVE, getState().getValue());
@@ -83,7 +85,11 @@ public class TestHeadEnd {
         }
     }
 
-    public void printBoard(){
+    public IStoryGame getStoryGame(){
+        return storyGame;
+    }
+
+    public void printBoard() {
         printer.printBoard();
     }
 }

@@ -26,7 +26,7 @@ public class TestDrawOnlyKing {
     }
 
     @Test
-    public void test(){
+    public void test() {
         final Figure kingW = new King(Color.WHITE);
         final IField fieldKingW = new Field(7, 4);
         fieldFigureMap.put(fieldKingW, kingW);
@@ -46,7 +46,6 @@ public class TestDrawOnlyKing {
         assertEquals(EnumGameState.DRAW_ONLY_KING, testHeadEnd.getState().getValue());
         assertEquals(Color.BOTH, testHeadEnd.getState().getColor());
     }
-
 
 
 }

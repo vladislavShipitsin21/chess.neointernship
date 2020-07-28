@@ -28,36 +28,36 @@ public class TestDrawRepetitionPosition {
     }
 
     @Test
-    public void test(){
+    public void test() {
         final Figure kingW = new King(Color.WHITE);
-        final IField fieldKingW = new Field(0,0);
+        final IField fieldKingW = new Field(0, 0);
         fieldFigureMap.put(fieldKingW, kingW);
 
         final Figure rookW = new King(Color.WHITE);
-        final IField fieldRookW= new Field(1,1);
+        final IField fieldRookW = new Field(1, 1);
         fieldFigureMap.put(fieldRookW, rookW);
 
         final Figure kingB = new King(Color.BLACK);
-        final IField fieldKingB = new Field(7,7);
+        final IField fieldKingB = new Field(7, 7);
         fieldFigureMap.put(fieldKingB, kingB);
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        IAnswer answerW1 = new Answer(0,0, 0,1, 'Q');
-        IAnswer answerW2 = new Answer(0,1, 0,0, 'Q');
+        IAnswer answerW1 = new Answer(0, 0, 0, 1, 'Q');
+        IAnswer answerW2 = new Answer(0, 1, 0, 0, 'Q');
 
-        IAnswer answerB1 = new Answer(7,7, 6,6, 'Q');
-        IAnswer answerB2 = new Answer(6,6, 7,7, 'Q');
+        IAnswer answerB1 = new Answer(7, 7, 6, 6, 'Q');
+        IAnswer answerB2 = new Answer(6, 6, 7, 7, 'Q');
 
-        answerMap.put(1,answerW1);
-        answerMap.put(2,answerB1);
-        answerMap.put(3,answerW2);
-        answerMap.put(4,answerB2);
+        answerMap.put(1, answerW1);
+        answerMap.put(2, answerB1);
+        answerMap.put(3, answerW2);
+        answerMap.put(4, answerB2);
         // позиция повторилась второй раз
-        answerMap.put(5,answerW1);
-        answerMap.put(6,answerB1);
-        answerMap.put(7,answerW2);
-        answerMap.put(8,answerB2);
+        answerMap.put(5, answerW1);
+        answerMap.put(6, answerB1);
+        answerMap.put(7, answerW2);
+        answerMap.put(8, answerB2);
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 

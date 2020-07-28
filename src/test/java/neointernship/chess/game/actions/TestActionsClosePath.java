@@ -19,62 +19,65 @@ public class TestActionsClosePath {
     private static Map<Figure, IField> map;
 
     @BeforeClass
-    public static void before(){
+    public static void before() {
         map = new HashMap<>();
     }
+
     @After
-    public void clear(){
+    public void clear() {
         map.clear();
     }
 
-    private void put(Figure figure,IField field){
-        map.put(figure,field);
+    private void put(Figure figure, IField field) {
+        map.put(figure, field);
     }
 
     @Test
-    public void testPawnBeginFriend(){
+    public void testPawnBeginFriend() {
         Figure pawn = new Pawn(Color.WHITE);
-        IField fieldPawn = new Field(6,4);
+        IField fieldPawn = new Field(6, 4);
 
         Figure rook = new Rook(Color.WHITE);
-        IField fieldRook = new Field(5,4);
+        IField fieldRook = new Field(5, 4);
 
         Field[] expected = {};
 
-        put(pawn,fieldPawn);
-        put(rook,fieldRook);
+        put(pawn, fieldPawn);
+        put(rook, fieldRook);
 
-        checkPosition(map,pawn,expected);
+        checkPosition(map, pawn, expected);
     }
+
     @Test
-    public void testPawnBeginEntry(){
+    public void testPawnBeginEntry() {
         Figure pawn = new Pawn(Color.WHITE);
-        IField fieldPawn = new Field(6,4);
+        IField fieldPawn = new Field(6, 4);
 
         Figure rook = new Rook(Color.BLACK);
-        IField fieldRook = new Field(5,4);
+        IField fieldRook = new Field(5, 4);
 
         Field[] expected = {};
 
-        put(pawn,fieldPawn);
-        put(rook,fieldRook);
+        put(pawn, fieldPawn);
+        put(rook, fieldRook);
 
-        checkPosition(map,pawn,expected);
+        checkPosition(map, pawn, expected);
     }
+
     @Test
-    public void testPawnBegin(){
+    public void testPawnBegin() {
         Figure pawn = new Pawn(Color.WHITE);
-        IField fieldPawn = new Field(6,4);
+        IField fieldPawn = new Field(6, 4);
 
         Figure rook = new Rook(Color.BLACK);
-        IField fieldRook = new Field(4,4);
+        IField fieldRook = new Field(4, 4);
 
-        Field[] expected = {new Field(5,4)};
+        Field[] expected = {new Field(5, 4)};
 
-        put(pawn,fieldPawn);
-        put(rook,fieldRook);
+        put(pawn, fieldPawn);
+        put(rook, fieldRook);
 
-        checkPosition(map,pawn,expected);
+        checkPosition(map, pawn, expected);
     }
 
 }

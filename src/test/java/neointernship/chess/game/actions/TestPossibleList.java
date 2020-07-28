@@ -12,34 +12,35 @@ import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TestPossibleList {
     @Test
-    public void testEquals(){
+    public void testEquals() {
         IBoard board = new Board();
         IMediator mediator = new Mediator();
-        mediator.addNewConnection(board.getField(0,0),new Queen(Color.BLACK));
+        mediator.addNewConnection(board.getField(0, 0), new Queen(Color.BLACK));
 
         IStoryGame storyGame = new StoryGame(mediator);
 
         IPossibleActionList possibleActionList =
-                new PossibleActionList(board,mediator,storyGame);
+                new PossibleActionList(board, mediator, storyGame);
 
         Mediator mediatorCopy = new Mediator(mediator);
 
         PossibleActionList possibleActionListCopy =
-                new PossibleActionList(board,mediatorCopy,new StoryGame(mediatorCopy));
+                new PossibleActionList(board, mediatorCopy, new StoryGame(mediatorCopy));
 
-        assertEquals(possibleActionList,possibleActionListCopy);
+        assertEquals(possibleActionList, possibleActionListCopy);
 
-        mediatorCopy.deleteConnection(board.getField(0,0));
+        mediatorCopy.deleteConnection(board.getField(0, 0));
 
         possibleActionListCopy.updateRealLists();
         possibleActionList.updateRealLists();
 
         assertEquals(0, mediatorCopy.getFigures().size());
-        assertNotEquals(possibleActionList,possibleActionListCopy);
+        assertNotEquals(possibleActionList, possibleActionListCopy);
 
     }
 }

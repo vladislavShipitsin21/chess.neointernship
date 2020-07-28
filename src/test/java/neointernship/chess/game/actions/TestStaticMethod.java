@@ -20,20 +20,21 @@ import static org.junit.Assert.assertTrue;
 public class TestStaticMethod {
     /**
      * Проверяет список реальных ходов для mainFigure в текущей ситуации.
-     * @param map связки фигура-клетка
+     *
+     * @param map        связки фигура-клетка
      * @param mainFigure фигура, для которой проверяем список её возможных ходов
-     * @param expected массив её ожидаемых ходов
+     * @param expected   массив её ожидаемых ходов
      */
-    static void checkPosition(Map<Figure,IField> map, final Figure mainFigure,IField[] expected){
+    static void checkPosition(Map<Figure, IField> map, final Figure mainFigure, IField[] expected) {
 
         final Board board = new Board();
         final IMediator mediator = new Mediator();
 
-        for(Figure figure : map.keySet()){
-            mediator.addNewConnection(map.get(figure),figure);
+        for (Figure figure : map.keySet()) {
+            mediator.addNewConnection(map.get(figure), figure);
         }
 
-        IPossibleActionList possibleActionList = new PossibleActionList(board,mediator,new StoryGame(mediator));
+        IPossibleActionList possibleActionList = new PossibleActionList(board, mediator, new StoryGame(mediator));
 
         possibleActionList.updateRealLists();
 
@@ -41,7 +42,7 @@ public class TestStaticMethod {
 
         List<IField> expectedList = Arrays.stream(expected).collect(Collectors.toList());
 
-        assertEquals(expectedList.size(),resultList.size());
+        assertEquals(expectedList.size(), resultList.size());
 
         assertTrue(resultList.containsAll(expectedList));
         assertTrue(expectedList.containsAll(resultList));

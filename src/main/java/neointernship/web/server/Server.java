@@ -298,6 +298,7 @@ public class Server {
             UserConnection blackSideConnection;
             ClientCodes clientCodes;
 
+            // todo что делается с неготовыми игроками ?
             do {
                 whiteSideConnection = whiteSideWaitingConnectionList.poll();
                 clientCodes = checkPlayers(whiteSideConnection);
@@ -306,6 +307,7 @@ public class Server {
 
             do {
                 blackSideConnection = blackSideWaitingConnectionList.poll();
+                assert blackSideConnection != null;
                 clientCodes = checkPlayers(blackSideConnection);
             }while (blackSideWaitingConnectionList.size() > 0 && clientCodes != ClientCodes.YES);
 

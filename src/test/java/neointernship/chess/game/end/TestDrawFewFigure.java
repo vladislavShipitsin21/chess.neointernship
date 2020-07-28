@@ -66,7 +66,7 @@ public class TestDrawFewFigure {
         fieldFigureMap.put(fieldKingW, kingW);
 
         final Figure bishopW = new Bishop(Color.WHITE);
-        final IField fieldBishopW = new Field(1,1);
+        final IField fieldBishopW = new Field(1, 1);
         fieldFigureMap.put(fieldBishopW, bishopW);
 
         final Figure kingB = new King(Color.BLACK);
@@ -77,7 +77,7 @@ public class TestDrawFewFigure {
         final IField fieldBishopB = new Field(5, 5);
         fieldFigureMap.put(fieldBishopB, bishopB);
 
-        assertEquals(fieldBishopB.getColor(),fieldBishopW.getColor());
+        assertEquals(fieldBishopB.getColor(), fieldBishopW.getColor());
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
@@ -94,28 +94,28 @@ public class TestDrawFewFigure {
     }
 
     @Test
-    public void testKingBishopBadField(){
+    public void testKingBishopBadField() {
         final Figure kingW = new King(Color.WHITE);
-        final IField fieldKingW = new Field(0,0);
+        final IField fieldKingW = new Field(0, 0);
         fieldFigureMap.put(fieldKingW, kingW);
 
         final Figure bishopW = new Bishop(Color.WHITE);
-        final IField fieldBishopW = new Field(1,0);
-        assertEquals(Color.BLACK,fieldBishopW.getColor());
+        final IField fieldBishopW = new Field(1, 0);
+        assertEquals(Color.BLACK, fieldBishopW.getColor());
         fieldFigureMap.put(fieldBishopW, bishopW);
 
         final Figure kingB = new King(Color.BLACK);
-        final IField fieldKingB = new Field(7,7);
+        final IField fieldKingB = new Field(7, 7);
         fieldFigureMap.put(fieldKingB, kingB);
 
         final Figure bishopB = new Bishop(Color.BLACK);
-        final IField fieldBishopB = new Field(3,5);
-        assertEquals(Color.WHITE,fieldBishopB.getColor());
+        final IField fieldBishopB = new Field(3, 5);
+        assertEquals(Color.WHITE, fieldBishopB.getColor());
         fieldFigureMap.put(fieldBishopB, bishopB);
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        IAnswer answer = new Answer(1,0,2,1, 'Q');
+        IAnswer answer = new Answer(1, 0, 2, 1, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 
