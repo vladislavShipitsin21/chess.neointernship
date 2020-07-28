@@ -3,7 +3,6 @@ package neointernship.chess.game.end;
 import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.console.IConsoleBoardWriter;
 import neointernship.chess.game.gameplay.activecolorcontroller.ActiveColorController;
-import neointernship.chess.game.gameplay.activecolorcontroller.IActiveColorController;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
@@ -21,7 +20,6 @@ import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 import neointernship.web.client.communication.message.TurnStatus;
 
-import java.util.Collection;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -33,7 +31,7 @@ public class TestHeadEnd {
     private final IStoryGame storyGame;
 
     private final IPossibleActionList possibleActionList;
-    private final IActiveColorController activeColorController;
+    private final ActiveColorController activeColorController;
     private final IGameLoop gameLoop;
 
     private final IConsoleBoardWriter printer;
