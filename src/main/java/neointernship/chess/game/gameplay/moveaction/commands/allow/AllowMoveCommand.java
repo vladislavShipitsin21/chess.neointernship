@@ -70,19 +70,19 @@ public class AllowMoveCommand implements IMoveCommand {
     }
 
     private IAllowCommand getCommand(final Figure startFigure, final IField startField, final Figure finalFigure, final IField finalField) {
-        if (startFigure.getClass() == Pawn.class &&
+        if(     startFigure.getClass() == Pawn.class &&
                 (
-                        finalField.getXCoord() == board.getSize() - 1 ||
-                                finalField.getXCoord() == 0
+                        startField.getXCoord() == board.getSize() - 1 ||
+                                startField.getXCoord() == 0
                 )
         ){
             return transformationAfterCommand;
         }
 
-        if(     startFigure.getClass() == Pawn.class &&
+        if (startFigure.getClass() == Pawn.class &&
                 (
-                        startField.getXCoord() == board.getSize() - 1 ||
-                                startField.getXCoord() == 0
+                        finalField.getXCoord() == board.getSize() - 1 ||
+                                finalField.getXCoord() == 0
                 )
         ){
             return transformationBeforeCommand;

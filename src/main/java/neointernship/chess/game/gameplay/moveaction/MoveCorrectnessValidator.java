@@ -11,7 +11,6 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.Collection;
-import java.util.Objects;
 
 public class MoveCorrectnessValidator {
     private final IMediator mediator;

@@ -4,39 +4,42 @@ import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.Message;
 import neointernship.web.client.communication.serializer.MessageSerializer;
 import neointernship.web.client.player.APlayer;
+import neointernship.web.client.player.Bot;
+import neointernship.web.client.player.Player;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.net.Socket;
 import java.util.Scanner;
 
 public class HandShakeModel implements IMessageCodeModel {
-    private final Socket socket;
-
-    public HandShakeModel(final Socket socket){
-        this.socket = socket;
-    }
 
     @Override
     public void execute(final APlayer player, final BufferedReader in, final BufferedWriter out) throws Exception {
-        final Scanner scanner = new Scanner(System.in);
-        String answer = "";
-        final Message message;
+        Message message = null;
 
-        for (int i = 0; i < 3 && !answer.equals("да") && !answer.equals("нет"); i++) {
-            System.out.println("Оппонент найден.\nВы готовы? (да/нет):");
-            answer = scanner.nextLine().trim().toLowerCase();
+        if (player.getClass() == Bot.class) {
+            message = new Message(ClientCodes.YES);
         }
 
-        if (answer.equals("да")) {
-            message = new Message(ClientCodes.YES);
-        }else {
-            message = new Message(ClientCodes.NO);
+        if (player.getClass() == Player.class) {
+            final Scanner scanner = new Scanner(System.in);
+            String answer = "";
+
+
+            for (int i = 0; i < 3 && !answer.equals("да") && !answer.equals("нет"); i++) {
+                System.out.println("Оппонент найден.\nВы готовы? (да/нет):");
+                answer = scanner.nextLine().trim().toLowerCase();
+            }
+
+
+            if (answer.equals("да")) {
+                message = new Message(ClientCodes.YES);
+            }else {
+                message = new Message(ClientCodes.NO);
+            }
         }
 
         out.write(MessageSerializer.serialize(message) + "\n");
         out.flush();
-
-        if (!answer.equals("да")) new EndGameModel(socket).execute(player, in, out);
     }
 }

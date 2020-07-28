@@ -6,6 +6,7 @@ import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.loop.GameLoop;
 import neointernship.chess.game.gameplay.loop.IGameLoop;
+import neointernship.chess.game.model.answer.AnswerSimbol;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
@@ -29,6 +30,7 @@ import neointernship.web.client.communication.data.endgame.IEndGame;
 import neointernship.web.client.communication.data.initgame.IInitGame;
 import neointernship.web.client.communication.data.initgame.InitGame;
 import neointernship.web.client.communication.data.initinfo.InitInfoDto;
+import neointernship.web.client.communication.data.transformation.TransformationDto;
 import neointernship.web.client.communication.data.turn.TurnDto;
 import neointernship.web.client.communication.data.update.IUpdate;
 import neointernship.web.client.communication.data.update.Update;
@@ -176,6 +178,23 @@ public class Server {
             }
         }
 
+        private IAnswer transformation(final IAnswer answer, final ChessCodes chessCode,
+                                       final BufferedReader in, final BufferedWriter out) throws IOException {
+            sendUpdatedMediator(answer, chessCode);
+
+            final Message message1 = new Message(ClientCodes.TRANSFORMATION);
+            send(out, MessageSerializer.serialize(message1));
+
+            String string = in.readLine();
+            TransformationDto transformationDto = TransformationSerializer.deserialize(string);
+            char symbol = transformationDto.getFigureChar();
+
+            answer.setSimbol(symbol);
+            return new AnswerSimbol(answer.getFinalX(), answer.getFinalY(),
+                    answer.getFinalX(), answer.getFinalY(), symbol);
+
+        }
+
        @Override
         public void run() {
             sendInitInfo();
@@ -200,6 +219,11 @@ public class Server {
                         answer = turnDto.getAnswer();
 
                         chessCode = makeTurn(answer);
+
+                        if (chessCode == ChessCodes.TRANSFORMATION_BEFORE) {
+                            answer = transformation(answer, chessCode, in, out);
+                            chessCode = makeTurn(answer);
+                        }
 
                         GameLogger.getLogger(lobbyId).logPlayerMoveAction(connection.getColor(),
                                 mediator.getFigure(new Field(answer.getFinalX(), answer.getFinalY())),

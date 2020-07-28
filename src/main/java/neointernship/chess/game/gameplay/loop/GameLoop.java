@@ -73,7 +73,7 @@ public class GameLoop implements IGameLoop {
         final ChessCodes chessCodes = gameProcessController.getChessCode();
 
         if(chessCodes != ChessCodes.ERROR) {
-            activeColorController.update();
+            if (chessCodes != ChessCodes.TRANSFORMATION_BEFORE) activeColorController.update();
             activeColor = activeColorController.getCurrentColor();
 
             kingStateController.setActiveColor(activeColor);

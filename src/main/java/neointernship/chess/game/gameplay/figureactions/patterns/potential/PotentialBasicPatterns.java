@@ -126,11 +126,16 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
 
         addIfAisleTake(figure,possibleAttackFields);
 
-        if(isFreePAth) {
+        if (isFreePAth) {
             if (currentField.getXCoord() == 1 || currentField.getXCoord() == 6) {
                 offset *= 2;
                 addMoveField(currentField.getXCoord() + offset, currentField.getYCoord(), possibleAttackFields);
             }
+        }
+
+        if (currentField.getXCoord() == 0 || currentField.getXCoord() == 7) {
+            IField field = board.getField(currentField.getXCoord(), currentField.getYCoord());
+            possibleAttackFields.add(field);
         }
 
         return possibleAttackFields;

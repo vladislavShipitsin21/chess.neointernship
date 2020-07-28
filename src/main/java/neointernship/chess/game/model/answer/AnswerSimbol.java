@@ -18,6 +18,14 @@ public class AnswerSimbol implements IAnswer {
 
     private static final RepositiryChar repositiryChar = new RepositiryChar();
 
+    public AnswerSimbol(final int startX, final int startY, final int finalX, final int finalY, final char simbol) {
+        this.startX = startX;
+        this.startY = startY;
+        this.finalX = finalX;
+        this.finalY = finalY;
+        this.simbol = simbol;
+    }
+
     @JsonCreator
     public AnswerSimbol(final String string) {
         final String[] params = string.split("/");
