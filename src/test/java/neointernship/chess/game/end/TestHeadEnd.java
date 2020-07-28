@@ -50,6 +50,7 @@ public class TestHeadEnd {
         gameLoop = new GameLoop(mediator, possibleActionList, board, activeColorController, storyGame);
 
         printer = new ConsoleBoardWriter(mediator,board);
+        activeColorController.update();
     }
 
     private void initMediator(final Map<IField, Figure> figureMap){
