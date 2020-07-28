@@ -29,7 +29,7 @@ public class TransformationBeforeCommand extends AbstractCommand implements IAll
     }
 
     @Override
-    public TurnStatus getChessCode() {
+    public TurnStatus getTurnStatus() {
         return TurnStatus.TRANSFORMATION_BEFORE;
     }
 }

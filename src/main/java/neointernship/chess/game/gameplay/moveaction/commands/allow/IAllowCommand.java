@@ -5,5 +5,5 @@ import neointernship.web.client.communication.message.TurnStatus;
 
 public interface IAllowCommand {
     void execute(final IAnswer answer);
-    TurnStatus getChessCode();
+    TurnStatus getTurnStatus();
 }

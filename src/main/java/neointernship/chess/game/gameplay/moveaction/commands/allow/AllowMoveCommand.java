@@ -66,7 +66,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
         possibleActionList.updateRealLists();
 
-        return currentCommand.getChessCode();
+        return currentCommand.getTurnStatus();
     }
 
     private IAllowCommand getCommand(final Figure startFigure, final IField startField, final Figure finalFigure, final IField finalField) {

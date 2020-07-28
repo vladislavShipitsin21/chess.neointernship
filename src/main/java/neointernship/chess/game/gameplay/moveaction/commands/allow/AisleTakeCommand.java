@@ -32,7 +32,7 @@ public class AisleTakeCommand extends AbstractCommand implements IAllowCommand {
     }
 
     @Override
-    public TurnStatus getChessCode() {
+    public TurnStatus getTurnStatus() {
         return TurnStatus.AISLE_TAKE;
     }
 

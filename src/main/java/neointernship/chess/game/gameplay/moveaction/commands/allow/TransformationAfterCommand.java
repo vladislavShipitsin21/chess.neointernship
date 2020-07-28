@@ -28,7 +28,7 @@ public class TransformationAfterCommand extends AbstractCommand implements IAllo
     }
 
     @Override
-    public TurnStatus getChessCode() {
+    public TurnStatus getTurnStatus() {
         return TurnStatus.TRANSFORMATION_AFTER;
     }
 

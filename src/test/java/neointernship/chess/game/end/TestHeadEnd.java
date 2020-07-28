@@ -33,7 +33,7 @@ public class TestHeadEnd {
     private final IStoryGame storyGame;
 
     private final IPossibleActionList possibleActionList;
-    private final IActiveColorController activeColorController;
+    private final ActiveColorController activeColorController;
     private final IGameLoop gameLoop;
 
     private final IConsoleBoardWriter printer;
@@ -63,10 +63,12 @@ public class TestHeadEnd {
     public void doAllowIteration(final IAnswer answer){
         TurnStatus turnStatus = gameLoop.doIteration(answer);
         assertNotEquals(TurnStatus.ERROR,turnStatus);
+        activeColorController.update();
     }
     public void doRestringIteration(final IAnswer answer){
         TurnStatus turnStatus = gameLoop.doIteration(answer);
         assertEquals(TurnStatus.ERROR,turnStatus);
+        activeColorController.update();
     }
     public IGameState getState(){
         return gameLoop.getMatchResult();
@@ -78,6 +80,7 @@ public class TestHeadEnd {
             TurnStatus turnStatus = gameLoop.doIteration(answer);
             assertEquals(EnumGameState.ALIVE, getState().getValue());
             assertNotEquals(TurnStatus.ERROR, turnStatus);
+            activeColorController.update();
         }
     }
 

@@ -46,7 +46,7 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
     }
 
     @Override
-    public TurnStatus getChessCode() {
+    public TurnStatus getTurnStatus() {
         return TurnStatus.CASTLING;
     }
 
