@@ -11,13 +11,11 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 
 import java.util.Collection;
-import java.util.Objects;
 
 public class MoveCorrectnessValidator {
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
     private final IBoard board;
-    private final KingIsAttackedComputation kingIsAttackedComputation;
 
     public MoveCorrectnessValidator(final IMediator mediator,
                                     IPossibleActionList possibleActionList,
@@ -25,7 +23,6 @@ public class MoveCorrectnessValidator {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
         this.board = board;
-        this.kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
     }
 
     public MoveState check(final Color color, final IAnswer answer) {
@@ -43,10 +40,10 @@ public class MoveCorrectnessValidator {
 
                 Collection<IField> fields = possibleActionList.getRealList(currentFigure);
 
-                    if(fields.contains(finalField)){
-                        return MoveState.ALLOWED;
-                    }
+                if (fields.contains(finalField)) {
+                    return MoveState.ALLOWED;
                 }
+            }
         }
 
         return MoveState.RESTRICT;

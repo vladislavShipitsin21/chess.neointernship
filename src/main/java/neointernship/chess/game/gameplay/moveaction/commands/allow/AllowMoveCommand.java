@@ -69,6 +69,7 @@ public class AllowMoveCommand implements IMoveCommand {
     }
 
     private IAllowCommand getCommand(final Figure startFigure, final IField startField, final Figure finalFigure, final IField finalField) {
+        // todo сделать итератор для команд ( по приоритету)
         if (startFigure.getClass() == Pawn.class &&
                 (
                         finalField.getXCoord() == board.getSize() - 1 ||
