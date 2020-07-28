@@ -6,11 +6,9 @@ import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.loop.GameLoop;
 import neointernship.chess.game.gameplay.loop.IGameLoop;
-import neointernship.chess.game.model.answer.AnswerSimbol;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.factory.IFactory;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -23,26 +21,23 @@ import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
-import neointernship.chess.logger.ErrorLoggerServer;
 import neointernship.chess.logger.GameLogger;
-import neointernship.web.client.communication.data.endgame.EndGame;
-import neointernship.web.client.communication.data.endgame.IEndGame;
+import neointernship.web.client.communication.data.initinfo.InitInfoDto;
 import neointernship.web.client.communication.data.initgame.IInitGame;
 import neointernship.web.client.communication.data.initgame.InitGame;
-import neointernship.web.client.communication.data.initinfo.InitInfoDto;
-import neointernship.web.client.communication.data.transformation.TransformationDto;
 import neointernship.web.client.communication.data.turn.TurnDto;
 import neointernship.web.client.communication.data.update.IUpdate;
 import neointernship.web.client.communication.data.update.Update;
-import neointernship.web.client.communication.message.*;
+import neointernship.web.client.communication.message.IMessage;
+import neointernship.web.client.communication.message.Message;
+import neointernship.web.client.communication.message.ClientCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 import neointernship.web.client.communication.serializer.*;
 import neointernship.web.server.connection.ActiveConnectionController;
 import neointernship.web.server.connection.UserConnection;
 
 import java.io.*;
-import java.net.BindException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -87,13 +82,15 @@ public class Server {
 
         private final Server server;
         private final ActiveConnectionController connectionController;
+        private IActiveColorController activeColorController;
 
         private Lobby(final UserConnection firstUserConnection, final UserConnection secondUserConnection,
                       final int lobbyId, final Server server, final ChessType chessType) {
             this.lobbyId = lobbyId;
             this.server = server;
-            final IActiveColorController colorController = new ActiveColorController();
-            this.connectionController = new ActiveConnectionController(firstUserConnection, secondUserConnection);
+
+            activeColorController = new ActiveColorController();
+            this.connectionController = new ActiveConnectionController(firstUserConnection, secondUserConnection, (IColorControllerSubscriber) activeColorController);
 
             board = new Board();
             figureFactory = new Factory();

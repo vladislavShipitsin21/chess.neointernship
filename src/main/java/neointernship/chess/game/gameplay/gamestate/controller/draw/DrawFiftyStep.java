@@ -13,7 +13,7 @@ public class DrawFiftyStep implements IDrawController {
     private int countStep;
     private int lastSizeMediator;
 
-    public DrawFiftyStep(final IStoryGame storyGame){
+    public DrawFiftyStep(IStoryGame storyGame){
         this.storyGame = storyGame;
         countStep = 0;
         lastSizeMediator = 32;
@@ -24,7 +24,7 @@ public class DrawFiftyStep implements IDrawController {
      * @return
      */
     @Override
-    public boolean isDraw(final IMediator mediator) {
+    public boolean isDraw(IMediator mediator) {
         final int newSizeMediator = mediator.getFigures().size();
 
         final Figure figure = storyGame.getLastFigureMove();

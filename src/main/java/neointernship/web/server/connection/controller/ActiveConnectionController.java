@@ -1,4 +1,9 @@
-package neointernship.web.server.connection;
+package neointernship.web.server.connection.controller;
+
+import neointernship.web.server.connection.userconnection.UserConnection;
+
+import neointernship.chess.game.gameplay.activecolorcontroller.IActiveColorController;
+import neointernship.chess.game.gameplay.activecolorcontroller.IColorControllerSubscriber;
 
 import java.util.ArrayList;
 
@@ -8,9 +13,13 @@ public class ActiveConnectionController {
 
     private final ArrayList<UserConnection> userList;
 
+
+    private final IColorControllerSubscriber activeColorController;
     private UserConnection currentConnection;
 
-    public ActiveConnectionController(final UserConnection firstUserConnection, final UserConnection secondUserConnection) {
+    public ActiveConnectionController(final UserConnection firstUserConnection,
+                                      final UserConnection secondUserConnection,
+                                      final IColorControllerSubscriber activeColorController) {
         this.firstUserConnection = firstUserConnection;
         this.secondUserConnection = secondUserConnection;
 
@@ -18,10 +27,13 @@ public class ActiveConnectionController {
             add(firstUserConnection);
             add(secondUserConnection);
         }};
+
+        this.activeColorController = activeColorController;
     }
 
     public void update() {
         currentConnection = (currentConnection != firstUserConnection) ? firstUserConnection : secondUserConnection;
+        activeColorController.update();
     }
 
     public UserConnection getCurrentConnection() {

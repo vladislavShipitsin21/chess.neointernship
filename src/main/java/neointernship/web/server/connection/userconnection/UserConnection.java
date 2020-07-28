@@ -1,4 +1,4 @@
-package neointernship.web.server.connection;
+package neointernship.web.server.connection.userconnection;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.player.IPlayer;
