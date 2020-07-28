@@ -3,16 +3,16 @@ package neointernship.web.client.communication.data.update;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Update implements IUpdate {
     private final IAnswer answer;
-    private final ChessCodes chessCode;
+    private final TurnStatus turnStatus;
 
-    public Update(@JsonProperty("answer") final IAnswer answer, final ChessCodes chessCode) {
+    public Update(@JsonProperty("answer") final IAnswer answer, final TurnStatus turnStatus) {
         this.answer = answer;
-        this.chessCode = chessCode;
+        this.turnStatus = turnStatus;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class Update implements IUpdate {
     }
 
     @Override
-    public ChessCodes getChessCode() {
-        return chessCode;
+    public TurnStatus getTurnStatus() {
+        return turnStatus;
     }
 }

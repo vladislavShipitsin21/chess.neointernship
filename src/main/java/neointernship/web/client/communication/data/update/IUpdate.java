@@ -3,7 +3,7 @@ package neointernship.web.client.communication.data.update;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import neointernship.chess.game.model.answer.IAnswer;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonSubTypes({
@@ -12,5 +12,5 @@ import neointernship.web.client.communication.message.ChessCodes;
 })
 public interface IUpdate {
     IAnswer getAnswer();
-    ChessCodes getChessCode();
+    TurnStatus getTurnStatus();
 }

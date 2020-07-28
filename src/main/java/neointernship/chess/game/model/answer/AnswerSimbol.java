@@ -30,7 +30,7 @@ public class AnswerSimbol implements IAnswer {
     public AnswerSimbol(final String string) {
         final String[] params = string.split("/");
         final String[] coord = params[0].split(":");
-        this.startX  = Integer.parseInt(coord[0]);
+        this.startX = Integer.parseInt(coord[0]);
         this.startY = Integer.parseInt(coord[1]);
 
         this.finalX = Integer.parseInt(coord[2]);
@@ -40,7 +40,7 @@ public class AnswerSimbol implements IAnswer {
     }
 
     public AnswerSimbol(final char startC, final char startI, final char finishC, final char finishI) {
-        this.startX  = repositiryChar.getX(startI);
+        this.startX = repositiryChar.getX(startI);
         this.startY = repositiryChar.getY(startC);
 
         this.finalX = repositiryChar.getX(finishI);
@@ -70,11 +70,6 @@ public class AnswerSimbol implements IAnswer {
     @Override
     public char getSimbol() {
         return simbol;
-    }
-
-    @Override
-    public void setSimbol(final char simbol) {
-        this.simbol = simbol;
     }
 
     @Override

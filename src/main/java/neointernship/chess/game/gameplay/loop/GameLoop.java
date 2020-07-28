@@ -6,20 +6,13 @@ import neointernship.chess.game.gameplay.gameprocesscontroller.GameProcessContro
 import neointernship.chess.game.gameplay.gameprocesscontroller.IGameProcessController;
 import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.IGameStateController;
-import neointernship.chess.game.gameplay.gamestate.controller.draw.DrawStateController;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
-import neointernship.chess.game.gameplay.kingstate.controller.IKingStateController;
-import neointernship.chess.game.gameplay.kingstate.controller.KingsStateController;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.chess.game.gameplay.kingstate.subscriber.IKingStateSubscriber;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.web.client.communication.message.TurnStatus;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 /**
  * Класс, реализующий основное ядро игры (игровой цикл)
@@ -41,9 +34,9 @@ public class GameLoop implements IGameLoop {
 
         this.activeColorController = activeColorController;
 
-        gameStateController = new GameStateController(possibleActionList, mediator,storyGame);
+        gameStateController = new GameStateController(possibleActionList, mediator, storyGame);
 
-        gameProcessController = new GameProcessController(mediator, possibleActionList, board,storyGame);
+        gameProcessController = new GameProcessController(mediator, possibleActionList, board, storyGame);
     }
 
     /**
@@ -57,9 +50,8 @@ public class GameLoop implements IGameLoop {
 
         final TurnStatus turnStatus = gameProcessController.getTurnStatus();
 
-        if(chessCodes != ChessCodes.ERROR) {
-            if (chessCodes != ChessCodes.TRANSFORMATION_BEFORE) activeColorController.update();
-        if(turnStatus != TurnStatus.ERROR) {
+        if (turnStatus != TurnStatus.ERROR) {
+            if (turnStatus != TurnStatus.TRANSFORMATION_BEFORE) activeColorController.update();
             activeColorController.update();
             activeColor = activeColorController.getCurrentColor();
 

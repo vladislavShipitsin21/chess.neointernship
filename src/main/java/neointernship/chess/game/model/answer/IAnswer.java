@@ -18,5 +18,4 @@ public interface IAnswer {
     int getFinalY();
 
     char getSimbol();
-    void setSimbol(char simbol);
 }

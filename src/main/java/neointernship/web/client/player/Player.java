@@ -6,7 +6,7 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 
 import java.util.Scanner;
 
@@ -41,8 +41,8 @@ public class Player extends APlayer {
     }
 
     @Override
-    public void updateMediator(final IAnswer answer, final ChessCodes chessCode) {
-        super.updateMediator(answer, chessCode);
+    public void updateMediator(final IAnswer answer, final TurnStatus turnStatus) {
+        super.updateMediator(answer, turnStatus);
 
         consoleBoardWriter.printBoard();
     }

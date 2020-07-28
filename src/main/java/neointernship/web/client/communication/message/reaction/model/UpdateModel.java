@@ -13,6 +13,6 @@ public class UpdateModel implements IMessageCodeModel {
         final String updateString = in.readLine();
         final UpdateDto updateDto = UpdateSerializer.deserialize(updateString);
         updateDto.validate();
-        player.updateMediator(updateDto.getAnswer(), updateDto.getChessCode());
+        player.updateMediator(updateDto.getAnswer(), updateDto.getTurnStatus());
     }
 }

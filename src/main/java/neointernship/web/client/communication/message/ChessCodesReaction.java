@@ -7,25 +7,25 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import java.util.HashMap;
 
 public class ChessCodesReaction {
-    private final HashMap<ChessCodes, IAllowCommand> chessCodesReaction;
+    private final HashMap<TurnStatus, IAllowCommand> chessCodesReaction;
 
     public ChessCodesReaction(final IBoard board, final IMediator mediator) {
         this.chessCodesReaction = new HashMap<>();
         initChessCodesReaction(chessCodesReaction, board, mediator);
     }
 
-    private void initChessCodesReaction(final HashMap<ChessCodes, IAllowCommand> chessCodesReaction,
+    private void initChessCodesReaction(final HashMap<TurnStatus, IAllowCommand> chessCodesReaction,
                                         final IBoard board,
                                         final IMediator mediator) {
-        chessCodesReaction.put(ChessCodes.MOVE, new MoveCommand(board, mediator));
-        chessCodesReaction.put(ChessCodes.ATTACK, new AttackCommand(board, mediator));
-        chessCodesReaction.put(ChessCodes.CASTLING, new CastlingCommand(board, mediator));
-        chessCodesReaction.put(ChessCodes.AISLE_TAKE, new AisleTakeCommand(board, mediator));
-        chessCodesReaction.put(ChessCodes.TRANSFORMATION_AFTER, new TransformationAfterCommand(board, mediator));
-        chessCodesReaction.put(ChessCodes.TRANSFORMATION_BEFORE, new TransformationBeforeCommand(board, mediator));
+        chessCodesReaction.put(TurnStatus.MOVE, new MoveCommand(board, mediator));
+        chessCodesReaction.put(TurnStatus.ATTACK, new AttackCommand(board, mediator));
+        chessCodesReaction.put(TurnStatus.CASTLING, new CastlingCommand(board, mediator));
+        chessCodesReaction.put(TurnStatus.AISLE_TAKE, new AisleTakeCommand(board, mediator));
+        chessCodesReaction.put(TurnStatus.TRANSFORMATION_AFTER, new TransformationAfterCommand(board, mediator));
+        chessCodesReaction.put(TurnStatus.TRANSFORMATION_BEFORE, new TransformationBeforeCommand(board, mediator));
     }
 
-    public IAllowCommand get(final ChessCodes chessCodes){
-        return chessCodesReaction.get(chessCodes);
+    public IAllowCommand get(final TurnStatus turnStatus){
+        return chessCodesReaction.get(turnStatus);
     }
 }

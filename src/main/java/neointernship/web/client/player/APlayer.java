@@ -8,7 +8,7 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 import neointernship.web.client.communication.message.ChessCodesReaction;
 
 public abstract class APlayer {
@@ -42,12 +42,12 @@ public abstract class APlayer {
         return color;
     }
 
-    public void updateMediator(final IAnswer answer, final ChessCodes chessCode) {
+    public void updateMediator(final IAnswer answer, final TurnStatus turnStatus) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
         final Figure startFigure = mediator.getFigure(startField);
         storyGame.update(startFigure);
 
-        chessCodesReaction.get(chessCode).execute(answer);
+        chessCodesReaction.get(turnStatus).execute(answer);
     }
 
     public IMediator getMediator() {

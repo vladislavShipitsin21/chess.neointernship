@@ -147,11 +147,11 @@ public class Server {
             }
         }
 
-        private void sendUpdatedMediator(final IAnswer answer, final ChessCodes chessCode) {
+        private void sendUpdatedMediator(final IAnswer answer, final TurnStatus turnStatus) {
             for (final UserConnection userConnection : connectionController.getConnections()) {
                 final BufferedWriter out = userConnection.getOut();
                 final IMessage msg = new Message(ClientCodes.UPDATE);
-                final IUpdate update = new Update(answer, chessCode);
+                final IUpdate update = new Update(answer, turnStatus);
 
                 try {
                     send(out, MessageSerializer.serialize(msg));
@@ -178,9 +178,9 @@ public class Server {
             }
         }
 
-        private IAnswer transformation(final IAnswer answer, final ChessCodes chessCode,
+        private IAnswer transformation(final IAnswer answer, final TurnStatus turnStatus,
                                        final BufferedReader in, final BufferedWriter out) throws IOException {
-            sendUpdatedMediator(answer, chessCode);
+            sendUpdatedMediator(answer, turnStatus);
 
             final Message message1 = new Message(ClientCodes.TRANSFORMATION);
             send(out, MessageSerializer.serialize(message1));
@@ -189,7 +189,6 @@ public class Server {
             TransformationDto transformationDto = TransformationSerializer.deserialize(string);
             char symbol = transformationDto.getFigureChar();
 
-            answer.setSimbol(symbol);
             return new AnswerSimbol(answer.getFinalX(), answer.getFinalY(),
                     answer.getFinalX(), answer.getFinalY(), symbol);
 
@@ -203,7 +202,7 @@ public class Server {
                 connectionController.update();
                 final UserConnection connection = connectionController.getCurrentConnection();
 
-                ChessCodes chessCode = null;
+                TurnStatus turnStatus = null;
                 IAnswer answer = null;
 
                 do {
@@ -218,23 +217,23 @@ public class Server {
                         turnDto.validate();
                         answer = turnDto.getAnswer();
 
-                        chessCode = makeTurn(answer);
+                        turnStatus = makeTurn(answer);
 
-                        if (chessCode == ChessCodes.TRANSFORMATION_BEFORE) {
-                            answer = transformation(answer, chessCode, in, out);
-                            chessCode = makeTurn(answer);
+                        if (turnStatus == TurnStatus.TRANSFORMATION_BEFORE) {
+                            answer = transformation(answer, turnStatus, in, out);
+                            turnStatus = makeTurn(answer);
                         }
 
                         GameLogger.getLogger(lobbyId).logPlayerMoveAction(connection.getColor(),
                                 mediator.getFigure(new Field(answer.getFinalX(), answer.getFinalY())),
                                 new Field(answer.getStartX(), answer.getStartY()),
-                                new Field(answer.getFinalX(), answer.getFinalY()), chessCode);
+                                new Field(answer.getFinalX(), answer.getFinalY()), turnStatus);
                     } catch (final Exception e) {
                         ErrorLoggerServer.logException(e);
                     }
 
-                } while(chessCode == ChessCodes.ERROR);
-                sendUpdatedMediator(answer, chessCode);
+                } while(turnStatus == TurnStatus.ERROR);
+                sendUpdatedMediator(answer, turnStatus);
             }
 
             gameLoop.getMatchResult();
@@ -247,7 +246,7 @@ public class Server {
             downService();
         }
 
-        public ChessCodes makeTurn(final IAnswer answer) {
+        public TurnStatus makeTurn(final IAnswer answer) {
             return gameLoop.doIteration(answer);
         }
 

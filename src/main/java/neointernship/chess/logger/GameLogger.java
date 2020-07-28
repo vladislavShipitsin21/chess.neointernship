@@ -6,7 +6,7 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.web.client.communication.message.ChessCodes;
+import neointernship.web.client.communication.message.TurnStatus;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
@@ -46,7 +46,7 @@ public class GameLogger implements IGameLogger{
 
     @Override
     public void logPlayerMoveAction(final Color color, final Figure figure,
-                                    final IField startField, final IField finalField, final ChessCodes chessCodes) {
+                                    final IField startField, final IField finalField, final TurnStatus chessCodes) {
         logger.info(chessCodes.name() + "- Игрок " + color + " сделал ход фигурой " + figure.getName() + " из клетки " +
                 startField.showField() + " в клетку " + finalField.showField());
     }
