@@ -1,5 +1,6 @@
 package neointernship.web.server;
 
+import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.gameplay.activecolorcontroller.ActiveColorController;
 import neointernship.chess.game.gameplay.activecolorcontroller.IColorControllerSubscriber;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
@@ -95,7 +96,8 @@ public class Server {
             this.server = server;
 
             activeColorController = new ActiveColorController();
-            this.connectionController = new ActiveConnectionController(firstUserConnection, secondUserConnection, (IColorControllerSubscriber) activeColorController);
+            this.connectionController = new ActiveConnectionController(firstUserConnection, secondUserConnection,
+                    (IColorControllerSubscriber) activeColorController);
 
             board = new Board();
             figureFactory = new Factory();
@@ -199,6 +201,7 @@ public class Server {
        @Override
         public void run() {
             sendInitInfo();
+           ConsoleBoardWriter boardWriter = new ConsoleBoardWriter(mediator, board);
 
             while (gameLoop.isAlive()) {
                 connectionController.update();
@@ -236,6 +239,7 @@ public class Server {
 
                 } while(turnStatus == TurnStatus.ERROR);
                 sendUpdatedMediator(answer, turnStatus);
+                boardWriter.printBoard();
             }
 
             gameLoop.getMatchResult();
