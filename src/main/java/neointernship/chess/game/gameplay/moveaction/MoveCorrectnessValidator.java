@@ -1,7 +1,6 @@
 package neointernship.chess.game.gameplay.moveaction;
 
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
-import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputation;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.MoveState;
