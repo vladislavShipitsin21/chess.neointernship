@@ -57,6 +57,8 @@ public class GameLoop implements IGameLoop {
 
         final TurnStatus turnStatus = gameProcessController.getTurnStatus();
 
+        if(chessCodes != ChessCodes.ERROR) {
+            if (chessCodes != ChessCodes.TRANSFORMATION_BEFORE) activeColorController.update();
         if(turnStatus != TurnStatus.ERROR) {
             activeColorController.update();
             activeColor = activeColorController.getCurrentColor();

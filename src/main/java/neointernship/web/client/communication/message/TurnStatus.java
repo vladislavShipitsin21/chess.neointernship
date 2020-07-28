@@ -5,6 +5,7 @@ public enum TurnStatus {
     AISLE_TAKE,
     MOVE,
     CASTLING,
-    TRANSFORMATION,
+    TRANSFORMATION_BEFORE,
+    TRANSFORMATION_AFTER,
     ERROR
 }

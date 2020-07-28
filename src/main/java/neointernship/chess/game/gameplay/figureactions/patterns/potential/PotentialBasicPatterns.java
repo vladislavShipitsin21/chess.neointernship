@@ -27,8 +27,8 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
     }
 
     public ArrayList<IField> getDiagonalFields(final Figure figure) {
-        ArrayList<IField> possibleAttackFields = new ArrayList<>();
-        IField currentField = mediator.getField(figure);
+        final ArrayList<IField> possibleAttackFields = new ArrayList<>();
+        final IField currentField = mediator.getField(figure);
         boolean keepRightDownMove = true;
         boolean keepLeftUpMove = true;
         for (int i = 1; i < boardSize; i++) {
@@ -57,9 +57,9 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
     }
 
     public ArrayList<IField> getHorizonVerticalFields(final Figure figure) {
-        ArrayList<IField> possibleAttackFields = new ArrayList<>();
+        final ArrayList<IField> possibleAttackFields = new ArrayList<>();
 
-        IField currentField = mediator.getField(figure);
+        final IField currentField = mediator.getField(figure);
 
         boolean keepRightMove = true;
         boolean keepLeftMove = true;
@@ -86,15 +86,15 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
     }
 
     public ArrayList<IField> getKnightFields(final Figure figure) {
-        ArrayList<IField> possibleAttackFields = new ArrayList<>();
+        final ArrayList<IField> possibleAttackFields = new ArrayList<>();
 
-        IField currentField = mediator.getField(figure);
+        final IField currentField = mediator.getField(figure);
 
-        int[] onesList = new int[]{1, -1};
-        int[] twosList = new int[]{2, -2};
+        final int[] onesList = new int[] {1, -1};
+        final int[] twosList = new int[] {2, -2};
 
-        for (int one : onesList) {
-            for (int two : twosList) {
+        for (final int one : onesList) {
+            for (final int two : twosList) {
                 actionToAdd(figure.getColor(),
                         currentField.getXCoord() + one,
                         currentField.getYCoord() + two,
@@ -110,13 +110,13 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
     }
 
     public ArrayList<IField> getPawnFields(final Figure figure) {
-        ArrayList<IField> possibleAttackFields = new ArrayList<>();
-        IField currentField = mediator.getField(figure);
+        final ArrayList<IField> possibleAttackFields = new ArrayList<>();
+        final IField currentField = mediator.getField(figure);
 
         int offset = (figure.getColor() == Color.BLACK) ? 1 : -1;
 
-        int[] onesList = new int[]{1, -1};
-        for (int one : onesList) {
+        final int[] onesList = new int[] {1, -1};
+        for (final int one : onesList) {
             addAttackField(figure.getColor(), currentField.getXCoord() + offset, currentField.getYCoord() + one, possibleAttackFields);
         }
 
@@ -157,7 +157,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
         final IField lastFieldLastFigure = storyGame.getLastField();
         final IField realFieldLastFigure = mediator.getField(lastFigure);
 
-        if (realFieldLastFigure != null) { // может быть null если было превращение
+        if(realFieldLastFigure != null && lastFieldLastFigure != null) { // может быть null если было превращение
             if (currentField.getXCoord() == startXCoord && lastFigure.getColor() == Color.swapColor(color)) {
                 if (lastFigure.getClass() == Pawn.class) {
                     if (Math.abs(realFieldLastFigure.getXCoord() - lastFieldLastFigure.getXCoord()) == 2) {
@@ -171,15 +171,15 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
     }
 
     @Override
-    public ArrayList<IField> getKingFields(Figure king) {
-        ArrayList<IField> possibleAttackFields = new ArrayList<>();
+    public ArrayList<IField> getKingFields(final Figure king) {
+        final ArrayList<IField> possibleAttackFields = new ArrayList<>();
 
-        IField fieldKing = mediator.getField(king);
+        final IField fieldKing = mediator.getField(king);
 
-        int[] onesList = new int[]{1, -1};
+        final int[] onesList = new int[] {1, -1};
 
-        for (int one : onesList) {
-            for (int two : onesList) {
+        for (final int one : onesList) {
+            for (final int two : onesList) {
 
                 actionToAdd(king.getColor(),
                         fieldKing.getXCoord() + one,
@@ -189,7 +189,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
             }
         }
 
-        for (int one : onesList) {
+        for (final int one : onesList) {
             actionToAdd(king.getColor(),
                     fieldKing.getXCoord() + one,
                     fieldKing.getYCoord(),
@@ -210,13 +210,13 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
         // если король не ходил
         if (!storyGame.isMove(king)) {
 
-            for (Figure rook : mediator.getFigures(king.getColor())) {
+            for (final Figure rook : mediator.getFigures(king.getColor())){
                 // если есть ладья которой не ходил
                 if (rook.getClass() == Rook.class && !storyGame.isMove(rook)) {
                     // если между ними нет других фигур
                     boolean haveFigure = false;
-                    IField fieldRook = mediator.getField(rook);
-                    int dif = fieldKing.getYCoord() < fieldRook.getYCoord() ? 1 : -1;
+                    final IField fieldRook = mediator.getField(rook);
+                    final int dif = fieldKing.getYCoord() < fieldRook.getYCoord() ? 1 : -1;
 
                     IField fieldTemp = board.getField(fieldKing.getXCoord(), fieldKing.getYCoord() + dif);
 
@@ -227,8 +227,8 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
                         fieldTemp = board.getField(fieldKing.getXCoord(), fieldTemp.getYCoord() + dif);
                     }
                     //если фигур нет
-                    if (!haveFigure) {
-                        IField finalField = board.getField(fieldKing.getXCoord(), fieldKing.getYCoord() + (2 * dif));
+                    if(!haveFigure){
+                        final IField finalField = board.getField(fieldKing.getXCoord(),fieldKing.getYCoord() + (2 * dif));
                         possibleAttackFields.add(finalField);
                     }
                 }
@@ -249,8 +249,8 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
         if (invalidCoordinates(newFieldXCoord, newFieldYCoord)) {
             return false;
         }
-        IField field = board.getField(newFieldXCoord, newFieldYCoord);
-        Figure figure = mediator.getFigure(field);
+        final IField field = board.getField(newFieldXCoord, newFieldYCoord);
+        final Figure figure = mediator.getFigure(field);
 
         addMoveField(newFieldXCoord, newFieldYCoord, possibleMoveList);
         addAttackField(color, newFieldXCoord, newFieldYCoord, possibleMoveList);
@@ -263,8 +263,8 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
             return false;
         }
 
-        IField field = board.getField(newFieldXCoord, newFieldYCoord);
-        Figure figure = mediator.getFigure(field);
+        final IField field = board.getField(newFieldXCoord, newFieldYCoord);
+        final Figure figure = mediator.getFigure(field);
 
         if (figure == null) {
             possibleMoveList.add(field);
@@ -278,8 +278,8 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
             return;
         }
 
-        IField field = board.getField(newFieldXCoord, newFieldYCoord);
-        Figure figure = mediator.getFigure(field);
+        final IField field = board.getField(newFieldXCoord, newFieldYCoord);
+        final Figure figure = mediator.getFigure(field);
 
         if (figure != null && figure.getColor() != color) {
             possibleMoveList.add(field);

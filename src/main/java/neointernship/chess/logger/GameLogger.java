@@ -2,10 +2,11 @@ package neointernship.chess.logger;
 
 
 import neointernship.chess.game.gameplay.gamestate.controller.draw.IDrawController;
-import neointernship.chess.game.gameplay.moveaction.commands.allow.IAllowCommand;
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.web.client.communication.message.ChessCodes;
 import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 
 
 public class GameLogger implements IGameLogger{
-    static final HashMap<Integer, IGameLogger> mapLogger = new HashMap<>();
+    private static final HashMap<Integer, IGameLogger> mapLogger = new HashMap<>();
     private final Logger logger;
 
     private GameLogger(final int lobbyId) {
@@ -24,8 +25,7 @@ public class GameLogger implements IGameLogger{
         try {
             final PatternLayout patternLayout = new PatternLayout();
             patternLayout.setConversionPattern("%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n");
-            logger.addAppender(new FileAppender(patternLayout, "logs\\gameLog" + lobbyId + ".txt", false));
-            //mapLogger.put(lobbyId, logger);
+            logger.addAppender(new FileAppender(patternLayout, "logs\\server\\game_log_" + lobbyId + ".txt", false));
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -36,9 +36,6 @@ public class GameLogger implements IGameLogger{
     }
 
     public static IGameLogger getLogger(final int lobbyId) {
-        if (!mapLogger.containsKey(lobbyId)) {
-            mapLogger.put(lobbyId, new GameLogger(lobbyId));
-        }
         return mapLogger.get(lobbyId);
     }
 
@@ -49,9 +46,14 @@ public class GameLogger implements IGameLogger{
 
     @Override
     public void logPlayerMoveAction(final Color color, final Figure figure,
-                                    final IField startField, final IField finalField, final IAllowCommand command) {
-        logger.info(command.getChessCode() + "- Игрок " + color + " сделал ход фигурой " + figure.getName() + " из клетки " +
+                                    final IField startField, final IField finalField, final ChessCodes chessCodes) {
+        logger.info(chessCodes.name() + "- Игрок " + color + " сделал ход фигурой " + figure.getName() + " из клетки " +
                 startField.showField() + " в клетку " + finalField.showField());
+    }
+
+    @Override
+    public void logEndGame(final EnumGameState enumGameState) {
+        logger.info("Конец игры - " + enumGameState);
     }
 
     @Override

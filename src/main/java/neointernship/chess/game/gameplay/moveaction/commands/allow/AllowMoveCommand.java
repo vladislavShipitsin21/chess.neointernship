@@ -28,7 +28,8 @@ public class AllowMoveCommand implements IMoveCommand {
     private final IAllowCommand moveCommand;
     private final IAllowCommand aisleTakeCommand;
     private final IAllowCommand castlingCommand;
-    private final IAllowCommand transformationCommand;
+    private final IAllowCommand transformationAfterCommand;
+    private final IAllowCommand transformationBeforeCommand;
 
 
     public AllowMoveCommand(final IMediator mediator,
@@ -41,12 +42,12 @@ public class AllowMoveCommand implements IMoveCommand {
 
         this.storyGame = storyGame;
 
-        attackComand = new AttackComand(board, mediator);
+        attackComand = new AttackCommand(board, mediator);
         moveCommand = new MoveCommand(board, mediator);
         aisleTakeCommand = new AisleTakeCommand(board, mediator);
-        castlingCommand = new CastlingCommand(board, mediator);
-        transformationCommand = new TransformationCommand(board, mediator);
-
+        castlingCommand = new CastlingCommand(board,mediator);
+        transformationAfterCommand = new TransformationAfterCommand(board, mediator);
+        transformationBeforeCommand = new TransformationBeforeCommand(board, mediator);
     }
 
 
@@ -60,7 +61,7 @@ public class AllowMoveCommand implements IMoveCommand {
 
         storyGame.update(startFigure);
 
-        IAllowCommand currentCommand = getCommand(startFigure, startField, finalFigure, finalField);
+        final IAllowCommand currentCommand = getCommand(startFigure, startField, finalFigure, finalField);
         currentCommand.execute(answer); // делаю ход
 
         possibleActionList.updateRealLists();
@@ -70,13 +71,23 @@ public class AllowMoveCommand implements IMoveCommand {
 
     private IAllowCommand getCommand(final Figure startFigure, final IField startField, final Figure finalFigure, final IField finalField) {
         // todo сделать итератор для команд ( по приоритету)
+
+        if(     startFigure.getClass() == Pawn.class &&
+                (
+                        startField.getXCoord() == board.getSize() - 1 ||
+                                startField.getXCoord() == 0
+                )
+        ){
+            return transformationAfterCommand;
+        }
+
         if (startFigure.getClass() == Pawn.class &&
                 (
                         finalField.getXCoord() == board.getSize() - 1 ||
                                 finalField.getXCoord() == 0
                 )
-        ) {
-            return transformationCommand;
+        ){
+            return transformationBeforeCommand;
         }
 
         if (finalFigure != null) {
