@@ -201,7 +201,8 @@ public class Server {
        @Override
         public void run() {
             sendInitInfo();
-           ConsoleBoardWriter boardWriter = new ConsoleBoardWriter(mediator, board);
+            final ConsoleBoardWriter boardWriter = new ConsoleBoardWriter(mediator, board);
+            MessageDto answerMsg = null;
 
             while (gameLoop.isAlive()) {
                 connectionController.update();
@@ -218,7 +219,12 @@ public class Server {
 
                         final BufferedReader in = connection.getIn();
                         final String msg = in.readLine();
-                        final TurnDto turnDto = AnswerSerializer.deserialize(msg);
+                        answerMsg = MessageSerializer.deserialize(msg);
+
+                        if (answerMsg.getClientCodes() == ClientCodes.END_GAME) break;
+
+                        final String turnString = in.readLine();
+                        final TurnDto turnDto = AnswerSerializer.deserialize(turnString);
                         turnDto.validate();
                         answer = turnDto.getAnswer();
 
@@ -238,13 +244,17 @@ public class Server {
                     }
 
                 } while(turnStatus == TurnStatus.ERROR);
+                if (answerMsg.getClientCodes() == ClientCodes.END_GAME) break;
+
                 sendUpdatedMediator(answer, turnStatus);
                 boardWriter.printBoard();
             }
 
             gameLoop.getMatchResult();
 
-            final EnumGameState enumGameState = gameLoop.getMatchResult().getValue();
+            EnumGameState enumGameState = gameLoop.getMatchResult().getValue();
+
+            if (answerMsg.getClientCodes() == ClientCodes.END_GAME) enumGameState = EnumGameState.RESIGNATION;
 
             sendEndGame(enumGameState);
             GameLogger.getLogger(lobbyId).logEndGame(enumGameState);

@@ -8,4 +8,5 @@ public enum EnumGameState {
     DRAW_ONLY_KING,
     DRAW_FEW_FIGURE,
     DRAW_REPETITION_POSITION,
+    RESIGNATION,
 }
