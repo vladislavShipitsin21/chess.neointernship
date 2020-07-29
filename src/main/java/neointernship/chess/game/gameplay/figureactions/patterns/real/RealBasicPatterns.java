@@ -32,8 +32,8 @@ public class RealBasicPatterns implements IRealBasicPatterns {
     @Override
     public Collection<IField> getRealMoveList(Figure figure, Collection<IField> potentialMoveList) {
 
-        ArrayList<IField> realList = new ArrayList<>();
-        IField startField = mediator.getField(figure);
+        final ArrayList<IField> realList = new ArrayList<>();
+        final IField startField = mediator.getField(figure);
 
         for (IField finalField : potentialMoveList) {
 
@@ -42,8 +42,8 @@ public class RealBasicPatterns implements IRealBasicPatterns {
             IPossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
 
             // если это рокировка
-            if (isCastling(figure,startField,finalField)) {
-                if(isCorrectCastling(figure,startField,finalField,newMediator,newPossibleActionList)){
+            if (isCastling(figure, startField, finalField)) {
+                if (isCorrectCastling(figure, startField, finalField, newMediator, newPossibleActionList)) {
                     realList.add(finalField);
                 }
             } else {
@@ -68,7 +68,7 @@ public class RealBasicPatterns implements IRealBasicPatterns {
         return realList;
     }
 
-    private boolean isCastling(final Figure figure,IField startField,IField finishField){
+    private boolean isCastling(final Figure figure, IField startField, IField finishField) {
         return figure.getClass() == King.class &&
                 Math.abs(startField.getYCoord() - finishField.getYCoord()) == 2;
     }
@@ -77,7 +77,7 @@ public class RealBasicPatterns implements IRealBasicPatterns {
                                       final IField startField,
                                       final IField finishField,
                                       final IMediator mediator,
-                                      final IPossibleActionList possibleActionList){
+                                      final IPossibleActionList possibleActionList) {
         possibleActionList.updatePotentialLists();
         Collection<IField> forCastling = new ArrayList<>();
 
@@ -88,8 +88,8 @@ public class RealBasicPatterns implements IRealBasicPatterns {
         forCastling.add(finishField);
 
         kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
-        for(IField tempField : forCastling){
-            if(kingIsAttackedComputation.fieldIsAttacked(tempField,figure.getColor()))return false;
+        for (IField tempField : forCastling) {
+            if (kingIsAttackedComputation.fieldIsAttacked(tempField, figure.getColor())) return false;
         }
         return true;
     }

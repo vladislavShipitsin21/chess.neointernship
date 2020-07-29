@@ -26,13 +26,6 @@ public class AttackCommand extends AbstractCommand implements IAllowCommand{
     }
 
     @Override
-    public boolean check(IAnswer answer) {
-        IField finalField = board.getField(answer.getFinalX(),answer.getFinalY());
-        Figure finalFigure = mediator.getFigure(finalField);
-        return finalFigure != null;
-    }
-
-    @Override
     public TurnStatus getTurnStatus() {
         return TurnStatus.ATTACK;
     }

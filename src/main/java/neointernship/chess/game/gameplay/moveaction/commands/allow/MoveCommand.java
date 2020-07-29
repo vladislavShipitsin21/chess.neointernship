@@ -26,11 +26,6 @@ public class MoveCommand extends AbstractCommand implements IAllowCommand{
     }
 
     @Override
-    public boolean check(IAnswer answer) {
-        return true;
-    }
-
-    @Override
     public TurnStatus getTurnStatus() {
         return TurnStatus.MOVE;
     }

@@ -5,14 +5,13 @@ import neointernship.chess.game.gameplay.moveaction.commands.IMoveCommand;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.King;
+import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.web.client.communication.message.TurnStatus;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Реализация хода в нормальной ситуации
@@ -25,7 +24,12 @@ public class AllowMoveCommand implements IMoveCommand {
 
     private final IStoryGame storyGame;
 
-    private final Queue<IAllowCommand> commandQueue;
+    private final IAllowCommand attackComand;
+    private final IAllowCommand moveCommand;
+    private final IAllowCommand aisleTakeCommand;
+    private final IAllowCommand castlingCommand;
+    private final IAllowCommand transformationAfterCommand;
+    private final IAllowCommand transformationBeforeCommand;
 
 
     public AllowMoveCommand(final IMediator mediator,
@@ -38,23 +42,26 @@ public class AllowMoveCommand implements IMoveCommand {
 
         this.storyGame = storyGame;
 
-        commandQueue = new LinkedList<>();
-        commandQueue.add(new TransformationAfterCommand(board, mediator));
-        commandQueue.add(new TransformationBeforeCommand(board, mediator));
-        commandQueue.add(new AttackCommand(board, mediator));
-        commandQueue.add(new CastlingCommand(board, mediator));
-        commandQueue.add(new AisleTakeCommand(board, mediator));
-        commandQueue.add(new MoveCommand(board, mediator));
+        attackComand = new AttackCommand(board, mediator);
+        moveCommand = new MoveCommand(board, mediator);
+        aisleTakeCommand = new AisleTakeCommand(board, mediator);
+        castlingCommand = new CastlingCommand(board,mediator);
+        transformationAfterCommand = new TransformationAfterCommand(board, mediator);
+        transformationBeforeCommand = new TransformationBeforeCommand(board, mediator);
     }
 
 
     @Override
     public TurnStatus execute(final Color color, final IAnswer answer) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
+
         final Figure startFigure = mediator.getFigure(startField);
+        final Figure finalFigure = mediator.getFigure(finalField);
+
         storyGame.update(startFigure);
 
-        final IAllowCommand currentCommand = getCommand(answer);
+        final IAllowCommand currentCommand = getCommand(startFigure, startField, finalFigure, finalField);
         currentCommand.execute(answer); // делаю ход
 
         possibleActionList.updateRealLists();
@@ -62,12 +69,38 @@ public class AllowMoveCommand implements IMoveCommand {
         return currentCommand.getTurnStatus();
     }
 
-    private IAllowCommand getCommand(IAnswer answer) {
-        for (IAllowCommand command : commandQueue) {
-            if (command.check(answer)) return command;
+    private IAllowCommand getCommand(final Figure startFigure, final IField startField, final Figure finalFigure, final IField finalField) {
+        // todo сделать итератор для команд ( по приоритету)
+
+        if(     startFigure.getClass() == Pawn.class &&
+                (
+                        startField.getXCoord() == board.getSize() - 1 ||
+                                startField.getXCoord() == 0
+                )
+        ){
+            return transformationAfterCommand;
         }
-        return null;
+
+        if (startFigure.getClass() == Pawn.class &&
+                (
+                        finalField.getXCoord() == board.getSize() - 1 ||
+                                finalField.getXCoord() == 0
+                )
+        ){
+            return transformationBeforeCommand;
+        }
+
+        if (finalFigure != null) {
+            return attackComand;
+        }
+        if (startFigure.getClass() == King.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) > 1) {
+            return castlingCommand;
+        }
+        if (startFigure.getClass() == Pawn.class &&
+                Math.abs(startField.getYCoord() - finalField.getYCoord()) == 1) {
+            return aisleTakeCommand;
+        }
+        return moveCommand;
     }
-
-
 }

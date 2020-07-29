@@ -3,7 +3,6 @@ package neointernship.chess.game.gameplay.moveaction.commands.allow;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
@@ -26,15 +25,6 @@ public class TransformationAfterCommand extends AbstractCommand implements IAllo
         mediator.deleteConnection(startField);
 
         mediator.addNewConnection(startField, newFigure);
-    }
-
-    @Override
-    public boolean check(IAnswer answer) {
-        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
-        final Figure startFigure = mediator.getFigure(startField);
-        return startFigure.getClass() == Pawn.class && (
-                startField.getXCoord() == board.getSize() - 1 ||
-                        startField.getXCoord() == 0);
     }
 
     @Override
