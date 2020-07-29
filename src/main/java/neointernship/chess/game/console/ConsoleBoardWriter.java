@@ -17,8 +17,8 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
     @Override
     public void printBoard() {
         final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_BLACK = "\u001B[37m";
-        final String ANSI_WHITE = "\u001B[30m";
+        final String ANSI_BLACK = "\u001B[30m";
+        final String ANSI_WHITE = "\u001B[37m";
 
         System.out.format("%7c%5c%5c%5c%5c%5c%5c%5c\n", 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
         for (int i = 0; i < 46; i++) {
