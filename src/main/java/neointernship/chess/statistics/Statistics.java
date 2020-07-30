@@ -11,7 +11,7 @@ public class Statistics {
     private Statistics() {
     }
 
-    public static void setStatistics(final String nameFirstPlayer,
+    public synchronized static void setStatistics(final String nameFirstPlayer,
                                      final Color colorFirstPlayer,
                                      final EnumMatchResult matchResultFirstPlayer,
                                      final String nameSecondPlayer,
