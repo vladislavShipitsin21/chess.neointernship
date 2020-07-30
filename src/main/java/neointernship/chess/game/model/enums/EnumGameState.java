@@ -7,7 +7,8 @@ public enum EnumGameState {
     DRAW_FIFTY_STEP("Ничья по правилу 50 ходов"),
     DRAW_ONLY_KING("Ничья: на доске осталось 2 короля"),
     DRAW_FEW_FIGURE("Ничья: мало фигур для мата"),
-    DRAW_REPETITION_POSITION("Ничья: трехкратное повторение позиции");
+    DRAW_REPETITION_POSITION("Ничья: трехкратное повторение позиции"),
+    RESIGNATION("Игрок сдался");
 
     private String message;
 
