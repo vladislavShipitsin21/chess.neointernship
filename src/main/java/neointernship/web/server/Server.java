@@ -64,7 +64,7 @@ public class Server {
     private final Queue<Lobby> lobbyList;
     private int lobbyNum = 0;
 
-    public Server() {
+    public Server() throws IOException {
         blackSideWaitingConnectionList = new ConcurrentLinkedQueue<>();
         whiteSideWaitingConnectionList = new ConcurrentLinkedQueue<>();
 
