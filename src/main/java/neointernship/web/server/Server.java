@@ -12,6 +12,7 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
+import neointernship.chess.game.model.enums.EnumMatchResult;
 import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.factory.IFactory;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -26,6 +27,7 @@ import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 import neointernship.chess.logger.ErrorLoggerServer;
 import neointernship.chess.logger.GameLogger;
+import neointernship.chess.statistics.Statistics;
 import neointernship.web.client.communication.data.endgame.EndGame;
 import neointernship.web.client.communication.data.endgame.IEndGame;
 import neointernship.web.client.communication.data.initgame.IInitGame;
@@ -103,7 +105,7 @@ public class Server {
             figureFactory = new Factory();
             mediator = new Mediator();
             storyGame = new StoryGame(mediator);
-            possibleActionList = new PossibleActionList(board, mediator,storyGame);
+            possibleActionList = new PossibleActionList(board, mediator, storyGame);
 
             this.chessTypes = chessType;
             figuresStartPositionRepository = new FiguresStartPositionRepository();
@@ -198,15 +200,16 @@ public class Server {
 
         }
 
-       @Override
+        @Override
         public void run() {
             sendInitInfo();
             final ConsoleBoardWriter boardWriter = new ConsoleBoardWriter(mediator, board);
             MessageDto answerMsg = null;
+            UserConnection connection = null;
 
             while (gameLoop.isAlive()) {
                 connectionController.update();
-                final UserConnection connection = connectionController.getCurrentConnection();
+                connection = connectionController.getCurrentConnection();
 
                 TurnStatus turnStatus = null;
                 IAnswer answer = null;
@@ -243,7 +246,7 @@ public class Server {
                         ErrorLoggerServer.logException(e);
                     }
 
-                } while(turnStatus == TurnStatus.ERROR);
+                } while (turnStatus == TurnStatus.ERROR);
                 if (answerMsg.getClientCodes() == ClientCodes.END_GAME) break;
 
                 sendUpdatedMediator(answer, turnStatus);
@@ -259,7 +262,26 @@ public class Server {
             sendEndGame(enumGameState);
             GameLogger.getLogger(lobbyId).logEndGame(enumGameState);
 
+            setStatistics(connection, enumGameState);
             downService();
+        }
+
+        public void setStatistics(UserConnection connection, final EnumGameState enumGameState) {
+            final EnumMatchResult matchResult = EnumMatchResult.getEnumMatchResult(enumGameState);
+            final String nameFirstPlayer = connection.getName();
+            final Color colorFirstPlayer = connection.getColor();
+
+            connectionController.update();
+            connection = connectionController.getCurrentConnection();
+
+            final String nameSecondPlayer = connection.getName();
+            final Color colorSecondPlayer = connection.getColor();
+            try {
+                Statistics.setStatistics(nameFirstPlayer, colorFirstPlayer, matchResult,
+                        nameSecondPlayer, colorSecondPlayer, EnumMatchResult.swapEnumMatchResult(matchResult));
+            } catch (final Exception exception) {
+                exception.printStackTrace();
+            }
         }
 
         public TurnStatus makeTurn(final IAnswer answer) {
@@ -311,13 +333,13 @@ public class Server {
             do {
                 whiteSideConnection = whiteSideWaitingConnectionList.poll();
                 clientCodes = checkPlayers(whiteSideConnection);
-            }while (whiteSideWaitingConnectionList.size() > 0 && clientCodes != ClientCodes.YES);
+            } while (whiteSideWaitingConnectionList.size() > 0 && clientCodes != ClientCodes.YES);
             if (clientCodes == ClientCodes.NO) return;
 
             do {
                 blackSideConnection = blackSideWaitingConnectionList.poll();
                 clientCodes = checkPlayers(blackSideConnection);
-            }while (blackSideWaitingConnectionList.size() > 0 && clientCodes != ClientCodes.YES);
+            } while (blackSideWaitingConnectionList.size() > 0 && clientCodes != ClientCodes.YES);
 
             if (clientCodes == ClientCodes.NO) {
                 whiteSideWaitingConnectionList.add(whiteSideConnection);
