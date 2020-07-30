@@ -38,6 +38,9 @@ public class AllowMoveCommand implements IMoveCommand {
 
         this.storyGame = storyGame;
 
+        // не менять последовательность добавления в очередь! Важна именно эта последовательность
+        // каждая последующая команда уверена в том, что раз дошли до неё, значит остальные проверки
+        // дали отрицательный результат
         commandQueue = new LinkedList<>();
         commandQueue.add(new TransformationAfterCommand(board, mediator));
         commandQueue.add(new TransformationBeforeCommand(board, mediator));
