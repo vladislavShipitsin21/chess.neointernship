@@ -3,8 +3,10 @@ package neointernship.chess.game.gameplay.figureactions.patterns.real;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.kingstate.update.KingIsAttackedComputation;
+import neointernship.chess.game.gameplay.moveaction.commands.allow.AttackCommand;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
+import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -29,6 +31,7 @@ public class RealBasicPatterns implements IRealBasicPatterns {
         this.storyGame = storyGame;
     }
 
+    // todo избавится от всех этих костылей
     @Override
     public Collection<IField> getRealMoveList(Figure figure, Collection<IField> potentialMoveList) {
 
@@ -47,21 +50,41 @@ public class RealBasicPatterns implements IRealBasicPatterns {
                     realList.add(finalField);
                 }
             } else {
+                // взятие на проходе
+                if(isAisleTake(figure,startField,finalField)) {
 
-                Figure finalFigure = newMediator.getFigure(finalField);
+                    final IField fieldAttackPawn = board.getField(startField.getXCoord(), finalField.getYCoord());
 
-                newMediator.deleteConnection(startField);
-                if (finalFigure != null) {
-                    newMediator.deleteConnection(finalField);
-                }
-                newMediator.addNewConnection(finalField, figure);
-                newStoryGame.update(mediator.getFigure(startField));
-                newPossibleActionList.updatePotentialLists();
+                    newMediator.deleteConnection(startField);
+                    newMediator.addNewConnection(finalField, figure);
+                    newMediator.deleteConnection(fieldAttackPawn);
 
-                kingIsAttackedComputation = new KingIsAttackedComputation(newPossibleActionList, newMediator);
+                    newStoryGame.update(mediator.getFigure(startField));
+                    newPossibleActionList.updatePotentialLists();
 
-                if (!kingIsAttackedComputation.kingIsAttacked(figure.getColor())) {
-                    realList.add(finalField);
+                    kingIsAttackedComputation = new KingIsAttackedComputation(newPossibleActionList, newMediator);
+
+                    if (!kingIsAttackedComputation.kingIsAttacked(figure.getColor())) {
+                        realList.add(finalField);
+                    }
+
+                }else {
+
+                    Figure finalFigure = newMediator.getFigure(finalField);
+
+                    newMediator.deleteConnection(startField);
+                    if (finalFigure != null) {
+                        newMediator.deleteConnection(finalField);
+                    }
+                    newMediator.addNewConnection(finalField, figure);
+                    newStoryGame.update(mediator.getFigure(startField));
+                    newPossibleActionList.updatePotentialLists();
+
+                    kingIsAttackedComputation = new KingIsAttackedComputation(newPossibleActionList, newMediator);
+
+                    if (!kingIsAttackedComputation.kingIsAttacked(figure.getColor())) {
+                        realList.add(finalField);
+                    }
                 }
             }
         }
@@ -92,5 +115,13 @@ public class RealBasicPatterns implements IRealBasicPatterns {
             if (kingIsAttackedComputation.fieldIsAttacked(tempField, figure.getColor())) return false;
         }
         return true;
+    }
+
+    private boolean isAisleTake(final Figure figure,IField startField,IField finishField){
+
+        return figure.getClass() == Pawn.class &&
+                Math.abs(startField.getYCoord() - finishField.getYCoord()) == 1 &&
+                mediator.getFigure(finishField) == null;
+
     }
 }

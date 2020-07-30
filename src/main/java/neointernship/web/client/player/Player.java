@@ -22,7 +22,7 @@ public class Player extends APlayer {
         super.init(mediator, board, color);
 
         this.consoleBoardWriter = new ConsoleBoardWriter(mediator, board);
-        consoleBoardWriter.printBoard();
+//        consoleBoardWriter.printBoard();
     }
 
     @Override
@@ -44,6 +44,6 @@ public class Player extends APlayer {
     public void updateMediator(final IAnswer answer, final TurnStatus turnStatus) {
         super.updateMediator(answer, turnStatus);
 
-        consoleBoardWriter.printBoard();
+//        consoleBoardWriter.printBoard();
     }
 }

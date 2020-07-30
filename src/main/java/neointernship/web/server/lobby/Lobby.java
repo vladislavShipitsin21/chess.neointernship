@@ -219,14 +219,16 @@ public class Lobby extends Thread {
 
             } while (turnStatus == TurnStatus.ERROR);
             sendUpdatedMediator(answer, turnStatus);
-            boardWriter.printBoard();
+//            boardWriter.printBoard();
         }
 
         final EnumGameState enumGameState = gameLoop.getMatchResult().getValue();
 
         sendEndGame(enumGameState);
         GameLogger.getLogger(lobbyId).logEndGame(enumGameState);
-
+        if(enumGameState == EnumGameState.MATE) {
+            GameLogger.getLogger(lobbyId).logPlayerWin(Color.swapColor(gameLoop.getMatchResult().getColor()));
+        }
         downService();
     }
 

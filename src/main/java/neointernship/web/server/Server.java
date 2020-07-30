@@ -18,11 +18,13 @@ import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static neointernship.chess.game.model.enums.Color.BLACK;
 import static neointernship.chess.game.model.enums.Color.WHITE;
+import static neointernship.web.server.send.SendMessage.send;
 
 /**
  * Консольный многопользовательский чат.
@@ -52,7 +54,6 @@ public class Server implements IServer {
     public void deleteLobby(final Lobby lobby) {
         lobbyList.remove(lobby);
     }
-
 
     private ClientCodes checkPlayers(final UserConnection userConnection) throws Exception {
         final Message messageHandShake = new Message(ClientCodes.HAND_SHAKE);
@@ -177,6 +178,7 @@ public class Server implements IServer {
     @Override
     public void startServer() {
         System.out.println(String.format("Server started, port: %d", PORT));
+        System.out.println("start time : " + LocalTime.now());
 
         while (true) {
             try (final ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -193,16 +195,6 @@ public class Server implements IServer {
                 exception.printStackTrace();
             }
         }
-    }
-
-    /**
-     * отсылка одного сообщения клиенту
-     *
-     * @param msg сообщение
-     */
-    private void send(final BufferedWriter out, final String msg) throws IOException {
-        out.write(msg + "\n");
-        out.flush();
     }
 
     public static void main(final String[] args) throws IOException {

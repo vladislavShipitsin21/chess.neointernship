@@ -5,6 +5,11 @@ import java.io.IOException;
 
 public class SendMessage {
 
+    /**
+     * отсылка одного сообщения клиенту
+     *
+     * @param msg сообщение
+     */
     public static void send(final BufferedWriter out, final String msg) throws IOException {
         out.write(msg + "\n");
         out.flush();
