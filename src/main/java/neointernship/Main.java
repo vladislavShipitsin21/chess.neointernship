@@ -34,9 +34,6 @@ public class Main {
         for (Thread thread : threads){
             thread.start();
         }
-        for (Thread thread : threads){
-            thread.join();
-        }
         for(ControllerBot controllerBot : controllerBots){
             System.out.println(controllerBot.getTime());
         }

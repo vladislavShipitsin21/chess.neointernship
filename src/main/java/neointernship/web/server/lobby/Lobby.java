@@ -2,7 +2,6 @@ package neointernship.web.server.lobby;
 
 import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.gameplay.activecolorcontroller.ActiveColorController;
-import neointernship.chess.game.gameplay.activecolorcontroller.IColorControllerSubscriber;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.loop.GameLoop;
@@ -12,6 +11,7 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.ChessType;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.enums.EnumGameState;
+import neointernship.chess.game.model.enums.EnumMatchResult;
 import neointernship.chess.game.model.figure.factory.Factory;
 import neointernship.chess.game.model.figure.factory.IFactory;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -26,6 +26,7 @@ import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 import neointernship.chess.logger.ErrorLoggerServer;
 import neointernship.chess.logger.GameLogger;
+import neointernship.chess.statistics.Statistics;
 import neointernship.web.client.communication.data.endgame.EndGame;
 import neointernship.web.client.communication.data.endgame.IEndGame;
 import neointernship.web.client.communication.data.initgame.IInitGame;
@@ -34,10 +35,7 @@ import neointernship.web.client.communication.data.transformation.Transformation
 import neointernship.web.client.communication.data.turn.TurnDto;
 import neointernship.web.client.communication.data.update.IUpdate;
 import neointernship.web.client.communication.data.update.Update;
-import neointernship.web.client.communication.message.ClientCodes;
-import neointernship.web.client.communication.message.IMessage;
-import neointernship.web.client.communication.message.Message;
-import neointernship.web.client.communication.message.TurnStatus;
+import neointernship.web.client.communication.message.*;
 import neointernship.web.client.communication.serializer.*;
 import neointernship.web.server.Server;
 import neointernship.web.server.connection.controller.ActiveConnectionController;
@@ -63,16 +61,14 @@ public class Lobby extends Thread {
 
     private final IGameLoop gameLoop;
 
+    private final Server server;
     private final ActiveConnectionController connectionController;
     private ActiveColorController activeColorController;
 
-    private final Server server;
-
-    public Lobby(final Server server, final UserConnection firstUserConnection, final UserConnection secondUserConnection,
-                  final int lobbyId, final ChessType chessType) {
-        this.server = server;
-
+    public Lobby(final UserConnection firstUserConnection, final UserConnection secondUserConnection,
+                 final int lobbyId, final Server server, final ChessType chessType) {
         this.lobbyId = lobbyId;
+        this.server = server;
 
         activeColorController = new ActiveColorController();
         this.connectionController = new ActiveConnectionController(
@@ -89,6 +85,7 @@ public class Lobby extends Thread {
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();
 
+        //TODO:
         GameLogger.addLogger(lobbyId);
 
         gameLoop = new GameLoop(mediator, possibleActionList, board, activeColorController, storyGame);
@@ -181,11 +178,13 @@ public class Lobby extends Thread {
     @Override
     public void run() {
         sendInitInfo();
-        ConsoleBoardWriter boardWriter = new ConsoleBoardWriter(mediator, board);
+        final ConsoleBoardWriter boardWriter = new ConsoleBoardWriter(mediator, board);
+        MessageDto answerMsg = null;
+        UserConnection connection = null;
 
         while (gameLoop.isAlive()) {
             connectionController.update();
-            final UserConnection connection = connectionController.getCurrentConnection();
+            connection = connectionController.getCurrentConnection();
 
             TurnStatus turnStatus = null;
             IAnswer answer = null;
@@ -198,7 +197,12 @@ public class Lobby extends Thread {
 
                     final BufferedReader in = connection.getIn();
                     final String msg = in.readLine();
-                    final TurnDto turnDto = AnswerSerializer.deserialize(msg);
+                    answerMsg = MessageSerializer.deserialize(msg);
+
+                    if (answerMsg.getClientCodes() == ClientCodes.END_GAME) break;
+
+                    final String turnString = in.readLine();
+                    final TurnDto turnDto = AnswerSerializer.deserialize(turnString);
                     turnDto.validate();
                     answer = turnDto.getAnswer();
 
@@ -218,18 +222,41 @@ public class Lobby extends Thread {
                 }
 
             } while (turnStatus == TurnStatus.ERROR);
+            if (answerMsg.getClientCodes() == ClientCodes.END_GAME) break;
+
             sendUpdatedMediator(answer, turnStatus);
             boardWriter.printBoard();
         }
 
-        final EnumGameState enumGameState = gameLoop.getMatchResult().getValue();
+        gameLoop.getMatchResult();
+
+        EnumGameState enumGameState = gameLoop.getMatchResult().getValue();
+
+        if (answerMsg.getClientCodes() == ClientCodes.END_GAME) enumGameState = EnumGameState.RESIGNATION;
 
         sendEndGame(enumGameState);
         GameLogger.getLogger(lobbyId).logEndGame(enumGameState);
-        if(enumGameState == EnumGameState.MATE) {
-            GameLogger.getLogger(lobbyId).logPlayerWin(Color.swapColor(gameLoop.getMatchResult().getColor()));
-        }
+
+        setStatistics(connection, enumGameState);
         downService();
+    }
+
+    public void setStatistics(UserConnection connection, final EnumGameState enumGameState) {
+        final EnumMatchResult matchResult = EnumMatchResult.getEnumMatchResult(enumGameState);
+        final String nameFirstPlayer = connection.getName();
+        final Color colorFirstPlayer = connection.getColor();
+
+        connectionController.update();
+        connection = connectionController.getCurrentConnection();
+
+        final String nameSecondPlayer = connection.getName();
+        final Color colorSecondPlayer = connection.getColor();
+        try {
+            Statistics.setStatistics(nameFirstPlayer, colorFirstPlayer, matchResult,
+                    nameSecondPlayer, colorSecondPlayer, EnumMatchResult.swapEnumMatchResult(matchResult));
+        } catch (final Exception exception) {
+            exception.printStackTrace();
+        }
     }
 
     public TurnStatus makeTurn(final IAnswer answer) {
@@ -254,5 +281,4 @@ public class Lobby extends Thread {
             }
         }
     }
-
 }

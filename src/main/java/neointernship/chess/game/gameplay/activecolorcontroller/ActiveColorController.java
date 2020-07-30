@@ -12,7 +12,7 @@ public class ActiveColorController implements IActiveColorController, IColorCont
         white = Color.WHITE;
         black = Color.BLACK;
 
-        activeColor = white;
+        activeColor = black;
     }
 
     @Override

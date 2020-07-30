@@ -6,7 +6,7 @@ import java.io.IOException;
 public class SendMessage {
 
     /**
-     * отсылка одного сообщения клиенту
+     * отсылка одного сообщения
      *
      * @param msg сообщение
      */
