@@ -13,9 +13,9 @@ public class Position {
     private final IMediator mediator;
     private final IPossibleActionList possibleActionList;
 
-    public Position(IMediator mediator) {
+    public Position(final IMediator mediator,IPossibleActionList possibleActionList) {
         this.mediator = new Mediator(mediator);
-        this.possibleActionList = new PossibleActionList(new Board(), this.mediator, new StoryGame(this.mediator));
+        this.possibleActionList = new PossibleActionList((PossibleActionList) possibleActionList);
     }
 
     @Override

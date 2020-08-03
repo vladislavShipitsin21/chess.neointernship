@@ -1,5 +1,6 @@
 package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.mediator.IMediator;
 
@@ -12,8 +13,10 @@ public class DrawRepetitionPosition implements IDrawController {
     private static final Integer START_REPETITION = 1;
     private Map<Position, Integer> mapPosition;
     private int currentSizeMediator;
+    private final IPossibleActionList possibleActionList;
 
-    public DrawRepetitionPosition() {
+    public DrawRepetitionPosition(final IPossibleActionList possibleActionList) {
+        this.possibleActionList = possibleActionList;
         mapPosition = new HashMap<>();
     }
 
@@ -30,7 +33,7 @@ public class DrawRepetitionPosition implements IDrawController {
             currentSizeMediator = newSize;
             mapPosition.clear();
         }
-        Position newPosition = new Position(mediator);
+        Position newPosition = new Position(mediator,possibleActionList);
 
         Integer count = mapPosition.get(newPosition);
 

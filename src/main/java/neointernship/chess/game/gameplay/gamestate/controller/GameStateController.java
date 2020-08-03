@@ -33,9 +33,8 @@ public class GameStateController implements IGameStateController {
         figuresHaveMovesComputation = new FiguresHaveMovesComputation(possibleActionList, mediator);
         gameStateDefineLogic = new GameStateDefineLogic();
 
-        drawStateController = new DrawStateController(mediator, storyGame);
+        drawStateController = new DrawStateController(mediator,possibleActionList, storyGame);
         kingStateController = new KingsStateController(possibleActionList, mediator);
-
     }
 
     @Override

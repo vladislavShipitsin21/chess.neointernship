@@ -7,6 +7,7 @@ import neointernship.chess.game.gameplay.figureactions.patterns.real.RealBasicPa
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
@@ -34,6 +35,30 @@ public class PossibleActionList implements IPossibleActionList {
 
         this.realFigureActions = new HashMap<>();
         this.potentialFigureAction = new HashMap<>();
+    }
+
+    /**
+     * конструктор копирования
+     *
+     * @param possibleActionList
+     */
+    public PossibleActionList(final PossibleActionList possibleActionList) {
+        this.mediator = new Mediator(possibleActionList.mediator);
+
+        this.potentialPatterns = possibleActionList.potentialPatterns;
+        this.realPatterns = possibleActionList.realPatterns;
+
+        this.realFigureActions = copyAction(possibleActionList.realFigureActions);
+        this.potentialFigureAction = copyAction(possibleActionList.potentialFigureAction);
+    }
+
+    private Map<Figure, Collection<IField>> copyAction(Map<Figure, Collection<IField>> copy) {
+        Map<Figure, Collection<IField>> actions = new HashMap<>();
+        for (final Figure figure : copy.keySet()) {
+            Collection<IField> fields = copy.get(figure);
+            actions.put(figure, fields);
+        }
+        return actions;
     }
 
     @Override
