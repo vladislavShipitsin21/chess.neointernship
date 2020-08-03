@@ -14,7 +14,6 @@ import neointernship.web.client.player.PlayerType;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.HashMap;
 
 public class Controller {
     private Input input;
@@ -50,9 +49,6 @@ public class Controller {
     }
 
     private void initPlayer() throws InterruptedException {
-        final HashMap<PlayerType, APlayer> players = new HashMap<>();
-
-
         final PlayerType playerType = input.getPlayerType();
         String name = null;
         if (playerType == PlayerType.HUMAN) {

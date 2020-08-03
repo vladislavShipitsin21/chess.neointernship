@@ -30,6 +30,7 @@ public class Bot extends APlayer {
         this.input = input;
     }
 
+    @Override
     public void init(final IMediator mediator, final IBoard board, final Color color) {
         super.init(mediator, board, color);
         this.possibleActionList = new PossibleActionList(board, mediator, storyGame);

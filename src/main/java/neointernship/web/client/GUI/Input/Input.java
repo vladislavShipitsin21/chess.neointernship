@@ -75,7 +75,6 @@ public class Input implements IInput {
             askLabel.setText("белые / черные / любой");
             answerColor = getAnswer();
         }
-        ;
 
         Color color = colorMap.get(answerColor);
 
