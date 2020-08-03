@@ -19,8 +19,6 @@ public class FiguresHaveMovesComputation {
     }
 
     public boolean check(Color color) {
-        possibleActionList.updateRealLists();
-
         for (Figure figure : mediator.getFigures(color)) {
             Collection<IField> collection = possibleActionList.getRealList(figure);
             if (!collection.isEmpty()) {
