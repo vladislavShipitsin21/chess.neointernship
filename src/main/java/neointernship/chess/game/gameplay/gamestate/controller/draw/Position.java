@@ -11,11 +11,19 @@ import java.util.Objects;
 
 public class Position {
     private final IMediator mediator;
-    private final IPossibleActionList possibleActionList;
+    private final PossibleActionList possibleActionList;
 
-    public Position(final IMediator mediator,IPossibleActionList possibleActionList) {
+    public Position(final IMediator mediator,final IPossibleActionList possibleActionList) {
         this.mediator = new Mediator(mediator);
         this.possibleActionList = new PossibleActionList((PossibleActionList) possibleActionList);
+    }
+
+    public IMediator getMediator() {
+        return mediator;
+    }
+
+    public PossibleActionList getPossibleActionList() {
+        return possibleActionList;
     }
 
     @Override
