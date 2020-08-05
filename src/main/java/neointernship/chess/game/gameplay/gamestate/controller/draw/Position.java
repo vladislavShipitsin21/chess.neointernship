@@ -4,18 +4,27 @@ import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
-import neointernship.chess.game.model.playmap.board.Board;
-import neointernship.chess.game.story.StoryGame;
 
 import java.util.Objects;
 
-public class Position {
+public class Position implements Comparable<Position> {
     private final IMediator mediator;
     private final PossibleActionList possibleActionList;
 
-    public Position(final IMediator mediator,final IPossibleActionList possibleActionList) {
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    private double price;
+
+    public Position(final IMediator mediator, final IPossibleActionList possibleActionList) {
         this.mediator = new Mediator(mediator);
-        this.possibleActionList = new PossibleActionList((PossibleActionList) possibleActionList);
+//        this.possibleActionList = new PossibleActionList((PossibleActionList) possibleActionList);
+        this.possibleActionList = (PossibleActionList) possibleActionList;
     }
 
     public IMediator getMediator() {
@@ -38,5 +47,10 @@ public class Position {
     @Override
     public int hashCode() {
         return Objects.hash(mediator, possibleActionList);
+    }
+
+    @Override
+    public int compareTo(Position o) {
+        return Double.compare(price,o.price);
     }
 }

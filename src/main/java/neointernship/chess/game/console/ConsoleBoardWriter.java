@@ -1,7 +1,10 @@
 package neointernship.chess.game.console;
 
+import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
+import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
+import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 
 public class ConsoleBoardWriter implements IConsoleBoardWriter {
@@ -14,8 +17,8 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
         this.board = board;
     }
 
-    @Override
-    public void printBoard() {
+
+    private void printBoard(final IMediator mediator){
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_BLACK = "\u001B[30m";
         final String ANSI_WHITE = "\u001B[37m";
@@ -55,5 +58,21 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
         }
         System.out.println();
         System.out.format("%7c%5c%5c%5c%5c%5c%5c%5c\n", 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
+    }
+    @Override
+    public void printBoard() {
+        printBoard(mediator);
+    }
+
+    @Override
+    public void printPosition(Position position) {
+        System.out.println(position.getPrice());
+        printBoard(position.getMediator());
+    }
+
+    public void printAnswer(IAnswer answer){
+        IField start = new Field(answer.getStartX(),answer.getStartY());
+        IField finish = new Field(answer.getFinalX(),answer.getFinalY());
+        System.out.println(start.showField() + " - " + finish.showField());
     }
 }

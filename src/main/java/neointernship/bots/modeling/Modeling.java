@@ -18,16 +18,17 @@ import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Modeling {
 
     private static final IBoard board = new Board();
 
-    public static Collection<Position> modeling(final Position actualPosition,
-                                                final IStoryGame storyGame,
+    // не возвращает одинаковые позиции
+    public static Map<Position,IAnswer> modeling(final Position actualPosition,
                                                 final Color activeColor){
-        final Collection<Position> positions = new HashSet<>();
+        final Map<Position,IAnswer> positions = new HashMap<>();
         final Collection<Figure> figures = actualPosition.getMediator().getFigures(activeColor);
         final IMediator mediator = actualPosition.getMediator();
         final PossibleActionList possibleActionList = actualPosition.getPossibleActionList();
@@ -39,8 +40,8 @@ public class Modeling {
 
                 // определить тип хода
                 IMediator newMediator = new Mediator(mediator);
-                IStoryGame newStoryGame = new StoryGame((StoryGame) storyGame);
-                IPossibleActionList newPossibleActionList = new PossibleActionList(possibleActionList);
+                IStoryGame newStoryGame = new StoryGame((StoryGame)possibleActionList.getStoryGame());
+                IPossibleActionList newPossibleActionList = new PossibleActionList(new Board(),newMediator,newStoryGame);
 
                 AllowMoveCommand allowMoveCommand =
                         new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);
@@ -55,12 +56,12 @@ public class Modeling {
 
                 command.execute(answer);
                 // перейти к следующему ходу
-
-
+                newPossibleActionList.updateRealLists();
                 Position newPosition = new Position(newMediator,newPossibleActionList);
-                positions.add(newPosition);
+                positions.put(newPosition,answer);
             }
         }
         return positions;
     }
+
 }

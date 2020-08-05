@@ -11,11 +11,14 @@ import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
+import neointernship.chess.game.story.StoryGame;
 
 import java.util.*;
 
 public class PossibleActionList implements IPossibleActionList {
+    private final IBoard board;
     private final IMediator mediator;
+    private final IStoryGame storyGame;
 
     private final IPotentialBasicPatterns potentialPatterns;
     private final IRealBasicPatterns realPatterns;
@@ -23,12 +26,12 @@ public class PossibleActionList implements IPossibleActionList {
     private final Map<Figure, Collection<IField>> realFigureActions;
     private final Map<Figure, Collection<IField>> potentialFigureAction;
 
-    private static int count = 0;
-
     public PossibleActionList(final IBoard board,
                               final IMediator mediator,
                               final IStoryGame storyGame) {
+        this.board = board;
         this.mediator = mediator;
+        this.storyGame = storyGame;
 
         this.potentialPatterns = new PotentialBasicPatterns(mediator, board, storyGame);
         this.realPatterns = new RealBasicPatterns(mediator, board, storyGame);
@@ -43,10 +46,12 @@ public class PossibleActionList implements IPossibleActionList {
      * @param possibleActionList
      */
     public PossibleActionList(final PossibleActionList possibleActionList) {
+        this.board = possibleActionList.board;
         this.mediator = new Mediator(possibleActionList.mediator);
+        this.storyGame = new StoryGame((StoryGame) possibleActionList.storyGame);
 
-        this.potentialPatterns = possibleActionList.potentialPatterns;
-        this.realPatterns = possibleActionList.realPatterns;
+        this.potentialPatterns = new PotentialBasicPatterns(mediator,possibleActionList.board, storyGame);
+        this.realPatterns = new RealBasicPatterns(mediator, possibleActionList.board, storyGame);
 
         this.realFigureActions = copyAction(possibleActionList.realFigureActions);
         this.potentialFigureAction = copyAction(possibleActionList.potentialFigureAction);
@@ -59,6 +64,10 @@ public class PossibleActionList implements IPossibleActionList {
             actions.put(figure, fields);
         }
         return actions;
+    }
+
+    public IStoryGame getStoryGame() {
+        return storyGame;
     }
 
     @Override
