@@ -40,30 +40,42 @@ public class PossibleActionList implements IPossibleActionList {
         this.potentialFigureAction = new HashMap<>();
     }
 
-    /**
-     * конструктор копирования
-     *
-     * @param possibleActionList
-     */
-    public PossibleActionList(final PossibleActionList possibleActionList) {
-        this.board = possibleActionList.board;
-        this.mediator = new Mediator(possibleActionList.mediator);
-        this.storyGame = new StoryGame((StoryGame) possibleActionList.storyGame);
+    public PossibleActionList(final IBoard board,
+                              final IMediator mediator,
+                              final IStoryGame storyGame,
+                              final Map<Figure, Collection<IField>> realFigureActions,
+                              final Map<Figure, Collection<IField>> potentialFigureAction) {
+        this.board = board;
+        this.mediator = mediator;
+        this.storyGame = storyGame;
 
-        this.potentialPatterns = new PotentialBasicPatterns(mediator,possibleActionList.board, storyGame);
-        this.realPatterns = new RealBasicPatterns(mediator, possibleActionList.board, storyGame);
+        this.potentialPatterns = new PotentialBasicPatterns(mediator, board, storyGame);
+        this.realPatterns = new RealBasicPatterns(mediator, board, storyGame);
 
-        this.realFigureActions = copyAction(possibleActionList.realFigureActions);
-        this.potentialFigureAction = copyAction(possibleActionList.potentialFigureAction);
+        this.realFigureActions = new HashMap<>(realFigureActions);
+        this.potentialFigureAction = new HashMap<>(potentialFigureAction);
     }
 
-    private Map<Figure, Collection<IField>> copyAction(Map<Figure, Collection<IField>> copy) {
-        Map<Figure, Collection<IField>> actions = new HashMap<>();
-        for (final Figure figure : copy.keySet()) {
-            Collection<IField> fields = copy.get(figure);
-            actions.put(figure, fields);
+
+    public void addRealField(final Figure figure, final IField finishField){
+        if(realFigureActions.isEmpty()) {
+            realFigureActions.put(figure,new ArrayList<>());
         }
-        return actions;
+        realFigureActions.get(figure).add(finishField);
+    }
+    public void clearRealList(final Figure figure, final IField finishField){
+        if(realFigureActions.isEmpty()) {
+            realFigureActions.put(figure,new ArrayList<>());
+        }
+        realFigureActions.get(figure).add(finishField);
+    }
+
+    public Map<Figure, Collection<IField>> getRealFigureActions() {
+        return realFigureActions;
+    }
+
+    public Map<Figure, Collection<IField>> getPotentialFigureAction() {
+        return potentialFigureAction;
     }
 
     public IStoryGame getStoryGame() {
@@ -95,6 +107,7 @@ public class PossibleActionList implements IPossibleActionList {
         return realFigureActions.get(figure);
     }
 
+    private static int count = 0;
     @Override
     public void updateRealLists() {
         updatePotentialLists();

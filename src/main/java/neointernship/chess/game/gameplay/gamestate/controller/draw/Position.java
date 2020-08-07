@@ -22,8 +22,7 @@ public class Position implements Comparable<Position> {
     private double price;
 
     public Position(final IMediator mediator, final IPossibleActionList possibleActionList) {
-        this.mediator = new Mediator(mediator);
-//        this.possibleActionList = new PossibleActionList((PossibleActionList) possibleActionList);
+        this.mediator = mediator;
         this.possibleActionList = (PossibleActionList) possibleActionList;
     }
 

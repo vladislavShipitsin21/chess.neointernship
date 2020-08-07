@@ -17,7 +17,6 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
         this.board = board;
     }
 
-
     private void printBoard(final IMediator mediator){
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_BLACK = "\u001B[30m";
@@ -66,11 +65,11 @@ public class ConsoleBoardWriter implements IConsoleBoardWriter {
 
     @Override
     public void printPosition(Position position) {
-        System.out.println(position.getPrice());
+        System.out.println("цена : " + position.getPrice());
         printBoard(position.getMediator());
     }
 
-    public void printAnswer(IAnswer answer){
+    public static void printAnswer(IAnswer answer){
         IField start = new Field(answer.getStartX(),answer.getStartY());
         IField finish = new Field(answer.getFinalX(),answer.getFinalY());
         System.out.println(start.showField() + " - " + finish.showField());

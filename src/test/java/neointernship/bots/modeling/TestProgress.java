@@ -1,12 +1,13 @@
 package neointernship.bots.modeling;
 
+import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
+import neointernship.chess.game.model.answer.Answer;
+import neointernship.chess.game.model.answer.AnswerSimbol;
+import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.piece.Figure;
-import neointernship.chess.game.model.figure.piece.King;
-import neointernship.chess.game.model.figure.piece.Pawn;
-import neointernship.chess.game.model.figure.piece.Rook;
+import neointernship.chess.game.model.figure.piece.*;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.Board;
@@ -18,163 +19,155 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertEquals;
 import static neointernship.bots.InitGameMap.initGameMap;
-import static org.junit.Assert.assertEquals;
+import static neointernship.chess.game.model.enums.Color.WHITE;
 
 public class TestProgress {
 
-    @Test
-    public void testTwoPawnBlock(){
-        Map<Integer,Integer> levelExpectedMap = new HashMap<>();
-        levelExpectedMap.put(1,2);
-        levelExpectedMap.put(2,4);
-        levelExpectedMap.put(3,3);
-        levelExpectedMap.put(4,1);
 
-        for(Integer level : levelExpectedMap.keySet()){
-            final int expected = levelExpectedMap.get(level);
-            final int actual = twoPawnBlock(level);
-            assertEquals(expected,actual);
-        }
-    }
-    private int twoPawnBlock(int level){
+    private IAnswer twoPawnAttack(int level){
         IMediator mediator = new Mediator();
         StoryGame storyGame = new StoryGame(mediator);
 
-        Figure figureW = new Pawn(Color.WHITE);
-        IField fieldW = new Field(6,0);
-        mediator.addNewConnection(fieldW,figureW);
+        Figure figureBishop = new Bishop(WHITE);
+        IField fieldWB = new Field(7,7);
+        mediator.addNewConnection(fieldWB,figureBishop);
 
-        Figure figureB = new Pawn(Color.BLACK);
-        IField fieldB = new Field(1,0);
-        mediator.addNewConnection(fieldB,figureB);
+        Figure figureB1 = new Pawn(Color.BLACK);
+        IField fieldB1 = new Field(4,4);
+        mediator.addNewConnection(fieldB1,figureB1);
+
+        Figure figureB2 = new Pawn(Color.BLACK);
+        IField fieldB2 = new Field(3,5);
+        mediator.addNewConnection(fieldB2,figureB2);
+
 
         PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
         list.updateRealLists();
 
         Position startPosition = new Position(mediator,list);
 
-        return Progressing.progress(startPosition,level);
+        return Progressing.getSolution(startPosition,WHITE,level);
     }
+
     @Test
-    public void testTwoPawnFree(){
-        Map<Integer,Integer> levelExpectedMap = new HashMap<>();
-        /*levelExpectedMap.put(1,2);
-        levelExpectedMap.put(2,4);*/
-        levelExpectedMap.put(3,4);
-//        levelExpectedMap.put(4,1);*/
+    public void testTransformete(){
+        Map<Integer,IAnswer> levelExpectedMap = new HashMap<>();
+        levelExpectedMap.put(1,new AnswerSimbol(1,0,0,0,'Q'));
+//        levelExpectedMap.put(2,new Answer(7,7,6,6,'Q'));
+//        levelExpectedMap.put(3,3.);
+//        levelExpectedMap.put(4,1.);
 
         for(Integer level : levelExpectedMap.keySet()){
-            final int expected = levelExpectedMap.get(level);
-            final int actual = twoPawnFree(level);
+            final IAnswer expected = levelExpectedMap.get(level);
+            final IAnswer actual = transformate(level);
             assertEquals(expected,actual);
         }
     }
-    private int twoPawnFree(int level){
+    private IAnswer transformate(int level){
         IMediator mediator = new Mediator();
         StoryGame storyGame = new StoryGame(mediator);
 
-        Figure figureW = new Pawn(Color.WHITE);
-        IField fieldW = new Field(6,0);
+        Figure figureW = new Pawn(WHITE);
+        IField fieldW = new Field(1,0);
         mediator.addNewConnection(fieldW,figureW);
-
-        Figure figureB = new Pawn(Color.BLACK);
-        IField fieldB = new Field(1,7);
-        mediator.addNewConnection(fieldB,figureB);
 
         PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
         list.updateRealLists();
 
         Position startPosition = new Position(mediator,list);
 
-        return Progressing.progress(startPosition,level);
+        return Progressing.getSolution(startPosition,WHITE,level);
     }
 
 
     @Test
-    public void testTwoRook(){
-        Map<Integer,Integer> levelExpectedMap = new HashMap<>();
-        levelExpectedMap.put(1,14);
-        levelExpectedMap.put(2,196);
-        /*levelExpectedMap.put(3,27);
-        levelExpectedMap.put(4,81);*/
-
-        for(Integer level : levelExpectedMap.keySet()){
-            final int expected = levelExpectedMap.get(level);
-            final int actual = twoRook(level);
-            assertEquals(expected,actual);
-        }
-    }
-    private int twoRook(int level){
+    public void testMateLevel2(){
         IMediator mediator = new Mediator();
         StoryGame storyGame = new StoryGame(mediator);
 
-        Figure figureW = new Rook(Color.WHITE);
-        IField fieldW = new Field(0,0);
-        mediator.addNewConnection(fieldW,figureW);
+        Figure whiteKing = new King(WHITE);
+        IField fieldWhiteKing = new Field(0,3);
+        mediator.addNewConnection(fieldWhiteKing,whiteKing);
 
-        Figure figureB = new Rook(Color.BLACK);
-        IField fieldB = new Field(7,7);
-        mediator.addNewConnection(fieldB,figureB);
+        Figure whiteQueen = new Rook(WHITE);
+        IField fieldQ = new Field(7,1);
+        mediator.addNewConnection(fieldQ,whiteQueen);
+
+        Figure blackKing = new King(Color.BLACK);
+        IField fieldBlackKing = new Field(0,0);
+        mediator.addNewConnection(fieldBlackKing,blackKing);
+
 
         PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
         list.updateRealLists();
 
         Position startPosition = new Position(mediator,list);
 
-        return Progressing.progress(startPosition,level);
-    }
+        IAnswer actual =  Progressing.getSolution(startPosition,WHITE,4);
 
+        IAnswer expected = new AnswerSimbol(0,3,1,2,'Q');
+
+        ConsoleBoardWriter.printAnswer(actual);
+
+        assertEquals(expected,actual);
+    }
     @Test
-    public void testTwoKing(){
-        Map<Integer,Integer> levelExpectedMap = new HashMap<>();
-        levelExpectedMap.put(1,3);
-        levelExpectedMap.put(2,9);
-        levelExpectedMap.put(3,27);
-        levelExpectedMap.put(4,81);
-
-        for(Integer level : levelExpectedMap.keySet()){
-            if(level == 4){
-                System.out.println();
-            }
-            final int expected = levelExpectedMap.get(level);
-            final int actual = testTwoKing(level);
-            assertEquals(expected,actual);
-        }
-    }
-    private int testTwoKing(int level){
+    public void testMateLevel1(){
         IMediator mediator = new Mediator();
         StoryGame storyGame = new StoryGame(mediator);
 
-        Figure figureW = new King(Color.WHITE);
-        IField fieldW = new Field(0,0);
-        mediator.addNewConnection(fieldW,figureW);
+        Figure whiteKing = new King(WHITE);
+        IField fieldWhiteKing = new Field(2,2);
+        mediator.addNewConnection(fieldWhiteKing,whiteKing);
 
-        Figure figureB = new King(Color.BLACK);
-        IField fieldB = new Field(7,7);
-        mediator.addNewConnection(fieldB,figureB);
+        Figure whiteQueen = new Queen(WHITE);
+        IField fieldQ = new Field(7,1);
+        mediator.addNewConnection(fieldQ,whiteQueen);
+
+        Figure blackKing = new King(Color.BLACK);
+        IField fieldBlackKing = new Field(0,0);
+        mediator.addNewConnection(fieldBlackKing,blackKing);
+
 
         PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
         list.updateRealLists();
 
         Position startPosition = new Position(mediator,list);
 
-        return Progressing.progress(startPosition,level);
+        IAnswer answer =  Progressing.getSolution(startPosition,WHITE,1);
+
+        ConsoleBoardWriter.printAnswer(answer);
     }
-
     @Test
-    public void testStartPositionLevel2(){
-        IMediator mediator = initGameMap();
-
+    public void testMateRookLevel1(){
+        IMediator mediator = new Mediator();
         StoryGame storyGame = new StoryGame(mediator);
 
+        Figure whiteKing = new King(WHITE);
+        IField fieldWhiteKing = new Field(1,2);
+        mediator.addNewConnection(fieldWhiteKing,whiteKing);
+
+        Figure whiteQueen = new Rook(WHITE);
+        IField fieldQ = new Field(7,1);
+        mediator.addNewConnection(fieldQ,whiteQueen);
+
+        Figure blackKing = new King(Color.BLACK);
+        IField fieldBlackKing = new Field(0,0);
+        mediator.addNewConnection(fieldBlackKing,blackKing);
+
+
         PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
         list.updateRealLists();
 
         Position startPosition = new Position(mediator,list);
 
-        int result = Progressing.progress(startPosition,2);
+        IAnswer answer =  Progressing.getSolution(startPosition,WHITE,1);
 
-        assertEquals(400,result);
+        ConsoleBoardWriter.printAnswer(answer);
+        IAnswer expected = new AnswerSimbol(7,1,7,0,'Q');
+
+        assertEquals(expected,answer);
     }
 }

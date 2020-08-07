@@ -1,11 +1,10 @@
 package neointernship.bots.modeling;
 
-import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.gameplay.moveaction.commands.allow.AllowMoveCommand;
 import neointernship.chess.game.gameplay.moveaction.commands.allow.IAllowCommand;
-import neointernship.chess.game.model.answer.Answer;
+import neointernship.chess.game.model.answer.AnswerSimbol;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -25,38 +24,40 @@ public class Modeling {
 
     private static final IBoard board = new Board();
 
-    // не возвращает одинаковые позиции
     public static Map<Position,IAnswer> modeling(final Position actualPosition,
                                                 final Color activeColor){
+
         final Map<Position,IAnswer> positions = new HashMap<>();
-        final Collection<Figure> figures = actualPosition.getMediator().getFigures(activeColor);
         final IMediator mediator = actualPosition.getMediator();
+        final Collection<Figure> figures = mediator.getFigures(activeColor);
         final PossibleActionList possibleActionList = actualPosition.getPossibleActionList();
 
         for(final Figure figure : figures){
             for(final IField finishField : possibleActionList.getRealList(figure)){
 
-                IField startField = actualPosition.getMediator().getField(figure);
+                IField startField = mediator.getField(figure);
 
                 // определить тип хода
                 IMediator newMediator = new Mediator(mediator);
                 IStoryGame newStoryGame = new StoryGame((StoryGame)possibleActionList.getStoryGame());
-                IPossibleActionList newPossibleActionList = new PossibleActionList(new Board(),newMediator,newStoryGame);
+                PossibleActionList newPossibleActionList = new PossibleActionList(new Board(), newMediator, newStoryGame);
 
                 AllowMoveCommand allowMoveCommand =
                         new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);
 
                 IAllowCommand command = allowMoveCommand.getCommand(startField, finishField);
-                IAnswer answer = new Answer(
+                IAnswer answer = new AnswerSimbol(
                         startField.getXCoord(),
                         startField.getYCoord(),
                         finishField.getXCoord(),
                         finishField.getYCoord(),
                         'Q');
 
-                command.execute(answer);
-                // перейти к следующему ходу
+                command.execute(answer); // todo если превращение то выдывать другие варианты
+
+                newStoryGame.update(figure);
                 newPossibleActionList.updateRealLists();
+
                 Position newPosition = new Position(newMediator,newPossibleActionList);
                 positions.put(newPosition,answer);
             }

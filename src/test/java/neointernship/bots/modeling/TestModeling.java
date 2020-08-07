@@ -42,7 +42,6 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositions = Modeling.modeling(startPosition,Color.WHITE);
 
         for(Position position : resultPositions.keySet()) {
-            printer.printAnswer(resultPositions.get(position));
             printer.printPosition(position);
         }
         assertEquals(20,resultPositions.size());
@@ -72,7 +71,6 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositionsAll = new HashMap<>();
 
         for(Position position : resultPositions.keySet()) {
-            printer.printAnswer(resultPositions.get(position));
             printer.printPosition(position);
             resultPositionsAll.putAll(Modeling.modeling(position,Color.WHITE));
         }
@@ -80,7 +78,6 @@ public class TestModeling {
         System.out.println("второй уровень");
 
         for(Position position : resultPositionsAll.keySet()) {
-            printer.printAnswer(resultPositionsAll.get(position));
             printer.printPosition(position);
         }
         assertEquals(16,resultPositionsAll.size());
@@ -110,7 +107,6 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositionsAll = new HashMap<>();
 
         for(Position position : resultPositions.keySet()) {
-            printer.printAnswer(resultPositions.get(position));
             printer.printPosition(position);
             resultPositionsAll.putAll(Modeling.modeling(position,Color.BLACK));
         }
@@ -118,7 +114,6 @@ public class TestModeling {
         System.out.println("второй уровень");
 
         for(Position position : resultPositionsAll.keySet()) {
-            printer.printAnswer(resultPositionsAll.get(position));
             printer.printPosition(position);
         }
         assertEquals(8,resultPositionsAll.size());
@@ -149,7 +144,6 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositionsAll = new HashMap<>();
 
         for(Position position : resultPositions.keySet()) {
-            printer.printAnswer(resultPositions.get(position));
             printer.printPosition(position);
             resultPositionsAll.putAll(Modeling.modeling(position,Color.BLACK));
         }
@@ -157,7 +151,6 @@ public class TestModeling {
         System.out.println("второй уровень");
 
         for(Position position : resultPositionsAll.keySet()) {
-            printer.printAnswer(resultPositionsAll.get(position));
             printer.printPosition(position);
         }
         assertEquals(9,resultPositionsAll.size());
@@ -188,7 +181,6 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositionsThree = new HashMap<>();
 
         for(Position position : resultPositionsOne.keySet()) {
-            printer.printAnswer(resultPositionsOne.get(position));
             printer.printPosition(position);
             resultPositionsTwo.putAll(Modeling.modeling(position,Color.BLACK));
         }
@@ -196,7 +188,6 @@ public class TestModeling {
         System.out.println("второй уровень");
 
         for(Position position : resultPositionsTwo.keySet()) {
-            printer.printAnswer(resultPositionsTwo.get(position));
             printer.printPosition(position);
             resultPositionsThree.putAll(Modeling.modeling(position,Color.WHITE));
         }
@@ -204,7 +195,6 @@ public class TestModeling {
         System.out.println("третий уровень");
 
         for(Position position : resultPositionsThree.keySet()) {
-            printer.printAnswer(resultPositionsThree.get(position));
             printer.printPosition(position);
         }
 
@@ -237,7 +227,6 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositionsFour = new HashMap<>();
 
         for(Position position : resultPositionsOne.keySet()) {
-            printer.printAnswer(resultPositionsOne.get(position));
             printer.printPosition(position);
             resultPositionsTwo.putAll(Modeling.modeling(position,Color.BLACK));
         }
@@ -245,7 +234,6 @@ public class TestModeling {
         System.out.println("второй уровень");
 
         for(Position position : resultPositionsTwo.keySet()) {
-            printer.printAnswer(resultPositionsTwo.get(position));
             printer.printPosition(position);
             resultPositionsThree.putAll(Modeling.modeling(position,Color.WHITE));
         }
@@ -253,7 +241,6 @@ public class TestModeling {
         System.out.println("третий уровень");
 
         for(Position position : resultPositionsThree.keySet()) {
-            printer.printAnswer(resultPositionsThree.get(position));
             printer.printPosition(position);
             resultPositionsFour.putAll(Modeling.modeling(position,Color.BLACK));
         }
@@ -261,7 +248,6 @@ public class TestModeling {
         System.out.println("четвертый уровень");
 
         for(Position position : resultPositionsFour.keySet()) {
-            printer.printAnswer(resultPositionsFour.get(position));
             printer.printPosition(position);
         }
 

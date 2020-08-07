@@ -13,9 +13,10 @@ public class SelfPlay {
         final int countBot = 2;
         final int countGame = 1;
 
-
-
         for (int i = 0; i < countGame ; i++) {
+            int timeStartM = LocalTime.now().getMinute();
+            int timeStartS = LocalTime.now().getSecond();
+            System.out.println("start : " + i);
 
             ControllerRandomBot controllerRandomBots = new ControllerRandomBot(0);
             ControllerFirstBot controllerFirstBot = new ControllerFirstBot(0);
@@ -28,6 +29,12 @@ public class SelfPlay {
 
             thread1.join();
             thread2.join();
+            int timeFinishM = LocalTime.now().getMinute();
+            int timeFinishS = LocalTime.now().getSecond();
+
+            System.out.println(timeFinishM - timeStartM + "cek");
+            System.out.println(timeFinishS - timeStartS + "cek");
+            System.out.println("finish : " + i);
         }
     }
 }

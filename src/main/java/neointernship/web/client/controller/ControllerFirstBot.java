@@ -54,6 +54,7 @@ public class ControllerFirstBot implements Runnable {
 
     private void initPlayer() {
         player = new FirstBot(Color.BOTH, name, new InputVoid());
+        ErrorLoggerClient.addLogger(name);
     }
 
     private void startConnection() {

@@ -1,104 +1,120 @@
 package neointernship.bots.modeling;
 
+import neointernship.bots.functionsH.TargetFunction;
 import neointernship.chess.game.console.ConsoleBoardWriter;
-import neointernship.chess.game.gameplay.activecolorcontroller.ActiveColorController;
+import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
+import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
+import neointernship.chess.game.gameplay.gamestate.state.GameState;
+import neointernship.chess.game.gameplay.gamestate.state.IGameState;
+import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.enums.EnumGameState;
+import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.Board;
+import neointernship.chess.game.story.IStoryGame;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import static neointernship.chess.game.model.enums.Color.swapColor;
 
 public class Progressing {
 
     private static int MAX_DEPTH = 0;
 
-    public static void print(Position position,int depth){
-        ConsoleBoardWriter printer = new ConsoleBoardWriter(position.getMediator(),new Board());
+    public static void print(Position position, int depth) {
+        ConsoleBoardWriter printer = new ConsoleBoardWriter(position.getMediator(), new Board());
         System.out.println("глубина : " + depth);
         printer.printPosition(position);
     }
 
+
+    public static IGameState getStatePosition(final Position position, final Color activeColor) {
+        PossibleActionList possibleActionList = position.getPossibleActionList();
+        IMediator mediator = position.getMediator();
+        IStoryGame storyGame = possibleActionList.getStoryGame();
+        GameStateController gameStateController =
+                new GameStateController(possibleActionList, mediator, storyGame);
+
+        gameStateController.updateWithoutUpdateList(activeColor);
+
+        return gameStateController.getState();
+    }
+    public static boolean isTerminal(final IGameState gameState){
+        return gameState.getValue() != EnumGameState.ALIVE;
+    }
+
+
+    private static double getMaxPrice(final Set<Position> positions) {
+        return positions.stream().max(Position::compareTo).get().getPrice();
+    }
+
+    private static double getMinPrice(final Set<Position> positions) {
+        return positions.stream().min(Position::compareTo).get().getPrice();
+    }
+
     // пока возвращает количесвто узлов для заданной глубины
-    public static int progress(final Set<Position> positions,
-                               int depth,
-                               final ActiveColorController activeColorController,
-                               final Set<Position> allPosition) {
-        int count = 0;
+    private static double subProgress(final Set<Position> positions,
+                                      int depth,
+                                      final Color playerColor) {
+
+        final boolean isMax = depth % 2 == 0;
+        int startLabel = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        final Color currentColor = isMax ? playerColor : swapColor(playerColor);
 
         // достиг максимальной глубины
         if (depth >= MAX_DEPTH) {
-            allPosition.addAll(positions);
             for (Position position : positions) {
-                //print(position,depth);
+                final IGameState gameState = getStatePosition(position, currentColor);
+                position.setPrice(TargetFunction.price(position, playerColor, currentColor,gameState));
             }
-            return positions.size();
+            // среди всех тернарных узлов выбрать с нужной ценностью
+            return isMax ? getMinPrice(positions) : getMaxPrice(positions);
         }
-        int startLabel = depth % 2 == 0 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-        final Color activeColor = depth % 2 == 0 ? Color.WHITE : Color.BLACK; // изменить для входного цвета
 
         depth++;
 
         for (Position position : positions) {
+
             position.setPrice(startLabel);
+            final IGameState gameState = getStatePosition(position, currentColor);
+            // если достиг терминального узла
+            if (isTerminal(gameState)) {
+                position.setPrice(TargetFunction.price(position, playerColor, currentColor,gameState ));
+            } else {
 
-            //print(position,depth);
+                final Set<Position> result = Modeling.modeling(position, currentColor).keySet();
 
-            final Set<Position> result = Modeling.modeling(position,activeColor).keySet();
-//            final Map<Position, IAnswer> result = new HashMap<>(Modeling.modeling(position, activeColor));
-
-            for (Position position1 : result) {
-                //print(position1,depth);
+                double resultIter = subProgress(result, depth, playerColor);
+                // выбрать максимум из результата функции и текущим состоянием позиции
+                if (isMax) {
+                    position.setPrice(Math.max(position.getPrice(), resultIter));
+                } else {
+                    position.setPrice(Math.min(position.getPrice(), resultIter));
+                }
             }
-            count += progress(result,depth,activeColorController,allPosition);
         }
-        return allPosition.size();
+        return getMaxPrice(positions);
     }
 
-    public static int progress(final Position startPosition,final int maxDepth){
-        Set<Position> positions = new HashSet<>();
-        Set<Position> allpositions = new HashSet<>();
-        positions.add(startPosition);
+    public static IAnswer getSolution(final Position startPpositions,
+                                      final Color activeColor,
+                                      final int maxDepth) {
         MAX_DEPTH = maxDepth;
+        final Map<Position, IAnswer> resultMap = Modeling.modeling(startPpositions, activeColor);
 
-        ActiveColorController activeColorController = new ActiveColorController();
-        activeColorController.update();
+        for (Position position : resultMap.keySet()) {
+            // ожидаю что у первых потомков цена уже посчитана и записанна
+            Set<Position> positions = new HashSet<>();
+            positions.add(position);
+            subProgress(positions, 1, activeColor);
+        }
+        // максимизирую свой выигрыш
+        Position finishPosition = resultMap.keySet().stream().max(Position::compareTo).get();
 
-        final int count = progress(positions,0,activeColorController,allpositions);
-
-       // System.out.println("size positions : " + allpositions.size());
-
-        return count;
+        print(finishPosition, 0);
+        return resultMap.get(finishPosition);
     }
-
-   /* public static IAnswer progress2(final Collection<Position> positions,
-                                    int depth,
-                                    final ActiveColorController activeColorController) {
-        int count = 0;
-        IAnswer answerResult = null;
-
-        activeColorController.update();
-        final Color activeColor = activeColorController.getCurrentColor();
-
-        // достиг максимальной глубины
-        if (depth >= MAX_DEPTH) {
-            // оценка позиции
-           // return positions.size();
-        }
-
-        int startLabel = depth % 2 == 0 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-
-        depth++;
-
-        for (Position position : positions) {
-
-            position.setPrice(startLabel);
-
-            final Collection<Position> result = Modeling.modeling(position,activeColor).keySet();
-            count += progress(result,depth,activeColorController);
-        }
-        return answerResult;
-    }*/
-
-
 }

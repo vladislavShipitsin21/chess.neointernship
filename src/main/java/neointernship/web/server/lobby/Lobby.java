@@ -228,7 +228,7 @@ public class Lobby extends Thread {
             sendUpdatedMediator(answer, turnStatus);
 
             // todo рисование на сервере
-             boardWriter.printBoard();
+//             boardWriter.printBoard();
         }
 
         gameLoop.getMatchResult();

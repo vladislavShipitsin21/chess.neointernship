@@ -6,5 +6,4 @@ import neointernship.chess.game.model.answer.IAnswer;
 public interface IConsoleBoardWriter {
     void printBoard();
     void printPosition(final Position position);
-    void printAnswer(IAnswer answer);
 }

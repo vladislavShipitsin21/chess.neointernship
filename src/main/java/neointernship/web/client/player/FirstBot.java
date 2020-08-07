@@ -2,6 +2,7 @@ package neointernship.web.client.player;
 
 import neointernship.bots.functionsH.TargetFunction;
 import neointernship.bots.modeling.Modeling;
+import neointernship.bots.modeling.Progressing;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
@@ -62,20 +63,7 @@ public class FirstBot extends APlayer {
 
         Position startPosition = new Position(mediator,possibleActionList);
 
-        Map<Position,IAnswer> positionIAnswerMap = Modeling.modeling(startPosition,getColor());
-
-        Collection<Position> finishPositions = positionIAnswerMap.keySet();
-
-        // оценить каждую позицию
-
-        for(Position position : finishPositions){
-           position.setPrice(TargetFunction.price(position,getColor()));
-        }
-//        Position finish = finishPositions.stream().sorted(Position::compareTo).collect(Collectors.toList()).get(0);
-        Position finish = finishPositions.stream().max(Position::compareTo).get();
-
-
-        IAnswer answer = positionIAnswerMap.get(finish);
+        IAnswer answer = Progressing.getSolution(startPosition,getColor(),2);
 
         final IField startField = new Field(answer.getStartX(),answer.getStartY());
         final IField finishField = new Field(answer.getFinalX(),answer.getFinalY());
