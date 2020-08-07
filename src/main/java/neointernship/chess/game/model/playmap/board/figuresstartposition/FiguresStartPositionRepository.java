@@ -20,7 +20,7 @@ public class FiguresStartPositionRepository {
             "PPPPPPPP" +
             "RNBKQBNR";
 
-    private static final String FISCHER_CHESS_FIGURES_POSITION = ""; // TODO
+    private static final String FISCHER_CHESS_FIGURES_POSITION = "";
 
 
     public FiguresStartPositionRepository() {

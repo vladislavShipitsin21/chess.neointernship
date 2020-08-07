@@ -86,7 +86,7 @@ public class Lobby extends Thread {
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();
 
-        //TODO:
+
         GameLogger.addLogger(lobbyId);
 
         gameLoop = new GameLoop(mediator, possibleActionList, board, activeColorController, storyGame);
@@ -226,7 +226,9 @@ public class Lobby extends Thread {
             if (answerMsg.getClientCodes() == ClientCodes.END_GAME) break;
 
             sendUpdatedMediator(answer, turnStatus);
-            // boardWriter.printBoard();
+
+            // todo рисование на сервере
+//             boardWriter.printBoard();
         }
 
         gameLoop.getMatchResult();

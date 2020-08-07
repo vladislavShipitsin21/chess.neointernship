@@ -5,10 +5,14 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 
-public interface IPlayer {
-    Color getColor();
+public abstract class Bot extends Player {
 
-    String getName();
+    public Bot(String name, Color color) {
+        super(name + " bot", color);
+    }
 
-    IAnswer getAnswer(final IMediator mediator, IPossibleActionList possibleActionList);
+    @Override
+    public IAnswer getAnswer(final IMediator mediator, IPossibleActionList possibleActionList) {
+        return null;
+    }
 }

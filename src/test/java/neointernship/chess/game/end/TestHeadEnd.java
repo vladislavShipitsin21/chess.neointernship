@@ -57,6 +57,10 @@ public class TestHeadEnd {
         possibleActionList.updateRealLists();
     }
 
+    public void updateColor() {
+        activeColorController.update();
+    }
+
     private void initMediator(final Map<IField, Figure> figureMap) {
         for (IField field : figureMap.keySet()) {
             mediator.addNewConnection(field, figureMap.get(field));
@@ -64,9 +68,11 @@ public class TestHeadEnd {
     }
 
     public void doAllowIteration(final IAnswer answer) {
+        printBoard();
         TurnStatus turnStatus = gameLoop.doIteration(answer);
         assertNotEquals(TurnStatus.ERROR, turnStatus);
         activeColorController.update();
+        printBoard();
     }
 
     public void doRestringIteration(final IAnswer answer) {
@@ -81,6 +87,7 @@ public class TestHeadEnd {
 
     public void doIterations(final Map<Integer, IAnswer> map) {
         for (Integer i : map.keySet()) {
+            printBoard();
             final IAnswer answer = map.get(i);
             TurnStatus turnStatus = gameLoop.doIteration(answer);
             assertEquals(EnumGameState.ALIVE, getState().getValue());

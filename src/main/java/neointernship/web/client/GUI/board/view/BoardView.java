@@ -10,7 +10,7 @@ import neointernship.web.client.GUI.board.labels.labelsgetter.LabelsRepository;
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardView extends JFrame {
+public class BoardView extends JFrame implements IBoardView {
     private final IBoard board;
     private final IMediator mediator;
 
@@ -44,6 +44,7 @@ public class BoardView extends JFrame {
         startUpdate();
     }
 
+    @Override
     public void display() {
         contentPane.setLayout(gridLayout);
         for (int i = 0; i < board.getSize(); i++) {
@@ -62,6 +63,7 @@ public class BoardView extends JFrame {
         setVisible(true);
     }
 
+    @Override
     public void update() {
         for (int i = 0; i < board.getSize(); i++) {
             getContentPane().remove(sideLetters[i]);

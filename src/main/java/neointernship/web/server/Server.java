@@ -107,10 +107,6 @@ public class Server implements IServer {
         final String name;
         final Color color;
 
-        /*
-        TODO с Андреем: принятие цвета,
-         приведение цвета к Color
-         */
         try {
             final IMessage message = new Message(ClientCodes.INIT_INFO);
             send(out, MessageSerializer.serialize(message));
