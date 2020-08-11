@@ -81,7 +81,6 @@ public class TestProgress {
         return Progressing.getSolution(startPosition,WHITE,level);
     }
 
-
     @Test
     public void testMateLevel2(){
         IMediator mediator = new Mediator();
@@ -136,6 +135,8 @@ public class TestProgress {
 
         Position startPosition = new Position(mediator,list);
 
+        Progressing.print(startPosition,0);
+
         IAnswer answer =  Progressing.getSolution(startPosition,WHITE,1);
 
         ConsoleBoardWriter.printAnswer(answer);
@@ -169,5 +170,33 @@ public class TestProgress {
         IAnswer expected = new AnswerSimbol(7,1,7,0,'Q');
 
         assertEquals(expected,answer);
+    }
+
+    @Test
+    public void testPawn(){
+        IMediator mediator = new Mediator();
+        StoryGame storyGame = new StoryGame(mediator);
+
+        Figure whiteKing = new King(WHITE);
+        IField fieldWhiteKing = new Field(7,7);
+        mediator.addNewConnection(fieldWhiteKing,whiteKing);
+
+        Figure whitePawn = new Pawn(WHITE);
+        IField fieldQ = new Field(6,4);
+        mediator.addNewConnection(fieldQ,whitePawn);
+
+        Figure blackKing = new King(Color.BLACK);
+        IField fieldBlackKing = new Field(0,0);
+        mediator.addNewConnection(fieldBlackKing,blackKing);
+
+        PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
+        list.updateRealLists();
+
+        Position startPosition = new Position(mediator,list);
+
+        IAnswer answer =  Progressing.getSolution(startPosition,WHITE,4);
+
+        ConsoleBoardWriter.printAnswer(answer);
+
     }
 }

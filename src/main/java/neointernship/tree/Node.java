@@ -34,9 +34,4 @@ public class Node implements INode {
     public boolean isLeaf() {
         return edgeSet.isEmpty();
     }
-
-    @Override
-    public boolean isRoot() {
-        return false;
-    }
 }

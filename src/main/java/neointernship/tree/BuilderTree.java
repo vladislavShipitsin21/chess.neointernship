@@ -1,5 +1,6 @@
 package neointernship.tree;
 
+import neointernship.bots.functionsH.TargetFunction;
 import neointernship.bots.modeling.Modeling;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.model.answer.IAnswer;
@@ -28,37 +29,79 @@ public class BuilderTree {
     public INode getTree(final Position startPosition) {
 
         final INode root = new Node(startPosition);
-        getSubTree(root,0);
+        getSubTree(root, 0,Double.MIN_VALUE,Double.MAX_VALUE);
 
         return root;
     }
 
-    private INode getSubTree(final INode subRoot, int depth) {
+    private double getSubTree(final INode subRoot, int depth,double alfa,double beta) {
 
         final boolean isMax = depth % 2 == 0;
         final Color currentColor = isMax ? activeColor : swapColor(activeColor);
+        final int startLabel = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 
-        if(isEndTree(subRoot.getCore(),currentColor,depth))  return subRoot;
+        if (isEndTree(subRoot.getCore(), currentColor, depth)) {
+            final double value = TargetFunction.price(subRoot.getCore(),activeColor,currentColor);
+            subRoot.getCore().setPrice(value);
+            return value;
+        }
 
         depth++;
 
         final Map<Position, IAnswer> map = Modeling.modeling(subRoot.getCore(), currentColor);
 
-        for (Map.Entry<Position, IAnswer> entry : map.entrySet()) {
+        if (isMax) {
 
-            final INode child = new Node(entry.getKey());
-            final IAnswer answer = entry.getValue();
+            subRoot.getCore().setPrice(Integer.MIN_VALUE);
 
-            final IEdge edge = new Edge(child, answer);
-            subRoot.addEdge(edge);
+            for (Map.Entry<Position, IAnswer> entry : map.entrySet()) {
 
-            getSubTree(child,depth);
+                final INode child = new Node(entry.getKey());
+                final IAnswer answer = entry.getValue();
+
+                final IEdge edge = new Edge(child, answer);
+                subRoot.addEdge(edge);
+
+                double value = getSubTree(child, depth,alfa,beta);
+                value = Math.max(subRoot.getCore().getPrice(), value);
+
+                subRoot.getCore().setPrice(value);
+
+                if(value > beta){
+                    return value;
+                }
+
+                alfa = Math.max(alfa,value);
+
+            }
+        } else {
+
+            subRoot.getCore().setPrice(Integer.MAX_VALUE);
+
+            for (Map.Entry<Position, IAnswer> entry : map.entrySet()) {
+
+                final INode child = new Node(entry.getKey());
+                final IAnswer answer = entry.getValue();
+
+                final IEdge edge = new Edge(child, answer);
+                subRoot.addEdge(edge);
+
+                double value = getSubTree(child, depth,alfa,beta);
+                value = Math.min(subRoot.getCore().getPrice(), value);
+
+                subRoot.getCore().setPrice(value);
+
+                if(value < alfa) {
+                    return value;
+                }
+
+                beta = Math.min(beta,value);
+            }
         }
-        return subRoot;
-    }
 
+        return subRoot.getCore().getPrice();
+    }
     private boolean isEndTree(final Position position, final Color currentColor, final int depth) {
-        return depth >= max_depth ;//|| TerminalBoss.isTerminal(position,currentColor);
+        return depth >= max_depth || TerminalBoss.isTerminal(position, currentColor);
     }
-
 }

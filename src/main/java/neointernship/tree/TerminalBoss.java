@@ -26,6 +26,7 @@ public class TerminalBoss {
     public static boolean isTerminal(final IGameState gameState) {
         return gameState.getValue() != EnumGameState.ALIVE;
     }
+
     public static boolean isTerminal(final Position position, final Color activeColor) {
         PossibleActionList possibleActionList = position.getPossibleActionList();
         IMediator mediator = position.getMediator();

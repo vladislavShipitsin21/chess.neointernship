@@ -13,6 +13,9 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
+import neointernship.tree.BuilderTree;
+import neointernship.tree.HelperBuilderTree;
+import neointernship.tree.INode;
 import neointernship.web.client.GUI.Input.IInput;
 import neointernship.web.client.GUI.board.view.BoardView;
 import neointernship.web.client.communication.message.ClientCodes;
@@ -20,14 +23,14 @@ import neointernship.web.client.communication.message.TurnStatus;
 
 import java.util.*;
 
-public class FirstBot extends APlayer {
+public class MiniMaxBot extends APlayer {
 
     private BoardView boardView;
     private IPossibleActionList possibleActionList;
     private final Random random;
     private final IInput input;
 
-    public FirstBot(final Color color, final String name, final IInput input) {
+    public MiniMaxBot(final Color color, final String name, final IInput input) {
         super(color, name);
         this.random = new Random();
         this.input = input;
@@ -53,6 +56,7 @@ public class FirstBot extends APlayer {
 
     @Override
     public String getAnswer() {
+        long timeStart = System.currentTimeMillis();
 
         String turn = "";
 
@@ -63,7 +67,11 @@ public class FirstBot extends APlayer {
 
         Position startPosition = new Position(mediator,possibleActionList);
 
-        IAnswer answer = Progressing.getSolution(startPosition,getColor(),2);
+        BuilderTree builderTree = new BuilderTree(2,getColor());
+        INode root = builderTree.getTree(startPosition);
+
+        IAnswer answer = HelperBuilderTree.getAnswer(root);
+//        IAnswer answer = Progressing.getSolution(startPosition,getColor(),2);
 
         final IField startField = new Field(answer.getStartX(),answer.getStartY());
         final IField finishField = new Field(answer.getFinalX(),answer.getFinalY());
@@ -71,6 +79,8 @@ public class FirstBot extends APlayer {
         turn += turn + chars.get(startField.getYCoord()) + integers.get(startField.getXCoord()) + "-" +
                 chars.get(finishField.getYCoord()) + integers.get(finishField.getXCoord());
 
+        long timeFinish = System.currentTimeMillis();
+        System.out.println("time : " + (timeFinish - timeStart) );
         return turn;
     }
 

@@ -1,13 +1,8 @@
 package neointernship.tree;
 
 import junit.framework.TestCase;
-import neointernship.bots.modeling.Modeling;
-import neointernship.chess.game.console.ConsoleBoardWriter;
-import neointernship.chess.game.console.IConsoleBoardWriter;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
-import neointernship.chess.game.model.answer.AnswerSimbol;
-import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.figure.piece.King;
@@ -97,7 +92,6 @@ public class TestHelper {
             TestCase.assertEquals(expected,actual);
         }
     }
-
     private int twoKing(final int level) {
         IMediator mediator = new Mediator();
         StoryGame storyGame = new StoryGame(mediator);

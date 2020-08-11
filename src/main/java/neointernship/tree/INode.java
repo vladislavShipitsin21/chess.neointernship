@@ -12,6 +12,4 @@ public interface INode {
     void addEdge(final IEdge edge);
 
     boolean isLeaf();
-
-    boolean isRoot();
 }

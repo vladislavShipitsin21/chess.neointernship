@@ -11,7 +11,7 @@ public class SelfPlay {
     public static void main(String[] args) throws InterruptedException {
 
         final int countBot = 2;
-        final int countGame = 1;
+        final int countGame = 10;
 
         for (int i = 0; i < countGame ; i++) {
             int timeStartM = LocalTime.now().getMinute();
@@ -32,7 +32,7 @@ public class SelfPlay {
             int timeFinishM = LocalTime.now().getMinute();
             int timeFinishS = LocalTime.now().getSecond();
 
-            System.out.println(timeFinishM - timeStartM + "cek");
+            System.out.println(timeFinishM - timeStartM + "min");
             System.out.println(timeFinishS - timeStartS + "cek");
             System.out.println("finish : " + i);
         }

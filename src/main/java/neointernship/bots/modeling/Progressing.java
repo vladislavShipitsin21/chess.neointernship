@@ -5,7 +5,6 @@ import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.GameStateController;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
-import neointernship.chess.game.gameplay.gamestate.state.GameState;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
@@ -30,7 +29,6 @@ public class Progressing {
         printer.printPosition(position);
     }
 
-
     public static IGameState getStatePosition(final Position position, final Color activeColor) {
         PossibleActionList possibleActionList = position.getPossibleActionList();
         IMediator mediator = position.getMediator();
@@ -42,10 +40,10 @@ public class Progressing {
 
         return gameStateController.getState();
     }
-    public static boolean isTerminal(final IGameState gameState){
+
+    public static boolean isTerminal(final IGameState gameState) {
         return gameState.getValue() != EnumGameState.ALIVE;
     }
-
 
     private static double getMaxPrice(final Set<Position> positions) {
         return positions.stream().max(Position::compareTo).get().getPrice();
@@ -55,7 +53,6 @@ public class Progressing {
         return positions.stream().min(Position::compareTo).get().getPrice();
     }
 
-    // пока возвращает количесвто узлов для заданной глубины
     private static double subProgress(final Set<Position> positions,
                                       int depth,
                                       final Color playerColor) {
@@ -68,9 +65,8 @@ public class Progressing {
         if (depth >= MAX_DEPTH) {
             for (Position position : positions) {
                 final IGameState gameState = getStatePosition(position, currentColor);
-                position.setPrice(TargetFunction.price(position, playerColor, currentColor,gameState));
+                position.setPrice(TargetFunction.price(position, playerColor, gameState));
             }
-            // среди всех тернарных узлов выбрать с нужной ценностью
             return isMax ? getMinPrice(positions) : getMaxPrice(positions);
         }
 
@@ -82,9 +78,10 @@ public class Progressing {
             final IGameState gameState = getStatePosition(position, currentColor);
             // если достиг терминального узла
             if (isTerminal(gameState)) {
-                position.setPrice(TargetFunction.price(position, playerColor, currentColor,gameState ));
-            } else {
 
+                position.setPrice(TargetFunction.price(position, playerColor, gameState));
+
+            } else {
                 final Set<Position> result = Modeling.modeling(position, currentColor).keySet();
 
                 double resultIter = subProgress(result, depth, playerColor);
@@ -113,8 +110,6 @@ public class Progressing {
         }
         // максимизирую свой выигрыш
         Position finishPosition = resultMap.keySet().stream().max(Position::compareTo).get();
-
-        print(finishPosition, 0);
         return resultMap.get(finishPosition);
     }
 }

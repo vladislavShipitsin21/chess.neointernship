@@ -15,7 +15,7 @@ import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.StoryGame;
 import neointernship.web.client.GUI.Input.InputVoid;
 import neointernship.web.client.player.APlayer;
-import neointernship.web.client.player.FirstBot;
+import neointernship.web.client.player.MiniMaxBot;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -157,16 +157,8 @@ public class TestModeling {
     }
     @Test
     public void testTwoKingLevel3(){
-        IMediator mediator = new Mediator();
+        IMediator mediator = initGameMap();
         StoryGame storyGame = new StoryGame(mediator);
-
-        Figure figureW = new King(Color.WHITE);
-        IField fieldW = new Field(0,0);
-        mediator.addNewConnection(fieldW,figureW);
-
-        Figure figureB = new King(Color.BLACK);
-        IField fieldB = new Field(7,7);
-        mediator.addNewConnection(fieldB,figureB);
 
         IConsoleBoardWriter printer = new ConsoleBoardWriter(mediator,new Board());
 
@@ -181,37 +173,20 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositionsThree = new HashMap<>();
 
         for(Position position : resultPositionsOne.keySet()) {
-            printer.printPosition(position);
             resultPositionsTwo.putAll(Modeling.modeling(position,Color.BLACK));
         }
 
-        System.out.println("второй уровень");
-
         for(Position position : resultPositionsTwo.keySet()) {
-            printer.printPosition(position);
             resultPositionsThree.putAll(Modeling.modeling(position,Color.WHITE));
         }
 
-        System.out.println("третий уровень");
-
-        for(Position position : resultPositionsThree.keySet()) {
-            printer.printPosition(position);
-        }
-
-        assertEquals(27,resultPositionsThree.size());
+        assertEquals(5362 ,resultPositionsThree.size());
     }
     @Test
     public void testTwoKingLevel4(){
-        IMediator mediator = new Mediator();
+        IMediator mediator = initGameMap();
         StoryGame storyGame = new StoryGame(mediator);
 
-        Figure figureW = new King(Color.WHITE);
-        IField fieldW = new Field(0,0);
-        mediator.addNewConnection(fieldW,figureW);
-
-        Figure figureB = new King(Color.BLACK);
-        IField fieldB = new Field(7,7);
-        mediator.addNewConnection(fieldB,figureB);
 
         IConsoleBoardWriter printer = new ConsoleBoardWriter(mediator,new Board());
 
@@ -227,35 +202,24 @@ public class TestModeling {
         Map<Position,IAnswer> resultPositionsFour = new HashMap<>();
 
         for(Position position : resultPositionsOne.keySet()) {
-            printer.printPosition(position);
             resultPositionsTwo.putAll(Modeling.modeling(position,Color.BLACK));
         }
 
-        System.out.println("второй уровень");
-
         for(Position position : resultPositionsTwo.keySet()) {
-            printer.printPosition(position);
             resultPositionsThree.putAll(Modeling.modeling(position,Color.WHITE));
         }
 
-        System.out.println("третий уровень");
-
         for(Position position : resultPositionsThree.keySet()) {
-            printer.printPosition(position);
             resultPositionsFour.putAll(Modeling.modeling(position,Color.BLACK));
         }
 
-        System.out.println("четвертый уровень");
 
-        for(Position position : resultPositionsFour.keySet()) {
-            printer.printPosition(position);
-        }
-
-        assertEquals(81,resultPositionsFour.size());
+        assertEquals(71852 ,resultPositionsFour.size());
     }
+
     @Test
     public void testBot() throws InterruptedException {
-        APlayer player = new FirstBot(Color.WHITE,"first bot",new InputVoid());
+        APlayer player = new MiniMaxBot(Color.WHITE,"first bot",new InputVoid());
         IMediator mediator = new Mediator();
 
         Figure rook = new Rook(Color.WHITE);

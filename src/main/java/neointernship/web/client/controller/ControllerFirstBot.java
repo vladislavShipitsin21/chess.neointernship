@@ -8,7 +8,7 @@ import neointernship.web.client.communication.message.MessageDto;
 import neointernship.web.client.communication.message.ModelMessageReaction;
 import neointernship.web.client.communication.serializer.MessageSerializer;
 import neointernship.web.client.player.APlayer;
-import neointernship.web.client.player.FirstBot;
+import neointernship.web.client.player.MiniMaxBot;
 
 import java.io.*;
 import java.net.Socket;
@@ -53,7 +53,7 @@ public class ControllerFirstBot implements Runnable {
     }
 
     private void initPlayer() {
-        player = new FirstBot(Color.BOTH, name, new InputVoid());
+        player = new MiniMaxBot(Color.BOTH, name, new InputVoid());
         ErrorLoggerClient.addLogger(name);
     }
 

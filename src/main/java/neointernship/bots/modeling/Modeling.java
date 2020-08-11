@@ -18,28 +18,56 @@ import neointernship.chess.game.story.StoryGame;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class Modeling {
 
     private static final IBoard board = new Board();
 
-    public static Map<Position,IAnswer> modeling(final Position actualPosition,
-                                                final Color activeColor){
+    private final Position actualPosition;
+    private final Color activeColor;
 
-        final Map<Position,IAnswer> positions = new HashMap<>();
+    public Modeling(final Position actualPosition, final Color activeColor) {
+        this.actualPosition = actualPosition;
+        this.activeColor = activeColor;
+    }
+
+    public void init() {
+
+    }
+
+    public Iterator<Map.Entry<Position,IAnswer>> getNext() {
+
+        return new Iterator<Map.Entry<Position, IAnswer>>() {
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public Map.Entry<Position, IAnswer> next() {
+                return null;
+            }
+        };
+    }
+
+    public static Map<Position, IAnswer> modeling(final Position actualPosition,
+                                                  final Color activeColor) {
+
+        final Map<Position, IAnswer> positions = new HashMap<>();
         final IMediator mediator = actualPosition.getMediator();
         final Collection<Figure> figures = mediator.getFigures(activeColor);
         final PossibleActionList possibleActionList = actualPosition.getPossibleActionList();
 
-        for(final Figure figure : figures){
-            for(final IField finishField : possibleActionList.getRealList(figure)){
+        for (final Figure figure : figures) {
+            for (final IField finishField : possibleActionList.getRealList(figure)) {
 
                 IField startField = mediator.getField(figure);
 
                 // определить тип хода
                 IMediator newMediator = new Mediator(mediator);
-                IStoryGame newStoryGame = new StoryGame((StoryGame)possibleActionList.getStoryGame());
+                IStoryGame newStoryGame = new StoryGame((StoryGame) possibleActionList.getStoryGame());
                 PossibleActionList newPossibleActionList = new PossibleActionList(new Board(), newMediator, newStoryGame);
 
                 AllowMoveCommand allowMoveCommand =
@@ -58,11 +86,12 @@ public class Modeling {
                 newStoryGame.update(figure);
                 newPossibleActionList.updateRealLists();
 
-                Position newPosition = new Position(newMediator,newPossibleActionList);
-                positions.put(newPosition,answer);
+                Position newPosition = new Position(newMediator, newPossibleActionList);
+                positions.put(newPosition, answer);
             }
         }
         return positions;
     }
+
 
 }

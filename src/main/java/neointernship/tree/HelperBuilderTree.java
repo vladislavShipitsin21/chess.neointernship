@@ -1,5 +1,8 @@
 package neointernship.tree;
 
+import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
+import neointernship.chess.game.model.answer.IAnswer;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -25,5 +28,15 @@ public class HelperBuilderTree {
             getAllChildren(child, allChildren);
         }
         if (root.isLeaf()) allChildren.add(root);
+    }
+
+    public static IAnswer getAnswer(final INode root){
+        double actualPrice = root.getCore().getPrice();
+        for(IEdge edge : root.getEdges()){
+            if(actualPrice == edge.getChild().getCore().getPrice()){
+                return edge.getAction();
+            }
+        }
+        return null;
     }
 }
