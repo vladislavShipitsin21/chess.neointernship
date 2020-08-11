@@ -17,81 +17,92 @@ import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class Modeling {
+public class Modeling implements Iterator<Map.Entry<Position,IAnswer>> {
 
     private static final IBoard board = new Board();
 
     private final Position actualPosition;
     private final Color activeColor;
 
+    private final IMediator mediator;
+    private final PossibleActionList possibleActionList;
+
+    private final Iterator<Figure> iterFigure;
+    private Figure currentFigure;
+    private Iterator<IField> iterField;
+
     public Modeling(final Position actualPosition, final Color activeColor) {
         this.actualPosition = actualPosition;
         this.activeColor = activeColor;
+
+        this.mediator = actualPosition.getMediator();
+        this.possibleActionList = actualPosition.getPossibleActionList();
+
+        final Collection<Figure> figures = mediator.getFigures(activeColor);
+        iterFigure = figures.iterator();
+        currentFigure = iterFigure.next();
+        iterField = possibleActionList.getRealList(currentFigure).iterator();
     }
 
-    public void init() {
+    @Override
+    public boolean hasNext() {
+        if(iterField.hasNext()) return true;
+        if(!iterFigure.hasNext()) return false;
 
+        while(!iterField.hasNext()){
+            if(!iterFigure.hasNext()) return false;
+            currentFigure = iterFigure.next();
+            iterField = possibleActionList.getRealList(currentFigure).iterator();
+        }
+        return true;
     }
 
-    public Iterator<Map.Entry<Position,IAnswer>> getNext() {
+    @Override
+    public Map.Entry<Position,IAnswer> next() {
 
-        return new Iterator<Map.Entry<Position, IAnswer>>() {
+        IField finishField = iterField.next();
+        IField startField = mediator.getField(currentFigure);
+
+        // определить тип хода
+        IMediator newMediator = new Mediator(mediator);
+        IStoryGame newStoryGame = new StoryGame((StoryGame) possibleActionList.getStoryGame());
+        PossibleActionList newPossibleActionList = new PossibleActionList(new Board(), newMediator, newStoryGame);
+
+        AllowMoveCommand allowMoveCommand =
+                new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);
+
+        IAllowCommand command = allowMoveCommand.getCommand(startField, finishField);
+        IAnswer answer = new AnswerSimbol(
+                startField.getXCoord(),
+                startField.getYCoord(),
+                finishField.getXCoord(),
+                finishField.getYCoord(),
+                'Q');
+
+        command.execute(answer); // todo если превращение то выдывать другие варианты
+
+        newStoryGame.update(currentFigure);
+        newPossibleActionList.updateRealLists();
+
+        Position newPosition = new Position(newMediator, newPossibleActionList);
+        return new Map.Entry<Position, IAnswer>() {
             @Override
-            public boolean hasNext() {
-                return false;
+            public Position getKey() {
+                return newPosition;
             }
 
             @Override
-            public Map.Entry<Position, IAnswer> next() {
+            public IAnswer getValue() {
+                return answer;
+            }
+
+            @Override
+            public IAnswer setValue(IAnswer value) {
                 return null;
             }
         };
     }
-
-    public static Map<Position, IAnswer> modeling(final Position actualPosition,
-                                                  final Color activeColor) {
-
-        final Map<Position, IAnswer> positions = new HashMap<>();
-        final IMediator mediator = actualPosition.getMediator();
-        final Collection<Figure> figures = mediator.getFigures(activeColor);
-        final PossibleActionList possibleActionList = actualPosition.getPossibleActionList();
-
-        for (final Figure figure : figures) {
-            for (final IField finishField : possibleActionList.getRealList(figure)) {
-
-                IField startField = mediator.getField(figure);
-
-                // определить тип хода
-                IMediator newMediator = new Mediator(mediator);
-                IStoryGame newStoryGame = new StoryGame((StoryGame) possibleActionList.getStoryGame());
-                PossibleActionList newPossibleActionList = new PossibleActionList(new Board(), newMediator, newStoryGame);
-
-                AllowMoveCommand allowMoveCommand =
-                        new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);
-
-                IAllowCommand command = allowMoveCommand.getCommand(startField, finishField);
-                IAnswer answer = new AnswerSimbol(
-                        startField.getXCoord(),
-                        startField.getYCoord(),
-                        finishField.getXCoord(),
-                        finishField.getYCoord(),
-                        'Q');
-
-                command.execute(answer); // todo если превращение то выдывать другие варианты
-
-                newStoryGame.update(figure);
-                newPossibleActionList.updateRealLists();
-
-                Position newPosition = new Position(newMediator, newPossibleActionList);
-                positions.put(newPosition, answer);
-            }
-        }
-        return positions;
-    }
-
-
 }

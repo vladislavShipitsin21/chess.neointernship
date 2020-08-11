@@ -29,32 +29,33 @@ public class BuilderTree {
     public INode getTree(final Position startPosition) {
 
         final INode root = new Node(startPosition);
-        getSubTree(root, 0,Double.MIN_VALUE,Double.MAX_VALUE);
+        getSubTree(root, 0, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
         return root;
     }
 
-    private double getSubTree(final INode subRoot, int depth,double alfa,double beta) {
+    private double getSubTree(final INode subRoot, int depth, double alfa, double beta) {
 
         final boolean isMax = depth % 2 == 0;
         final Color currentColor = isMax ? activeColor : swapColor(activeColor);
-        final int startLabel = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
 
         if (isEndTree(subRoot.getCore(), currentColor, depth)) {
-            final double value = TargetFunction.price(subRoot.getCore(),activeColor,currentColor);
+            final double value = TargetFunction.price(subRoot.getCore(), activeColor, currentColor);
             subRoot.getCore().setPrice(value);
             return value;
         }
 
         depth++;
 
-        final Map<Position, IAnswer> map = Modeling.modeling(subRoot.getCore(), currentColor);
+        final Modeling modeling = new Modeling(subRoot.getCore(), currentColor);
 
         if (isMax) {
 
             subRoot.getCore().setPrice(Integer.MIN_VALUE);
 
-            for (Map.Entry<Position, IAnswer> entry : map.entrySet()) {
+            while (modeling.hasNext()) {
+
+                Map.Entry<Position, IAnswer> entry = modeling.next();
 
                 final INode child = new Node(entry.getKey());
                 final IAnswer answer = entry.getValue();
@@ -62,23 +63,25 @@ public class BuilderTree {
                 final IEdge edge = new Edge(child, answer);
                 subRoot.addEdge(edge);
 
-                double value = getSubTree(child, depth,alfa,beta);
+                double value = getSubTree(child, depth, alfa, beta);
                 value = Math.max(subRoot.getCore().getPrice(), value);
 
                 subRoot.getCore().setPrice(value);
 
-                if(value > beta){
+                if (value > beta) {
                     return value;
                 }
 
-                alfa = Math.max(alfa,value);
+                alfa = Math.max(alfa, value);
 
             }
         } else {
 
             subRoot.getCore().setPrice(Integer.MAX_VALUE);
 
-            for (Map.Entry<Position, IAnswer> entry : map.entrySet()) {
+            while (modeling.hasNext()) {
+
+                Map.Entry<Position, IAnswer> entry = modeling.next();
 
                 final INode child = new Node(entry.getKey());
                 final IAnswer answer = entry.getValue();
@@ -86,21 +89,22 @@ public class BuilderTree {
                 final IEdge edge = new Edge(child, answer);
                 subRoot.addEdge(edge);
 
-                double value = getSubTree(child, depth,alfa,beta);
+                double value = getSubTree(child, depth, alfa, beta);
                 value = Math.min(subRoot.getCore().getPrice(), value);
 
                 subRoot.getCore().setPrice(value);
 
-                if(value < alfa) {
+                if (value < alfa) {
                     return value;
                 }
 
-                beta = Math.min(beta,value);
+                beta = Math.min(beta, value);
             }
         }
 
         return subRoot.getCore().getPrice();
     }
+
     private boolean isEndTree(final Position position, final Color currentColor, final int depth) {
         return depth >= max_depth || TerminalBoss.isTerminal(position, currentColor);
     }

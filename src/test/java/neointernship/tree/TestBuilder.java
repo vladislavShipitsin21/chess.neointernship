@@ -1,7 +1,5 @@
 package neointernship.tree;
 
-import neointernship.bots.modeling.Progressing;
-import neointernship.chess.game.console.ConsoleBoardWriter;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.model.answer.AnswerSimbol;
@@ -19,7 +17,10 @@ import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.StoryGame;
 import org.junit.Test;
 
+import java.util.Collection;
+
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static neointernship.chess.game.model.enums.Color.WHITE;
 
 public class TestBuilder {
@@ -47,7 +48,7 @@ public class TestBuilder {
 
         Position startPosition = new Position(mediator,list);
 
-        BuilderTree builderTree = new BuilderTree(2,WHITE);
+        BuilderTree builderTree = new BuilderTree(1,WHITE);
 
         INode root = builderTree.getTree(startPosition);
 
@@ -101,7 +102,7 @@ public class TestBuilder {
         storyGame.update(whiteKing);
 
         Figure whiteRook = new Rook(WHITE);
-        IField fieldRook = new Field(7, 6);
+        IField fieldRook = new Field(3, 6);
         mediator.addNewConnection(fieldRook, whiteRook);
 
         Figure blackKing = new King(Color.BLACK);
@@ -123,8 +124,12 @@ public class TestBuilder {
 
         IAnswer actual = HelperBuilderTree.getAnswer(root);
 
-        IAnswer expected = new AnswerSimbol(7, 6, 4, 6, 'Q');
+        IAnswer expected = new AnswerSimbol(3, 6, 4, 6, 'Q');
 
         assertEquals(expected, actual);
+
+        Collection<INode> collections = HelperBuilderTree.getAllChildren(root);
+        System.out.println(collections.size());
+        assertTrue(collections.size() < 42);
     }
 }

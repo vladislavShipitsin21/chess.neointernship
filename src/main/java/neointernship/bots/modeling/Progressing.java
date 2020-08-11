@@ -82,7 +82,8 @@ public class Progressing {
                 position.setPrice(TargetFunction.price(position, playerColor, gameState));
 
             } else {
-                final Set<Position> result = Modeling.modeling(position, currentColor).keySet();
+//                final Set<Position> result = Modeling.modeling(position, currentColor).keySet();
+                final Set<Position> result = null;
 
                 double resultIter = subProgress(result, depth, playerColor);
                 // выбрать максимум из результата функции и текущим состоянием позиции
@@ -96,11 +97,12 @@ public class Progressing {
         return getMaxPrice(positions);
     }
 
-    public static IAnswer getSolution(final Position startPpositions,
+    public static IAnswer getSolution(final Position startPositions,
                                       final Color activeColor,
                                       final int maxDepth) {
         MAX_DEPTH = maxDepth;
-        final Map<Position, IAnswer> resultMap = Modeling.modeling(startPpositions, activeColor);
+//        final Map<Position, IAnswer> resultMap = Modeling.modeling(startPpositions, activeColor);
+        final Map<Position, IAnswer> resultMap = null;
 
         for (Position position : resultMap.keySet()) {
             // ожидаю что у первых потомков цена уже посчитана и записанна

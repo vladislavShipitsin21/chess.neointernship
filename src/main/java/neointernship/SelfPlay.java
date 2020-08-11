@@ -11,7 +11,7 @@ public class SelfPlay {
     public static void main(String[] args) throws InterruptedException {
 
         final int countBot = 2;
-        final int countGame = 10;
+        final int countGame = 1;
 
         for (int i = 0; i < countGame ; i++) {
             int timeStartM = LocalTime.now().getMinute();
