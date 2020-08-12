@@ -1,8 +1,6 @@
 package neointernship.web.client.player;
 
-import neointernship.bots.functionsH.TargetFunction;
-import neointernship.bots.modeling.Modeling;
-import neointernship.bots.modeling.Progressing;
+import neointernship.bots.straregy.Strategy;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
@@ -13,9 +11,6 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
-import neointernship.tree.BuilderTree;
-import neointernship.tree.HelperBuilderTree;
-import neointernship.tree.INode;
 import neointernship.web.client.GUI.Input.IInput;
 import neointernship.web.client.GUI.board.view.BoardView;
 import neointernship.web.client.communication.message.ClientCodes;
@@ -27,12 +22,12 @@ public class MiniMaxBot extends APlayer {
 
     private BoardView boardView;
     private IPossibleActionList possibleActionList;
-    private final Random random;
     private final IInput input;
+
+    private Strategy strategy;
 
     public MiniMaxBot(final Color color, final String name, final IInput input) {
         super(color, name);
-        this.random = new Random();
         this.input = input;
     }
 
@@ -43,6 +38,7 @@ public class MiniMaxBot extends APlayer {
 
         this.boardView = new BoardView(mediator, board);
         if (!input.isVoid()) boardView.display();
+        strategy = new Strategy(color);
     }
 
     @Override
@@ -67,14 +63,10 @@ public class MiniMaxBot extends APlayer {
 
         Position startPosition = new Position(mediator,possibleActionList);
 
-        BuilderTree builderTree = new BuilderTree(2,getColor());
-        INode root = builderTree.getTree(startPosition);
+        IAnswer answer = strategy.getAnswer(startPosition);
 
-        IAnswer answer = HelperBuilderTree.getAnswer(root);
-//        IAnswer answer = Progressing.getSolution(startPosition,getColor(),2);
-
-        final IField startField = new Field(answer.getStartX(),answer.getStartY());
-        final IField finishField = new Field(answer.getFinalX(),answer.getFinalY());
+        final IField startField = getBoard().getField(answer.getStartX(), answer.getStartY());
+        final IField finishField = getBoard().getField(answer.getFinalX(),answer.getFinalY());
 
         turn += turn + chars.get(startField.getYCoord()) + integers.get(startField.getXCoord()) + "-" +
                 chars.get(finishField.getYCoord()) + integers.get(finishField.getXCoord());

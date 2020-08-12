@@ -215,9 +215,9 @@ public class Lobby extends Thread {
                     }
 
                     GameLogger.getLogger(lobbyId).logPlayerMoveAction(connection.getColor(),
-                            mediator.getFigure(new Field(answer.getFinalX(), answer.getFinalY())),
-                            new Field(answer.getStartX(), answer.getStartY()),
-                            new Field(answer.getFinalX(), answer.getFinalY()), turnStatus);
+                            mediator.getFigure(board.getField(answer.getFinalX(), answer.getFinalY())),
+                            board.getField(answer.getStartX(), answer.getStartY()),
+                            board.getField(answer.getFinalX(), answer.getFinalY()), turnStatus);
                 } catch (final Exception e) {
                     ErrorLoggerServer.logException(e);
                 }

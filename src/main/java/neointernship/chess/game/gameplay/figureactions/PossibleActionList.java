@@ -26,12 +26,9 @@ public class PossibleActionList implements IPossibleActionList {
     private final Map<Figure, Collection<IField>> realFigureActions;
     private final Map<Figure, Collection<IField>> potentialFigureAction;
 
-    static int count = 0;
     public PossibleActionList(final IBoard board,
                               final IMediator mediator,
                               final IStoryGame storyGame) {
-        count++;
-        System.out.println("count constr :" + count);
         this.board = board;
         this.mediator = mediator;
         this.storyGame = storyGame;
@@ -110,11 +107,8 @@ public class PossibleActionList implements IPossibleActionList {
         return realFigureActions.get(figure);
     }
 
-    private static int countUpdate = 0;
     @Override
     public void updateRealLists() {
-        countUpdate++;
-        System.out.println("countUpdate : " + countUpdate);
         updatePotentialLists();
         realFigureActions.clear();
 

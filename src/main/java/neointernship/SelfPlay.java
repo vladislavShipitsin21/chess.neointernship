@@ -18,17 +18,21 @@ public class SelfPlay {
             int timeStartS = LocalTime.now().getSecond();
             System.out.println("start : " + i);
 
-            ControllerRandomBot controllerRandomBots = new ControllerRandomBot(0);
+            ControllerFirstBot controllerRandomBots = new ControllerFirstBot(1);
             ControllerFirstBot controllerFirstBot = new ControllerFirstBot(0);
 
             Thread thread1 = new Thread(controllerRandomBots);
             Thread thread2 = new Thread(controllerFirstBot);
+
+            thread1.setName("thread-random");
+            thread2.setName("thread-miniMax");
 
             thread1.start();
             thread2.start();
 
             thread1.join();
             thread2.join();
+
             int timeFinishM = LocalTime.now().getMinute();
             int timeFinishS = LocalTime.now().getSecond();
 

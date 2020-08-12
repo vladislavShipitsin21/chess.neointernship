@@ -12,10 +12,11 @@ import neointernship.chess.game.story.IStoryGame;
 public class TerminalBoss {
 
     public static IGameState getStatePosition(final Position position, final Color activeColor) {
-        PossibleActionList possibleActionList = position.getPossibleActionList();
-        IMediator mediator = position.getMediator();
-        IStoryGame storyGame = possibleActionList.getStoryGame();
-        GameStateController gameStateController =
+        final PossibleActionList possibleActionList = position.getPossibleActionList();
+        final IMediator mediator = position.getMediator();
+        final IStoryGame storyGame = possibleActionList.getStoryGame();
+
+        final GameStateController gameStateController =
                 new GameStateController(possibleActionList, mediator, storyGame);
 
         gameStateController.updateWithoutUpdateList(activeColor);
@@ -28,10 +29,11 @@ public class TerminalBoss {
     }
 
     public static boolean isTerminal(final Position position, final Color activeColor) {
-        PossibleActionList possibleActionList = position.getPossibleActionList();
-        IMediator mediator = position.getMediator();
-        IStoryGame storyGame = possibleActionList.getStoryGame();
-        GameStateController gameStateController =
+        final PossibleActionList possibleActionList = position.getPossibleActionList();
+        final IMediator mediator = position.getMediator();
+        final IStoryGame storyGame = possibleActionList.getStoryGame();
+
+        final GameStateController gameStateController =
                 new GameStateController(possibleActionList, mediator, storyGame);
 
         gameStateController.updateWithoutUpdateList(activeColor);

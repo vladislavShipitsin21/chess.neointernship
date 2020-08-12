@@ -15,6 +15,7 @@ import static neointernship.bots.modeling.Progressing.isTerminal;
 
 public class TargetFunction {
 
+    private static final int ALL_PRICE = 38;
     /**
      * оценивает текущую позицию
      * @param position позиция
@@ -25,7 +26,7 @@ public class TargetFunction {
 
         if(isTerminal(gameState)) {
             if(gameState.getValue() == EnumGameState.MATE){
-                return playerColor == gameState.getColor() ? -100 : 100;
+                return playerColor == gameState.getColor() ? -1 : 1;
             }
             return 0; // можно считать на сколько выгадна ничья
         }
@@ -40,7 +41,7 @@ public class TargetFunction {
                 }
             }
         }
-        return result;
+        return result / ALL_PRICE;
     }
 
     public static double price (final Position position,final Color playerColor,final Color currentColor) {
@@ -57,7 +58,7 @@ public class TargetFunction {
 
         if(isTerminal(gameState)) {
             if(gameState.getValue() == EnumGameState.MATE){
-                return playerColor == gameState.getColor() ? -100 : 100;
+                return playerColor == gameState.getColor() ? -1 : 1;
             }
             return 0; // можно считать на сколько выгадна ничья
         }
@@ -72,7 +73,7 @@ public class TargetFunction {
                 }
             }
         }
-        return result;
+        return result / ALL_PRICE;
     }
 
 }

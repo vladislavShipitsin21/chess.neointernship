@@ -31,8 +31,8 @@ public class Modeling implements Iterator<Map.Entry<Position,IAnswer>> {
     private final PossibleActionList possibleActionList;
 
     private final Iterator<Figure> iterFigure;
-    private Figure currentFigure;
     private Iterator<IField> iterField;
+    private Figure currentFigure;
 
     public Modeling(final Position actualPosition, final Color activeColor) {
         this.actualPosition = actualPosition;
@@ -69,7 +69,7 @@ public class Modeling implements Iterator<Map.Entry<Position,IAnswer>> {
         // определить тип хода
         IMediator newMediator = new Mediator(mediator);
         IStoryGame newStoryGame = new StoryGame((StoryGame) possibleActionList.getStoryGame());
-        PossibleActionList newPossibleActionList = new PossibleActionList(new Board(), newMediator, newStoryGame);
+        PossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
 
         AllowMoveCommand allowMoveCommand =
                 new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);

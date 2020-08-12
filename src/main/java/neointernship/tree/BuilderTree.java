@@ -3,6 +3,8 @@ package neointernship.tree;
 import neointernship.bots.functionsH.TargetFunction;
 import neointernship.bots.modeling.Modeling;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
+import neointernship.chess.game.gameplay.gamestate.state.GameState;
+import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 
@@ -39,8 +41,10 @@ public class BuilderTree {
         final boolean isMax = depth % 2 == 0;
         final Color currentColor = isMax ? activeColor : swapColor(activeColor);
 
-        if (isEndTree(subRoot.getCore(), currentColor, depth)) {
-            final double value = TargetFunction.price(subRoot.getCore(), activeColor, currentColor);
+        IGameState gameState = TerminalBoss.getStatePosition(subRoot.getCore(),currentColor);
+
+        if (isEndTree(depth,gameState)) {
+            final double value = TargetFunction.price(subRoot.getCore(), activeColor, gameState);
             subRoot.getCore().setPrice(value);
             return value;
         }
@@ -105,7 +109,7 @@ public class BuilderTree {
         return subRoot.getCore().getPrice();
     }
 
-    private boolean isEndTree(final Position position, final Color currentColor, final int depth) {
-        return depth >= max_depth || TerminalBoss.isTerminal(position, currentColor);
+    private boolean isEndTree(final int depth,final IGameState gameState) {
+        return depth >= max_depth || TerminalBoss.isTerminal(gameState);
     }
 }

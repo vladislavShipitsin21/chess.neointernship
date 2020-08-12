@@ -162,7 +162,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
                 if (lastFigure.getClass() == Pawn.class) {
                     if (Math.abs(realFieldLastFigure.getXCoord() - lastFieldLastFigure.getXCoord()) == 2) {
                         if (Math.abs(lastFieldLastFigure.getYCoord() - currentField.getYCoord()) == 1) {
-                            possibleAttackFields.add(new Field(startXCoord + move, lastFieldLastFigure.getYCoord()));
+                            possibleAttackFields.add(board.getField(startXCoord + move, lastFieldLastFigure.getYCoord()));
                         }
                     }
                 }
