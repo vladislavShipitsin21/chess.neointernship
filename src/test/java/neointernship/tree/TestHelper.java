@@ -84,7 +84,7 @@ public class TestHelper {
         levelExpectedMap.put(1,3);
         levelExpectedMap.put(2,9);
         levelExpectedMap.put(3,27);
-       /* levelExpectedMap.put(4,1.);*/
+        levelExpectedMap.put(4,81);
 
         for(Integer level : levelExpectedMap.keySet()){
             final int expected = levelExpectedMap.get(level);

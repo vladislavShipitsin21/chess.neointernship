@@ -3,7 +3,6 @@ package neointernship.tree;
 import neointernship.bots.functionsH.TargetFunction;
 import neointernship.bots.modeling.Modeling;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
-import neointernship.chess.game.gameplay.gamestate.state.GameState;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
@@ -41,9 +40,10 @@ public class BuilderTree {
         final boolean isMax = depth % 2 == 0;
         final Color currentColor = isMax ? activeColor : swapColor(activeColor);
 
-        IGameState gameState = TerminalBoss.getStatePosition(subRoot.getCore(),currentColor);
+        final IGameState gameState = TerminalBoss.getStatePosition(subRoot.getCore(), currentColor);
 
-        if (isEndTree(depth,gameState)) {
+        if (isEndTree(depth, gameState)) {
+
             final double value = TargetFunction.price(subRoot.getCore(), activeColor, gameState);
             subRoot.getCore().setPrice(value);
             return value;
@@ -60,6 +60,7 @@ public class BuilderTree {
             while (modeling.hasNext()) {
 
                 Map.Entry<Position, IAnswer> entry = modeling.next();
+
 
                 final INode child = new Node(entry.getKey());
                 final IAnswer answer = entry.getValue();
@@ -78,6 +79,7 @@ public class BuilderTree {
 
                 alfa = Math.max(alfa, value);
 
+
             }
         } else {
 
@@ -86,6 +88,7 @@ public class BuilderTree {
             while (modeling.hasNext()) {
 
                 Map.Entry<Position, IAnswer> entry = modeling.next();
+
 
                 final INode child = new Node(entry.getKey());
                 final IAnswer answer = entry.getValue();
@@ -103,13 +106,15 @@ public class BuilderTree {
                 }
 
                 beta = Math.min(beta, value);
+
+
             }
         }
 
         return subRoot.getCore().getPrice();
     }
 
-    private boolean isEndTree(final int depth,final IGameState gameState) {
+    private boolean isEndTree(final int depth, final IGameState gameState) {
         return depth >= max_depth || TerminalBoss.isTerminal(gameState);
     }
 }

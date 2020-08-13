@@ -1,10 +1,8 @@
 package neointernship;
 
 import neointernship.web.client.controller.ControllerFirstBot;
-import neointernship.web.client.controller.ControllerRandomBot;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class SelfPlay {
 
@@ -40,5 +38,6 @@ public class SelfPlay {
             System.out.println(timeFinishS - timeStartS + "cek");
             System.out.println("finish : " + i);
         }
+
     }
 }
