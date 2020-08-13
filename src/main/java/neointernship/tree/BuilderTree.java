@@ -6,6 +6,7 @@ import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.util.Pair;
 
 import java.util.Map;
 
@@ -59,11 +60,11 @@ public class BuilderTree {
 
             while (modeling.hasNext()) {
 
-                Map.Entry<Position, IAnswer> entry = modeling.next();
+                Pair<Position, IAnswer> pair = modeling.next();
 
 
-                final INode child = new Node(entry.getKey());
-                final IAnswer answer = entry.getValue();
+                final INode child = new Node(pair.getFirst());
+                final IAnswer answer = pair.getSecond();
 
                 final IEdge edge = new Edge(child, answer);
                 subRoot.addEdge(edge);
@@ -87,11 +88,11 @@ public class BuilderTree {
 
             while (modeling.hasNext()) {
 
-                Map.Entry<Position, IAnswer> entry = modeling.next();
+               Pair<Position, IAnswer> pair = modeling.next();
 
 
-                final INode child = new Node(entry.getKey());
-                final IAnswer answer = entry.getValue();
+                final INode child = new Node(pair.getFirst());
+                final IAnswer answer = pair.getSecond();
 
                 final IEdge edge = new Edge(child, answer);
                 subRoot.addEdge(edge);

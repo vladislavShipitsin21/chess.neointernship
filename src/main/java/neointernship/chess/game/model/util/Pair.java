@@ -52,4 +52,12 @@ public final class Pair<T, U> {
     public int hashCode() {
         return Objects.hash(first, second);
     }
+
+    public T getFirst() {
+        return first;
+    }
+
+    public U getSecond() {
+        return second;
+    }
 }

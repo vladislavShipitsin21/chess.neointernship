@@ -64,13 +64,14 @@ public class GameStateController implements IGameStateController {
             currentState = drawStateController.getState();
         }
     }
+
     @Override
     public void updateWithoutUpdateList(Color color) {
         kingStateController.update(color);
 
         final KingState kingState = kingStateController.getKingState(color);
 
-        boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
+        boolean figuresHaveMoves = figuresHaveMovesComputation.checkPotential(color);
 
         currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);
 

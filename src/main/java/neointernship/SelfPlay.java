@@ -1,6 +1,7 @@
 package neointernship;
 
 import neointernship.web.client.controller.ControllerFirstBot;
+import neointernship.web.client.controller.ControllerRandomBot;
 
 import java.time.LocalTime;
 
@@ -16,7 +17,7 @@ public class SelfPlay {
             int timeStartS = LocalTime.now().getSecond();
             System.out.println("start : " + i);
 
-            ControllerFirstBot controllerRandomBots = new ControllerFirstBot(1);
+            ControllerRandomBot controllerRandomBots = new ControllerRandomBot(1);
             ControllerFirstBot controllerFirstBot = new ControllerFirstBot(0);
 
             Thread thread1 = new Thread(controllerRandomBots);

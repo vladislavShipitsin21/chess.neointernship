@@ -39,7 +39,7 @@ public class RealBasicPatterns implements IRealBasicPatterns {
         final Color colorFigure = figure.getColor();
         final Color colorOpponent = Color.swapColor(colorFigure);
 
-        for (IField finishField : potentialMoveList) {
+        for (final IField finishField : potentialMoveList) {
 
             IMediator newMediator = new Mediator(mediator);
             IStoryGame newStoryGame = new StoryGame((StoryGame) storyGame);

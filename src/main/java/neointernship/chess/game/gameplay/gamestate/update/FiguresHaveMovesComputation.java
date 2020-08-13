@@ -27,4 +27,13 @@ public class FiguresHaveMovesComputation {
         }
         return false;
     }
+    public boolean checkPotential(Color color) {
+        for (Figure figure : mediator.getFigures(color)) {
+            Collection<IField> collection = possibleActionList.getPotentialList(figure);
+            if (!collection.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -32,7 +32,7 @@ public class Strategy {
             return getRandomAnswer(startPosition);
         }*/
 
-        BuilderTree builderTree = new BuilderTree(2,color);
+        BuilderTree builderTree = new BuilderTree(4,color);
         INode root = builderTree.getTree(startPosition);
 
         return HelperBuilderTree.getAnswer(root);
