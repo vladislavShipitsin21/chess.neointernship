@@ -16,18 +16,16 @@ import static neointernship.bots.modeling.Progressing.isTerminal;
 public class TargetFunction {
 
     private static final int ALL_PRICE = 38;
-
     /**
      * оценивает текущую позицию
-     *
-     * @param position    позиция
+     * @param position позиция
      * @param playerColor цвет игрока, для которого необходимо оценить позицию
      * @return
      */
-    public static double price(final Position position, final Color playerColor, final IGameState gameState) {
+    public static double price (final Position position,final Color playerColor,final IGameState gameState) {
 
-        if (isTerminal(gameState)) {
-            if (gameState.getValue() == EnumGameState.MATE) {
+        if(isTerminal(gameState)) {
+            if(gameState.getValue() == EnumGameState.MATE){
                 return playerColor == gameState.getColor() ? -1 : 1;
             }
             return 0; // можно считать на сколько выгадна ничья
@@ -46,20 +44,20 @@ public class TargetFunction {
         return result / ALL_PRICE;
     }
 
-    public static double price(final Position position, final Color playerColor, final Color currentColor) {
+    public static double price (final Position position,final Color playerColor,final Color currentColor) {
 
-        final PossibleActionList possibleActionList = position.getPossibleActionList();
-        final IMediator mediator = position.getMediator();
-        final IStoryGame storyGame = possibleActionList.getStoryGame();
-        final GameStateController gameStateController =
+        PossibleActionList possibleActionList = position.getPossibleActionList();
+        IMediator mediator = position.getMediator();
+        IStoryGame storyGame = possibleActionList.getStoryGame();
+        GameStateController gameStateController =
                 new GameStateController(possibleActionList, mediator, storyGame);
 
         gameStateController.updateWithoutUpdateList(currentColor);
 
-        final IGameState gameState = gameStateController.getState();
+        IGameState gameState =  gameStateController.getState();
 
-        if (isTerminal(gameState)) {
-            if (gameState.getValue() == EnumGameState.MATE) {
+        if(isTerminal(gameState)) {
+            if(gameState.getValue() == EnumGameState.MATE){
                 return playerColor == gameState.getColor() ? -1 : 1;
             }
             return 0; // можно считать на сколько выгадна ничья

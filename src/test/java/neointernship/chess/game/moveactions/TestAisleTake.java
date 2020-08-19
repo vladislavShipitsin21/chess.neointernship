@@ -32,26 +32,26 @@ public class TestAisleTake extends TestAllowCommand {
 
     @Test
     public void testWhite() {
-        final Figure figureW = new Pawn(Color.WHITE);
-        final IField fieldW = new Field(3, 4);
+        Figure figureW = new Pawn(Color.WHITE);
+        IField fieldW = new Field(3, 4);
 
-        final Figure figureB = new Pawn(Color.BLACK);
-        final IField fieldB = new Field(3, 3);
+        Figure figureB = new Pawn(Color.BLACK);
+        IField fieldB = new Field(3, 3);
 
         addFigure(fieldW, figureW);
         addFigure(fieldB, figureB);
 
         assertEquals(2, mediator.getFigures().size());
 
-        final IAnswer answer = new Answer(3, 4, 2, 3, 'Q');
+        IAnswer answer = new Answer(3, 4, 2, 3, 'Q');
 
-        final TurnStatus result = allowMoveCommand.execute(answer);
+        TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.AISLE_TAKE, result);
 
         assertEquals(1, mediator.getFigures().size());
 
-        final IField fieldPawnWExpected = new Field(2, 3);
+        IField fieldPawnWExpected = new Field(2, 3);
         assertEquals(fieldPawnWExpected, mediator.getField(figureW));
 
         assertNull(mediator.getField(figureB));
@@ -59,26 +59,26 @@ public class TestAisleTake extends TestAllowCommand {
 
     @Test
     public void testBlack() {
-        final Figure figureW = new Pawn(Color.WHITE);
-        final IField fieldW = new Field(4, 4);
+        Figure figureW = new Pawn(Color.WHITE);
+        IField fieldW = new Field(4, 4);
 
-        final Figure figureB = new Pawn(Color.BLACK);
-        final IField fieldB = new Field(4, 3);
+        Figure figureB = new Pawn(Color.BLACK);
+        IField fieldB = new Field(4, 3);
 
         addFigure(fieldW, figureW);
         addFigure(fieldB, figureB);
 
         assertEquals(2, mediator.getFigures().size());
 
-        final IAnswer answer = new Answer(4, 4, 5, 3, 'Q');
+        IAnswer answer = new Answer(4, 4, 5, 3, 'Q');
 
-        final TurnStatus result = allowMoveCommand.execute(answer);
+        TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.AISLE_TAKE, result);
 
         assertEquals(1, mediator.getFigures().size());
 
-        final IField fieldPawnWExpected = new Field(5, 3);
+        IField fieldPawnWExpected = new Field(5, 3);
         assertEquals(fieldPawnWExpected, mediator.getField(figureW));
 
         assertNull(mediator.getField(figureB));
@@ -111,15 +111,15 @@ public class TestAisleTake extends TestAllowCommand {
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 
-        final IAnswer answer0 = new Answer(3, 6, 3, 7, 'Q');
+        IAnswer answer0 = new Answer(3, 6, 3, 7, 'Q');
         testHeadEnd.doAllowIteration(answer0);
         testHeadEnd.printBoard();
 
-        final IAnswer answer1 = new Answer(1, 5, 3, 5, 'Q');
+        IAnswer answer1 = new Answer(1, 5, 3, 5, 'Q');
         testHeadEnd.doAllowIteration(answer1);
         testHeadEnd.printBoard();
 
-        final IAnswer answer2 = new Answer(3, 4, 2, 5, 'Q');
+        IAnswer answer2 = new Answer(3, 4, 2, 5, 'Q');
         testHeadEnd.doRestringIteration(answer2);
         testHeadEnd.printBoard();
 

@@ -16,26 +16,26 @@ import static org.junit.Assert.assertNull;
 public class TestAttack extends TestAllowCommand {
     @Test
     public void testAttack() {
-        final Figure figureW = new Rook(Color.WHITE);
-        final IField fieldW = new Field(0, 0);
+        Figure figureW = new Rook(Color.WHITE);
+        IField fieldW = new Field(0, 0);
 
-        final Figure figureB = new Rook(Color.BLACK);
-        final IField fieldB = new Field(0, 6);
+        Figure figureB = new Rook(Color.BLACK);
+        IField fieldB = new Field(0, 6);
 
         addFigure(fieldW, figureW);
         addFigure(fieldB, figureB);
 
         assertEquals(2, mediator.getFigures().size());
 
-        final IAnswer answer = new Answer(0, 0, 0, 6, 'Q');
+        IAnswer answer = new Answer(0, 0, 0, 6, 'Q');
 
-        final TurnStatus result = allowMoveCommand.execute(answer);
+        TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.ATTACK, result);
 
         assertEquals(1, mediator.getFigures().size());
 
-        final IField fieldRookExpected = new Field(0, 6);
+        IField fieldRookExpected = new Field(0, 6);
         assertEquals(fieldRookExpected, mediator.getField(figureW));
 
         assertNull(mediator.getField(figureB));

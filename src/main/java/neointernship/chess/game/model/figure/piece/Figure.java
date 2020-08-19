@@ -51,7 +51,7 @@ public abstract class Figure {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         return (this == o);
     }
 }

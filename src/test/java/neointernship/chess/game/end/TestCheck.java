@@ -47,13 +47,13 @@ public class TestCheck {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answer1 = new Answer(6, 5, 7, 5, 'Q');
+        IAnswer answer1 = new Answer(6, 5, 7, 5, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 
         testHeadEnd.doAllowIteration(answer1);
 
-        final IAnswer answer2 = new Answer(7, 7, 7, 6, 'Q');
+        IAnswer answer2 = new Answer(7, 7, 7, 6, 'Q');
 
         testHeadEnd.doRestringIteration(answer2);
 

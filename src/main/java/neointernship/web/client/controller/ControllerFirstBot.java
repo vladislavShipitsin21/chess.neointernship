@@ -2,21 +2,18 @@ package neointernship.web.client.controller;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.logger.ErrorLoggerClient;
-import neointernship.web.client.GUI.Input.Input;
+import neointernship.web.client.GUI.Input.InputVoid;
 import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.MessageDto;
 import neointernship.web.client.communication.message.ModelMessageReaction;
 import neointernship.web.client.communication.serializer.MessageSerializer;
 import neointernship.web.client.player.APlayer;
 import neointernship.web.client.player.MiniMaxBot;
-import neointernship.web.client.player.Player;
-import neointernship.web.client.player.PlayerType;
 
 import java.io.*;
 import java.net.Socket;
 
-public class Controller {
-    private Input input;
+public class ControllerFirstBot implements Runnable {
     private BufferedReader in = null;
     private BufferedWriter out = null;
     private Socket socket;
@@ -25,11 +22,21 @@ public class Controller {
     private APlayer player;
     private boolean endGame = false;
 
-    public void start() throws InterruptedException {
-        input = new Input();
+    private String name;
+    private int i = 0;
+
+    public ControllerFirstBot(int i) {
+        name = "first bot";
+//        name = "bot № " + i;
+        this.i = i;
+    }
+
+    @Override
+    public void run() {
         modelMessageReaction = new ModelMessageReaction(socket);
 
         startConnection();
+
         initPlayer();
 
         while (!endGame) {
@@ -38,28 +45,15 @@ public class Controller {
                 final MessageDto messageDto = MessageSerializer.deserialize(jsonMessage);
                 messageDto.validate();
                 modelMessageReaction.get(messageDto.getClientCodes()).execute(player, in, out);
-
-                if (messageDto.getClientCodes() == ClientCodes.END_GAME) {
-                    endGame = true;
-                }
+                if (messageDto.getClientCodes() == ClientCodes.END_GAME) endGame = true;
             } catch (final Exception e) {
                 ErrorLoggerClient.getLogger(player.getName()).logException(e);
             }
         }
     }
 
-    private void initPlayer() throws InterruptedException {
-        final PlayerType playerType = input.getPlayerType();
-        String name = null;
-        if (playerType == PlayerType.HUMAN) {
-            name = input.getUserName().trim();
-            final Color color = input.getColor();
-            player = new Player(color, name, input);
-        } else {
-            name = "random bot";
-            player = new MiniMaxBot(Color.BOTH, name, input);
-        }
-
+    private void initPlayer() {
+        player = new MiniMaxBot(Color.BOTH, name, new InputVoid());
         ErrorLoggerClient.addLogger(name);
     }
 

@@ -10,7 +10,7 @@ public class Node implements INode {
     private final Position core;
     private final Collection<IEdge> edgeSet;
 
-    public Node(final Position core) {
+    public Node(Position core) {
         this.core = core;
         this.edgeSet = new HashSet<>();
     }
@@ -21,7 +21,7 @@ public class Node implements INode {
     }
 
     @Override
-    public void addEdge(final IEdge edge) {
+    public void addEdge(IEdge edge) {
         edgeSet.add(edge);
     }
 

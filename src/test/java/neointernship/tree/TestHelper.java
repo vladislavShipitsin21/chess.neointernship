@@ -24,99 +24,96 @@ import static org.junit.Assert.assertEquals;
 public class TestHelper {
 
     @Test
-    public void testLevel1() {
-        final IMediator mediator = initGameMap();
-        final StoryGame storyGame = new StoryGame(mediator);
+    public void testLevel1(){
+        IMediator mediator = initGameMap();
+        StoryGame storyGame = new StoryGame(mediator);
 
-        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
+        PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
         list.updateRealLists();
 
-        final Position startPosition = new Position(mediator, list);
+        Position startPosition = new Position(mediator,list);
 
-        final BuilderTree builderTree = new BuilderTree(1, Color.WHITE);
+        BuilderTree builderTree = new BuilderTree(1, Color.WHITE);
 
-        final INode root = builderTree.getTree(startPosition);
+        INode root = builderTree.getTree(startPosition);
 
-        final Collection<INode> result = HelperBuilderTree.getChildren(root);
+        Collection<INode> result = HelperBuilderTree.getChildren(root);
 
-        assertEquals(20, result.size());
+        assertEquals(20,result.size());
+    }
+    @Test
+    public void testLevel2(){
+        IMediator mediator = initGameMap();
+        StoryGame storyGame = new StoryGame(mediator);
+
+        PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
+        list.updateRealLists();
+
+        Position startPosition = new Position(mediator,list);
+
+        BuilderTree builderTree = new BuilderTree(2, Color.WHITE);
+
+        INode root = builderTree.getTree(startPosition);
+
+        Collection<INode> result = HelperBuilderTree.getAllChildren(root);
+
+        assertEquals(400,result.size());
+    }
+    @Test
+    public void testLevel3(){
+        IMediator mediator = initGameMap();
+        StoryGame storyGame = new StoryGame(mediator);
+
+        PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
+        list.updateRealLists();
+
+        Position startPosition = new Position(mediator,list);
+
+        BuilderTree builderTree = new BuilderTree(3, Color.WHITE);
+
+        INode root = builderTree.getTree(startPosition);
+
+        Collection<INode> result = HelperBuilderTree.getAllChildren(root);
+
+        assertEquals(400,result.size());
     }
 
     @Test
-    public void testLevel2() {
-        final IMediator mediator = initGameMap();
-        final StoryGame storyGame = new StoryGame(mediator);
+    public void testTwoKing(){
+        Map<Integer,Integer> levelExpectedMap = new HashMap<>();
+        levelExpectedMap.put(1,3);
+        levelExpectedMap.put(2,9);
+        levelExpectedMap.put(3,27);
+        levelExpectedMap.put(4,81);
 
-        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
-        list.updateRealLists();
-
-        final Position startPosition = new Position(mediator, list);
-
-        final BuilderTree builderTree = new BuilderTree(2, Color.WHITE);
-
-        final INode root = builderTree.getTree(startPosition);
-
-        final Collection<INode> result = HelperBuilderTree.getAllChildren(root);
-
-        assertEquals(400, result.size());
-    }
-
-    @Test
-    public void testLevel3() {
-        final IMediator mediator = initGameMap();
-        final StoryGame storyGame = new StoryGame(mediator);
-
-        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
-        list.updateRealLists();
-
-        final Position startPosition = new Position(mediator, list);
-
-        final BuilderTree builderTree = new BuilderTree(3, Color.WHITE);
-
-        final INode root = builderTree.getTree(startPosition);
-
-        final Collection<INode> result = HelperBuilderTree.getAllChildren(root);
-
-        assertEquals(400, result.size());
-    }
-
-    @Test
-    public void testTwoKing() {
-        final Map<Integer, Integer> levelExpectedMap = new HashMap<>();
-        levelExpectedMap.put(1, 3);
-        levelExpectedMap.put(2, 9);
-        levelExpectedMap.put(3, 27);
-        levelExpectedMap.put(4, 81);
-
-        for (final Integer level : levelExpectedMap.keySet()) {
+        for(Integer level : levelExpectedMap.keySet()){
             final int expected = levelExpectedMap.get(level);
             final int actual = twoKing(level);
-            TestCase.assertEquals(expected, actual);
+            TestCase.assertEquals(expected,actual);
         }
     }
-
     private int twoKing(final int level) {
-        final IMediator mediator = new Mediator();
-        final StoryGame storyGame = new StoryGame(mediator);
+        IMediator mediator = new Mediator();
+        StoryGame storyGame = new StoryGame(mediator);
 
-        final Figure figureW = new King(Color.WHITE);
-        final IField fieldW = new Field(0, 0);
+        Figure figureW = new King(Color.WHITE);
+        IField fieldW = new Field(0, 0);
         mediator.addNewConnection(fieldW, figureW);
 
-        final Figure figureB = new King(Color.BLACK);
-        final IField fieldB = new Field(7, 7);
+        Figure figureB = new King(Color.BLACK);
+        IField fieldB = new Field(7, 7);
         mediator.addNewConnection(fieldB, figureB);
 
-        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
+        PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
         list.updateRealLists();
 
-        final Position startPosition = new Position(mediator, list);
+        Position startPosition = new Position(mediator, list);
 
-        final BuilderTree builderTree = new BuilderTree(level, Color.WHITE);
+        BuilderTree builderTree = new BuilderTree(level, Color.WHITE);
 
-        final INode root = builderTree.getTree(startPosition);
+        INode root = builderTree.getTree(startPosition);
 
-        final Collection<INode> result = HelperBuilderTree.getAllChildren(root);
+        Collection<INode> result = HelperBuilderTree.getAllChildren(root);
 
         return result.size();
     }

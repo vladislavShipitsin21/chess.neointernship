@@ -37,7 +37,7 @@ public class TestDrawOnlyKing {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answer = new Answer(7, 4, 6, 4, 'Q');
+        IAnswer answer = new Answer(7, 4, 6, 4, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 

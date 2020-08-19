@@ -38,10 +38,10 @@ public class TestCastling extends TestAllowCommand {
     }
 
     public void check(final boolean isLeft, final Color color) {
-        final Figure king = new King(color);
+        Figure king = new King(color);
 
-        final int startXCoordKing = color == Color.WHITE ? 7 : 0;
-        final IField fieldKing = new Field(startXCoordKing, 4);
+        int startXCoordKing = color == Color.WHITE ? 7 : 0;
+        IField fieldKing = new Field(startXCoordKing, 4);
 
         int startYCoordRook = 7;
         int offset = 2;
@@ -50,26 +50,26 @@ public class TestCastling extends TestAllowCommand {
             offset = -2;
         }
 
-        final Figure rook = new Rook(king.getColor());
-        final IField fieldRook = new Field(fieldKing.getXCoord(), startYCoordRook);
+        Figure rook = new Rook(king.getColor());
+        IField fieldRook = new Field(fieldKing.getXCoord(), startYCoordRook);
 
         addFigure(fieldKing, king);
         addFigure(fieldRook, rook);
 
-        final IAnswer answer = new Answer(
+        IAnswer answer = new Answer(
                 fieldKing.getXCoord(),
                 fieldKing.getYCoord(),
                 fieldKing.getXCoord(),
                 fieldKing.getYCoord() + offset,
                 'Q');
 
-        final TurnStatus result = allowMoveCommand.execute(answer);
+        TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.CASTLING, result);
 
-        final IField fieldKingExpected = new Field(answer.getFinalX(), answer.getFinalY());
+        IField fieldKingExpected = new Field(answer.getFinalX(), answer.getFinalY());
         offset /= 2;
-        final IField fieldRookExpected = new Field(answer.getFinalX(), answer.getStartY() + offset);
+        IField fieldRookExpected = new Field(answer.getFinalX(), answer.getStartY() + offset);
 
         assertEquals(fieldKingExpected, mediator.getField(king));
         assertEquals(fieldRookExpected, mediator.getField(rook));

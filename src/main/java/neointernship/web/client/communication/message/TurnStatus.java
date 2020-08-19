@@ -9,7 +9,7 @@ public enum TurnStatus {
     TRANSFORMATION_AFTER("Превращение"),
     ERROR("Ошибочка вышла");
 
-    private final String message;
+    private String message;
 
     TurnStatus(final String message) {
         this.message = message;

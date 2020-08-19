@@ -81,10 +81,10 @@ public class AnswerSimbol implements IAnswer {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final AnswerSimbol that = (AnswerSimbol) o;
+        AnswerSimbol that = (AnswerSimbol) o;
         return startX == that.startX &&
                 startY == that.startY &&
                 finalX == that.finalX &&

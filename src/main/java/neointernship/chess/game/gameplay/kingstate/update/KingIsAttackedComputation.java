@@ -18,13 +18,13 @@ public final class KingIsAttackedComputation {
         this.mediator = mediator;
     }
 
-    public boolean kingIsAttacked(final Color color) {
-        final Figure king = mediator.getKing(color);
-        final IField kingField = mediator.getField(king);
+    public boolean kingIsAttacked(Color color) {
+        Figure king = mediator.getKing(color);
+        IField kingField = mediator.getField(king);
 
-        final Color opponentColor = Color.swapColor(color);
-        for (final Figure figure : mediator.getFigures(opponentColor)) {
-            final Collection<IField> collection = possibleActionList.getPotentialList(figure);
+        Color opponentColor = Color.swapColor(color);
+        for (Figure figure : mediator.getFigures(opponentColor)) {
+            Collection<IField> collection = possibleActionList.getPotentialList(figure);
             if (collection.contains(kingField)) {
                 return true;
             }
@@ -32,10 +32,10 @@ public final class KingIsAttackedComputation {
         return false;
     }
 
-    public boolean fieldIsAttacked(final IField field, final Color color) {
-        final Color opponentColor = Color.swapColor(color);
-        for (final Figure figure : mediator.getFigures(opponentColor)) {
-            final Collection<IField> collection = possibleActionList.getPotentialList(figure);
+    public boolean fieldIsAttacked(IField field, Color color) {
+        Color opponentColor = Color.swapColor(color);
+        for (Figure figure : mediator.getFigures(opponentColor)) {
+            Collection<IField> collection = possibleActionList.getPotentialList(figure);
             if (collection.contains(field)) {
                 return true;
             }

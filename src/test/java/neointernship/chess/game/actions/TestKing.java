@@ -41,7 +41,7 @@ public class TestKing {
         final Figure rook = new Rook(Color.WHITE);
         final IField fieldRook = new Field(7, 7);
 
-        final Field[] expected = {
+        Field[] expected = {
                 new Field(7, 3), new Field(6, 3), new Field(6, 4),
                 new Field(6, 5), new Field(7, 5), new Field(7, 6)};
 
@@ -66,7 +66,7 @@ public class TestKing {
         final Figure bishop = new Bishop(Color.BLACK);
         final IField fieldBishop = new Field(7, 5);
 
-        final Field[] expected = {
+        Field[] expected = {
                 new Field(7, 3), new Field(6, 3), new Field(6, 5), new Field(7, 5)};
 
         put(king, fieldKing);
@@ -91,7 +91,7 @@ public class TestKing {
         final Figure bishop = new Bishop(Color.BLACK);
         final IField fieldBishop = new Field(5, 7);
 
-        final Field[] expected = {
+        Field[] expected = {
                 new Field(7, 3), new Field(6, 3), new Field(6, 4), new Field(6, 5)};
 
         put(king, fieldKing);
@@ -115,7 +115,7 @@ public class TestKing {
         final Figure rook2 = new Rook(Color.BLACK);
         final IField fieldRook2 = new Field(6, 0);
 
-        final Field[] expected = {};
+        Field[] expected = {};
 
         put(king, fieldKing);
         put(rook1, fieldRook1);
@@ -135,7 +135,7 @@ public class TestKing {
         final Figure kingB = new King(Color.BLACK);
         final IField fieldKingB = new Field(5, 4);
 
-        final Field[] expected = {
+        Field[] expected = {
                 new Field(7, 3), new Field(7, 5)};
 
         put(kingW, fieldKingW);
@@ -158,7 +158,7 @@ public class TestKing {
         final Figure rookB = new Rook(Color.BLACK);
         final IField fieldRookB = new Field(6, 0);
 
-        final Field[] expected = {};
+        Field[] expected = {};
 
         put(king, fieldKing);
         put(pawn, fieldPawn);

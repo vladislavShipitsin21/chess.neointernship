@@ -9,9 +9,9 @@ public enum Color {
     BLACK("черные"),
     BOTH("любой");
 
-    private final String message;
+    private String message;
 
-    Color(final String message) {
+    Color(String message) {
         this.message = message;
     }
 
@@ -19,7 +19,7 @@ public enum Color {
         return message;
     }
 
-    public static Color swapColor(final Color color) {
+    public static Color swapColor(Color color) {
         return color == Color.WHITE ? Color.BLACK : Color.WHITE;
     }
 

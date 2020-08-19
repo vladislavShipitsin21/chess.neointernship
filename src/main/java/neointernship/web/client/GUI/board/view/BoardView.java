@@ -18,7 +18,7 @@ public class BoardView extends JFrame implements IBoardView {
 
     private final GridLayout gridLayout;
 
-    private final ChessLabel[][] labels;
+    private ChessLabel[][] labels;
     Container contentPane = getContentPane();
 
     private final ChessLabel[] sideNumbers;
@@ -76,8 +76,8 @@ public class BoardView extends JFrame implements IBoardView {
                 getContentPane().remove(labels[i][j]);
 
 
-                final IField field = board.getField(i, j);
-                final Figure figure = mediator.getFigure(field);
+                IField field = board.getField(i, j);
+                Figure figure = mediator.getFigure(field);
 
 
                 String label = " ";
@@ -94,11 +94,11 @@ public class BoardView extends JFrame implements IBoardView {
 
     private void startUpdate() {
         for (int i = 0; i < board.getSize(); i++) {
-            final String labelNumber = String.valueOf(8 - i);
+            String labelNumber = String.valueOf(8 - i);
             sideNumbers[i] = new ChessLabel(labelNumber);
             sideNumbers[i].set(i, 8);
 
-            final String labelLetter = String.valueOf((char) ((int) ('\u0041') + i));
+            String labelLetter = String.valueOf((char) ((int) ('\u0041') + i));
             sideLetters[i] = new ChessLabel(labelLetter);
             sideLetters[i].set(8, i);
         }
@@ -106,8 +106,8 @@ public class BoardView extends JFrame implements IBoardView {
 
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
-                final IField field = board.getField(i, j);
-                final Figure figure = mediator.getFigure(field);
+                IField field = board.getField(i, j);
+                Figure figure = mediator.getFigure(field);
 
                 String label = " ";
                 if (figure != null) {

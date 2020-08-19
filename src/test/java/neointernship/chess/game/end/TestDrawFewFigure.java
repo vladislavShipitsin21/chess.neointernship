@@ -47,7 +47,7 @@ public class TestDrawFewFigure {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answer = new Answer(7, 0, 6, 2, 'Q');
+        IAnswer answer = new Answer(7, 0, 6, 2, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 
@@ -81,7 +81,7 @@ public class TestDrawFewFigure {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answer = new Answer(1, 1, 2, 2, 'Q');
+        IAnswer answer = new Answer(1, 1, 2, 2, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 
@@ -115,7 +115,7 @@ public class TestDrawFewFigure {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answer = new Answer(1, 0, 2, 1, 'Q');
+        IAnswer answer = new Answer(1, 0, 2, 1, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 

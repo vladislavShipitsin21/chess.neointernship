@@ -13,18 +13,16 @@ import java.util.Random;
 
 public class RandomBot extends Bot {
 
-    final Random random;
+    Random random;
 
-    public RandomBot(final Color color) {
-        super("Random",color);
+    public RandomBot(Color color) {
+        super("Random", color);
         random = new Random();
     }
 
     @Override
-    public IAnswer getAnswer(final IMediator mediator, final IPossibleActionList possibleActionList) {
-        time.start();
-
-        final List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
+    public IAnswer getAnswer(IMediator mediator, IPossibleActionList possibleActionList) {
+        List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields;
         Figure figure;
         int index;
@@ -36,16 +34,13 @@ public class RandomBot extends Bot {
         } while (fields.isEmpty());
 
         index = random.nextInt(fields.size());
-        final IField finalField = fields.get(index);
+        IField finalField = fields.get(index);
 
-        final IField startField = mediator.getField(figure);
+        IField startField = mediator.getField(figure);
 
-        final IAnswer answer = new Answer(startField.getXCoord(), startField.getYCoord(),
+        IAnswer answer = new Answer(startField.getXCoord(), startField.getYCoord(),
                 finalField.getXCoord(), finalField.getYCoord(), 'Q');
-
-        time.finish();
-        System.out.println(getName() + " - " + time.getTime());
-
+        printAnswer(startField, finalField);
         return answer;
     }
 

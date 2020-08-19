@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class ErrorLoggerClient {
     private static final HashMap<String, ErrorLoggerClient> mapLogger = new HashMap<String, ErrorLoggerClient>();
-    private final Logger logger;
+    private Logger logger;
 
     private ErrorLoggerClient(final String name) {
         logger = Logger.getLogger(name);

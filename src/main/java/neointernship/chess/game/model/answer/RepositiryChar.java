@@ -31,23 +31,23 @@ public class RepositiryChar {
         }};
     }
 
-    public int getY(final char c) {
+    public int getY(char c) {
         return mapY.get(c);
     }
 
-    public char getY(final int i) {
-        for (final Map.Entry<Character, Integer> set : mapY.entrySet()) {
+    public char getY(int i) {
+        for (Map.Entry<Character, Integer> set : mapY.entrySet()) {
             if (set.getValue() == i) return set.getKey();
         }
         return 0;
     }
 
-    public int getX(final char c) {
+    public int getX(char c) {
         return mapX.get(c);
     }
 
-    public char getX(final int i) {
-        for (final Map.Entry<Character, Integer> set : mapX.entrySet()) {
+    public char getX(int i) {
+        for (Map.Entry<Character, Integer> set : mapX.entrySet()) {
             if (set.getValue() == i) return set.getKey();
         }
         return 0;

@@ -28,7 +28,7 @@ public class AttackCommand extends AbstractCommand implements IAllowCommand {
 
     @Override
     public boolean check(final IField startField, final IField finishField) {
-        final Figure finalFigure = mediator.getFigure(finishField);
+        Figure finalFigure = mediator.getFigure(finishField);
         return finalFigure != null;
     }
 }

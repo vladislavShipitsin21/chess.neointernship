@@ -5,10 +5,10 @@ import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 
-public abstract class Bot extends Player {
+public class FirstBot extends Bot {
 
-    public Bot(String name, Color color) {
-        super(name + " bot", color);
+    public FirstBot(final Color color) {
+        super("First", color);
     }
 
     @Override

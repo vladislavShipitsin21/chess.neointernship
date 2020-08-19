@@ -32,24 +32,24 @@ public class RealBasicPatterns implements IRealBasicPatterns {
     }
 
     @Override
-    public Collection<IField> getRealMoveList(final Figure figure, final Collection<IField> potentialMoveList) {
+    public Collection<IField> getRealMoveList(Figure figure, Collection<IField> potentialMoveList) {
         IAllowCommand command;
         final ArrayList<IField> realList = new ArrayList<>();
         final IField startField = mediator.getField(figure);
         final Color colorFigure = figure.getColor();
         final Color colorOpponent = Color.swapColor(colorFigure);
 
-        for (final IField finishField : potentialMoveList) {
+        for (IField finishField : potentialMoveList) {
 
-            final IMediator newMediator = new Mediator(mediator);
-            final IStoryGame newStoryGame = new StoryGame((StoryGame) storyGame);
-            final IPossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
+            IMediator newMediator = new Mediator(mediator);
+            IStoryGame newStoryGame = new StoryGame((StoryGame) storyGame);
+            IPossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
 
-            final AllowMoveCommand allowMoveCommand =
+            AllowMoveCommand allowMoveCommand =
                     new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);
 
             command = allowMoveCommand.getCommand(startField, finishField);
-            final IAnswer answer = new Answer(
+            IAnswer answer = new Answer(
                     startField.getXCoord(),
                     startField.getYCoord(),
                     finishField.getXCoord(),

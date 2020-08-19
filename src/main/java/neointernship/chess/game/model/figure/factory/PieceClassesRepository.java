@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PieceClassesRepository {
-    private final Map<Character, Class<? extends Figure>> pieceMap;
+    private Map<Character, Class<? extends Figure>> pieceMap;
     private static final Character KING_PIECE_SYMBOL = 'K';
     private static final Character QUEEN_PIECE_SYMBOL = 'Q';
     private static final Character BISHOP_PIECE_SYMBOL = 'B';

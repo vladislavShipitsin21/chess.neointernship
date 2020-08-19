@@ -61,10 +61,10 @@ public class Answer implements IAnswer {
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        final Answer answer = (Answer) o;
+        Answer answer = (Answer) o;
         return startX == answer.startX &&
                 startY == answer.startY &&
                 finalX == answer.finalX &&

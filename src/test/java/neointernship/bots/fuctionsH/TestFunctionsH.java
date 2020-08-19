@@ -17,29 +17,29 @@ import static neointernship.bots.InitGameMap.initGameMap;
 public class TestFunctionsH {
 
     @Test
-    public void testTarget() {
-        final IMediator mediator = initGameMap();
-        final StoryGame storyGame = new StoryGame(mediator);
-        final Board board = new Board();
+    public void testTarget(){
+        IMediator mediator = initGameMap();
+        StoryGame storyGame = new StoryGame(mediator);
+        Board board = new Board();
 
-        final IConsoleBoardWriter printer = new ConsoleBoardWriter(mediator, board);
+        IConsoleBoardWriter printer = new ConsoleBoardWriter(mediator,board);
 
-        final PossibleActionList list = new PossibleActionList(board, mediator, storyGame);
+        PossibleActionList list = new PossibleActionList(board,mediator,storyGame);
         list.updateRealLists();
 
-        final Position start = new Position(mediator, list);
+        Position start = new Position(mediator,list);
 
-        assertEquals(0., TargetFunction.price(start, Color.WHITE, Color.WHITE));
+        assertEquals(0.,TargetFunction.price(start,Color.WHITE,Color.WHITE));
 
-        mediator.deleteConnection(board.getField(0, 0));
+        mediator.deleteConnection(board.getField(0,0));
 
-        final Position finish = new Position(mediator, list);
+        Position finish = new Position(mediator,list);
 
-        assertEquals(5. / 38, TargetFunction.price(finish, Color.WHITE, Color.WHITE));
+        assertEquals(5./ 38,TargetFunction.price(finish,Color.WHITE,Color.WHITE));
 
-        final Position finishBlack = new Position(mediator, list);
+        Position finishBlack = new Position(mediator,list);
 
-        assertEquals(-5. / 38, TargetFunction.price(finishBlack, Color.BLACK, Color.WHITE));
+        assertEquals(-5./38,TargetFunction.price(finishBlack,Color.BLACK,Color.WHITE));
     }
 
 

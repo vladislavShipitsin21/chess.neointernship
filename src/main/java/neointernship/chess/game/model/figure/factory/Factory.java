@@ -7,7 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 public class Factory implements IFactory {
-    private final PieceClassesRepository pieceClassesRepository;
+    private PieceClassesRepository pieceClassesRepository;
 
     /**
      * Constructor of the class, where we declare the PieceRepository instance.
@@ -24,11 +24,11 @@ public class Factory implements IFactory {
      */
     @Override
     public Figure createFigure(final Character pieceName, final Color color) {
-        final Class<? extends Figure> pieceClass = pieceClassesRepository.getPieceClass(pieceName);
+        Class<? extends Figure> pieceClass = pieceClassesRepository.getPieceClass(pieceName);
         try {
-            final Constructor<? extends Figure> constructor = pieceClass.getConstructor(Color.class);
+            Constructor<? extends Figure> constructor = pieceClass.getConstructor(Color.class);
             return constructor.newInstance(color);
-        } catch (final IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
         return null;

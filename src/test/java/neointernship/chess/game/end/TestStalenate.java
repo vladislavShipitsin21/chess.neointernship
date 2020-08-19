@@ -45,7 +45,7 @@ public class TestStalenate {
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
 
-        final IAnswer answer = new Answer(0, 6, 6, 6, 'Q');
+        IAnswer answer = new Answer(0, 6, 6, 6, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 

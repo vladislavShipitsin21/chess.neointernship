@@ -7,8 +7,8 @@ public class Connection {
     private static final String IP = "127.0.0.1";//"localhost";
     private static final int PORT = 8081;
 
-    private final String ip;
-    private final int port;
+    private String ip;
+    private int port;
     private Socket socket;
 
     public Connection(final String ip, final int port) {

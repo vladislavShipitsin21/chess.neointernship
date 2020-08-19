@@ -44,11 +44,11 @@ public class TestDrawRepetitionPosition {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answerW1 = new Answer(0, 0, 0, 1, 'Q');
-        final IAnswer answerW2 = new Answer(0, 1, 0, 0, 'Q');
+        IAnswer answerW1 = new Answer(0, 0, 0, 1, 'Q');
+        IAnswer answerW2 = new Answer(0, 1, 0, 0, 'Q');
 
-        final IAnswer answerB1 = new Answer(7, 7, 6, 6, 'Q');
-        final IAnswer answerB2 = new Answer(6, 6, 7, 7, 'Q');
+        IAnswer answerB1 = new Answer(7, 7, 6, 6, 'Q');
+        IAnswer answerB2 = new Answer(6, 6, 7, 7, 'Q');
 
         answerMap.put(1, answerW1);
         answerMap.put(2, answerB1);
@@ -89,11 +89,11 @@ public class TestDrawRepetitionPosition {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answerW1 = new Answer(7, 4, 7, 5, 'Q');
-        final IAnswer answerW2 = new Answer(7, 5, 7, 4, 'Q');
+        IAnswer answerW1 = new Answer(7, 4, 7, 5, 'Q');
+        IAnswer answerW2 = new Answer(7, 5, 7, 4, 'Q');
 
-        final IAnswer answerB1 = new Answer(0, 0, 0, 1, 'Q');
-        final IAnswer answerB2 = new Answer(0, 1, 0, 0, 'Q');
+        IAnswer answerB1 = new Answer(0, 0, 0, 1, 'Q');
+        IAnswer answerB2 = new Answer(0, 1, 0, 0, 'Q');
 
         answerMap.put(1, answerB1);
         answerMap.put(2, answerW1);

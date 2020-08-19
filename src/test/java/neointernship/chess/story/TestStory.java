@@ -35,18 +35,18 @@ public class TestStory {
 
     @Test
     public void testGet() {
-        final IMediator mediator = new Mediator();
-        final IStoryGame storyGame = new StoryGame(mediator);
+        IMediator mediator = new Mediator();
+        IStoryGame storyGame = new StoryGame(mediator);
 
-        final Figure king = new King(Color.WHITE);
-        final IField field = new Field(0, 0);
+        Figure king = new King(Color.WHITE);
+        IField field = new Field(0, 0);
 
         mediator.addNewConnection(field, king);
 
         storyGame.update(king);
 
-        final IField result = storyGame.getLastField();
-        final IField expectedField = new Field(0, 0);
+        IField result = storyGame.getLastField();
+        IField expectedField = new Field(0, 0);
 
         assertNotNull(result);
         assertEquals(expectedField, result);
@@ -63,9 +63,9 @@ public class TestStory {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
+        IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
 
-        final IStoryGame result = testHeadEnd.getStoryGame();
+        IStoryGame result = testHeadEnd.getStoryGame();
 
         assertFalse(result.isMove(kingW));
 
@@ -92,13 +92,13 @@ public class TestStory {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        final IAnswer answer1 = new Answer(7, 4, 6, 4, 'Q');
-        final IAnswer answer2 = new Answer(0, 0, 0, 1, 'Q');
+        IAnswer answer1 = new Answer(7, 4, 6, 4, 'Q');
+        IAnswer answer2 = new Answer(0, 0, 0, 1, 'Q');
 
-        final IAnswer answer3 = new Answer(6, 4, 7, 4, 'Q');
-        final IAnswer answer4 = new Answer(0, 1, 0, 0, 'Q');
+        IAnswer answer3 = new Answer(6, 4, 7, 4, 'Q');
+        IAnswer answer4 = new Answer(0, 1, 0, 0, 'Q');
 
-        final IAnswer answerMain = new Answer(7, 4, 7, 6, 'Q');
+        IAnswer answerMain = new Answer(7, 4, 7, 6, 'Q');
 
         answerMap.put(1, answer1);
         answerMap.put(2, answer2);

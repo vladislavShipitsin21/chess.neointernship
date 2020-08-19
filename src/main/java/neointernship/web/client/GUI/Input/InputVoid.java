@@ -42,7 +42,7 @@ public class InputVoid implements IInput {
     }
 
     @Override
-    public void endGame(final EnumGameState enumGameState, final Color color) {
+    public void endGame(EnumGameState enumGameState, Color color) {
 
     }
 

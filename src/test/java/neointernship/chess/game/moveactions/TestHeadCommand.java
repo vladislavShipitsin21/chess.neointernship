@@ -29,7 +29,7 @@ public class TestHeadCommand {
         possibleActionList.updateRealLists();
     }
 
-    protected void addFigure(final IField field, final Figure figure) {
+    protected void addFigure(IField field, Figure figure) {
         mediator.addNewConnection(field, figure);
         possibleActionList.updateRealLists();
     }

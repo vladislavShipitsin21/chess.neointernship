@@ -13,13 +13,13 @@ import neointernship.web.client.communication.message.TurnStatus;
  */
 public class AisleTakeCommand extends AbstractCommand implements IAllowCommand {
 
-    public AisleTakeCommand(final IBoard board, final IMediator mediator) {
+    public AisleTakeCommand(IBoard board, IMediator mediator) {
         super(board, mediator);
         turnStatus = TurnStatus.AISLE_TAKE;
     }
 
     @Override
-    public void execute(final IAnswer answer) {
+    public void execute(IAnswer answer) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
         final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
 

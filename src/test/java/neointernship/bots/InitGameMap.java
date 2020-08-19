@@ -14,12 +14,12 @@ import neointernship.chess.game.model.playmap.field.IField;
 
 public class InitGameMap {
     public static IMediator initGameMap() {
-        final IBoard board = new Board();
-        final FiguresStartPositionRepository figuresStartPositionRepository = new FiguresStartPositionRepository();
-        final ChessType chessType = ChessType.CLASSIC;
+        IBoard board = new Board();
+        FiguresStartPositionRepository figuresStartPositionRepository = new FiguresStartPositionRepository();
+        ChessType chessType = ChessType.CLASSIC;
         final Character FIELD_CHAR_EMPTY = '.';
-        final IFactory figureFactory = new Factory();
-        final IMediator mediator = new Mediator();
+        IFactory figureFactory = new Factory();
+        IMediator mediator = new Mediator();
 
         final Character[][] figuresRepository = figuresStartPositionRepository.getStartPosition(chessType);
         for (int i = 0; i < board.getSize(); i++) {

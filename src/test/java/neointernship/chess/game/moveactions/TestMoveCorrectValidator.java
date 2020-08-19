@@ -38,9 +38,9 @@ public class TestMoveCorrectValidator extends TestHeadCommand {
 
         addFigure(fieldKingW, kingW);
 
-        final IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
+        IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
 
-        final MoveState result = validator.check(Color.BLACK, answer);
+        MoveState result = validator.check(Color.BLACK, answer);
 
         assertEquals(result, MoveState.ALLOWED);
     }
@@ -51,9 +51,9 @@ public class TestMoveCorrectValidator extends TestHeadCommand {
         final IField fieldKingW = new Field(7, 4);
         addFigure(fieldKingW, kingW);
 
-        final IAnswer answer = new Answer(7, 4, 0, 5, 'Q');
+        IAnswer answer = new Answer(7, 4, 0, 5, 'Q');
 
-        final MoveState result = validator.check(Color.BLACK, answer);
+        MoveState result = validator.check(Color.BLACK, answer);
 
         assertEquals(result, MoveState.RESTRICT);
     }
@@ -71,9 +71,9 @@ public class TestMoveCorrectValidator extends TestHeadCommand {
         final IField fieldKingB = new Field(7, 4);
         addFigure(fieldKingB, kingB);
 
-        final IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
+        IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
 
-        final MoveState result = validator.check(Color.WHITE, answer);
+        MoveState result = validator.check(Color.WHITE, answer);
 
         assertEquals(result, MoveState.RESTRICT);
     }
@@ -87,9 +87,9 @@ public class TestMoveCorrectValidator extends TestHeadCommand {
         final IField fieldKingW = new Field(0, 0);
         addFigure(fieldKingW, kingW);
 
-        final IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
+        IAnswer answer = new Answer(7, 4, 7, 5, 'Q');
 
-        final MoveState result = validator.check(Color.WHITE, answer);
+        MoveState result = validator.check(Color.WHITE, answer);
 
         assertEquals(result, MoveState.RESTRICT);
     }
