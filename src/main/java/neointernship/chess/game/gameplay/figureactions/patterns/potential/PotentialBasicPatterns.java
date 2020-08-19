@@ -6,7 +6,6 @@ import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.figure.piece.Rook;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
-import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 
@@ -120,7 +119,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
             addAttackField(figure.getColor(), currentField.getXCoord() + offset, currentField.getYCoord() + one, possibleAttackFields);
         }
 
-        boolean isFreePath = addMoveField(currentField.getXCoord() + offset,
+        final boolean isFreePath = addMoveField(currentField.getXCoord() + offset,
                 currentField.getYCoord(),
                 possibleAttackFields);
 
@@ -135,7 +134,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
 
         // для превращения ( только для изменения из пешки в другую фигуру)
         if (currentField.getXCoord() == 0 || currentField.getXCoord() == 7) {
-            IField field = board.getField(currentField.getXCoord(), currentField.getYCoord());
+            final IField field = board.getField(currentField.getXCoord(), currentField.getYCoord());
             possibleAttackFields.add(field);
         }
 
@@ -245,7 +244,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
      * @param possibleMoveList a list where we add the field if it needed.
      * @return boolean value if moving through direction is possible (not covered with another piece).
      */
-    private boolean actionToAdd(final Color color, final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+    private boolean actionToAdd(final Color color, final int newFieldXCoord, final int newFieldYCoord, final ArrayList<IField> possibleMoveList) {
         if (invalidCoordinates(newFieldXCoord, newFieldYCoord)) {
             return false;
         }
@@ -258,7 +257,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
         return figure == null;
     }
 
-    private boolean addMoveField(final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+    private boolean addMoveField(final int newFieldXCoord, final int newFieldYCoord, final ArrayList<IField> possibleMoveList) {
         if (invalidCoordinates(newFieldXCoord, newFieldYCoord)) {
             return false;
         }
@@ -273,7 +272,7 @@ public class PotentialBasicPatterns implements IPotentialBasicPatterns {
         return false;
     }
 
-    private void addAttackField(final Color color, final int newFieldXCoord, final int newFieldYCoord, ArrayList<IField> possibleMoveList) {
+    private void addAttackField(final Color color, final int newFieldXCoord, final int newFieldYCoord, final ArrayList<IField> possibleMoveList) {
         if (invalidCoordinates(newFieldXCoord, newFieldYCoord)) {
             return;
         }

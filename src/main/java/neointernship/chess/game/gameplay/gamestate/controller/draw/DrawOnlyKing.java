@@ -6,7 +6,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 public class DrawOnlyKing implements IDrawController {
 
     @Override
-    public boolean isDraw(IMediator mediator) {
+    public boolean isDraw(final IMediator mediator) {
         return mediator.getFigures().size() == 2;
     }
 

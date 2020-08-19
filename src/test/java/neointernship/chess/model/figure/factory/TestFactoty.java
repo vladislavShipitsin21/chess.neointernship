@@ -14,11 +14,11 @@ public class TestFactoty {
     @Test
     public void testCreateBishop() {
 
-        IFactory factory = new Factory();
-        Figure figure = factory.createFigure('B', Color.WHITE);
+        final IFactory factory = new Factory();
+        final Figure figure = factory.createFigure('B', Color.WHITE);
 
         assertEquals(figure.getClass(), Bishop.class);
-        Bishop bishop = (Bishop) figure;
+        final Bishop bishop = (Bishop) figure;
 
         assertEquals(bishop.getName(), "Bishop");
         assertEquals(bishop.getGameSymbol(), 'B');
@@ -30,8 +30,8 @@ public class TestFactoty {
     @Test
     public void testCreateKing() {
 
-        IFactory factory = new Factory();
-        Figure figure = factory.createFigure('K', Color.BLACK);
+        final IFactory factory = new Factory();
+        final Figure figure = factory.createFigure('K', Color.BLACK);
 
         assertEquals(figure.getClass(), King.class);
 

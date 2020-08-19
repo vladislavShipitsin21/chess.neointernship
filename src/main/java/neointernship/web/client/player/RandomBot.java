@@ -10,6 +10,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.web.client.GUI.Input.IInput;
+import neointernship.web.client.GUI.Input.InputVoid;
 import neointernship.web.client.GUI.board.view.BoardView;
 import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.TurnStatus;
@@ -24,10 +25,10 @@ public class RandomBot extends APlayer {
     private final Random random;
     private final IInput input;
 
-    public RandomBot(final Color color, final String name, final IInput input) {
-        super(color, name);
+    public RandomBot(final Color color) {
+        super(color, "random-bot");
         this.random = new Random();
-        this.input = input;
+        this.input = new InputVoid();
     }
 
     @Override

@@ -17,18 +17,18 @@ public class TestMove extends TestAllowCommand {
     @Test
     public void testMove() {
 
-        Figure figure = new King(Color.WHITE);
-        IField field = new Field(0, 0);
+        final Figure figure = new King(Color.WHITE);
+        final IField field = new Field(0, 0);
 
         addFigure(field, figure);
 
-        IAnswer answer = new Answer(0, 0, 1, 1, 'Q');
+        final IAnswer answer = new Answer(0, 0, 1, 1, 'Q');
 
-        TurnStatus result = allowMoveCommand.execute(answer);
+        final TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.MOVE, result);
 
-        IField fieldKingExpected = new Field(1, 1);
+        final IField fieldKingExpected = new Field(1, 1);
 
         assertEquals(fieldKingExpected, mediator.getField(figure));
     }

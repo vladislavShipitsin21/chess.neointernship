@@ -7,11 +7,9 @@ import neointernship.chess.game.gameplay.figureactions.patterns.real.RealBasicPa
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Figure;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
-import neointernship.chess.game.story.StoryGame;
 
 import java.util.*;
 
@@ -57,15 +55,16 @@ public class PossibleActionList implements IPossibleActionList {
     }
 */
 
-    public void addRealField(final Figure figure, final IField finishField){
-        if(realFigureActions.isEmpty()) {
-            realFigureActions.put(figure,new ArrayList<>());
+    public void addRealField(final Figure figure, final IField finishField) {
+        if (realFigureActions.isEmpty()) {
+            realFigureActions.put(figure, new ArrayList<>());
         }
         realFigureActions.get(figure).add(finishField);
     }
-    public void clearRealList(final Figure figure, final IField finishField){
-        if(realFigureActions.isEmpty()) {
-            realFigureActions.put(figure,new ArrayList<>());
+
+    public void clearRealList(final Figure figure, final IField finishField) {
+        if (realFigureActions.isEmpty()) {
+            realFigureActions.put(figure, new ArrayList<>());
         }
         realFigureActions.get(figure).add(finishField);
     }
@@ -86,7 +85,7 @@ public class PossibleActionList implements IPossibleActionList {
     public void updatePotentialLists() {
         potentialFigureAction.clear();
 
-        for (Figure figure : mediator.getFigures()) {
+        for (final Figure figure : mediator.getFigures()) {
             potentialFigureAction.put(figure, new ArrayList<>());
 
             potentialFigureAction.get(figure).addAll(Intermediary.getList(figure, potentialPatterns));
@@ -94,8 +93,8 @@ public class PossibleActionList implements IPossibleActionList {
     }
 
     @Override
-    public void updatePotentialLists(Color color) {
-        for (Figure figure : mediator.getFigures(color)) {
+    public void updatePotentialLists(final Color color) {
+        for (final Figure figure : mediator.getFigures(color)) {
             potentialFigureAction.put(figure, new ArrayList<>());
 
             potentialFigureAction.get(figure).addAll(Intermediary.getList(figure, potentialPatterns));
@@ -103,7 +102,7 @@ public class PossibleActionList implements IPossibleActionList {
     }
 
     @Override
-    public Collection<IField> getRealList(Figure figure) {
+    public Collection<IField> getRealList(final Figure figure) {
         return realFigureActions.get(figure);
     }
 
@@ -112,7 +111,7 @@ public class PossibleActionList implements IPossibleActionList {
         updatePotentialLists();
         realFigureActions.clear();
 
-        for (Figure figure : mediator.getFigures()) {
+        for (final Figure figure : mediator.getFigures()) {
             realFigureActions.put(figure, new ArrayList<>());
 
             realFigureActions.get(figure).addAll(realPatterns.getRealMoveList(
@@ -122,15 +121,15 @@ public class PossibleActionList implements IPossibleActionList {
     }
 
     @Override
-    public Collection<IField> getPotentialList(Figure figure) {
+    public Collection<IField> getPotentialList(final Figure figure) {
         return potentialFigureAction.get(figure);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PossibleActionList that = (PossibleActionList) o;
+        final PossibleActionList that = (PossibleActionList) o;
         return Objects.equals(realFigureActions, that.realFigureActions);
     }
 

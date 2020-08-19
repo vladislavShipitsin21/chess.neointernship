@@ -3,7 +3,6 @@ package neointernship.chess.game.gameplay.gamestate.controller.draw;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.model.mediator.IMediator;
-import neointernship.chess.game.model.mediator.Mediator;
 
 import java.util.Objects;
 
@@ -11,7 +10,7 @@ public class Position implements Comparable<Position> {
     private final IMediator mediator;
     private final PossibleActionList possibleActionList;
 
-    public void setPrice(double price) {
+    public void setPrice(final double price) {
         this.price = price;
     }
 
@@ -35,10 +34,10 @@ public class Position implements Comparable<Position> {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Position position = (Position) o;
+        final Position position = (Position) o;
         return this.mediator.equals(position.mediator) &&
                 this.possibleActionList.equals(position.possibleActionList);
     }
@@ -49,7 +48,7 @@ public class Position implements Comparable<Position> {
     }
 
     @Override
-    public int compareTo(Position o) {
-        return Double.compare(price,o.price);
+    public int compareTo(final Position o) {
+        return Double.compare(price, o.price);
     }
 }

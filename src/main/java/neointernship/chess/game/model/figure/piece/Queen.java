@@ -3,7 +3,7 @@ package neointernship.chess.game.model.figure.piece;
 import neointernship.chess.game.model.enums.Color;
 
 public class Queen extends Figure {
-    public Queen(Color color) {
+    public Queen(final Color color) {
         super("Queen", 'Q', color, (short) 8);
     }
 }

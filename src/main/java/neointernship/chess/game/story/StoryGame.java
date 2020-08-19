@@ -22,7 +22,7 @@ public class StoryGame implements IStoryGame {
         this.hoIsMove = new HashSet<>();
     }
 
-    public StoryGame(StoryGame storyGame) {
+    public StoryGame(final StoryGame storyGame) {
         this.mediator = storyGame.mediator;
 
         this.hoIsMove = new HashSet<>();

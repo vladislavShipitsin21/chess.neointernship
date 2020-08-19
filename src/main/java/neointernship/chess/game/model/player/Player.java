@@ -3,7 +3,7 @@ package neointernship.chess.game.model.player;
 import neointernship.chess.game.model.enums.Color;
 
 public abstract class Player implements IPlayer {
-    private final Color color;
+    private Color color;
     private final String name;
 
     public Player(final String name, final Color color) {
@@ -15,7 +15,13 @@ public abstract class Player implements IPlayer {
         return color;
     }
 
-    public String getName() {
-        return name + " " + color;
+    @Override
+    public void setColor(final Color color) {
+        this.color = color;
     }
+
+    public String getName() {
+        return name ;
+    }
+
 }

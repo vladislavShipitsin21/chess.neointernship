@@ -18,7 +18,7 @@ public class Field implements IField {
      */
     private static final RepositiryChar repositiryChar = new RepositiryChar();
 
-    public Field(int x, int y) {
+    public Field(final int x, final int y) {
         this.x = x;
         this.y = y;
         color = initColor();
@@ -63,10 +63,10 @@ public class Field implements IField {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Field field = (Field) o;
+        final Field field = (Field) o;
         return x == field.x &&
                 y == field.y &&
                 color == field.color;

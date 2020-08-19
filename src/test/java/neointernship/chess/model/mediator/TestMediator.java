@@ -1,7 +1,5 @@
 package neointernship.chess.model.mediator;
 
-import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
-import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.Bishop;
 import neointernship.chess.game.model.figure.piece.Figure;
@@ -15,9 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
-import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestMediator {
 
@@ -48,14 +46,14 @@ public class TestMediator {
 
     @Test
     public void testGetFigure() {
-        Figure result = mediator.getFigure(fieldB);
+        final Figure result = mediator.getFigure(fieldB);
 
         assertEquals(figureB, result);
     }
 
     @Test
     public void testGetFigures() {
-        Collection<Figure> figures = mediator.getFigures();
+        final Collection<Figure> figures = mediator.getFigures();
 
         assertEquals(figures.size(), 2);
         assertTrue(figures.contains(figureB));
@@ -64,21 +62,21 @@ public class TestMediator {
 
     @Test
     public void testGetField() {
-        IField result = mediator.getField(figureQ);
+        final IField result = mediator.getField(figureQ);
 
         assertEquals(fieldQ, result);
     }
 
     @Test
     public void testGetKing() {
-        Color color = Color.WHITE;
-        King king = new King(color);
-        IField fieldK = new Field(1, 1);
+        final Color color = Color.WHITE;
+        final King king = new King(color);
+        final IField fieldK = new Field(1, 1);
 
         mediator.addNewConnection(fieldK, king);
 
-        Figure resultFigure = mediator.getKing(color);
-        IField resultField = mediator.getField(resultFigure);
+        final Figure resultFigure = mediator.getKing(color);
+        final IField resultField = mediator.getField(resultFigure);
 
         assertEquals(resultFigure, king);
         assertEquals(resultField, fieldK);

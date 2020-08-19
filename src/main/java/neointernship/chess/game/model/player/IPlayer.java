@@ -7,8 +7,9 @@ import neointernship.chess.game.model.mediator.IMediator;
 
 public interface IPlayer {
     Color getColor();
+    void setColor(final Color color);
 
     String getName();
 
-    IAnswer getAnswer(final IMediator mediator, IPossibleActionList possibleActionList);
+    IAnswer getAnswer(final IMediator mediator,final IPossibleActionList possibleActionList);
 }

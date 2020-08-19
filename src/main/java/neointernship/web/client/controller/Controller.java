@@ -25,6 +25,8 @@ public class Controller {
     private APlayer player;
     private boolean endGame = false;
 
+
+
     public void start() throws InterruptedException {
         input = new Input();
         modelMessageReaction = new ModelMessageReaction(socket);

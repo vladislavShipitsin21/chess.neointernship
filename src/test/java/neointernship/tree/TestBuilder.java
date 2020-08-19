@@ -26,33 +26,33 @@ import static neointernship.chess.game.model.enums.Color.WHITE;
 public class TestBuilder {
 
     @Test
-    public void testLevel1(){
-        IMediator mediator = new Mediator();
-        StoryGame storyGame = new StoryGame(mediator);
+    public void testLevel1() {
+        final IMediator mediator = new Mediator();
+        final StoryGame storyGame = new StoryGame(mediator);
 
-        Figure whiteKing = new King(WHITE);
-        IField fieldWhiteKing = new Field(0,2);
-        mediator.addNewConnection(fieldWhiteKing,whiteKing);
+        final Figure whiteKing = new King(WHITE);
+        final IField fieldWhiteKing = new Field(0, 2);
+        mediator.addNewConnection(fieldWhiteKing, whiteKing);
 
-        Figure whiteQueen = new Rook(WHITE);
-        IField fieldQ = new Field(7,1);
-        mediator.addNewConnection(fieldQ,whiteQueen);
+        final Figure whiteQueen = new Rook(WHITE);
+        final IField fieldQ = new Field(7, 1);
+        mediator.addNewConnection(fieldQ, whiteQueen);
 
-        Figure blackKing = new King(Color.BLACK);
-        IField fieldBlackKing = new Field(0,0);
-        mediator.addNewConnection(fieldBlackKing,blackKing);
+        final Figure blackKing = new King(Color.BLACK);
+        final IField fieldBlackKing = new Field(0, 0);
+        mediator.addNewConnection(fieldBlackKing, blackKing);
 
 
-        PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
+        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
         list.updateRealLists();
 
-        Position startPosition = new Position(mediator,list);
+        final Position startPosition = new Position(mediator, list);
 
-        BuilderTree builderTree = new BuilderTree(1,WHITE);
+        final BuilderTree builderTree = new BuilderTree(1, WHITE);
 
-        INode root = builderTree.getTree(startPosition);
+        final INode root = builderTree.getTree(startPosition);
 
-        Position result = root.getEdges().stream().map(e -> e.getChild().getCore()).max(Position::compareTo).get();
+        final Position result = root.getEdges().stream().map(e -> e.getChild().getCore()).max(Position::compareTo).get();
 
         System.out.println(result.getPrice());
         System.out.println(root.getEdges().size());
@@ -60,75 +60,76 @@ public class TestBuilder {
 
     @Test
     public void testMateLevel2() {
-        IMediator mediator = new Mediator();
-        StoryGame storyGame = new StoryGame(mediator);
+        final IMediator mediator = new Mediator();
+        final StoryGame storyGame = new StoryGame(mediator);
 
-        Figure whiteKing = new King(WHITE);
-        IField fieldWhiteKing = new Field(0, 3);
+        final Figure whiteKing = new King(WHITE);
+        final IField fieldWhiteKing = new Field(0, 3);
         mediator.addNewConnection(fieldWhiteKing, whiteKing);
 
-        Figure whiteQueen = new Rook(WHITE);
-        IField fieldQ = new Field(7, 1);
+        final Figure whiteQueen = new Rook(WHITE);
+        final IField fieldQ = new Field(7, 1);
         mediator.addNewConnection(fieldQ, whiteQueen);
 
-        Figure blackKing = new King(Color.BLACK);
-        IField fieldBlackKing = new Field(0, 0);
+        final Figure blackKing = new King(Color.BLACK);
+        final IField fieldBlackKing = new Field(0, 0);
         mediator.addNewConnection(fieldBlackKing, blackKing);
 
 
-        PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
+        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
         list.updateRealLists();
 
-        Position startPosition = new Position(mediator, list);
+        final Position startPosition = new Position(mediator, list);
 
-        BuilderTree builderTree = new BuilderTree(4,WHITE);
+        final BuilderTree builderTree = new BuilderTree(4, WHITE);
 
-        INode root = builderTree.getTree(startPosition);
+        final INode root = builderTree.getTree(startPosition);
 
-        IAnswer actual = HelperBuilderTree.getAnswer(root);
+        final IAnswer actual = HelperBuilderTree.getAnswer(root);
 
-        IAnswer expected = new AnswerSimbol(0, 3, 1, 2, 'Q');
+        final IAnswer expected = new AnswerSimbol(0, 3, 1, 2, 'Q');
 
         assertEquals(expected, actual);
     }
+
     @Test
     public void testAB() {
-        IMediator mediator = new Mediator();
-        StoryGame storyGame = new StoryGame(mediator);
+        final IMediator mediator = new Mediator();
+        final StoryGame storyGame = new StoryGame(mediator);
 
-        Figure whiteKing = new King(WHITE);
-        IField fieldWhiteKing = new Field(7,7);
+        final Figure whiteKing = new King(WHITE);
+        final IField fieldWhiteKing = new Field(7, 7);
         mediator.addNewConnection(fieldWhiteKing, whiteKing);
         storyGame.update(whiteKing);
 
-        Figure whiteRook = new Rook(WHITE);
-        IField fieldRook = new Field(3, 6);
+        final Figure whiteRook = new Rook(WHITE);
+        final IField fieldRook = new Field(3, 6);
         mediator.addNewConnection(fieldRook, whiteRook);
 
-        Figure blackKing = new King(Color.BLACK);
-        IField fieldBlackKing = new Field(0, 0);
+        final Figure blackKing = new King(Color.BLACK);
+        final IField fieldBlackKing = new Field(0, 0);
         mediator.addNewConnection(fieldBlackKing, blackKing);
 
-        Figure blackPawn = new Pawn(Color.BLACK);
-        IField fieldBlackPawn = new Field(4,6);
+        final Figure blackPawn = new Pawn(Color.BLACK);
+        final IField fieldBlackPawn = new Field(4, 6);
         mediator.addNewConnection(fieldBlackPawn, blackPawn);
 
-        PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
+        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
         list.updateRealLists();
 
-        Position startPosition = new Position(mediator, list);
+        final Position startPosition = new Position(mediator, list);
 
-        BuilderTree builderTree = new BuilderTree(2,WHITE);
+        final BuilderTree builderTree = new BuilderTree(2, WHITE);
 
-        INode root = builderTree.getTree(startPosition);
+        final INode root = builderTree.getTree(startPosition);
 
-        IAnswer actual = HelperBuilderTree.getAnswer(root);
+        final IAnswer actual = HelperBuilderTree.getAnswer(root);
 
-        IAnswer expected = new AnswerSimbol(3, 6, 4, 6, 'Q');
+        final IAnswer expected = new AnswerSimbol(3, 6, 4, 6, 'Q');
 
         assertEquals(expected, actual);
 
-        Collection<INode> collections = HelperBuilderTree.getAllChildren(root);
+        final Collection<INode> collections = HelperBuilderTree.getAllChildren(root);
         System.out.println(collections.size());
         assertTrue(collections.size() < 42);
     }
