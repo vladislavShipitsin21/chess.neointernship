@@ -23,18 +23,18 @@ import static org.junit.Assert.assertNotEquals;
 public class TestPossibleList {
     @Test
     public void testEquals() {
-        IBoard board = new Board();
-        IMediator mediator = new Mediator();
+        final IBoard board = new Board();
+        final IMediator mediator = new Mediator();
         mediator.addNewConnection(board.getField(0, 0), new Queen(Color.BLACK));
 
-        IStoryGame storyGame = new StoryGame(mediator);
+        final IStoryGame storyGame = new StoryGame(mediator);
 
-        IPossibleActionList possibleActionList =
+        final IPossibleActionList possibleActionList =
                 new PossibleActionList(board, mediator, storyGame);
 
-        Mediator mediatorCopy = new Mediator(mediator);
+        final Mediator mediatorCopy = new Mediator(mediator);
 
-        PossibleActionList possibleActionListCopy =
+        final PossibleActionList possibleActionListCopy =
                 new PossibleActionList(board, mediatorCopy, new StoryGame(mediatorCopy));
 
         assertEquals(possibleActionList, possibleActionListCopy);
@@ -50,17 +50,16 @@ public class TestPossibleList {
     }
 
     @Test
-    public void testTransformatePawn(){
-        IMediator mediator = new Mediator();
-        StoryGame storyGame = new StoryGame(mediator);
+    public void testTransformatePawn() {
+        final IMediator mediator = new Mediator();
+        final StoryGame storyGame = new StoryGame(mediator);
 
-        Figure figureW = new Pawn(WHITE);
-        IField fieldW = new Field(6,0);
-        mediator.addNewConnection(fieldW,figureW);
+        final Figure figureW = new Pawn(WHITE);
+        final IField fieldW = new Field(6, 0);
+        mediator.addNewConnection(fieldW, figureW);
 
-        PossibleActionList list = new PossibleActionList(new Board(),mediator,storyGame);
+        final PossibleActionList list = new PossibleActionList(new Board(), mediator, storyGame);
         list.updateRealLists();
-
 
 
     }

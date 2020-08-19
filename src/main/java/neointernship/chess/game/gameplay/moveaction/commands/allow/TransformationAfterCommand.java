@@ -11,13 +11,13 @@ import neointernship.web.client.communication.message.TurnStatus;
 
 public class TransformationAfterCommand extends AbstractCommand implements IAllowCommand {
 
-    public TransformationAfterCommand(IBoard board, IMediator mediator) {
+    public TransformationAfterCommand(final IBoard board, final IMediator mediator) {
         super(board, mediator);
         turnStatus = TurnStatus.TRANSFORMATION_AFTER;
     }
 
     @Override
-    public void execute(IAnswer answer) {
+    public void execute(final IAnswer answer) {
         final IField startField = board.getField(answer.getStartX(), answer.getStartY());
 
         final Figure startFigure = mediator.getFigure(startField);

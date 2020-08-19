@@ -33,20 +33,20 @@ public class KingsStateController implements IKingStateController {
     }
 
     @Override
-    public void addToSubscriber(IKingStateSubscriber subscriber) {
+    public void addToSubscriber(final IKingStateSubscriber subscriber) {
         subscribersList.add(subscriber);
     }
 
     @Override
-    public KingState getKingState(Color color) {
+    public KingState getKingState(final Color color) {
         return kingStateMap.get(color);
     }
 
     @Override
     public void update(final Color activeColor) {
-        boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activeColor);
+        final boolean kingIsAttacked = kingIsAttackedComputation.kingIsAttacked(activeColor);
 
-        KingState newState = kingStateDefineLogic.getState(kingIsAttacked);
+        final KingState newState = kingStateDefineLogic.getState(kingIsAttacked);
 
         kingStateMap.replace(activeColor, newState);
     }

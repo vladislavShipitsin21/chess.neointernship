@@ -11,23 +11,23 @@ import static org.junit.Assert.assertEquals;
 public class TestColor {
     @Test
     public void testWSwapB() {
-        Color color = Color.WHITE;
-        Color result = Color.swapColor(color);
-        Color expected = Color.BLACK;
+        final Color color = Color.WHITE;
+        final Color result = Color.swapColor(color);
+        final Color expected = Color.BLACK;
         assertEquals(expected, result);
     }
 
     @Test
     public void testBSwapW() {
-        Color color = Color.BLACK;
-        Color result = Color.swapColor(color);
-        Color expected = Color.WHITE;
+        final Color color = Color.BLACK;
+        final Color result = Color.swapColor(color);
+        final Color expected = Color.WHITE;
         assertEquals(expected, result);
     }
 
     @Test
     public void equals() {
-        Set<Color> colorSet = new HashSet<>();
+        final Set<Color> colorSet = new HashSet<>();
         colorSet.add(Color.WHITE);
         colorSet.add(Color.BLACK);
 

@@ -49,7 +49,7 @@ public class TestMate {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        IAnswer answer = new Answer(6, 0, 7, 0, 'Q');
+        final IAnswer answer = new Answer(6, 0, 7, 0, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 
@@ -75,7 +75,7 @@ public class TestMate {
 
         testHeadEnd = new TestHeadEnd(fieldFigureMap);
 
-        IAnswer answer = new Answer(6, 0, 6, 4, 'Q');
+        final IAnswer answer = new Answer(6, 0, 6, 4, 'Q');
 
         assertEquals(EnumGameState.ALIVE, testHeadEnd.getState().getValue());
 

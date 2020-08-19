@@ -17,8 +17,7 @@ import neointernship.chess.game.model.util.Pair;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 public class Modeling implements Iterator<Pair<Position, IAnswer>> {
 
@@ -45,6 +44,90 @@ public class Modeling implements Iterator<Pair<Position, IAnswer>> {
         iterFigure = figures.iterator();
         currentFigure = iterFigure.next();
         iterField = possibleActionList.getRealList(currentFigure).iterator();
+    }
+
+    public static Map<Position, IAnswer> modeling(final Position startPositions, final Color activeColor){
+        final IMediator mediator = startPositions.getMediator();
+        final PossibleActionList possibleActionList = startPositions.getPossibleActionList();
+
+        final Map<Position, IAnswer> positionsMap = new HashMap<>();
+        final Collection<Figure> figures = mediator.getFigures(activeColor);
+
+        for (final Figure figure : figures) {
+
+            for (final IField finishField : possibleActionList.getRealList(figure)) {
+
+                final IField startField = mediator.getField(figure);
+
+                // определить тип хода
+                final IMediator newMediator = new Mediator(mediator);
+                final IStoryGame newStoryGame = new StoryGame((StoryGame) possibleActionList.getStoryGame());
+                final PossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
+
+                final AllowMoveCommand allowMoveCommand =
+                        new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);
+
+                final IAllowCommand command = allowMoveCommand.getCommand(startField, finishField);
+
+                final IAnswer answer = new AnswerSimbol(
+                        startField.getXCoord(),
+                        startField.getYCoord(),
+                        finishField.getXCoord(),
+                        finishField.getYCoord(),
+                        'Q');
+
+                // перейти к следующему ходу
+                command.execute(answer); // todo если превращение то выдывать другие варианты
+
+                newStoryGame.update(figure);
+                newPossibleActionList.updateRealLists();
+
+                final Position newPosition = new Position(newMediator, newPossibleActionList);
+                positionsMap.put(newPosition, answer);
+            }
+        }
+        return positionsMap;
+    }
+
+    public Collection<Pair<Position, IAnswer>> getAll() {
+
+        final Collection<Pair<Position, IAnswer>> positions = new ArrayList<>();
+        final Collection<Figure> figures = mediator.getFigures(activeColor);
+
+        for (final Figure figure : figures) {
+
+            for (final IField finishField : possibleActionList.getRealList(figure)) {
+
+                final IField startField = mediator.getField(figure);
+
+                // определить тип хода
+                final IMediator newMediator = new Mediator(mediator);
+                final IStoryGame newStoryGame = new StoryGame((StoryGame) possibleActionList.getStoryGame());
+                final PossibleActionList newPossibleActionList = new PossibleActionList(board, newMediator, newStoryGame);
+
+                final AllowMoveCommand allowMoveCommand =
+                        new AllowMoveCommand(newMediator, newPossibleActionList, board, newStoryGame);
+
+                final IAllowCommand command = allowMoveCommand.getCommand(startField, finishField);
+
+                final IAnswer answer = new AnswerSimbol(
+                        startField.getXCoord(),
+                        startField.getYCoord(),
+                        finishField.getXCoord(),
+                        finishField.getYCoord(),
+                        'Q');
+
+                // перейти к следующему ходу
+                command.execute(answer); // todo если превращение то выдывать другие варианты
+
+                newStoryGame.update(figure);
+                newPossibleActionList.updateRealLists();
+
+                final Position newPosition = new Position(newMediator, newPossibleActionList);
+                positions.add(new Pair<>(newPosition, answer));
+            }
+        }
+        return positions;
     }
 
     @Override
@@ -88,13 +171,13 @@ public class Modeling implements Iterator<Pair<Position, IAnswer>> {
 
         newPossibleActionList.updateRealLists();
 
-        Position newPosition = new Position(newMediator, newPossibleActionList);
+        final Position newPosition = new Position(newMediator, newPossibleActionList);
         return new Pair(newPosition, answer);
     }
 
-    public int getCount(){
+    public int getCount() {
         int result = 0;
-        for(final Figure figure : mediator.getFigures(activeColor)){
+        for (final Figure figure : mediator.getFigures(activeColor)) {
             result += possibleActionList.getRealList(figure).size();
         }
         return result;

@@ -9,15 +9,17 @@ import neointernship.chess.game.model.mediator.IMediator;
 import java.util.Scanner;
 
 public class Human extends Player {
-    public Human(String name, Color color) {
+
+    public Human(final String name, final Color color) {
         super(name, color);
     }
+
     @Override
-    public IAnswer getAnswer(final IMediator mediator, IPossibleActionList possibleActionList) {
-        Scanner scanner = new Scanner(System.in);
+    public IAnswer getAnswer(final IMediator mediator, final IPossibleActionList possibleActionList) {
+        final Scanner scanner = new Scanner(System.in);
         System.out.format("%s player turn to move: ", getName());
-        String input = scanner.nextLine();
-        String[] strArr = input.split("-");
+        final String input = scanner.nextLine();
+        final String[] strArr = input.split("-");
 
         return new AnswerSimbol(strArr[0].charAt(0), strArr[0].charAt(1), strArr[1].charAt(0), strArr[1].charAt(1));
     }

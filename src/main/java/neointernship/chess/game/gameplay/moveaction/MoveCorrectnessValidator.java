@@ -17,7 +17,7 @@ public class MoveCorrectnessValidator {
     private final IBoard board;
 
     public MoveCorrectnessValidator(final IMediator mediator,
-                                    IPossibleActionList possibleActionList,
+                                    final IPossibleActionList possibleActionList,
                                     final IBoard board) {
         this.mediator = mediator;
         this.possibleActionList = possibleActionList;
@@ -26,18 +26,18 @@ public class MoveCorrectnessValidator {
 
     public MoveState check(final Color color, final IAnswer answer) {
 
-        IField startField = board.getField(answer.getStartX(), answer.getStartY());
-        IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
-        Figure startFigure = mediator.getFigure(startField);
+        final IField startField = board.getField(answer.getStartX(), answer.getStartY());
+        final IField finalField = board.getField(answer.getFinalX(), answer.getFinalY());
+        final Figure startFigure = mediator.getFigure(startField);
 
         if (startFigure == null || startFigure.getColor() != color) {
             return MoveState.RESTRICT;
         }
 
-        for (Figure currentFigure : mediator.getFigures()) {
+        for (final Figure currentFigure : mediator.getFigures()) {
             if (currentFigure == startFigure) {
 
-                Collection<IField> fields = possibleActionList.getRealList(currentFigure);
+                final Collection<IField> fields = possibleActionList.getRealList(currentFigure);
 
                 if (fields.contains(finalField)) {
                     return MoveState.ALLOWED;

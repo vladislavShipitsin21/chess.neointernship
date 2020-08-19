@@ -38,7 +38,7 @@ public final class Pair<T, U> {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Pair<?, ?> pair = (Pair<?, ?>) o;
+        final Pair<?, ?> pair = (Pair<?, ?>) o;
         return Objects.equals(first, pair.first) &&
                 Objects.equals(second, pair.second);
     }

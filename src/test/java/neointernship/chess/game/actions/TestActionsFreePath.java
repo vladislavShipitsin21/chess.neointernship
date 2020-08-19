@@ -28,17 +28,17 @@ public class TestActionsFreePath {
         map.clear();
     }
 
-    private void put(Figure figure, IField field) {
+    private void put(final Figure figure, final IField field) {
         map.put(figure, field);
     }
 
     @Test
     public void testKingCenter() {
-        Figure figure = new King(Color.BLACK);
-        IField field = new Field(2, 2);
+        final Figure figure = new King(Color.BLACK);
+        final IField field = new Field(2, 2);
 
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(1, 1), new Field(1, 2), new Field(1, 3),
                 new Field(2, 1), new Field(2, 3),
                 new Field(3, 1), new Field(3, 2), new Field(3, 3)
@@ -50,10 +50,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testBishop() {
-        Figure figure = new Bishop(Color.BLACK);
-        IField field = new Field(0, 0);
+        final Figure figure = new Bishop(Color.BLACK);
+        final IField field = new Field(0, 0);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(1, 1), new Field(2, 2), new Field(3, 3),
                 new Field(4, 4), new Field(5, 5), new Field(6, 6),
                 new Field(7, 7)
@@ -66,10 +66,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testRook() {
-        Figure figure = new Rook(Color.BLACK);
-        IField field = new Field(4, 4);
+        final Figure figure = new Rook(Color.BLACK);
+        final IField field = new Field(4, 4);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(4, 0), new Field(4, 1), new Field(4, 2), new Field(4, 3),
                 new Field(4, 5), new Field(4, 6), new Field(4, 7),
 
@@ -83,10 +83,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testPawnWhiteBegin() {
-        Figure figure = new Pawn(Color.WHITE);
-        IField field = new Field(6, 4);
+        final Figure figure = new Pawn(Color.WHITE);
+        final IField field = new Field(6, 4);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(5, 4), new Field(4, 4)
         };
 
@@ -96,10 +96,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testPawnBlackBegin() {
-        Figure figure = new Pawn(Color.BLACK);
-        IField field = new Field(1, 4);
+        final Figure figure = new Pawn(Color.BLACK);
+        final IField field = new Field(1, 4);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(2, 4), new Field(3, 4)
         };
 
@@ -109,10 +109,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testPawnBlackCenter() {
-        Figure figure = new Pawn(Color.BLACK);
-        IField field = new Field(3, 4);
+        final Figure figure = new Pawn(Color.BLACK);
+        final IField field = new Field(3, 4);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(4, 4)
         };
 
@@ -122,10 +122,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testPawnWhiteCenter() {
-        Figure figure = new Pawn(Color.WHITE);
-        IField field = new Field(4, 4);
+        final Figure figure = new Pawn(Color.WHITE);
+        final IField field = new Field(4, 4);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(3, 4)
         };
 
@@ -135,10 +135,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testPawnWhiteEnd() {
-        Figure figure = new Pawn(Color.WHITE);
-        IField field = new Field(1, 4);
+        final Figure figure = new Pawn(Color.WHITE);
+        final IField field = new Field(1, 4);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(0, 4)
         };
 
@@ -148,10 +148,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testPawnBlackEnd() {
-        Figure figure = new Pawn(Color.BLACK);
-        IField field = new Field(6, 4);
+        final Figure figure = new Pawn(Color.BLACK);
+        final IField field = new Field(6, 4);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(7, 4)
         };
 
@@ -161,10 +161,10 @@ public class TestActionsFreePath {
 
     @Test
     public void testKnight() {
-        Figure figure = new Knight(Color.WHITE);
-        IField field = new Field(0, 2);
+        final Figure figure = new Knight(Color.WHITE);
+        final IField field = new Field(0, 2);
 
-        Field[] expected = {
+        final Field[] expected = {
                 new Field(1, 0), new Field(1, 4), new Field(2, 1), new Field(2, 3)
         };
 

@@ -1,27 +1,31 @@
 package neointernship;
 
-import neointernship.web.client.controller.ControllerFirstBot;
-import neointernship.web.client.controller.ControllerRandomBot;
+import neointernship.chess.game.model.enums.Color;
+import neointernship.web.client.GUI.Input.InputVoid;
+import neointernship.web.client.controller.ControllerBot;
+import neointernship.web.client.player.ExpectiMaxBot;
+import neointernship.web.client.player.RandomBot;
 
 import java.time.LocalTime;
 
 public class SelfPlay {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(final String[] args) throws InterruptedException {
 
         final int countBot = 2;
         final int countGame = 1;
 
-        for (int i = 0; i < countGame ; i++) {
-            int timeStartM = LocalTime.now().getMinute();
-            int timeStartS = LocalTime.now().getSecond();
+        for (int i = 0; i < countGame; i++) {
+
+            final int timeStartM = LocalTime.now().getMinute();
+            final int timeStartS = LocalTime.now().getSecond();
             System.out.println("start : " + i);
 
-            ControllerRandomBot controllerRandomBots = new ControllerRandomBot(1);
-            ControllerFirstBot controllerFirstBot = new ControllerFirstBot(0);
+            final ControllerBot expectiMax = new ControllerBot(new ExpectiMaxBot(Color.WHITE));
+            final ControllerBot miniMaxBot = new ControllerBot(new RandomBot(Color.BLACK));
 
-            Thread thread1 = new Thread(controllerRandomBots);
-            Thread thread2 = new Thread(controllerFirstBot);
+            final Thread thread1 = new Thread(expectiMax);
+            final Thread thread2 = new Thread(miniMaxBot);
 
             thread1.setName("thread-random");
             thread2.setName("thread-miniMax");
@@ -32,8 +36,8 @@ public class SelfPlay {
             thread1.join();
             thread2.join();
 
-            int timeFinishM = LocalTime.now().getMinute();
-            int timeFinishS = LocalTime.now().getSecond();
+            final int timeFinishM = LocalTime.now().getMinute();
+            final int timeFinishS = LocalTime.now().getSecond();
 
             System.out.println(timeFinishM - timeStartM + "min");
             System.out.println(timeFinishS - timeStartS + "cek");

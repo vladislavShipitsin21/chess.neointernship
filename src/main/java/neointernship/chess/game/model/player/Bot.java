@@ -7,12 +7,19 @@ import neointernship.chess.game.model.mediator.IMediator;
 
 public abstract class Bot extends Player {
 
-    public Bot(String name, Color color) {
-        super(name + " bot", color);
+    protected final Time time;
+
+    public Bot(final String name,final Color color) {
+        super(name + " bot",color);
+        time = new Time();
     }
 
     @Override
-    public IAnswer getAnswer(final IMediator mediator, IPossibleActionList possibleActionList) {
-        return null;
+    public abstract IAnswer getAnswer(final IMediator mediator, final IPossibleActionList possibleActionList);
+
+    public final void printInfoTime() {
+        System.out.println(getName() + " среднее время  : " + time.getAverageTime());
+        System.out.println(getName() + " самый долгий ход : " + time.getMaxTime());
+        System.out.println(getName() + " количестно выхода за пределы 5 сек : " + time.getCountUnlegal());
     }
 }

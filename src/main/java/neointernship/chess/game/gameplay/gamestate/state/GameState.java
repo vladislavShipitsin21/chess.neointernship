@@ -7,7 +7,7 @@ public class GameState implements IGameState {
     private EnumGameState value;
     private Color color;
 
-    public GameState(EnumGameState value, Color color) {
+    public GameState(final EnumGameState value, final Color color) {
         this.value = value;
         this.color = color;
     }
@@ -23,7 +23,7 @@ public class GameState implements IGameState {
     }
 
     @Override
-    public void updateValue(EnumGameState value, Color color) {
+    public void updateValue(final EnumGameState value, final Color color) {
         this.value = value;
         this.color = color;
     }

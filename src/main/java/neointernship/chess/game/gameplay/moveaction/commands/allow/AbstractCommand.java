@@ -14,14 +14,14 @@ public abstract class AbstractCommand implements IAllowCommand {
     protected final IBoard board;
     protected TurnStatus turnStatus;
 
-    public AbstractCommand(IBoard board, IMediator mediator) {
+    public AbstractCommand(final IBoard board, final IMediator mediator) {
         this.mediator = mediator;
         this.board = board;
     }
 
     @Override
     public boolean isCorrect(final Color colorFigure, final IPossibleActionList possibleActionList) {
-        KingIsAttackedComputation kingIsAttackedComputation =
+        final KingIsAttackedComputation kingIsAttackedComputation =
                 new KingIsAttackedComputation(possibleActionList, mediator);
 
         return !kingIsAttackedComputation.kingIsAttacked(colorFigure);

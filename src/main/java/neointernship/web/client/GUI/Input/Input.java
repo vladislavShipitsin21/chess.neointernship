@@ -62,7 +62,7 @@ public class Input implements IInput {
     }
 
     public Color getColor() throws InterruptedException {
-        Map<String, Color> colorMap = new HashMap<>();
+        final Map<String, Color> colorMap = new HashMap<>();
         colorMap.put("белые", Color.WHITE);
         colorMap.put("черные", Color.BLACK);
         colorMap.put("любой", Color.BOTH);
@@ -76,7 +76,7 @@ public class Input implements IInput {
             answerColor = getAnswer();
         }
 
-        Color color = colorMap.get(answerColor);
+        final Color color = colorMap.get(answerColor);
 
         askLabel.setText("Ищем оппонента...");
         frame.setTitle(name + " " + color.getMessage());
@@ -110,7 +110,7 @@ public class Input implements IInput {
     }
 
     public PlayerType getPlayerType() throws InterruptedException {
-        Map<String, PlayerType> typeMap = new HashMap<>();
+        final Map<String, PlayerType> typeMap = new HashMap<>();
         typeMap.put("человек", PlayerType.HUMAN);
         typeMap.put("бот", PlayerType.BOT);
         askLabel.setText("Кто ты?");
@@ -139,11 +139,11 @@ public class Input implements IInput {
         button.setVisible(true);
 
         final String[] answer = new String[1];
-        List<Integer> holder = new LinkedList<Integer>();
+        final List<Integer> holder = new LinkedList<Integer>();
 
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(final ActionEvent arg0) {
                 synchronized (holder) {
                     holder.add(0);
                     holder.notify();
@@ -178,11 +178,11 @@ public class Input implements IInput {
         button.setVisible(true);
         button.setText("Выход");
 
-        List<Integer> holder = new LinkedList<Integer>();
+        final List<Integer> holder = new LinkedList<Integer>();
 
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(final ActionEvent arg0) {
                 synchronized (holder) {
                     holder.add(0);
                     holder.notify();

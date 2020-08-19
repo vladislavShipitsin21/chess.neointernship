@@ -23,17 +23,17 @@ public class Progressing {
 
     private static int MAX_DEPTH = 0;
 
-    public static void print(Position position, int depth) {
-        ConsoleBoardWriter printer = new ConsoleBoardWriter(position.getMediator(), new Board());
+    public static void print(final Position position, final int depth) {
+        final ConsoleBoardWriter printer = new ConsoleBoardWriter(position.getMediator(), new Board());
         System.out.println("глубина : " + depth);
         printer.printPosition(position);
     }
 
     public static IGameState getStatePosition(final Position position, final Color activeColor) {
-        PossibleActionList possibleActionList = position.getPossibleActionList();
-        IMediator mediator = position.getMediator();
-        IStoryGame storyGame = possibleActionList.getStoryGame();
-        GameStateController gameStateController =
+        final PossibleActionList possibleActionList = position.getPossibleActionList();
+        final IMediator mediator = position.getMediator();
+        final IStoryGame storyGame = possibleActionList.getStoryGame();
+        final GameStateController gameStateController =
                 new GameStateController(possibleActionList, mediator, storyGame);
 
         gameStateController.updateWithoutUpdateList(activeColor);
@@ -58,12 +58,12 @@ public class Progressing {
                                       final Color playerColor) {
 
         final boolean isMax = depth % 2 == 0;
-        int startLabel = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+        final int startLabel = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         final Color currentColor = isMax ? playerColor : swapColor(playerColor);
 
         // достиг максимальной глубины
         if (depth >= MAX_DEPTH) {
-            for (Position position : positions) {
+            for (final Position position : positions) {
                 final IGameState gameState = getStatePosition(position, currentColor);
                 position.setPrice(TargetFunction.price(position, playerColor, gameState));
             }
@@ -72,7 +72,7 @@ public class Progressing {
 
         depth++;
 
-        for (Position position : positions) {
+        for (final Position position : positions) {
 
             position.setPrice(startLabel);
             final IGameState gameState = getStatePosition(position, currentColor);
@@ -82,10 +82,9 @@ public class Progressing {
                 position.setPrice(TargetFunction.price(position, playerColor, gameState));
 
             } else {
-//                final Set<Position> result = Modeling.modeling(position, currentColor).keySet();
-                final Set<Position> result = null;
+                final Set<Position> result = Modeling.modeling(position, currentColor).keySet();
 
-                double resultIter = subProgress(result, depth, playerColor);
+                final double resultIter = subProgress(result, depth, playerColor);
                 // выбрать максимум из результата функции и текущим состоянием позиции
                 if (isMax) {
                     position.setPrice(Math.max(position.getPrice(), resultIter));
@@ -101,17 +100,16 @@ public class Progressing {
                                       final Color activeColor,
                                       final int maxDepth) {
         MAX_DEPTH = maxDepth;
-//        final Map<Position, IAnswer> resultMap = Modeling.modeling(startPpositions, activeColor);
-        final Map<Position, IAnswer> resultMap = null;
+        final Map<Position, IAnswer> resultMap = Modeling.modeling(startPositions, activeColor);
 
-        for (Position position : resultMap.keySet()) {
+        for (final Position position : resultMap.keySet()) {
             // ожидаю что у первых потомков цена уже посчитана и записанна
-            Set<Position> positions = new HashSet<>();
+            final Set<Position> positions = new HashSet<>();
             positions.add(position);
             subProgress(positions, 1, activeColor);
         }
         // максимизирую свой выигрыш
-        Position finishPosition = resultMap.keySet().stream().max(Position::compareTo).get();
+        final Position finishPosition = resultMap.keySet().stream().max(Position::compareTo).get();
         return resultMap.get(finishPosition);
     }
 }
