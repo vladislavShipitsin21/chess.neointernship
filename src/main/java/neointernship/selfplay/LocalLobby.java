@@ -28,7 +28,7 @@ import neointernship.chess.logger.IGameLogger;
 import neointernship.chess.statistics.Statistics;
 import neointernship.web.client.communication.message.TurnStatus;
 
-public class LocalLobby extends Thread {
+public class LocalLobby {
 
     private final IBoard board;
     private final IFactory figureFactory;
@@ -48,8 +48,8 @@ public class LocalLobby extends Thread {
     private final int lobbyId;
 
     public LocalLobby(final Bot player1, final Bot player2, final int lobbyId) {
-        this.player1 = player1;
-        this.player2 = player2;
+        this.player1 = player1.getColor() == Color.WHITE ? player1 : player2;
+        this.player2 = player2.getColor() == Color.BLACK ? player2 : player1;
 
         board = new Board();
         figureFactory = new Factory();
@@ -91,11 +91,13 @@ public class LocalLobby extends Thread {
         System.out.println("start lobby : " + lobbyId);
 
         gameLogger.logStartGame(player1.getName(), player2.getName());
+        Color activeColor = activeColorController.getCurrentColor();
+        IPlayer activePlayer = player1;
 
         while (gameLoop.isAlive()){
             activeColorController.update();
-            final Color activeColor = activeColorController.getCurrentColor();
-            final IPlayer activePlayer = player1.getColor() == activeColor ? player1 : player2;
+            activeColor = activeColorController.getCurrentColor();
+            activePlayer = player1.getColor() == activeColor ? player1 : player2;
             TurnStatus turnStatus;
             IAnswer answer;
 
@@ -112,18 +114,34 @@ public class LocalLobby extends Thread {
         }
 
         final IGameState gameState = gameLoop.getMatchResult();
-        final EnumMatchResult matchResult = EnumMatchResult.getEnumMatchResult(gameState.getValue());
 
         gameLogger.logEndGame(gameState.getValue());
 
-        try {
-            Statistics.setStatistics(player1.getName(),player1.getColor(),matchResult,
-                    player2.getName(),player2.getColor(), EnumMatchResult.swapEnumMatchResult(matchResult));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        setStatistic(activePlayer,gameState);
+
         System.out.println("finish lobby : " + lobbyId);
         player1.printInfoTime();
         player2.printInfoTime();
+    }
+    private void setStatistic(IPlayer activePlayer, final IGameState gameState){
+        final EnumMatchResult matchResult = EnumMatchResult.getEnumMatchResult(gameState.getValue());
+
+        final String nameFirstPlayer = activePlayer.getName();
+        final Color colorFirstPlayer = activePlayer.getColor();
+
+        activeColorController.update();
+        final Color activeColor = activeColorController.getCurrentColor();
+        activePlayer = player1.getColor() == activeColor ? player1 : player2;
+
+
+        final String nameSecondPlayer = activePlayer.getName();
+        final Color colorSecondPlayer = activePlayer.getColor();
+
+        try {
+            Statistics.setStatistics(nameFirstPlayer,colorFirstPlayer,matchResult,
+                    nameSecondPlayer,colorSecondPlayer, EnumMatchResult.swapEnumMatchResult(matchResult));
+        } catch (final Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -9,6 +9,8 @@
 # Statistics file
 *statistics*.txt
 
+*.txt
+
 # Package Files #
 *.jar
 *.war

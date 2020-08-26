@@ -7,10 +7,7 @@ import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.MessageDto;
 import neointernship.web.client.communication.message.ModelMessageReaction;
 import neointernship.web.client.communication.serializer.MessageSerializer;
-import neointernship.web.client.player.APlayer;
-import neointernship.web.client.player.MiniMaxBot;
-import neointernship.web.client.player.Player;
-import neointernship.web.client.player.PlayerType;
+import neointernship.web.client.player.*;
 
 import java.io.*;
 import java.net.Socket;
@@ -51,15 +48,26 @@ public class Controller {
     }
 
     private void initPlayer() throws InterruptedException {
+        // todo переделать !!!
         final PlayerType playerType = input.getPlayerType();
         String name = null;
-        if (playerType == PlayerType.HUMAN) {
-            name = input.getUserName().trim();
-            final Color color = input.getColor();
-            player = new Player(color, name, input);
-        } else {
-            name = "random bot";
-            player = new MiniMaxBot(Color.BOTH, name, input);
+        switch (playerType){
+            case MINI_MAX:{
+                player = new MiniMaxBot(Color.BOTH, 2);
+            }
+            case RANDOM:{
+                player = new RandomBot(Color.BOTH);
+            }
+            case HUMAN:{
+                name = input.getUserName().trim();
+                final Color color = input.getColor();
+                player = new Player(color, name, input);
+                break;
+            }
+            case MIXID:{
+                player = new MixidBot(Color.WHITE,2);
+            }
+            name = player.getName();
         }
 
         ErrorLoggerClient.addLogger(name);

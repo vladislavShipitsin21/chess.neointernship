@@ -1,5 +1,7 @@
 package neointernship.web.client.player;
 
+import neointernship.bots.straregy.IStrategy;
+import neointernship.bots.straregy.StrategyMixed;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
@@ -10,6 +12,7 @@ import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.tree.BuilderTree;
+import neointernship.tree.BuilderTreeWithBonus;
 import neointernship.tree.HelperBuilderTree;
 import neointernship.tree.INode;
 import neointernship.web.client.GUI.Input.IInput;
@@ -21,18 +24,21 @@ import neointernship.web.client.communication.message.TurnStatus;
 import java.util.Arrays;
 import java.util.List;
 
-public class MiniMaxBot extends APlayer {
+public class MixidBot extends APlayer {
 
     private BoardView boardView;
     private IPossibleActionList possibleActionList;
     private final IInput input;
 
     private final int maxDepth;
+    private final IStrategy strategy;
 
-    public MiniMaxBot(final Color color, final int maxDepth) {
-        super(color, "MiniMaxBot");
+    public MixidBot(final Color color, final int maxDepth) {
+        super(color, "MixidBot");
         this.maxDepth = maxDepth;
         this.input = new InputVoid();
+
+        strategy = new StrategyMixed(color);
     }
 
     @Override
@@ -66,10 +72,7 @@ public class MiniMaxBot extends APlayer {
 
         final Position startPosition = new Position(mediator, possibleActionList);
 
-        final BuilderTree builderTree = new BuilderTree(maxDepth, getColor());
-        final INode root = builderTree.getTree(startPosition);
-
-        final IAnswer answer = HelperBuilderTree.getAnswer(root);
+       final IAnswer answer = strategy.getAnswer(startPosition);
 
         final IField startField = getBoard().getField(answer.getStartX(), answer.getStartY());
         final IField finishField = getBoard().getField(answer.getFinalX(), answer.getFinalY());
@@ -98,5 +101,4 @@ public class MiniMaxBot extends APlayer {
         input.endGame(enumGameState, color);
         boardView.dispose();
     }
-
 }

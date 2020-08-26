@@ -12,7 +12,7 @@ import neointernship.chess.game.story.StoryGame;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
-import static neointernship.bots.InitGameMap.initGameMap;
+import static neointernship.bots.TestInitGameMap.initGameMap;
 
 public class TestFunctionsH {
 
@@ -43,4 +43,9 @@ public class TestFunctionsH {
     }
 
 
+    @Test
+    public void testInteget(){
+        System.out.println(Integer.MIN_VALUE);
+        System.out.println(Double.MIN_VALUE);
+    }
 }

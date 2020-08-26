@@ -111,8 +111,10 @@ public class Input implements IInput {
 
     public PlayerType getPlayerType() throws InterruptedException {
         final Map<String, PlayerType> typeMap = new HashMap<>();
-        typeMap.put("человек", PlayerType.HUMAN);
-        typeMap.put("бот", PlayerType.BOT);
+        typeMap.put("human", PlayerType.HUMAN);
+        typeMap.put("random", PlayerType.RANDOM);
+        typeMap.put("minimax", PlayerType.MINI_MAX);
+        typeMap.put("mixid", PlayerType.MIXID);
         askLabel.setText("Кто ты?");
         String answerType = getAnswer();
 

@@ -44,7 +44,7 @@ public class RandomBot extends Bot {
                 finalField.getXCoord(), finalField.getYCoord(), 'Q');
 
         time.finish();
-        System.out.println(getName() + " - " + time.getTime());
+        System.out.println(time.getCountAddress() + ") " + getName() + " - " + time.getTime());
 
         return answer;
     }

@@ -92,7 +92,7 @@ public class TestBuilder {
         assertEquals(expected, actual);
     }
 
-    @Test
+    /*@Test
     public void testAB() {
         final IMediator mediator = new Mediator();
         final StoryGame storyGame = new StoryGame(mediator);
@@ -132,5 +132,5 @@ public class TestBuilder {
         final Collection<INode> collections = HelperBuilderTree.getAllChildren(root);
         System.out.println(collections.size());
         assertTrue(collections.size() < 42);
-    }
+    }*/
 }

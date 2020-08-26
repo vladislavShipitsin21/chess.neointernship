@@ -1,6 +1,7 @@
 package neointernship.tree;
 
-import neointernship.bots.functionsH.TargetFunction;
+import neointernship.bots.functionsH.FunctionWithBonus;
+import neointernship.bots.functionsH.IFunctionsH;
 import neointernship.bots.modeling.Modeling;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
@@ -10,14 +11,16 @@ import neointernship.chess.game.model.util.Pair;
 
 import static neointernship.chess.game.model.enums.Color.swapColor;
 
-public class BuilderTree implements IBuilderTree {
+public class BuilderTreeWithBonus {
 
     private final int max_depth;
-    private final Color activeColor;
+    private final Color playerColor;
 
-    public BuilderTree(final int max_depth, final Color activeColor) {
+    private IFunctionsH function;
+
+    public BuilderTreeWithBonus(final Color playerColor, final int max_depth) {
         this.max_depth = max_depth;
-        this.activeColor = activeColor;
+        this.playerColor = playerColor;
     }
 
     /**
@@ -26,7 +29,8 @@ public class BuilderTree implements IBuilderTree {
      * @param startPosition стартовая позиция - корень
      * @return
      */
-    public INode getTree(final Position startPosition) {
+    public INode getTree(final Position startPosition, final IFunctionsH functionsH) {
+        function = functionsH;
 
         final INode root = new Node(startPosition);
         getSubTree(root, 0);
@@ -34,16 +38,16 @@ public class BuilderTree implements IBuilderTree {
         return root;
     }
 
-    private double getSubTree(final INode subRoot, int depth) {
+    private double getSubTree(final INode subRoot, final int depth) {
 
         final boolean isMax = depth % 2 == 0;
-        final Color currentColor = isMax ? activeColor : swapColor(activeColor);
+        final Color currentColor = isMax ? playerColor : swapColor(playerColor);
 
         final IGameState gameState = TerminalBoss.getStatePosition(subRoot.getCore(), currentColor);
 
         if (isEndTree(depth, gameState)) {
 
-            final double value = TargetFunction.price(subRoot.getCore(), activeColor, gameState);
+            final double value = function.price(subRoot.getCore(), playerColor, gameState);
             subRoot.getCore().setPrice(value);
             return value;
         }
@@ -96,5 +100,4 @@ public class BuilderTree implements IBuilderTree {
     private boolean isEndTree(final int depth, final IGameState gameState) {
         return depth >= max_depth || TerminalBoss.isTerminal(gameState);
     }
-
 }

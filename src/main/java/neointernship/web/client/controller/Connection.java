@@ -5,6 +5,7 @@ import java.net.Socket;
 
 public class Connection {
     private static final String IP = "127.0.0.1";//"localhost";
+//    private static final String IP = "135.181.85.225";//"localhost";
     private static final int PORT = 8081;
 
     private final String ip;

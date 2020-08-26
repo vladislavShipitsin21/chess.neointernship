@@ -28,6 +28,9 @@ public class Time {
     public final void finish() {
         finishTime = System.currentTimeMillis();
     }
+    public final int getCountAddress(){
+        return countAddress;
+    }
     public final long getTime(){
         final long divTime = finishTime - startTime;
 

@@ -8,7 +8,9 @@ enum TypeBot {
     EXPECTIMAX,
     MINI_MAX,
     MINI_MAX_AB,
-    MINI_MAX_THREAD;
+    MINI_MAX_THREAD,
+    MONTE_KARLO,
+    MIXID;
 }
 public class FactoryBot {
     public static Bot getBot(final TypeBot typeBot, final Color color,final int maxDepth){
@@ -18,6 +20,8 @@ public class FactoryBot {
             case MINI_MAX: return new MiniMaxBot(color,maxDepth);
             case MINI_MAX_AB: return new MiniMaxAB(color,maxDepth);
             case MINI_MAX_THREAD: return new MiniMaxThreadBot(color, maxDepth);
+            case MONTE_KARLO: return new MonteKarloBot(color, maxDepth);
+            case MIXID: return new BotMixidStrategy(color);
         }
         return null;
     }

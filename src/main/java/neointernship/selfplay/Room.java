@@ -6,7 +6,7 @@ import neointernship.chess.game.model.player.Bot;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Room extends Thread {
+public class Room {
     private final int idRoom;
     private final TypeBot typeBot1;
     private final int maxDepth1;
@@ -27,7 +27,6 @@ public class Room extends Thread {
         this.countGame = countGame;
     }
 
-    @Override
     public void run(){
         System.out.println("start room : " + idRoom);
 
@@ -39,27 +38,8 @@ public class Room extends Thread {
 
         for (int i = 0; i < countGame; i++) {
             final LocalLobby localLobby = new LocalLobby(bot1,bot2,idRoom * 10 + i);
-            localLobby.start();
-            threads.add(localLobby);
+            localLobby.run();
         }
-        /*final Bot bot3 = FactoryBot.getBot(typeBot2,Color.WHITE,maxDepth2);
-        final Bot bot4 = FactoryBot.getBot(typeBot1,Color.BLACK,maxDepth1);
-
-        for (int i = 0; i < countGame; i++) {
-            final LocalLobby localLobby = new LocalLobby(bot3,bot4,idRoom * 10 + i + countGame);
-            localLobby.start();
-            threads.add(localLobby);
-        }*/
-
-        for(final Thread lobby : threads){
-            try {
-                lobby.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
 
         System.out.println("finish room : " + idRoom);
     }
