@@ -22,8 +22,6 @@ public class Controller {
     private APlayer player;
     private boolean endGame = false;
 
-
-
     public void start() throws InterruptedException {
         input = new Input();
         modelMessageReaction = new ModelMessageReaction(socket);
@@ -48,15 +46,16 @@ public class Controller {
     }
 
     private void initPlayer() throws InterruptedException {
-        // todo переделать !!!
         final PlayerType playerType = input.getPlayerType();
         String name = null;
         switch (playerType){
             case MINI_MAX:{
                 player = new MiniMaxBot(Color.BOTH, 2);
+                break;
             }
             case RANDOM:{
                 player = new RandomBot(Color.BOTH);
+                break;
             }
             case HUMAN:{
                 name = input.getUserName().trim();
@@ -67,9 +66,8 @@ public class Controller {
             case MIXID:{
                 player = new MixidBot(Color.WHITE,2);
             }
-            name = player.getName();
         }
-
+        name = player.getName();
         ErrorLoggerClient.addLogger(name);
     }
 

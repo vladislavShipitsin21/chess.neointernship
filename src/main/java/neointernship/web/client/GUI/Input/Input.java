@@ -125,7 +125,7 @@ public class Input implements IInput {
 
         type = typeMap.get(answerType);
 
-        if (type == PlayerType.BOT) {
+        if (type != PlayerType.HUMAN) {
             askLabel.setText("Я жду противника...");
         }
 
