@@ -95,7 +95,7 @@ public class StrategyMixed extends Strategy {
     // миттельшпиль начинается после рокировки и развития легких фигур
     private boolean isMidlegame(final Position startPosition){
         if(countAnswer <= 5) return false;
-        if(countAnswer > 10) return true;
+        if(countAnswer > 15) return true;
 
         final IMediator mediator = startPosition.getMediator();
         final PossibleActionList possibleActionList = startPosition.getPossibleActionList();
@@ -125,6 +125,7 @@ public class StrategyMixed extends Strategy {
     // считаем сколько осталось фигур ( не пешек)
     // эндшпиль только без ферзей
     private boolean isEndgame(final Position startPosition){
+
         int countFigure = 0;
         final IMediator mediator = startPosition.getMediator();
         final Collection<Figure> figures = mediator.getFigures();

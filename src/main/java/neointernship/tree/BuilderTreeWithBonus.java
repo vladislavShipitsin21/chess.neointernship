@@ -1,6 +1,5 @@
 package neointernship.tree;
 
-import neointernship.bots.functionsH.FunctionWithBonus;
 import neointernship.bots.functionsH.IFunctionsH;
 import neointernship.bots.modeling.Modeling;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;

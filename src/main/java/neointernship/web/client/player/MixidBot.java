@@ -16,6 +16,7 @@ import neointernship.tree.BuilderTreeWithBonus;
 import neointernship.tree.HelperBuilderTree;
 import neointernship.tree.INode;
 import neointernship.web.client.GUI.Input.IInput;
+import neointernship.web.client.GUI.Input.Input;
 import neointernship.web.client.GUI.Input.InputVoid;
 import neointernship.web.client.GUI.board.view.BoardView;
 import neointernship.web.client.communication.message.ClientCodes;
@@ -36,7 +37,7 @@ public class MixidBot extends APlayer {
     public MixidBot(final Color color, final int maxDepth) {
         super(color, "MixidBot");
         this.maxDepth = maxDepth;
-        this.input = new InputVoid();
+        this.input = new Input();
 
         strategy = new StrategyMixed(color);
     }

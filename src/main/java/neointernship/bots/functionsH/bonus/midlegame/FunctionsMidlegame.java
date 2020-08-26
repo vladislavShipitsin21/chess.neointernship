@@ -22,9 +22,10 @@ public class FunctionsMidlegame implements IFunctionsH {
     public FunctionsMidlegame() {
         this.bonuses = new ArrayList<>();
         bonuses.add(new BonusCountFigure());
-        bonuses.add(new BonusKingPawn(priceOnePawn / 2));
-        bonuses.add(new BonusControlCenter(priceOnePawn / 2));
-
+        bonuses.add(new BonusKingPawn(priceOnePawn / 3));
+        bonuses.add(new BonusControlCenter(priceOnePawn / 6));
+        bonuses.add(new BonusActivePositions(priceOnePawn));
+        bonuses.add(new BonusAttackKing(priceOnePawn / 3));
     }
 
     /**
@@ -38,9 +39,8 @@ public class FunctionsMidlegame implements IFunctionsH {
     public double price(final Position position, final Color playerColor, final IGameState gameState) {
         if (isTerminal(gameState)) {
             if (gameState.getValue() == EnumGameState.MATE) {
-                return playerColor == gameState.getColor() ? -1 : 1;
+                return playerColor == gameState.getColor() ? -100 : 100;
             }
-            return 0;
         }
         double result = 0;
         for (final IBonus bonus : bonuses) {

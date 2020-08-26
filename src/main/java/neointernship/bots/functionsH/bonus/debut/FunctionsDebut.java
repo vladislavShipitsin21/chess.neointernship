@@ -37,9 +37,8 @@ public class FunctionsDebut implements IFunctionsH {
     public double price(final Position position, final Color playerColor, final IGameState gameState) {
         if (isTerminal(gameState)) {
             if (gameState.getValue() == EnumGameState.MATE) {
-                return playerColor == gameState.getColor() ? -1 : 1;
+                return playerColor == gameState.getColor() ? -100 : 100;
             }
-            return 0;
         }
         double result = 0;
         for (final IBonus bonus : bonuses) {

@@ -32,6 +32,8 @@ public class BonusKingPawn extends Bonus {
         final IField fieldKing = mediator.getField(king);
         final int offset = king.getColor() == Color.WHITE ? -1 : 1;
 
+        if(fieldKing.getYCoord() != 6 && fieldKing.getYCoord() != 7) return false;
+
         final Figure pawn2 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord() + offset, 6));
         if (pawn2 == null) return false;
         final Figure pawn3 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord() + offset, 7));
