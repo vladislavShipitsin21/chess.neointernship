@@ -38,45 +38,6 @@ public class PossibleActionList implements IPossibleActionList {
         this.potentialFigureAction = new HashMap<>();
     }
 
-    /*public PossibleActionList(final IBoard board,
-                              final IMediator mediator,
-                              final IStoryGame storyGame,
-                              final Map<Figure, Collection<IField>> realFigureActions,
-                              final Map<Figure, Collection<IField>> potentialFigureAction) {
-        this.board = board;
-        this.mediator = mediator;
-        this.storyGame = storyGame;
-
-        this.potentialPatterns = new PotentialBasicPatterns(mediator, board, storyGame);
-        this.realPatterns = new RealBasicPatterns(mediator, board, storyGame);
-
-        this.realFigureActions = new HashMap<>(realFigureActions);
-        this.potentialFigureAction = new HashMap<>(potentialFigureAction);
-    }
-*/
-
-    public void addRealField(final Figure figure, final IField finishField) {
-        if (realFigureActions.isEmpty()) {
-            realFigureActions.put(figure, new ArrayList<>());
-        }
-        realFigureActions.get(figure).add(finishField);
-    }
-
-    public void clearRealList(final Figure figure, final IField finishField) {
-        if (realFigureActions.isEmpty()) {
-            realFigureActions.put(figure, new ArrayList<>());
-        }
-        realFigureActions.get(figure).add(finishField);
-    }
-
-    public Map<Figure, Collection<IField>> getRealFigureActions() {
-        return realFigureActions;
-    }
-
-    public Map<Figure, Collection<IField>> getPotentialFigureAction() {
-        return potentialFigureAction;
-    }
-
     public IStoryGame getStoryGame() {
         return storyGame;
     }

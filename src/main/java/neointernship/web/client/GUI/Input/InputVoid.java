@@ -8,7 +8,7 @@ public class InputVoid implements IInput {
 
     @Override
     public String getUserName() throws InterruptedException {
-        return "random bot";
+        return "MixidBot";
     }
 
     @Override

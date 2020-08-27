@@ -48,8 +48,6 @@ public class BuilderTree implements IBuilderTree {
             return value;
         }
 
-        depth++;
-
         final Modeling modeling = new Modeling(subRoot.getCore(), currentColor);
 
         if (isMax) {
@@ -66,7 +64,7 @@ public class BuilderTree implements IBuilderTree {
                 final IEdge edge = new Edge(child, answer);
                 subRoot.addEdge(edge);
 
-                double value = getSubTree(child, depth);
+                double value = getSubTree(child, depth + 1);
                 value = Math.max(subRoot.getCore().getPrice(), value);
 
                 subRoot.getCore().setPrice(value);
@@ -79,14 +77,13 @@ public class BuilderTree implements IBuilderTree {
 
                 final Pair<Position, IAnswer> pair = modeling.next();
 
-
                 final INode child = new Node(pair.getFirst());
                 final IAnswer answer = pair.getSecond();
 
                 final IEdge edge = new Edge(child, answer);
                 subRoot.addEdge(edge);
 
-                double value = getSubTree(child, depth);
+                double value = getSubTree(child, depth + 1);
                 value = Math.min(subRoot.getCore().getPrice(), value);
 
                 subRoot.getCore().setPrice(value);

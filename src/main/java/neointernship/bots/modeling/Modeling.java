@@ -77,7 +77,7 @@ public class Modeling implements Iterator<Pair<Position, IAnswer>> {
                         'Q');
 
                 // перейти к следующему ходу
-                command.execute(answer); // todo если превращение то выдывать другие варианты
+                command.execute(answer);
 
                 newStoryGame.update(figure);
                 newPossibleActionList.updateRealLists();
@@ -118,7 +118,7 @@ public class Modeling implements Iterator<Pair<Position, IAnswer>> {
                         'Q');
 
                 // перейти к следующему ходу
-                command.execute(answer); // todo если превращение то выдывать другие варианты
+                command.execute(answer);
 
                 newStoryGame.update(figure);
                 newPossibleActionList.updateRealLists();
@@ -165,7 +165,7 @@ public class Modeling implements Iterator<Pair<Position, IAnswer>> {
                 finishField.getYCoord(),
                 'Q');
 
-        command.execute(answer); // todo если превращение то выдывать другие варианты
+        command.execute(answer);
 
         newStoryGame.update(currentFigure);
 

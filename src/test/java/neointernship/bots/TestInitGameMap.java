@@ -12,7 +12,7 @@ import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.board.figuresstartposition.FiguresStartPositionRepository;
 import neointernship.chess.game.model.playmap.field.IField;
 
-public class InitGameMap {
+public class TestInitGameMap {
     public static IMediator initGameMap() {
         final IBoard board = new Board();
         final FiguresStartPositionRepository figuresStartPositionRepository = new FiguresStartPositionRepository();

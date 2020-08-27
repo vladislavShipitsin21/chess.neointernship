@@ -2,21 +2,20 @@ package neointernship.web.client.controller;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.logger.ErrorLoggerClient;
+import neointernship.web.client.GUI.Input.IInput;
 import neointernship.web.client.GUI.Input.Input;
 import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.MessageDto;
 import neointernship.web.client.communication.message.ModelMessageReaction;
 import neointernship.web.client.communication.serializer.MessageSerializer;
-import neointernship.web.client.player.APlayer;
-import neointernship.web.client.player.MiniMaxBot;
-import neointernship.web.client.player.Player;
-import neointernship.web.client.player.PlayerType;
+import neointernship.web.client.player.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Controller {
-    private Input input;
+    private IInput input;
     private BufferedReader in = null;
     private BufferedWriter out = null;
     private Socket socket;
@@ -24,8 +23,6 @@ public class Controller {
     private ModelMessageReaction modelMessageReaction;
     private APlayer player;
     private boolean endGame = false;
-
-
 
     public void start() throws InterruptedException {
         input = new Input();
@@ -51,19 +48,37 @@ public class Controller {
     }
 
     private void initPlayer() throws InterruptedException {
+        // todo переделать !!!
         final PlayerType playerType = input.getPlayerType();
         String name = null;
-        if (playerType == PlayerType.HUMAN) {
-            name = input.getUserName().trim();
-            final Color color = input.getColor();
-            player = new Player(color, name, input);
-        } else {
-            name = "random bot";
-            player = new MiniMaxBot(Color.BOTH, name, input);
+        Color color = null;
+        switch (playerType) {
+            /*case MINI_MAX:{
+                player = new MiniMaxBot(Color.BOTH, 2);
+                break;
+            }*/
+            /*case RANDOM:{
+                player = new RandomBot(Color.BOTH);
+                break;
+            }*/
+            case HUMAN: {
+                name = input.getUserName().trim();
+                color = input.getColor();
+                player = new Player(color, name, input);
+                break;
+            }
+            case MIXID: {
+                color = input.getColor();
+                player = new MixidBot(color);
+                break;
+            }
         }
+
+        name = player.getName();
 
         ErrorLoggerClient.addLogger(name);
     }
+
 
     private void startConnection() {
         connection = new Connection();

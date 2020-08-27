@@ -21,7 +21,7 @@ public class Player extends APlayer {
     final Scanner scanner;
     private final IInput input;
 
-    public Player(final Color color, final String name, final Input input) {
+    public Player(final Color color, final String name, final IInput input) {
         super(color, name);
         scanner = new Scanner(System.in);
 
