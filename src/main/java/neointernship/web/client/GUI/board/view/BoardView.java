@@ -10,7 +10,7 @@ import neointernship.web.client.GUI.board.labels.labelsgetter.LabelsRepository;
 import javax.swing.*;
 import java.awt.*;
 
-public class BoardView extends JFrame {
+public class BoardView extends JFrame implements IBoardView {
     private final IBoard board;
     private final IMediator mediator;
 
@@ -18,7 +18,7 @@ public class BoardView extends JFrame {
 
     private final GridLayout gridLayout;
 
-    private ChessLabel[][] labels;
+    private final ChessLabel[][] labels;
     Container contentPane = getContentPane();
 
     private final ChessLabel[] sideNumbers;
@@ -44,6 +44,7 @@ public class BoardView extends JFrame {
         startUpdate();
     }
 
+    @Override
     public void display() {
         contentPane.setLayout(gridLayout);
         for (int i = 0; i < board.getSize(); i++) {
@@ -62,6 +63,7 @@ public class BoardView extends JFrame {
         setVisible(true);
     }
 
+    @Override
     public void update() {
         for (int i = 0; i < board.getSize(); i++) {
             getContentPane().remove(sideLetters[i]);
@@ -74,8 +76,8 @@ public class BoardView extends JFrame {
                 getContentPane().remove(labels[i][j]);
 
 
-                IField field = board.getField(i, j);
-                Figure figure = mediator.getFigure(field);
+                final IField field = board.getField(i, j);
+                final Figure figure = mediator.getFigure(field);
 
 
                 String label = " ";
@@ -92,11 +94,11 @@ public class BoardView extends JFrame {
 
     private void startUpdate() {
         for (int i = 0; i < board.getSize(); i++) {
-            String labelNumber = String.valueOf(8 - i);
+            final String labelNumber = String.valueOf(8 - i);
             sideNumbers[i] = new ChessLabel(labelNumber);
             sideNumbers[i].set(i, 8);
 
-            String labelLetter = String.valueOf((char) ((int) ('\u0041') + i));
+            final String labelLetter = String.valueOf((char) ((int) ('\u0041') + i));
             sideLetters[i] = new ChessLabel(labelLetter);
             sideLetters[i].set(8, i);
         }
@@ -104,8 +106,8 @@ public class BoardView extends JFrame {
 
         for (int i = 0; i < board.getSize(); i++) {
             for (int j = 0; j < board.getSize(); j++) {
-                IField field = board.getField(i, j);
-                Figure figure = mediator.getFigure(field);
+                final IField field = board.getField(i, j);
+                final Figure figure = mediator.getFigure(field);
 
                 String label = " ";
                 if (figure != null) {

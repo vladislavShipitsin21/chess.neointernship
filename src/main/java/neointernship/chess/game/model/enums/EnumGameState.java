@@ -10,9 +10,9 @@ public enum EnumGameState {
     DRAW_REPETITION_POSITION("Ничья: трехкратное повторение позиции"),
     RESIGNATION("Игрок сдался");
 
-    private String message;
+    private final String message;
 
-    EnumGameState(String message) {
+    EnumGameState(final String message) {
         this.message = message;
     }
 

@@ -18,64 +18,64 @@ import static org.junit.Assert.assertNull;
 public class TestTransformation extends TestAllowCommand {
     @Test
     public void testMove() {
-        Figure figureW = new Pawn(Color.WHITE);
-        IField fieldW = new Field(1, 0);
+        final Figure figureW = new Pawn(Color.WHITE);
+        final IField fieldW = new Field(1, 0);
 
         addFigure(fieldW, figureW);
 
         assertEquals(1, mediator.getFigures().size());
 
-        IAnswer answer = new Answer(1, 0, 0, 0, '0');
+        final IAnswer answer = new Answer(1, 0, 0, 0, '0');
 
-        TurnStatus result = allowMoveCommand.execute(answer);
+        final TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.TRANSFORMATION_BEFORE, result);
 
         assertEquals(1, mediator.getFigures().size());
 
-        IField fieldExpected = new Field(0, 0);
+        final IField fieldExpected = new Field(0, 0);
         assertEquals(fieldExpected, mediator.getField(figureW));
 
     }
 
     @Test
     public void testAttack() {
-        Figure figureW = new Pawn(Color.WHITE);
-        IField fieldW = new Field(1, 0);
+        final Figure figureW = new Pawn(Color.WHITE);
+        final IField fieldW = new Field(1, 0);
 
-        Figure figureB = new Bishop(Color.BLACK);
-        IField fieldB = new Field(0, 1);
+        final Figure figureB = new Bishop(Color.BLACK);
+        final IField fieldB = new Field(0, 1);
 
         addFigure(fieldW, figureW);
         addFigure(fieldB, figureB);
 
         assertEquals(2, mediator.getFigures().size());
 
-        IAnswer answer = new Answer(1, 0, 0, 1, '0');
+        final IAnswer answer = new Answer(1, 0, 0, 1, '0');
 
-        TurnStatus result = allowMoveCommand.execute(answer);
+        final TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.TRANSFORMATION_BEFORE, result);
 
         assertEquals(1, mediator.getFigures().size());
 
-        IField fieldExpected = new Field(0, 1);
+        final IField fieldExpected = new Field(0, 1);
         assertEquals(fieldExpected, mediator.getField(figureW));
 
     }
 
     @Test
     public void testTrans() {
-        Figure figureW = new Pawn(Color.WHITE);
-        IField fieldW = new Field(0, 0);
+        final Figure figureW = new Pawn(Color.WHITE);
+        final IField fieldW = new Field(0, 0);
 
         addFigure(fieldW, figureW);
 
         assertEquals(1, mediator.getFigures().size());
 
-        IAnswer answer = new Answer(0, 0, 0, 0, 'N');
+        final IAnswer answer = new Answer(0, 0, 0, 0, 'N');
 
-        TurnStatus result = allowMoveCommand.execute(answer);
+        final TurnStatus result = allowMoveCommand.execute(answer);
 
         assertEquals(TurnStatus.TRANSFORMATION_AFTER, result);
 

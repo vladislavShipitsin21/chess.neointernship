@@ -8,5 +8,5 @@ public interface IGameState {
 
     Color getColor();
 
-    void updateValue(EnumGameState gameState, Color color); // todo нигде не вызывается !!!
+    void updateValue(EnumGameState gameState, Color color);
 }

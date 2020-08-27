@@ -1,5 +1,6 @@
 package neointernship.chess.game.gameplay.gamestate.controller.draw;
 
+import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.model.enums.EnumGameState;
 import neointernship.chess.game.model.mediator.IMediator;
 
@@ -10,10 +11,12 @@ public class DrawRepetitionPosition implements IDrawController {
 
     private static final Integer MAX_REPETITION = 3;
     private static final Integer START_REPETITION = 1;
-    private Map<Position, Integer> mapPosition;
+    private final Map<Position, Integer> mapPosition;
     private int currentSizeMediator;
+    private final IPossibleActionList possibleActionList;
 
-    public DrawRepetitionPosition() {
+    public DrawRepetitionPosition(final IPossibleActionList possibleActionList) {
+        this.possibleActionList = possibleActionList;
         mapPosition = new HashMap<>();
     }
 
@@ -24,13 +27,13 @@ public class DrawRepetitionPosition implements IDrawController {
      * @return
      */
     @Override
-    public boolean isDraw(IMediator mediator) {
+    public boolean isDraw(final IMediator mediator) {
         final int newSize = mediator.getFigures().size();
         if (currentSizeMediator != newSize) {
             currentSizeMediator = newSize;
             mapPosition.clear();
         }
-        Position newPosition = new Position(mediator);
+        final Position newPosition = new Position(mediator, possibleActionList);
 
         Integer count = mapPosition.get(newPosition);
 
@@ -40,7 +43,7 @@ public class DrawRepetitionPosition implements IDrawController {
             count++;
             mapPosition.replace(newPosition, count);
         }
-        for (Integer i : mapPosition.values()) {
+        for (final Integer i : mapPosition.values()) {
             if (i >= MAX_REPETITION) return true;
         }
         return false;

@@ -20,14 +20,16 @@ public class StoryGame implements IStoryGame {
     public StoryGame(final IMediator mediator) {
         this.mediator = mediator;
         this.hoIsMove = new HashSet<>();
-
     }
 
-    public StoryGame(StoryGame storyGame) {
+    public StoryGame(final StoryGame storyGame) {
         this.mediator = storyGame.mediator;
-        this.hoIsMove = new HashSet<>();
 
+        this.hoIsMove = new HashSet<>();
         this.hoIsMove.addAll(storyGame.hoIsMove);
+
+        this.lastFigure = storyGame.lastFigure;
+        this.lastField = storyGame.lastField;
     }
 
     @Override

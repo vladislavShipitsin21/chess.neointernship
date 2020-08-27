@@ -7,16 +7,16 @@ public class ChessLabel extends JLabel {
     private final String s;
 
     Font font = new Font("Ariel", Font.PLAIN, 24);
-    Color bgLight = new Color(222, 184, 135);
-    Color bgDark = new Color(139, 69, 19);
-    Color sideLight = new Color(245, 245, 245);
+    Color bgLight = new Color(255, 255, 250);
+    Color bgDark = new Color(87, 180, 80);
+    Color sideLight = new Color(255, 255, 250);
 
-    public ChessLabel(String s) {
+    public ChessLabel(final String s) {
         super(s);
         this.s = s;
     }
 
-    public void set(int idx, int row) {
+    public void set(final int idx, final int row) {
         if (idx == 8 || row == 8) {
             setBackground(sideLight);
             setHorizontalAlignment(SwingConstants.CENTER);

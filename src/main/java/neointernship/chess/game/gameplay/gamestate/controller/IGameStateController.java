@@ -9,4 +9,6 @@ public interface IGameStateController {
     IGameState getState();
 
     void update(final Color color);
+
+    void updateWithoutUpdateList(Color color);
 }

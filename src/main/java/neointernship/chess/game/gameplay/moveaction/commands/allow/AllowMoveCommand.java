@@ -65,11 +65,9 @@ public class AllowMoveCommand implements IMoveCommand {
     }
 
     public IAllowCommand getCommand(final IField startField, final IField finishField) {
-        for (IAllowCommand command : commandQueue) {
+        for (final IAllowCommand command : commandQueue) {
             if (command.check(startField, finishField)) return command;
         }
         return null;
     }
-
-
 }

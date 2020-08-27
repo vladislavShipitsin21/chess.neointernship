@@ -6,10 +6,10 @@ import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
 
 public interface IPlayer {
-    //    IAnswer getAnswer(final IMediator mediator, final IPossibleActionList list);
     Color getColor();
+    void setColor(final Color color);
 
     String getName();
 
-    IAnswer getAnswer(IMediator mediator, IPossibleActionList possibleActionList);
+    IAnswer getAnswer(final IMediator mediator,final IPossibleActionList possibleActionList);
 }

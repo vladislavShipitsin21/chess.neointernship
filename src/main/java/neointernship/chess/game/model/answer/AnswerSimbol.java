@@ -2,6 +2,8 @@ package neointernship.chess.game.model.answer;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.util.Objects;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 public class AnswerSimbol implements IAnswer {
@@ -76,5 +78,22 @@ public class AnswerSimbol implements IAnswer {
     @JsonValue
     public String toString() {
         return startX + ":" + startY + ":" + finalX + ":" + finalY + "/" + simbol;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final AnswerSimbol that = (AnswerSimbol) o;
+        return startX == that.startX &&
+                startY == that.startY &&
+                finalX == that.finalX &&
+                finalY == that.finalY &&
+                simbol == that.simbol;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(startX, startY, finalX, finalY, simbol);
     }
 }

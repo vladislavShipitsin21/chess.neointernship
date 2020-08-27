@@ -8,7 +8,7 @@ public class InputVoid implements IInput {
 
     @Override
     public String getUserName() throws InterruptedException {
-        return "random bot";
+        return "MixidBot";
     }
 
     @Override
@@ -42,7 +42,7 @@ public class InputVoid implements IInput {
     }
 
     @Override
-    public void endGame(EnumGameState enumGameState, Color color) {
+    public void endGame(final EnumGameState enumGameState, final Color color) {
 
     }
 

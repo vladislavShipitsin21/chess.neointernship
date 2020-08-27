@@ -33,9 +33,8 @@ public class GameStateController implements IGameStateController {
         figuresHaveMovesComputation = new FiguresHaveMovesComputation(possibleActionList, mediator);
         gameStateDefineLogic = new GameStateDefineLogic();
 
-        drawStateController = new DrawStateController(mediator, storyGame);
+        drawStateController = new DrawStateController(mediator, possibleActionList, storyGame);
         kingStateController = new KingsStateController(possibleActionList, mediator);
-
     }
 
     @Override
@@ -49,14 +48,30 @@ public class GameStateController implements IGameStateController {
     }
 
     @Override
-    public void update(Color color) {
+    public void update(final Color color) {
         possibleActionList.updateRealLists();
 
         kingStateController.update(color);
 
         final KingState kingState = kingStateController.getKingState(color);
 
-        boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
+        final boolean figuresHaveMoves = figuresHaveMovesComputation.check(color);
+
+        currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);
+
+        if (currentState.getValue() == EnumGameState.ALIVE) {
+            drawStateController.update();
+            currentState = drawStateController.getState();
+        }
+    }
+
+    @Override
+    public void updateWithoutUpdateList(final Color color) {
+        kingStateController.update(color);
+
+        final KingState kingState = kingStateController.getKingState(color);
+
+        final boolean figuresHaveMoves = figuresHaveMovesComputation.checkPotential(color);
 
         currentState = new GameState(gameStateDefineLogic.getState(kingState, figuresHaveMoves), color);
 

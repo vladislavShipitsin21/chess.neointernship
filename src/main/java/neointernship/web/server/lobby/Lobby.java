@@ -21,7 +21,6 @@ import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
 import neointernship.chess.game.model.playmap.board.figuresstartposition.FiguresStartPositionRepository;
-import neointernship.chess.game.model.playmap.field.Field;
 import neointernship.chess.game.model.playmap.field.IField;
 import neointernship.chess.game.story.IStoryGame;
 import neointernship.chess.game.story.StoryGame;
@@ -64,7 +63,7 @@ public class Lobby extends Thread {
 
     private final Server server;
     private final ActiveConnectionController connectionController;
-    private ActiveColorController activeColorController;
+    private final ActiveColorController activeColorController;
 
     public Lobby(final UserConnection firstUserConnection, final UserConnection secondUserConnection,
                  final int lobbyId, final Server server, final ChessType chessType) {
@@ -86,7 +85,7 @@ public class Lobby extends Thread {
         this.chessTypes = chessType;
         figuresStartPositionRepository = new FiguresStartPositionRepository();
 
-        //TODO:
+
         GameLogger.addLogger(lobbyId);
 
         gameLoop = new GameLoop(mediator, possibleActionList, board, activeColorController, storyGame);
@@ -167,9 +166,9 @@ public class Lobby extends Thread {
         final Message message1 = new Message(ClientCodes.TRANSFORMATION);
         send(out, MessageSerializer.serialize(message1));
 
-        String string = in.readLine();
-        TransformationDto transformationDto = TransformationSerializer.deserialize(string);
-        char symbol = transformationDto.getFigureChar();
+        final String string = in.readLine();
+        final TransformationDto transformationDto = TransformationSerializer.deserialize(string);
+        final char symbol = transformationDto.getFigureChar();
 
         return new AnswerSimbol(answer.getFinalX(), answer.getFinalY(),
                 answer.getFinalX(), answer.getFinalY(), symbol);
@@ -215,9 +214,9 @@ public class Lobby extends Thread {
                     }
 
                     GameLogger.getLogger(lobbyId).logPlayerMoveAction(connection.getColor(),
-                            mediator.getFigure(new Field(answer.getFinalX(), answer.getFinalY())),
-                            new Field(answer.getStartX(), answer.getStartY()),
-                            new Field(answer.getFinalX(), answer.getFinalY()), turnStatus);
+                            mediator.getFigure(board.getField(answer.getFinalX(), answer.getFinalY())),
+                            board.getField(answer.getStartX(), answer.getStartY()),
+                            board.getField(answer.getFinalX(), answer.getFinalY()), turnStatus);
                 } catch (final Exception e) {
                     ErrorLoggerServer.logException(e);
                 }
@@ -226,12 +225,12 @@ public class Lobby extends Thread {
             if (answerMsg.getClientCodes() == ClientCodes.END_GAME) break;
 
             sendUpdatedMediator(answer, turnStatus);
-            // boardWriter.printBoard();
+
+            // todo рисование на сервере
+//             boardWriter.printBoard();
         }
 
-        gameLoop.getMatchResult();
-
-        IGameState gameState = gameLoop.getMatchResult();
+        final IGameState gameState = gameLoop.getMatchResult();
 
         if (answerMsg.getClientCodes() == ClientCodes.END_GAME) {
             gameState.updateValue(EnumGameState.RESIGNATION, connection.getColor());

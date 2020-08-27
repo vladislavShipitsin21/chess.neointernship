@@ -28,19 +28,19 @@ public class TestActionsClosePath {
         map.clear();
     }
 
-    private void put(Figure figure, IField field) {
+    private void put(final Figure figure, final IField field) {
         map.put(figure, field);
     }
 
     @Test
     public void testPawnBeginFriend() {
-        Figure pawn = new Pawn(Color.WHITE);
-        IField fieldPawn = new Field(6, 4);
+        final Figure pawn = new Pawn(Color.WHITE);
+        final IField fieldPawn = new Field(6, 4);
 
-        Figure rook = new Rook(Color.WHITE);
-        IField fieldRook = new Field(5, 4);
+        final Figure rook = new Rook(Color.WHITE);
+        final IField fieldRook = new Field(5, 4);
 
-        Field[] expected = {};
+        final Field[] expected = {};
 
         put(pawn, fieldPawn);
         put(rook, fieldRook);
@@ -50,13 +50,13 @@ public class TestActionsClosePath {
 
     @Test
     public void testPawnBeginEntry() {
-        Figure pawn = new Pawn(Color.WHITE);
-        IField fieldPawn = new Field(6, 4);
+        final Figure pawn = new Pawn(Color.WHITE);
+        final IField fieldPawn = new Field(6, 4);
 
-        Figure rook = new Rook(Color.BLACK);
-        IField fieldRook = new Field(5, 4);
+        final Figure rook = new Rook(Color.BLACK);
+        final IField fieldRook = new Field(5, 4);
 
-        Field[] expected = {};
+        final Field[] expected = {};
 
         put(pawn, fieldPawn);
         put(rook, fieldRook);
@@ -66,13 +66,13 @@ public class TestActionsClosePath {
 
     @Test
     public void testPawnBegin() {
-        Figure pawn = new Pawn(Color.WHITE);
-        IField fieldPawn = new Field(6, 4);
+        final Figure pawn = new Pawn(Color.WHITE);
+        final IField fieldPawn = new Field(6, 4);
 
-        Figure rook = new Rook(Color.BLACK);
-        IField fieldRook = new Field(4, 4);
+        final Figure rook = new Rook(Color.BLACK);
+        final IField fieldRook = new Field(4, 4);
 
-        Field[] expected = {new Field(5, 4)};
+        final Field[] expected = {new Field(5, 4)};
 
         put(pawn, fieldPawn);
         put(rook, fieldRook);

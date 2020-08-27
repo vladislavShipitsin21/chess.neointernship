@@ -25,22 +25,22 @@ public class TestStaticMethod {
      * @param mainFigure фигура, для которой проверяем список её возможных ходов
      * @param expected   массив её ожидаемых ходов
      */
-    static void checkPosition(Map<Figure, IField> map, final Figure mainFigure, IField[] expected) {
+    static void checkPosition(final Map<Figure, IField> map, final Figure mainFigure, final IField[] expected) {
 
         final Board board = new Board();
         final IMediator mediator = new Mediator();
 
-        for (Figure figure : map.keySet()) {
+        for (final Figure figure : map.keySet()) {
             mediator.addNewConnection(map.get(figure), figure);
         }
 
-        IPossibleActionList possibleActionList = new PossibleActionList(board, mediator, new StoryGame(mediator));
+        final IPossibleActionList possibleActionList = new PossibleActionList(board, mediator, new StoryGame(mediator));
 
         possibleActionList.updateRealLists();
 
-        List<IField> resultList = (List<IField>) possibleActionList.getRealList(mainFigure);
+        final List<IField> resultList = (List<IField>) possibleActionList.getRealList(mainFigure);
 
-        List<IField> expectedList = Arrays.stream(expected).collect(Collectors.toList());
+        final List<IField> expectedList = Arrays.stream(expected).collect(Collectors.toList());
 
         assertEquals(expectedList.size(), resultList.size());
 

@@ -11,18 +11,20 @@ import neointernship.chess.game.model.playmap.field.IField;
 import java.util.List;
 import java.util.Random;
 
-public class RandomBot extends Player {
+public class RandomBot extends Bot {
 
-    Random random;
+    final Random random;
 
-    public RandomBot(Color color) {
-        super("Random bot", color);
+    public RandomBot(final Color color) {
+        super("Random",color);
         random = new Random();
     }
 
     @Override
-    public IAnswer getAnswer(IMediator mediator, IPossibleActionList list) {
-        List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
+    public IAnswer getAnswer(final IMediator mediator, final IPossibleActionList possibleActionList) {
+        time.start();
+
+        final List<Figure> figures = (List<Figure>) mediator.getFigures(getColor());
         List<IField> fields;
         Figure figure;
         int index;
@@ -30,24 +32,20 @@ public class RandomBot extends Player {
         do {
             index = random.nextInt(figures.size());
             figure = figures.get(index);
-            fields = (List<IField>) list.getRealList(figure);
+            fields = (List<IField>) possibleActionList.getRealList(figure);
         } while (fields.isEmpty());
 
         index = random.nextInt(fields.size());
-        IField finalField = fields.get(index);
+        final IField finalField = fields.get(index);
 
-        IField startField = mediator.getField(figure);
+        final IField startField = mediator.getField(figure);
 
-
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-
-        IAnswer answer = new Answer(startField.getXCoord(), startField.getYCoord(),
+        final IAnswer answer = new Answer(startField.getXCoord(), startField.getYCoord(),
                 finalField.getXCoord(), finalField.getYCoord(), 'Q');
-        printAnswer(startField, finalField);
+
+        time.finish();
+        System.out.println(time.getCountAddress() + ") " + getName() + " - " + time.getTime());
+
         return answer;
     }
 
@@ -55,4 +53,5 @@ public class RandomBot extends Player {
         System.out.println("Color = " + super.getColor());
         System.out.println(start.showField() + " - " + finish.showField());
     }
+
 }

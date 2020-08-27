@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import neointernship.web.client.communication.message.IMessage;
 import neointernship.web.client.communication.message.MessageDto;
 
-;
-
 public final class MessageSerializer {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 

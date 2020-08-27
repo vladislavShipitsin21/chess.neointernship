@@ -14,7 +14,9 @@ import neointernship.chess.game.story.IStoryGame;
 import java.util.*;
 
 public class PossibleActionList implements IPossibleActionList {
+    private final IBoard board;
     private final IMediator mediator;
+    private final IStoryGame storyGame;
 
     private final IPotentialBasicPatterns potentialPatterns;
     private final IRealBasicPatterns realPatterns;
@@ -22,12 +24,12 @@ public class PossibleActionList implements IPossibleActionList {
     private final Map<Figure, Collection<IField>> realFigureActions;
     private final Map<Figure, Collection<IField>> potentialFigureAction;
 
-    private static int count = 0;
-
     public PossibleActionList(final IBoard board,
                               final IMediator mediator,
                               final IStoryGame storyGame) {
+        this.board = board;
         this.mediator = mediator;
+        this.storyGame = storyGame;
 
         this.potentialPatterns = new PotentialBasicPatterns(mediator, board, storyGame);
         this.realPatterns = new RealBasicPatterns(mediator, board, storyGame);
@@ -36,11 +38,15 @@ public class PossibleActionList implements IPossibleActionList {
         this.potentialFigureAction = new HashMap<>();
     }
 
+    public IStoryGame getStoryGame() {
+        return storyGame;
+    }
+
     @Override
     public void updatePotentialLists() {
         potentialFigureAction.clear();
 
-        for (Figure figure : mediator.getFigures()) {
+        for (final Figure figure : mediator.getFigures()) {
             potentialFigureAction.put(figure, new ArrayList<>());
 
             potentialFigureAction.get(figure).addAll(Intermediary.getList(figure, potentialPatterns));
@@ -48,8 +54,8 @@ public class PossibleActionList implements IPossibleActionList {
     }
 
     @Override
-    public void updatePotentialLists(Color color) {
-        for (Figure figure : mediator.getFigures(color)) {
+    public void updatePotentialLists(final Color color) {
+        for (final Figure figure : mediator.getFigures(color)) {
             potentialFigureAction.put(figure, new ArrayList<>());
 
             potentialFigureAction.get(figure).addAll(Intermediary.getList(figure, potentialPatterns));
@@ -57,7 +63,7 @@ public class PossibleActionList implements IPossibleActionList {
     }
 
     @Override
-    public Collection<IField> getRealList(Figure figure) {
+    public Collection<IField> getRealList(final Figure figure) {
         return realFigureActions.get(figure);
     }
 
@@ -66,7 +72,7 @@ public class PossibleActionList implements IPossibleActionList {
         updatePotentialLists();
         realFigureActions.clear();
 
-        for (Figure figure : mediator.getFigures()) {
+        for (final Figure figure : mediator.getFigures()) {
             realFigureActions.put(figure, new ArrayList<>());
 
             realFigureActions.get(figure).addAll(realPatterns.getRealMoveList(
@@ -76,15 +82,15 @@ public class PossibleActionList implements IPossibleActionList {
     }
 
     @Override
-    public Collection<IField> getPotentialList(Figure figure) {
+    public Collection<IField> getPotentialList(final Figure figure) {
         return potentialFigureAction.get(figure);
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PossibleActionList that = (PossibleActionList) o;
+        final PossibleActionList that = (PossibleActionList) o;
         return Objects.equals(realFigureActions, that.realFigureActions);
     }
 

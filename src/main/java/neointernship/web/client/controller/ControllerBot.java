@@ -1,4 +1,4 @@
-package neointernship;
+package neointernship.web.client.controller;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.logger.ErrorLoggerClient;
@@ -7,14 +7,11 @@ import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.MessageDto;
 import neointernship.web.client.communication.message.ModelMessageReaction;
 import neointernship.web.client.communication.serializer.MessageSerializer;
-import neointernship.web.client.controller.Connection;
 import neointernship.web.client.player.APlayer;
-import neointernship.web.client.player.Bot;
+import neointernship.web.client.player.MiniMaxBot;
 
 import java.io.*;
 import java.net.Socket;
-import java.time.LocalTime;
-
 
 public class ControllerBot implements Runnable {
 
@@ -26,18 +23,12 @@ public class ControllerBot implements Runnable {
     private APlayer player;
     private boolean endGame = false;
 
-    private String name;
-    int gameTime;
-    private int i = 0;
-
-    public ControllerBot(int i) {
-        name = "bot № " + i;
-        this.i = i;
+    public ControllerBot(final APlayer player) {
+        this.player = player;
     }
 
     @Override
     public void run() {
-        LocalTime startTime = LocalTime.now();
         modelMessageReaction = new ModelMessageReaction(socket);
 
         startConnection();
@@ -55,11 +46,10 @@ public class ControllerBot implements Runnable {
                 ErrorLoggerClient.getLogger(player.getName()).logException(e);
             }
         }
-        gameTime = startTime.getSecond() - LocalTime.now().getSecond();
     }
 
-    private void initPlayer() {
-        player = new Bot(Color.BOTH, name, new InputVoid());
+    private void initPlayer(){
+        ErrorLoggerClient.addLogger(player.getName());
     }
 
     private void startConnection() {

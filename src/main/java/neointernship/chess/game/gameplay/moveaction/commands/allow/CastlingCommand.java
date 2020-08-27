@@ -22,17 +22,17 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
     private IField startFieldKing;
     private IField finishFieldKing;
 
-    public CastlingCommand(IBoard board, IMediator mediator) {
+    public CastlingCommand(final IBoard board, final IMediator mediator) {
         super(board, mediator);
         turnStatus = TurnStatus.CASTLING;
     }
 
     @Override
-    public void execute(IAnswer answer) {
+    public void execute(final IAnswer answer) {
         startFieldKing = board.getField(answer.getStartX(), answer.getStartY());
         finishFieldKing = board.getField(answer.getFinalX(), answer.getFinalY());
 
-        Figure king = mediator.getFigure(startFieldKing);
+        final Figure king = mediator.getFigure(startFieldKing);
 
         int yStartCoordRook = 0; // todo корректно только для класических шахмат !!!
         int difCoordRook = 1;
@@ -42,13 +42,13 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
             yStartCoordRook = 7;
             difCoordRook = -1;
         }
-        IField startFieldRook = board.getField(startFieldKing.getXCoord(), yStartCoordRook);
+        final IField startFieldRook = board.getField(startFieldKing.getXCoord(), yStartCoordRook);
 
-        IField finalFieldRook = board.getField(
+        final IField finalFieldRook = board.getField(
                 finishFieldKing.getXCoord(),
                 finishFieldKing.getYCoord() + difCoordRook);
 
-        Figure rook = mediator.getFigure(startFieldRook);
+        final Figure rook = mediator.getFigure(startFieldRook);
 
         mediator.deleteConnection(startFieldKing);
         mediator.deleteConnection(startFieldRook);
@@ -65,17 +65,17 @@ public class CastlingCommand extends AbstractCommand implements IAllowCommand {
     }
 
     @Override
-    public boolean isCorrect(Color colorFigure, IPossibleActionList possibleActionList) {
-        Collection<IField> forCastling = new ArrayList<>();
+    public boolean isCorrect(final Color colorFigure, final IPossibleActionList possibleActionList) {
+        final Collection<IField> forCastling = new ArrayList<>();
 
-        int dif = startFieldKing.getYCoord() < finishFieldKing.getYCoord() ? 1 : -1;
+        final int dif = startFieldKing.getYCoord() < finishFieldKing.getYCoord() ? 1 : -1;
 
         forCastling.add(startFieldKing);
         forCastling.add(board.getField(startFieldKing.getXCoord(), startFieldKing.getYCoord() + dif));
         forCastling.add(finishFieldKing);
 
-        KingIsAttackedComputation kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
-        for (IField tempField : forCastling) {
+        final KingIsAttackedComputation kingIsAttackedComputation = new KingIsAttackedComputation(possibleActionList, mediator);
+        for (final IField tempField : forCastling) {
             if (kingIsAttackedComputation.fieldIsAttacked(tempField, colorFigure)) return false;
         }
         return true;

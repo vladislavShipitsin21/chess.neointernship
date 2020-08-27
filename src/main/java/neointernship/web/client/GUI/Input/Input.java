@@ -62,22 +62,21 @@ public class Input implements IInput {
     }
 
     public Color getColor() throws InterruptedException {
-        Map<String, Color> colorMap = new HashMap<>();
-        colorMap.put("белые", Color.WHITE);
-        colorMap.put("черные", Color.BLACK);
-        colorMap.put("любой", Color.BOTH);
+        final Map<String, Color> colorMap = new HashMap<>();
+        colorMap.put("white", Color.WHITE);
+        colorMap.put("black", Color.BLACK);
+        colorMap.put("all", Color.BOTH);
 
         askLabel.setText("Выберите цвет");
 
         String answerColor = getAnswer();
 
         while (!colorMap.containsKey(answerColor)) {
-            askLabel.setText("белые / черные / любой");
+            askLabel.setText("white / black / all");
             answerColor = getAnswer();
         }
-        ;
 
-        Color color = colorMap.get(answerColor);
+        final Color color = colorMap.get(answerColor);
 
         askLabel.setText("Ищем оппонента...");
         frame.setTitle(name + " " + color.getMessage());
@@ -85,7 +84,7 @@ public class Input implements IInput {
     }
 
     public String getHandShakeAnswer() throws InterruptedException {
-        if (type == PlayerType.BOT) {
+        if (type != PlayerType.HUMAN) {
             askLabel.setText("я играю не мешайте)");
         } else {
             askLabel.setText("Оппонент найден. Вы готовы?");
@@ -111,9 +110,11 @@ public class Input implements IInput {
     }
 
     public PlayerType getPlayerType() throws InterruptedException {
-        Map<String, PlayerType> typeMap = new HashMap<>();
-        typeMap.put("человек", PlayerType.HUMAN);
-        typeMap.put("бот", PlayerType.BOT);
+        final Map<String, PlayerType> typeMap = new HashMap<>();
+        typeMap.put("human", PlayerType.HUMAN);
+//        typeMap.put("random", PlayerType.RANDOM);
+//        typeMap.put("minimax", PlayerType.MINI_MAX);
+        typeMap.put("mixid", PlayerType.MIXID);
         askLabel.setText("Кто ты?");
         String answerType = getAnswer();
 
@@ -124,7 +125,7 @@ public class Input implements IInput {
 
         type = typeMap.get(answerType);
 
-        if (type == PlayerType.BOT) {
+        if (type != PlayerType.HUMAN) {
             askLabel.setText("Я жду противника...");
         }
 
@@ -140,11 +141,11 @@ public class Input implements IInput {
         button.setVisible(true);
 
         final String[] answer = new String[1];
-        List<Integer> holder = new LinkedList<Integer>();
+        final List<Integer> holder = new LinkedList<Integer>();
 
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(final ActionEvent arg0) {
                 synchronized (holder) {
                     holder.add(0);
                     holder.notify();
@@ -179,11 +180,11 @@ public class Input implements IInput {
         button.setVisible(true);
         button.setText("Выход");
 
-        List<Integer> holder = new LinkedList<Integer>();
+        final List<Integer> holder = new LinkedList<Integer>();
 
         button.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(final ActionEvent arg0) {
                 synchronized (holder) {
                     holder.add(0);
                     holder.notify();
