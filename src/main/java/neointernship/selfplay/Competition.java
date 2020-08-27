@@ -22,17 +22,19 @@ public class Competition {
         System.out.println("Start competition");
 
         final HashSet<TypeBot> typeBots = new HashSet<>();
-        typeBots.add(RANDOM);
+//        typeBots.add(RANDOM);
         typeBots.add(MIXID);
-        typeBots.add(MINI_MAX_AB);
-        typeBots.add(MINI_MAX);
-        typeBots.add(MINI_MAX_THREAD);
-        typeBots.add(EXPECTIMAX);
+//        typeBots.add(MINI_MAX_AB);
+//        typeBots.add(MINI_MAX);
+//        typeBots.add(MINI_MAX_THREAD);
+//        typeBots.add(EXPECTIMAX);
 
        /* Room room = new Room(MIXID,2,MINI_MAX,2,1,1);
         room.run();*/
 
-        startCompetition(typeBots,10);
+        for(int i = 0 ; i < 2 ; i++) {
+            startCompetition(typeBots, 1);
+        }
 
         System.out.println("finish competition");
     }

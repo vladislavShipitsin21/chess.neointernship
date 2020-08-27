@@ -13,28 +13,31 @@ import neointernship.chess.game.model.playmap.field.IField;
  */
 public class BonusTransformate extends Bonus {
 
+    private final static int MAX_DEFERENT = 7;
+    private final double gamma;
     protected BonusTransformate(final double price) {
         super(price);
+        gamma = price / MAX_DEFERENT;
     }
 
     @Override
     public double getBonus(final Position position, final Color playerColor) {
-        // чем дальше она от начала  тем больше бонус
-        // пешек 8, максимальное расстояние 7
         final IMediator mediator = position.getMediator();
         double result = 0;
+        int countPawn = 0;
 
-        for(final Figure figure : mediator.getFigures()){
-            final int coordStartX = playerColor == Color.WHITE ? 6 : 1;
-            final int offset = playerColor == Color.WHITE ? -1 : 1;
+        for(final Figure figure : mediator.getFigures(playerColor)){
 
             if(figure.getClass() == Pawn.class){
+                countPawn++;
+                final int coordStartX = playerColor == Color.WHITE ? 6 : 1;
+
                 final IField field = mediator.getField(figure);
                 final int div = Math.abs(coordStartX - field.getXCoord());
 
-                result += offset * price * div / 7;
+                result += div;
             }
         }
-        return result;
+        return (result * gamma) / countPawn;
     }
 }

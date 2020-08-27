@@ -4,6 +4,7 @@ import neointernship.bots.functionsH.IFunctionsH;
 import neointernship.bots.functionsH.bonus.Bonus;
 import neointernship.bots.functionsH.bonus.BonusCountFigure;
 import neointernship.bots.functionsH.bonus.IBonus;
+import neointernship.bots.functionsH.bonus.midlegame.BonusActivePositions;
 import neointernship.bots.functionsH.bonus.midlegame.BonusAttackKing;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.gameplay.gamestate.state.IGameState;
@@ -22,9 +23,10 @@ public class FunctonsEndgame implements IFunctionsH {
     public FunctonsEndgame() {
         this.bonuses = new ArrayList<>();
         bonuses.add(new BonusCountFigure());
-        bonuses.add(new BonusAttackKing(priceOnePawn));
-        bonuses.add(new BonusActiveKing(priceOnePawn));
-        bonuses.add(new BonusTransformate(3 * priceOnePawn));
+
+        bonuses.add(new BonusAttackKing(priceOnePawn / 4));
+        bonuses.add(new BonusActivePositions(priceOnePawn / 4));
+        bonuses.add(new BonusTransformate(priceOnePawn / 2));
     }
 
     /**

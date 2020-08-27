@@ -2,8 +2,6 @@ package neointernship.bots.functionsH.bonus;
 
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.model.enums.Color;
-import neointernship.chess.game.model.figure.piece.*;
-import neointernship.chess.game.model.mediator.IMediator;
 
 import java.util.HashMap;
 

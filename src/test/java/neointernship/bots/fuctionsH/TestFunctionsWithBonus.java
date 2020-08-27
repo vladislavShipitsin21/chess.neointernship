@@ -11,6 +11,7 @@ import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.mediator.IMediator;
+import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.player.Bot;
 import neointernship.chess.game.model.player.BotMixidStrategy;
 import neointernship.chess.game.model.playmap.board.Board;
@@ -27,7 +28,9 @@ public class TestFunctionsWithBonus {
 
     @Test
     public void test(){
-        final IMediator mediator = TestInitGameMap.initGameMap();
+        final IMediator mediator = new Mediator();
+
+
         final IStoryGame storyGame = new StoryGame(mediator);
         final IPossibleActionList possibleActionList = new PossibleActionList(new Board(),mediator,storyGame);
         possibleActionList.updateRealLists();
@@ -35,7 +38,7 @@ public class TestFunctionsWithBonus {
         Bot mixid = new BotMixidStrategy(Color.WHITE);
         IAnswer answer = mixid.getAnswer(mediator,possibleActionList);
 
-        BuilderTreeWithBonus tree = new BuilderTreeWithBonus(Color.WHITE,1);
+        BuilderTreeWithBonus tree = new BuilderTreeWithBonus(Color.WHITE);
 
         final Position position = new Position(mediator,possibleActionList);
         final INode root = tree.getTree(position,new FunctionsDebut());
@@ -51,4 +54,5 @@ public class TestFunctionsWithBonus {
 
         ConsoleBoardWriter.printAnswer(answer);
     }
+
 }

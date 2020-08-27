@@ -12,8 +12,12 @@ import neointernship.chess.game.model.playmap.field.IField;
  */
 public class BonusProtectionKing extends Bonus {
 
+    private final static int MAX_SUB_BONUS = 6;
+    private final double gamma;
+
     public BonusProtectionKing(final double price) {
         super(price);
+        gamma = price / MAX_SUB_BONUS;
     }
 
     // перед ним 3 пешки и он не в центре
@@ -23,32 +27,24 @@ public class BonusProtectionKing extends Bonus {
 
         final IMediator mediator = position.getMediator();
 
-        final Figure king1 = mediator.getKing(playerColor);
-        final Figure king2 = mediator.getKing(Color.swapColor(playerColor));
-
-        if (isBonus(king1, mediator)) result += price;
-        if (isBonus(king2, mediator)) result -= price;
-
-        return result;
-    }
-
-    private boolean isBonus(final Figure king, final IMediator mediator) {
+        final Figure king = mediator.getKing(playerColor);
         final IField fieldKing = mediator.getField(king);
         final int offset = king.getColor() == Color.WHITE ? -1 : 1;
 
-        if (fieldKing.getYCoord() != 6) return false;
-
         final Figure rook = mediator.getFigure(BOARD.getField(fieldKing.getXCoord(), 7));
         // проверка что не зажали ладью в углу
-        if (rook != null) return false;
-        // проверка что пешки защищающие короля на месте
-        final Figure pawn1 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord() + offset, 5));
-        if (pawn1 == null) return false;
-        final Figure pawn2 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord() + offset, 6));
-        if (pawn2 == null) return false;
-        final Figure pawn3 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord() + offset, 7));
-        if (pawn3 == null) return false;
 
-        return true;
+        if (fieldKing.getYCoord() == 6 && rook == null){
+            result += 3 * gamma;
+        }
+
+        final Figure pawn1 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord(), 5));
+        if (pawn1 != null) result += gamma;
+        final Figure pawn2 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord() + offset, 6));
+        if (pawn2 != null) result += gamma;
+        final Figure pawn3 = mediator.getFigure(BOARD.getField(fieldKing.getXCoord() + offset, 7));
+        if (pawn3 != null) result += gamma;
+
+        return result;
     }
 }

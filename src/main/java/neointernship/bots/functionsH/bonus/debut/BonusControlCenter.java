@@ -4,7 +4,9 @@ import neointernship.bots.functionsH.bonus.Bonus;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
 import neointernship.chess.game.model.enums.Color;
+import neointernship.chess.game.model.figure.piece.Bishop;
 import neointernship.chess.game.model.figure.piece.Figure;
+import neointernship.chess.game.model.figure.piece.Knight;
 import neointernship.chess.game.model.figure.piece.Pawn;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.playmap.field.IField;
@@ -18,9 +20,13 @@ import java.util.List;
  */
 public class BonusControlCenter extends Bonus {
 
+    private final static int MAX_ACTIVE = 6;
+
     private final List<IField> fieldsCenterWhite;
     private final List<IField> fieldsCenterBlack;
-    private List<IField> fieldAllCenter;
+    private final List<IField> fieldAllCenter;
+
+    private List<Class> hoNeedControl;
 
     public BonusControlCenter(final double price) {
         super(price);
@@ -38,6 +44,11 @@ public class BonusControlCenter extends Bonus {
 
         fieldAllCenter.addAll(fieldsCenterWhite);
         fieldAllCenter.addAll(fieldsCenterBlack);
+
+        hoNeedControl = new ArrayList<>();
+        hoNeedControl.add(Pawn.class);
+        hoNeedControl.add(Knight.class);
+        hoNeedControl.add(Bishop.class);
     }
 
     @Override
@@ -52,14 +63,11 @@ public class BonusControlCenter extends Bonus {
         final IPossibleActionList possibleActionList = position.getPossibleActionList();
 
         for (final Figure figure : figures) {
-            for (final IField center : currentFieldCenter) {
-                final Collection<IField> list = possibleActionList.getPotentialList(figure);
-                if (list.contains(center)) {
-
-                    if (figure.getColor() == playerColor) {
-                        result += price;
-                    } else {
-                        result -= price;
+            if(hoNeedControl.contains(figure.getClass())) {
+                for (final IField center : currentFieldCenter) {
+                    final Collection<IField> list = possibleActionList.getPotentialList(figure);
+                    if (list.contains(center)) {
+                        result += price / MAX_ACTIVE;
                     }
                 }
             }

@@ -2,6 +2,7 @@ package neointernship.web.client.controller;
 
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.logger.ErrorLoggerClient;
+import neointernship.web.client.GUI.Input.IInput;
 import neointernship.web.client.GUI.Input.Input;
 import neointernship.web.client.communication.message.ClientCodes;
 import neointernship.web.client.communication.message.MessageDto;
@@ -11,9 +12,10 @@ import neointernship.web.client.player.*;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Controller {
-    private Input input;
+    private IInput input;
     private BufferedReader in = null;
     private BufferedWriter out = null;
     private Socket socket;
@@ -21,8 +23,6 @@ public class Controller {
     private ModelMessageReaction modelMessageReaction;
     private APlayer player;
     private boolean endGame = false;
-
-
 
     public void start() throws InterruptedException {
         input = new Input();
@@ -51,29 +51,34 @@ public class Controller {
         // todo переделать !!!
         final PlayerType playerType = input.getPlayerType();
         String name = null;
-        switch (playerType){
-            case MINI_MAX:{
+        Color color = null;
+        switch (playerType) {
+            /*case MINI_MAX:{
                 player = new MiniMaxBot(Color.BOTH, 2);
                 break;
-            }
-            case RANDOM:{
+            }*/
+            /*case RANDOM:{
                 player = new RandomBot(Color.BOTH);
                 break;
-            }
-            case HUMAN:{
+            }*/
+            case HUMAN: {
                 name = input.getUserName().trim();
-                final Color color = input.getColor();
+                color = input.getColor();
                 player = new Player(color, name, input);
                 break;
             }
-            case MIXID:{
-                player = new MixidBot(Color.WHITE,2);
+            case MIXID: {
+                color = input.getColor();
+                player = new MixidBot(color);
+                break;
             }
         }
+
         name = player.getName();
 
         ErrorLoggerClient.addLogger(name);
     }
+
 
     private void startConnection() {
         connection = new Connection();

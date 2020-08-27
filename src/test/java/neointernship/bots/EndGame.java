@@ -6,11 +6,13 @@ import neointernship.chess.game.console.IConsoleBoardWriter;
 import neointernship.chess.game.gameplay.figureactions.IPossibleActionList;
 import neointernship.chess.game.gameplay.figureactions.PossibleActionList;
 import neointernship.chess.game.gameplay.gamestate.controller.draw.Position;
+import neointernship.chess.game.model.answer.IAnswer;
 import neointernship.chess.game.model.enums.Color;
 import neointernship.chess.game.model.figure.piece.*;
 import neointernship.chess.game.model.mediator.IMediator;
 import neointernship.chess.game.model.mediator.Mediator;
 import neointernship.chess.game.model.player.Bot;
+import neointernship.chess.game.model.player.BotMixidStrategy;
 import neointernship.chess.game.model.player.MiniMaxBot;
 import neointernship.chess.game.model.playmap.board.Board;
 import neointernship.chess.game.model.playmap.board.IBoard;
@@ -34,52 +36,45 @@ public class EndGame {
         final IMediator mediator = new Mediator();
 
         final Figure kingWhite = new King(Color.WHITE);
-        final IField fieldKingWhite = new Field(7,7);
+        final IField fieldKingWhite = new Field(5,6);
         mediator.addNewConnection(fieldKingWhite,kingWhite);
 
         final Figure figureWhite1 = new Pawn(Color.WHITE);
-        final IField fieldWhite1 = new Field(5,1);
+        final IField fieldWhite1 = new Field(6,4);
         mediator.addNewConnection(fieldWhite1,figureWhite1);
 
-        final Figure figureWhite2 = new Bishop(Color.WHITE);
-        final IField fieldWhite2 = new Field(5,2);
+        final Figure figureWhite2 = new Rook(Color.WHITE);
+        final IField fieldWhite2 = new Field(4,0);
         mediator.addNewConnection(fieldWhite2,figureWhite2);
 
         /*-------------------------------------------------------------------------*/
 
         final Figure kingBlack = new King(Color.BLACK);
-        final IField fieldKingBlack = new Field(2,1);
+        final IField fieldKingBlack = new Field(2,2);
         mediator.addNewConnection(fieldKingBlack,kingBlack);
 
-        final Figure figureBlack1 = new Knight(Color.BLACK);
+        final Figure figureBlack1 = new Pawn(Color.BLACK);
         final IField fieldBlack1 = new Field(2,5);
         mediator.addNewConnection(fieldBlack1,figureBlack1);
 
-        final Figure figureBlack2 = new Knight(Color.BLACK);
+       /* final Figure figureBlack2 = new Knight(Color.BLACK);
         final IField fieldBlack2 = new Field(4,5);
-        mediator.addNewConnection(fieldBlack2,figureBlack2);
+        mediator.addNewConnection(fieldBlack2,figureBlack2);*/
 
+        final IConsoleBoardWriter printer = new ConsoleBoardWriter(mediator,board);
+        printer.printBoard();
         /*-------------------------------------------------------------------------*/
 
 
         final IStoryGame storyGame = new StoryGame(mediator);
         final IPossibleActionList possibleActionList = new PossibleActionList(board,mediator,storyGame);
         possibleActionList.updateRealLists();
-        final int maxDepth = 3;
-        final Bot bot = new MiniMaxBot(Color.WHITE,maxDepth);
-        bot.getAnswer(mediator,possibleActionList);
 
-        final IConsoleBoardWriter printer = new ConsoleBoardWriter(mediator,board);
-        printer.printBoard();
+        final Bot bot = new BotMixidStrategy(Color.WHITE);
+        IAnswer answer = bot.getAnswer(mediator,possibleActionList);
 
-        final Position startPosition = new Position(mediator,possibleActionList);
-        final BuilderTreeWithBonus builderTree = new BuilderTreeWithBonus(Color.WHITE,maxDepth);
-        final INode root = builderTree.getTree(startPosition,new FunctionsDebut());
+        ConsoleBoardWriter.printAnswer(answer);
 
-        final Collection<INode> positions = HelperBuilderTree.getAllChildren(root);
-
-        System.out.println("steps : " + countStep(mediator,possibleActionList));
-        System.out.println("positions : " + positions.size());
     }
     private int countStep(final IMediator mediator,final IPossibleActionList possibleActionList){
         int result = 0;

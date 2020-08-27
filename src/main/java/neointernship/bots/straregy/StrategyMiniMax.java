@@ -16,7 +16,7 @@ public class StrategyMiniMax extends Strategy {
     @Override
     public IAnswer getAnswer(final Position startPosition) {
 
-        final BuilderTree builderTree = new BuilderTree(2, getColor());
+        final BuilderTree builderTree = new BuilderTree(4, getColor());
         final INode root = builderTree.getTree(startPosition);
 
         return HelperBuilderTree.getAnswer(root);

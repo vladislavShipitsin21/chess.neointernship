@@ -13,7 +13,7 @@ import neointernship.tree.INode;
 
 public class BotMixidStrategy extends Bot {
 
-    private IStrategy strategy;
+    private StrategyMixed strategy;
 
     public BotMixidStrategy(final Color color) {
         super("BotMixidStrategy", color);
@@ -22,7 +22,6 @@ public class BotMixidStrategy extends Bot {
 
     @Override
     public IAnswer getAnswer(final IMediator mediator, final IPossibleActionList possibleActionList) {
-        // определить этап шахмат
         time.start();
 
         final Position startPosition = new Position(mediator, possibleActionList);
@@ -31,7 +30,6 @@ public class BotMixidStrategy extends Bot {
 
         time.finish();
         System.out.println(time.getCountAddress() + ") " + getName() + " - " + time.getTime());
-
         return answer;
     }
 }

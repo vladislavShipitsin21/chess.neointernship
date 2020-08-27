@@ -21,9 +21,10 @@ public class FunctionsDebut implements IFunctionsH {
     public FunctionsDebut() {
         this.bonuses = new ArrayList<>();
         bonuses.add(new BonusCountFigure());
-        bonuses.add(new BonusControlCenter(priceOnePawn / 2));
-        bonuses.add(new BonusEvolutionFigure(priceOnePawn / 4));
-        bonuses.add(new BonusProtectionKing(priceOnePawn));
+
+        bonuses.add(new BonusProtectionKing(priceOnePawn / 4));
+        bonuses.add(new BonusControlCenter(priceOnePawn / 4));
+        bonuses.add(new BonusEvolutionFigure(priceOnePawn / 2));
     }
 
     /**

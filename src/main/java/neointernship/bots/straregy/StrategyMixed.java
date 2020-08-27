@@ -35,11 +35,12 @@ public class StrategyMixed extends Strategy {
 
     private ChessStage actualStage;
 
+    private INode tempRoot;
+
     public StrategyMixed(final Color color) {
         super(color);
         this.countAnswer = 0;
-        tree = new BuilderTreeWithBonus(color,2);
-        // todo избавиться от глубины
+        tree = new BuilderTreeWithBonus(color);
 
         functionsDebut = new FunctionsDebut();
         functionsMidlegame = new FunctionsMidlegame();
@@ -48,12 +49,11 @@ public class StrategyMixed extends Strategy {
         actualStage = DEBUT;
     }
 
-    // todo дебют / миттельшпить / эндшпиль
-
     @Override
     public IAnswer getAnswer(final Position startPosition) {
         countAnswer++;
         // определение стадии игры
+
         actualFunctions = functionsDebut;
         updateChessStage(startPosition);
 
@@ -74,10 +74,13 @@ public class StrategyMixed extends Strategy {
         System.out.println("stage : " + actualStage);
 
         final INode root = tree.getTree(startPosition,actualFunctions);
+        tempRoot = root;
+
         final IAnswer answer = HelperBuilderTree.getAnswer(root);
 
         return answer;
     }
+
     private void updateChessStage(final Position startPosition){
         if(actualStage == ENDGAME) return;;
         if(actualStage == DEBUT){
@@ -92,10 +95,11 @@ public class StrategyMixed extends Strategy {
            }
         }
     }
+
     // миттельшпиль начинается после рокировки и развития легких фигур
     private boolean isMidlegame(final Position startPosition){
         if(countAnswer <= 5) return false;
-        if(countAnswer > 15) return true;
+        if(countAnswer > 12) return true;
 
         final IMediator mediator = startPosition.getMediator();
         final PossibleActionList possibleActionList = startPosition.getPossibleActionList();
@@ -121,7 +125,6 @@ public class StrategyMixed extends Strategy {
 
         return true;
     }
-
     // считаем сколько осталось фигур ( не пешек)
     // эндшпиль только без ферзей
     private boolean isEndgame(final Position startPosition){

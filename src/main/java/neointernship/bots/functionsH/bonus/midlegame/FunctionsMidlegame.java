@@ -22,10 +22,11 @@ public class FunctionsMidlegame implements IFunctionsH {
     public FunctionsMidlegame() {
         this.bonuses = new ArrayList<>();
         bonuses.add(new BonusCountFigure());
-        bonuses.add(new BonusKingPawn(priceOnePawn / 3));
-        bonuses.add(new BonusControlCenter(priceOnePawn / 6));
-        bonuses.add(new BonusActivePositions(priceOnePawn));
+
+        bonuses.add(new BonusActivePositions(priceOnePawn / 3));
         bonuses.add(new BonusAttackKing(priceOnePawn / 3));
+        bonuses.add(new BonusControlCenter(priceOnePawn / 6));
+        bonuses.add(new BonusKingPawn(priceOnePawn / 6));
     }
 
     /**
