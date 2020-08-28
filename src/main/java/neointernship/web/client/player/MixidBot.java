@@ -29,7 +29,7 @@ public class MixidBot extends APlayer {
 
     public MixidBot(final Color color) {
 
-        super(color, "MixidBot");
+        super(color, "Vladislav");
         this.input = new InputVoid();
 
         strategy = new StrategyMixed(color);
